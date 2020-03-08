@@ -1,5 +1,6 @@
 <template>
   <div class="hello">
+    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toRule">进入</el-button>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>
@@ -89,6 +90,11 @@ export default {
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
+    }
+  },
+  methods: {
+    toRule () {
+      this.$router.push('/rule')
     }
   }
 }
