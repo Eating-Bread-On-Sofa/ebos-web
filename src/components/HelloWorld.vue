@@ -94,7 +94,7 @@ export default {
   },
   methods: {
     toRule () {
-      this.$router.push('/rule')
+      this.$router.push('/Rule')
     }
   }
 }

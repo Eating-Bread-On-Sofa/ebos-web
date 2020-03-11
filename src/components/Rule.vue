@@ -127,12 +127,14 @@
     </el-dialog>
     <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
 
+    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="post">ceshi</el-button>
+
   </div>
 </template>
 
 <script>
 export default {
-  data() {
+  data () {
     return {
       form: {
         ruleName: '',
@@ -140,10 +142,10 @@ export default {
         condition: '',
         threshold: '',
         function: '',
-        service: '',
+        service: ''
       },
       dialogCreateVisible: false,
-      table: [{}],
+      table: [],
       dialogVisible: false,
       editObj: {
         ruleName: '',
@@ -155,17 +157,17 @@ export default {
       },
       activeIndex: '1',
       activeIndex2: '1',
-      userIndex: 0,
+      userIndex: 0
     }
   },
   methods: {
-    onSubmit() {
-      console.log('submit!');
-      this.dialogCreateVisible = false;
-      this.add();
-      this.post();
+    onSubmit () {
+      console.log('submit!')
+      this.dialogCreateVisible = false
+      this.add()
+      this.post()
     },
-    handleClose(done) {
+    handleClose (done) {
       this.$confirm('确认关闭？')
         .then(_ => {
           done()
@@ -173,8 +175,8 @@ export default {
         .catch(_ => {
         })
     },
-    add() {
-      this.table.push(this.form);
+    add () {
+      this.table.push(this.form)
       this.form = {
         ruleName: '',
         parameter: '',
@@ -182,9 +184,9 @@ export default {
         threshold: '',
         function: '',
         service: ''
-      };
+      }
     },
-    del(idx) {
+    del (idx) {
       this.$confirm('确认删除？')
         .then(_ => {
           this.table.splice(idx, 1)
@@ -192,7 +194,7 @@ export default {
         .catch(_ => {
         })
     },
-    edit(item, idx) {
+    edit (item, idx) {
       this.userIndex = idx
       this.editObj = {
         ruleName: item.ruleName,
@@ -201,36 +203,31 @@ export default {
         threshold: item.threshold,
         function: item.function,
         service: item.service
-      };
+      }
       this.dialogVisible = true
     },
-    confirm() {
+    confirm () {
       this.dialogVisible = false
       this.table.splice(this.userIndex, 1, this.editObj)
     },
-    toHome() {
+    toHome () {
       this.$router.push('/')
     },
 
-    post() {
-      this.$axios({
-        url: 'http://localhost:8083/api/webdata',
-        method: 'post',
-        //发送格式为json
-        data: JSON.stringify({
-          func: 'query',
-          param: ['3aa3a1fe7fe987945c8a097fa5274d352609b65021de4f0f0f8a4027479e802d']
-        }),
-        headers:
-          {
-            'Content-Type': 'application/json'
-          }
-      }).then(function (return_data) {
-        alert(return_data)
-      }, function (return_data) {
-        //alert(return_data)
-      });
-    },
+    post () {
+      this.$http.post('api/webdata',
+        {
+          'ruleName': this.form.ruleName,
+          'parameter': this.form.parameter,
+          'condition': this.form.condition,
+          'threshold': this.form.threshold,
+          'function': this.form.function,
+          'service': this.form.service
+        }
+      ).then(res => {
+        console.log(res)
+      })
+    }
 
   }
 }
