@@ -16,37 +16,36 @@
 </template>
 
 <script>
-  import { mapState,mapActions} from 'vuex'
-    export default {
-        name: "Login",
-      computed: {
-        // 使用对象展开运算符将此对象混入到外部对象中
-        ...mapState([
-             'form',
-             'status'
-        ])
-      },
-      methods: {
-        ...mapActions([
-          // `mapActions` 也支持载荷：
-          'loginTrue' // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch('incrementBy', amount)`
-        ])
-    },
-      watch:{
-          status:function () {
-            if(this.status ==2){
-              this.$http.post('/api/login',{data:this.form})
-                .then((data)=>{
-                  console.log(data)
-                })
-                .catch((err)=>{
-                  console.log(err)
-                })
-            }
-          }
+import {mapState, mapActions} from 'vuex'
+export default {
+  name: 'Login',
+  computed: {
+    // 使用对象展开运算符将此对象混入到外部对象中
+    ...mapState([
+      'form',
+      'status'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      // `mapActions` 也支持载荷：
+      'loginTrue' // 将 `this.incrementBy(amount)` 映射为 `this.$store.dispatch('incrementBy', amount)`
+    ])
+  },
+  watch: {
+    status: function () {
+      if (this.status === 2) {
+        this.$http.post('/api/login', {data: this.form})
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
-
+    }
   }
+}
 </script>
 
 <style scoped>

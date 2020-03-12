@@ -20,37 +20,36 @@
 </template>
 
 <script>
-  import {mapState, mapActions} from 'vuex'
-
-  export default {
-    name: "Register",
-    computed: {
-      // 使用对象展开运算符将此对象混入到外部对象中
-      ...mapState([
-        'form',
-        'status'
-      ])
-    },
-    methods: {
-      ...mapActions([
-        'registerTrue'
-      ])
-    },
-    watch: {
-      status: function () {
-        if (this.status == 1) {
-          console.log(4545)
-          this.$http.post('/api/register', {data: this.form})
-            .then((data) => {
-              console.log(data)
-            })
-            .catch((err) => {
-              console.log(err)
-            })
-        }
+import {mapState, mapActions} from 'vuex'
+export default {
+  name: 'Register',
+  computed: {
+    // 使用对象展开运算符将此对象混入到外部对象中
+    ...mapState([
+      'form',
+      'status'
+    ])
+  },
+  methods: {
+    ...mapActions([
+      'registerTrue'
+    ])
+  },
+  watch: {
+    status: function () {
+      if (this.status === 1) {
+        console.log(4545)
+        this.$http.post('/api/register', {data: this.form})
+          .then((data) => {
+            console.log(data)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     }
   }
+}
 </script>
 
 <style scoped>
