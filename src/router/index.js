@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Rule from '@/components/Rule'
 import Login from '../components/Login'
 import Register from '../components/Register'
+import Device from '../components/Device'
 
 Vue.use(Router)
 
@@ -18,6 +19,11 @@ export default new Router({
       path: '/Rule',
       name: 'Rule',
       component: Rule
+    },
+    {
+      path: '/Device',
+      name: 'Device',
+      component: Device
     },
     {
       path: '/login',
