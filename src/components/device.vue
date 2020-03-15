@@ -149,7 +149,7 @@ export default {
     },
 
     post () {
-      this.$http.post('api/webdata',
+      this.$http.post('api/device',
         {
           'information': this.form.information
         }
