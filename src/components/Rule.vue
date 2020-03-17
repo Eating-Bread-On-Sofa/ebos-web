@@ -39,7 +39,7 @@
     </el-pagination>
 
     <el-dialog
-      title="新建案例"
+      title="新建规则"
       :visible.sync="dialogCreateVisible"
       width="30%"
       :before-close="handleClose">
@@ -160,12 +160,15 @@ export default {
       userIndex: 0
     }
   },
+  created: function () {
+    // this.get()
+  },
   methods: {
     onSubmit () {
       console.log('submit!')
       this.dialogCreateVisible = false
-      this.add()
       this.post()
+      this.add()
     },
     handleClose (done) {
       this.$confirm('确认关闭？')
@@ -215,7 +218,7 @@ export default {
     },
 
     post () {
-      this.$http.post('api/webdata',
+      this.$http.post('http://localhost:8083/api/webdata',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
@@ -226,6 +229,22 @@ export default {
         }
       ).then(res => {
         console.log(res)
+      })
+    },
+    get () {
+      this.$http.get('api/webdata').then(res => {
+        console.log(res)
+        return 'hahah'
+        // var data = []
+        // for (var x = 0; x < res.data.length; x++) {
+        //   var obj = {}
+        //   obj.date = res.data[x].date
+        //   obj.name = res.data[x].name
+        //   obj.address = res.data[x].address
+        //   obj.event = res.data[x].event
+        //   data[x] = obj
+        // }
+        // this.table = data
       })
     }
 

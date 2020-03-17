@@ -104,6 +104,9 @@ export default {
       userIndex: 0
     }
   },
+  created: function () {
+    this.get()
+  },
   methods: {
     onSubmit () {
       console.log('submit!')
@@ -143,19 +146,31 @@ export default {
     confirm () {
       this.dialogVisible = false
       this.table.splice(this.userIndex, 1, this.editObj)
+      this.put()
     },
     toHome () {
       this.$router.push('/')
     },
 
     post () {
-      this.$http.post('api/device',
+      this.$http.post('http://localhost:8081/api/device',
         {
           'information': this.form.information
         }
       ).then(res => {
         console.log(res)
       })
+    },
+    put () {
+      this.$http.put('http://localhost:8081/api/device',
+        {
+          'information': this.form.information
+        }
+      ).then(res => {
+        console.log(res)
+      })
+    },
+    get () {
     }
   }
 }
