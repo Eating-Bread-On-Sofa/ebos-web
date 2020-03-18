@@ -6,6 +6,7 @@ import router from './router'
 /* import store from './store' */
 import 'element-ui/lib/theme-chalk/index.css'
 import './assets/font_icon/iconfont.css'
+import store from './store'
 import axios from 'axios'
 import {
   Pagination,
@@ -156,7 +157,7 @@ Vue.config.productionTip = false
 new Vue({
   el: '#app',
   router,
-  /* store, */
+  store,
   components: { App },
   template: '<App/>'
 })
