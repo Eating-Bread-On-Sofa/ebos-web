@@ -4,6 +4,7 @@ import Rule from '@/components/Rule'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import Device from '../components/Device'
+import MessageRouting from '@/components/MessageRouting'
 
 Vue.use(Router)
 
@@ -29,6 +30,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/MessageRouting',
+      name: 'MessageRouting',
+      component: MessageRouting
     },
     {
       path: '/',
