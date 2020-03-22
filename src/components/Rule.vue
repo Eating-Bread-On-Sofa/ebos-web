@@ -1,7 +1,13 @@
 <template>
   <div id="app">
+    <div class="searchWord_rule">
+      <div style="display: inline-block"> 搜索：</div>
+      <el-input v-model="search" style="display: inline-block;width: 1300px"
+                placeholder="请输入搜索内容">
+      </el-input>
+    </div>
     <!--表格数据及操作-->
-    <el-table :data="table" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection" width="55">
       </el-table-column>
@@ -35,8 +41,14 @@
     </el-col>
     <br>
     <!--分页条-->
-    <el-pagination background layout="prev, pager, next" :total="1000">
-    </el-pagination>
+    <div style="text-align: center;margin-top: 30px;">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        @current-change="current_change">
+      </el-pagination>
+    </div>
 
     <el-dialog
       title="新建规则"
@@ -126,9 +138,6 @@
       </span>
     </el-dialog>
     <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
-
-    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="post">ceshi</el-button>
-
   </div>
 </template>
 
@@ -157,7 +166,10 @@ export default {
       },
       activeIndex: '1',
       activeIndex2: '1',
-      userIndex: 0
+      userIndex: 0,
+      total: 0,
+      pagesize: 10,
+      currentPage: 1
     }
   },
   created: function () {
@@ -169,6 +181,9 @@ export default {
       this.dialogCreateVisible = false
       this.post()
       this.add()
+    },
+    current_change: function (currentPage) {
+      this.currentPage = currentPage
     },
     handleClose (done) {
       this.$confirm('确认关闭？')
@@ -196,6 +211,7 @@ export default {
         })
         .catch(_ => {
         })
+      this.delete()
     },
     edit (item, idx) {
       this.userIndex = idx
@@ -216,7 +232,20 @@ export default {
     toHome () {
       this.$router.push('/')
     },
-
+    delete () {
+      this.$http.delete('http://localhost:8083/api/ruleDelete',
+        {
+          'ruleName': this.form.ruleName,
+          'parameter': this.form.parameter,
+          'condition': this.form.condition,
+          'threshold': this.form.threshold,
+          'function': this.form.function,
+          'service': this.form.service
+        }
+      ).then(res => {
+        console.log(res)
+      })
+    },
     post () {
       this.$http.post('http://localhost:8083/api/webdata',
         {
@@ -247,7 +276,11 @@ export default {
         // this.table = data
       })
     }
-
+  },
+  computed: {
+    search () {
+      return 'Rule Search'
+    }
   }
 }
 </script>
