@@ -233,11 +233,7 @@ export default {
       this.$router.push('/')
     },
     delete () {
-<<<<<<< HEAD:src/components/rule/Rule.vue
       this.$http.delete('8083/api/ruleDelete',
-=======
-      this.$http.delete('http://localhost:8083/api/ruleDelete',
->>>>>>> 5add563d20720bab00d2b1aa64c24b6705a6f6a3:src/components/Rule.vue
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,

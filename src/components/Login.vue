@@ -1,6 +1,6 @@
 <template>
   <div id="Login">
-    <div class="note" style ="note"></div>
+    <div class="note"></div>
     <el-container>
       <el-main>
         <el-row>

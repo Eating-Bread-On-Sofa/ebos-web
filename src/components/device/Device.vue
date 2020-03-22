@@ -185,26 +185,17 @@ export default {
       })
     },
     get () {
-<<<<<<< HEAD:src/components/device/Device.vue
-      this.$http.get('8081/api/device/ping',
-=======
-      this.$http.get('http://localhost:8081/api/device/ping',
->>>>>>> 5add563d20720bab00d2b1aa64c24b6705a6f6a3:src/components/device.vue
-        {
-        }
+      this.$http.get('8081/api/device/ping'
       ).then(res => {
         return 'pong'
       })
-<<<<<<< HEAD:src/components/device/Device.vue
-    }
-=======
     },
->>>>>>> 5add563d20720bab00d2b1aa64c24b6705a6f6a3:src/components/device.vue
-  },
-  computed: {
-    search () {
-      return 'Device Search'
+    computed: {
+      search () {
+        return 'Device Search'
+      }
     }
   }
 }
+
 </script>
