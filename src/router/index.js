@@ -1,21 +1,17 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 import Rule from '@/components/Rule'
 import Login from '../components/Login'
 import Register from '../components/Register'
 import Device from '../components/Device'
 import Log from '../components/Log'
+import MessageRouting from '@/components/MessageRouting'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
-    {
-      path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
-    },
     {
       path: '/Rule',
       name: 'Rule',
@@ -40,6 +36,11 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
+    },
+    {
+      path: '/MessageRouting',
+      name: 'MessageRouting',
+      component: MessageRouting
     },
     {
       path: '/',
