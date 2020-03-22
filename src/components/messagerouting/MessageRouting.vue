@@ -189,7 +189,7 @@ export default {
     },
 
     post () {
-      this.$http.post('api/webdata',
+      this.$axios.post('api/webdata',
         {
           'routerName': this.form.routerName,
           'messageSource': this.form.messageSource,

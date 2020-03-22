@@ -66,7 +66,7 @@ export default {
     status: function () {
       if (this.status === 1) {
         console.log(4545)
-        this.$http.post('/api/register', {data: this.form})
+        this.$axios.post('/api/register', {data: this.form})
           .then((data) => {
             console.log(data)
           })

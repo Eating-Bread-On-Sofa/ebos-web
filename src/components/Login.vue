@@ -63,7 +63,7 @@ export default {
   watch: {
     status: function () {
       if (this.status === 2) {
-        this.$http.post('/api/login', {data: this.form})
+        this.$axios.post('/login', {data: this.form})
           .then((data) => {
             console.log(data)
           })

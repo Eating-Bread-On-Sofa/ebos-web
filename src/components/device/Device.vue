@@ -1,7 +1,13 @@
 <template>
   <div id="app">
+    <div class="searchWord_device">
+      <div style="display: inline-block"> 搜索：</div>
+      <el-input v-model="search" style="display: inline-block;width: 1300px"
+                placeholder="请输入搜索内容">
+      </el-input>
+    </div>
     <!--表格数据及操作-->
-    <el-table :data="table" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection" width="55">
       </el-table-column>
@@ -36,8 +42,14 @@
     </el-col>
     <br>
     <!--分页条-->
-    <el-pagination background layout="prev, pager, next" :total="1000">
-    </el-pagination>
+    <div style="text-align: center;margin-top: 30px;">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        @current-change="current_change">
+      </el-pagination>
+    </div>
 
     <el-dialog
       title="添加设备"
@@ -81,8 +93,6 @@
     </el-dialog>
     <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
 
-    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="post">ceshi</el-button>
-
   </div>
 </template>
 
@@ -101,13 +111,19 @@ export default {
       },
       activeIndex: '1',
       activeIndex2: '1',
-      userIndex: 0
+      userIndex: 0,
+      total: 0,
+      pagesize: 10,
+      currentPage: 1
     }
   },
   created: function () {
     this.get()
   },
   methods: {
+    current_change: function (currentPage) {
+      this.currentPage = currentPage
+    },
     onSubmit () {
       console.log('submit!')
       this.dialogCreateVisible = false
@@ -115,10 +131,9 @@ export default {
       this.post()
     },
     handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
+      this.$confirm('确认关闭？').then(_ => {
+        done()
+      })
         .catch(_ => {
         })
     },
@@ -151,9 +166,8 @@ export default {
     toHome () {
       this.$router.push('/')
     },
-
     post () {
-      this.$http.post('http://localhost:8081/api/device',
+      this.$http.post('8081/api/device',
         {
           'information': this.form.information
         }
@@ -162,7 +176,7 @@ export default {
       })
     },
     put () {
-      this.$http.put('http://localhost:8081/api/device',
+      this.$http.put('8081/api/device',
         {
           'information': this.form.information
         }
@@ -171,6 +185,17 @@ export default {
       })
     },
     get () {
+      this.$http.get('8081/api/device/ping',
+        {
+        }
+      ).then(res => {
+        return 'pong'
+      })
+    }
+  },
+  computed: {
+    search () {
+      return 'Device Search'
     }
   }
 }
