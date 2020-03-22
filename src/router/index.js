@@ -4,10 +4,16 @@ import Rule from '../components/rule/Rule'
 import Home from '../components/Home'
 import Login from '../components/Login'
 import Register from '../components/Register'
+<<<<<<< HEAD
 import Device from '../components/device/Device'
 import MessageRouting from '../components/messagerouting/MessageRouting'
 import AppIndex from '../components/home/AppIndex'
 import ProfileIndex from '../components/profile/ProfileIndex'
+=======
+import Device from '../components/Device'
+import Log from '../components/Log'
+import MessageRouting from '@/components/MessageRouting'
+>>>>>>> 5add563d20720bab00d2b1aa64c24b6705a6f6a3
 
 Vue.use(Router)
 
@@ -46,6 +52,11 @@ export default new Router({
           component: ProfileIndex
         }
       ]
+    },
+    {
+      path: '/Log',
+      name: 'Log',
+      component: Log
     },
     {
       path: '/login',
