@@ -1,5 +1,11 @@
 <template>
   <div id="MessageRouting">
+    <div class="searchWord_rule">
+      <div style="display: inline-block"> 搜索：</div>
+      <el-input v-model="search" style="display: inline-block;width: 1300px"
+                placeholder="请输入搜索内容">
+      </el-input>
+    </div>
     <!--表格数据及操作-->
     <el-table :data="table" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
@@ -105,8 +111,6 @@
     </el-dialog>
     <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
 
-    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="post">测试</el-button>
-
   </div>
 </template>
 
@@ -133,8 +137,14 @@ export default {
       },
       activeIndex: '1',
       activeIndex2: '1',
-      userIndex: 0
+      userIndex: 0,
+      total: 0,
+      pagesize: 10,
+      currentPage: 1
     }
+  },
+  created: function () {
+    // this.get()
   },
   methods: {
     onSubmit () {
@@ -142,6 +152,9 @@ export default {
       this.dialogCreateVisible = false
       this.add()
       this.post()
+    },
+    current_change: function (currentPage) {
+      this.currentPage = currentPage
     },
     handleClose (done) {
       this.$confirm('确认关闭？')
@@ -187,6 +200,19 @@ export default {
     toHome () {
       this.$router.push('/')
     },
+    delete () {
+      this.$http.delete('8083/api/messageRoutingDelete',
+        {
+          'routerName': this.form.routerName,
+          'meassageSource': this.form.messageSource,
+          'messageFlow': this.form.messageFlow,
+          'funcCal': this.form.funcCal,
+          'addTime': this.form.addTime
+        }
+      ).then(res => {
+        console.log(res)
+      })
+    },
 
     post () {
       this.$axios.post('api/webdata',
@@ -200,8 +226,28 @@ export default {
       ).then(res => {
         console.log(res)
       })
+    },
+    get () {
+      this.$http.get('api/webdata').then(res => {
+        console.log(res)
+        return 'hahah'
+        // var data = []
+        // for (var x = 0; x < res.data.length; x++) {
+        //   var obj = {}
+        //   obj.date = res.data[x].date
+        //   obj.name = res.data[x].name
+        //   obj.address = res.data[x].address
+        //   obj.event = res.data[x].event
+        //   data[x] = obj
+        // }
+        // this.table = data
+      })
     }
-
+  },
+  computed: {
+    search () {
+      return 'Router Search'
+    }
   }
 }
 </script>
