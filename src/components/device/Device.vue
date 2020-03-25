@@ -131,10 +131,9 @@ export default {
       this.post()
     },
     handleClose (done) {
-      this.$confirm('确认关闭？')
-        .then(_ => {
-          done()
-        })
+      this.$confirm('确认关闭？').then(_ => {
+        done()
+      })
         .catch(_ => {
         })
     },
@@ -167,9 +166,8 @@ export default {
     toHome () {
       this.$router.push('/')
     },
-
     post () {
-      this.$http.post('http://localhost:8081/api/device',
+      this.$http.post('8081/api/device',
         {
           'information': this.form.information
         }
@@ -178,7 +176,7 @@ export default {
       })
     },
     put () {
-      this.$http.put('http://localhost:8081/api/device',
+      this.$http.put('8081/api/device',
         {
           'information': this.form.information
         }
@@ -187,9 +185,7 @@ export default {
       })
     },
     get () {
-      this.$http.get('http://localhost:8081/api/device/ping',
-        {
-        }
+      this.$http.get('8081/api/device/ping'
       ).then(res => {
         return 'pong'
       })
@@ -201,4 +197,5 @@ export default {
     }
   }
 }
+
 </script>

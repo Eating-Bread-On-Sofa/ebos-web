@@ -1,6 +1,5 @@
 <template>
-  <div id="Login">
-    <div class="note" style ="note"></div>
+  <div id="Login" class="img1">
     <el-container>
       <el-main>
         <el-row>
@@ -66,7 +65,7 @@ export default {
     status: function () {
       if (this.status === 1) {
         console.log(4545)
-        this.$http.post('/api/register', {data: this.form})
+        this.$axios.post('/api/register', {data: this.form})
           .then((data) => {
             console.log(data)
           })
@@ -75,8 +74,8 @@ export default {
           })
       }
     }
-  },
-  data () {
+  }
+  /* data () {
     return {
       note: {
         backgroundImage: 'url(' + require('../../static/background.jpg') + ')',
@@ -84,11 +83,18 @@ export default {
         backgroundSize: '100% 100%'
       }
     }
-  }
+  } */
 }
 </script>
 
 <style>
+  img1{
+    background: url('../../static/background.jpg') center center no-repeat;
+    height: 100%;
+    position: fixed;
+    width: 100%;
+    background-size: 100% 100%
+  }
   .el-container{
     margin-top: 120px;
     margin-right: 450px;

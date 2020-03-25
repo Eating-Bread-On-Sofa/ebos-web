@@ -233,7 +233,7 @@ export default {
       this.$router.push('/')
     },
     delete () {
-      this.$http.delete('http://localhost:8083/api/ruleDelete',
+      this.$http.delete('8083/api/ruleDelete',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
@@ -247,7 +247,7 @@ export default {
       })
     },
     post () {
-      this.$http.post('http://localhost:8083/api/webdata',
+      this.$http.post('8083/api/webdata',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
