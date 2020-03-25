@@ -91,8 +91,6 @@
         <el-button type="primary" @click="confirm">确 定</el-button>
       </span>
     </el-dialog>
-    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
-
   </div>
 </template>
 
@@ -163,9 +161,6 @@ export default {
       this.table.splice(this.userIndex, 1, this.editObj)
       this.put()
     },
-    toHome () {
-      this.$router.push('/')
-    },
     post () {
       this.$http.post('8081/api/device',
         {
@@ -189,11 +184,11 @@ export default {
       ).then(res => {
         return 'pong'
       })
-    },
-    computed: {
-      search () {
-        return 'Device Search'
-      }
+    }
+  },
+  computed: {
+    search () {
+      return 'Device Search'
     }
   }
 }

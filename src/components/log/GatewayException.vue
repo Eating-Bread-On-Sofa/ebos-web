@@ -1,15 +1,15 @@
 <template>
   <div id="app">
+    <el-button type="success" @click="shenji" style="float:left">开始审计</el-button>
     <!--表格数据及操作-->
-    <el-table :data="table" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
-
-      <el-table-column prop="date" label="日期" width="140" sortable>
+    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+      <el-table-column prop="gatewayID" label="网关ID" width="140" sortable>
       </el-table-column>
-      <el-table-column prop="time" label="时间" width="120">
+      <el-table-column prop="gatewayName" label="网关名称" width="120">
       </el-table-column>
-      <el-table-column prop="user" label="用户" width="280">
+      <el-table-column prop="existingTime" label="已存在时间" width="280">
       </el-table-column>
-      <el-table-column prop="event" label="事件" width="300">
+      <el-table-column prop="deviceNumber" label="设备数量" width="300">
       </el-table-column>
       <el-table-column label="操作" width="200">
         <template slot-scope="scope">
@@ -18,8 +18,14 @@
       </el-table-column>
     </el-table>
     <!--分页条-->
-    <el-pagination background layout="prev, pager, next" :total="1000">
-    </el-pagination>
+    <div style="text-align: center;margin-top: 30px;">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        @current-change="current_change">
+      </el-pagination>
+    </div>
 
   </div>
 </template>
@@ -31,7 +37,10 @@ export default {
       table: [],
       activeIndex: '1',
       activeIndex2: '1',
-      userIndex: 0
+      userIndex: 0,
+      total: 0,
+      pagesize: 10,
+      currentPage: 1
     }
   },
   created: function () {
@@ -53,7 +62,7 @@ export default {
       this.$confirm('确认删除？')
         .then(_ => {
           this.table.splice(idx, 1)
-          var data = {date: row.date, time: row.time, user: row.user, event: row.event}
+          var data = {gatewayID: row.gatewayID, gatewayName: row.gatewayName, existingTime: row.existingTime, deviceNumber: row.deviceNumber}
           this.$http.delete('api/deleteLog', {data: data}
           ).then(res => {
             console.log(res)
@@ -63,18 +72,23 @@ export default {
         })
     },
     AddDb () {
-      this.$http.get('api/log').then(res => {
+      this.$http.get('http://localhost:8081/api/logtest').then(res => {
         var data = []
         for (var x = 0; x < res.data.length; x++) {
           var obj = {}
-          obj.date = res.data[x].date
-          obj.time = res.data[x].time
-          obj.user = res.data[x].user
-          obj.event = res.data[x].event
+          obj.gatewayID = res.data[x].gatewayID
+          obj.gatewayName = res.data[x].gatewayName
+          obj.existingTime = res.data[x].existingTime
+          obj.deviceNumber = res.data[x].deviceNumber
           data[x] = obj
         }
         this.table = data
+        this.total = data.length
       })
+    },
+    shenji () {
+      console.log('开始审计')
+      // this.AddDb()
     }
   }
 }

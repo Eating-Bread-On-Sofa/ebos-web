@@ -29,7 +29,7 @@ export default {
         {name: '/device', navItem: '设备管理'},
         {name: '/scenarioCommand', navItem: '服务管理'},
         {name: '/user', navItem: '用户管理'},
-        {name: '/log', navItem: '操作审计'}
+        {name: '/logIndex', navItem: '操作审计'}
       ]
     }
   },

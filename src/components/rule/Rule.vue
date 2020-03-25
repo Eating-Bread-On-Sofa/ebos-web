@@ -137,7 +137,6 @@
         <el-button type="primary" @click="confirm">确 定</el-button>
       </span>
     </el-dialog>
-    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
   </div>
 </template>
 
@@ -229,9 +228,6 @@ export default {
       this.dialogVisible = false
       this.table.splice(this.userIndex, 1, this.editObj)
     },
-    toHome () {
-      this.$router.push('/')
-    },
     delete () {
       this.$http.delete('8083/api/ruleDelete',
         {
@@ -274,6 +270,7 @@ export default {
         //   data[x] = obj
         // }
         // this.table = data
+        // this.total = data.length
       })
     }
   },
