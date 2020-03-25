@@ -8,7 +8,10 @@ import Device from '../components/device/Device'
 import MessageRouting from '../components/messagerouting/MessageRouting'
 import AppIndex from '../components/home/AppIndex'
 import ProfileIndex from '../components/profile/ProfileIndex'
-import Log from '../components/Log'
+import LogIndex from '../components/log/LogIndex'
+import Log from '../components/log/Log'
+import DeviceException from '../components/log/DeviceException'
+import GatewayException from '../components/log/GatewayException'
 
 Vue.use(Router)
 
@@ -45,6 +48,11 @@ export default new Router({
           path: '/profile',
           name: 'ProfileIndex',
           component: ProfileIndex
+        },
+        {
+          path: '/logIndex',
+          name: 'LogIndex',
+          component: LogIndex
         }
       ]
     },

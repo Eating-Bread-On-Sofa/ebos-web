@@ -1,8 +1,7 @@
 <template>
   <div id="app">
     <!--表格数据及操作-->
-    <el-table :data="table" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
-
+    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <el-table-column prop="date" label="日期" width="140" sortable>
       </el-table-column>
       <el-table-column prop="time" label="时间" width="120">
@@ -18,8 +17,14 @@
       </el-table-column>
     </el-table>
     <!--分页条-->
-    <el-pagination background layout="prev, pager, next" :total="1000">
-    </el-pagination>
+    <div style="text-align: center;margin-top: 30px;">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        :total="total"
+        @current-change="current_change">
+      </el-pagination>
+    </div>
 
   </div>
 </template>
@@ -31,7 +36,10 @@ export default {
       table: [],
       activeIndex: '1',
       activeIndex2: '1',
-      userIndex: 0
+      userIndex: 0,
+      total: 0,
+      pagesize: 10,
+      currentPage: 1
     }
   },
   created: function () {
@@ -74,6 +82,7 @@ export default {
           data[x] = obj
         }
         this.table = data
+        this.total = data.length
       })
     }
   }
