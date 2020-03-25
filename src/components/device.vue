@@ -193,7 +193,7 @@ export default {
       ).then(res => {
         return 'pong'
       })
-    },
+    }
   },
   computed: {
     search () {

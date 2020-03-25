@@ -5,6 +5,8 @@ import Login from '../components/Login'
 import Register from '../components/Register'
 import Device from '../components/Device'
 import Log from '../components/Log'
+import DeviceException from '../components/DeviceException'
+import GatewayException from '../components/GatewayException'
 import MessageRouting from '@/components/MessageRouting'
 
 Vue.use(Router)
@@ -26,6 +28,16 @@ export default new Router({
       path: '/Log',
       name: 'Log',
       component: Log
+    },
+    {
+      path: '/DeviceException',
+      name: 'DeviceException',
+      component: DeviceException
+    },
+    {
+      path: '/GatewayException',
+      name: 'GatewayException',
+      component: GatewayException
     },
     {
       path: '/login',

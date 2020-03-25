@@ -63,7 +63,7 @@ export default {
         })
     },
     AddDb () {
-      this.$http.get('api/log').then(res => {
+      this.$http.get('http://localhost:8081/api/logtest').then(res => {
         var data = []
         for (var x = 0; x < res.data.length; x++) {
           var obj = {}
