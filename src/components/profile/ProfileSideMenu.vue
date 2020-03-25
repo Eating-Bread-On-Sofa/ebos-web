@@ -5,15 +5,12 @@
       <h4 style="display: inline">设备模板</h4>
     </div>
     <el-menu
-      default-active="0"
-      active-text-color="red">
-      <el-menu-item index="0">
+      default-active="'/deviceprofile'"
+      active-text-color="red"
+      router>
+      <el-menu-item v-for="(item, i) in profileMenu" :index="item.name" :key="i">
         <i class="el-icon-s-order"></i>
-        <span slot="title">设备模板管理</span>
-      </el-menu-item>
-      <el-menu-item index="1">
-        <i class="el-icon-s-operation"></i>
-        <span slot="title">模板功能管理</span>
+        {{item.menuname}}
       </el-menu-item>
     </el-menu>
   </el-row>
@@ -21,7 +18,15 @@
 
 <script>
 export default {
-  name: 'ProfileSideMenu'
+  name: 'ProfileSideMenu',
+  data () {
+    return {
+      profileMenu: [
+        {name: '/deviceprofile', menuname: '设备模板'},
+        {name: '/profilefunction', menuname: '模板共能管理'}
+      ]
+    }
+  }
 }
 </script>
 

@@ -9,6 +9,8 @@ import MessageRouting from '../components/messagerouting/MessageRouting'
 import AppIndex from '../components/home/AppIndex'
 import ProfileIndex from '../components/profile/ProfileIndex'
 import Log from '../components/Log'
+import DeviceProfile from '../components/profile/DeviceProfile'
+import ProfileFunction from '../components/profile/ProfileFunction'
 
 Vue.use(Router)
 
@@ -44,14 +46,26 @@ export default new Router({
         {
           path: '/profile',
           name: 'ProfileIndex',
-          component: ProfileIndex
+          component: ProfileIndex,
+          children: [
+            {
+              path: '/deviceprofile',
+              name: 'DeviceProfile',
+              component: DeviceProfile
+            },
+            {
+              path: '/profilefunction',
+              name: 'ProfileFunction',
+              component: ProfileFunction
+            }
+          ]
+        },
+        {
+          path: '/log',
+          name: 'Log',
+          component: Log
         }
       ]
-    },
-    {
-      path: '/log',
-      name: 'Log',
-      component: Log
     },
     {
       path: '/login',

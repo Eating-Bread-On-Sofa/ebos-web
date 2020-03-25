@@ -25,7 +25,7 @@ export default {
         {name: '/gateway', navItem: '网关管理'},
         {name: '/messageRouting', navItem: '消息路由'},
         {name: '/rule', navItem: '规则引擎'},
-        {name: '/profile', navItem: '设备模板'},
+        {name: '/deviceprofile', navItem: '设备模板'},
         {name: '/device', navItem: '设备管理'},
         {name: '/scenarioCommand', navItem: '服务管理'},
         {name: '/user', navItem: '用户管理'},
