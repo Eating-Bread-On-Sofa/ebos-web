@@ -1,13 +1,12 @@
 <template>
     <div>
-      <el-button type="primary" icon="el-icon-circle-plus" @click="dialogFormVisible = true"></el-button>
       <el-dialog
         title="新增/修改设备模板"
         :visible.sync="dialogFormVisible"
         @close="clear">
         <el-form v-model="form" style="text-align: left" ref="dataForm">
           <el-form-item label="yaml格式文本">
-            <el-input v-model="form" autocomplete="off" placeholder="请输入yaml格式的文本"></el-input>
+            <el-input type="textarea" :row="10" v-model="form" autocomplete="off" placeholder="请输入yaml格式的文本"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -33,7 +32,14 @@ export default {
     },
     onSubmit () {
       this.$axios
-        .post('')
+        .post('8091/pai/profile/yml', {
+          yml: this.form
+        }).then(resp => {
+          if (resp && resp.status === 200) {
+            this.dialogFormVisible = false
+            this.$emit('onSubmit')
+          }
+        })
     }
   }
 }

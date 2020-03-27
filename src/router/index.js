@@ -8,16 +8,15 @@ import Device from '../components/device/Device'
 import MessageRouting from '../components/messagerouting/MessageRouting'
 import AppIndex from '../components/home/AppIndex'
 import ProfileIndex from '../components/profile/ProfileIndex'
-<<<<<<< HEAD
-import Log from '../components/Log'
 import DeviceProfile from '../components/profile/DeviceProfile'
 import ProfileFunction from '../components/profile/ProfileFunction'
-=======
 import LogIndex from '../components/log/LogIndex'
 import Log from '../components/log/Log'
 import DeviceException from '../components/log/DeviceException'
 import GatewayException from '../components/log/GatewayException'
->>>>>>> 70103d682033e863c585e25023f1cb6cd6023400
+import ScenarioIndex from '../components/Scenario/ScenarioIndex'
+import ScenarioService from '../components/Scenario/ScenarioService'
+import DeviceService from '../components/Scenario/DeviceService'
 
 Vue.use(Router)
 
@@ -53,8 +52,8 @@ export default new Router({
         {
           path: '/profile',
           name: 'ProfileIndex',
-<<<<<<< HEAD
           component: ProfileIndex,
+          redirect: '/deviceprofile',
           children: [
             {
               path: '/deviceprofile',
@@ -69,23 +68,36 @@ export default new Router({
           ]
         },
         {
+          path: '/scenario',
+          name: 'ScenarioIndex',
+          component: ScenarioIndex,
+          redirect: '/scenarioservice',
+          children: [
+            {
+              path: '/scenarioservice',
+              name: 'ScenarioService',
+              component: ScenarioService
+            },
+            {
+              path: '/deviceservice',
+              name: 'DeviceService',
+              component: DeviceService
+            }
+          ]
+        },
+        {
           path: '/log',
           name: 'Log',
           component: Log
-=======
-          component: ProfileIndex
         },
         {
           path: '/logIndex',
           name: 'LogIndex',
           component: LogIndex
->>>>>>> 70103d682033e863c585e25023f1cb6cd6023400
         }
       ]
     },
     {
-<<<<<<< HEAD
-=======
       path: '/log',
       name: 'Log',
       component: Log
@@ -101,7 +113,6 @@ export default new Router({
       component: GatewayException
     },
     {
->>>>>>> 70103d682033e863c585e25023f1cb6cd6023400
       path: '/login',
       name: 'login',
       component: Login

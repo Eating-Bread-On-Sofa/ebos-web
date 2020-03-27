@@ -4,10 +4,10 @@
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createProfile()">新增
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDeviceService()">新增
       </el-button>
       <br>
-      <profile-edit-form @onSubmit="loadProfiles()" ref="profileEditForm"></profile-edit-form>
+      <device-service-edit @onSubmit="loadDeviceServices()" ref="deviceServiceEdit"></device-service-edit>
       <el-table
         ref="multipleTable"
         :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
@@ -19,24 +19,24 @@
           type="selection">
         </el-table-column>
         <el-table-column
-          prop="id"
-          label="设备ID">
-        </el-table-column>
-        <el-table-column
           prop="name"
-          label="设备类型">
+          label="设备服务名称">
         </el-table-column>
         <el-table-column
-          prop="model"
-          label="支持协议">
+          prop="deviceName"
+          label="对应设备名称">
         </el-table-column>
         <el-table-column
-          label="状态">
-          <template slot-scope="scope">{{scope.row.status}}</template>
+          prop="commandType"
+          label="命令类型">
+        </el-table-column>
+        <el-table-column
+          prop="description"
+          label="描述">
         </el-table-column>
         <el-table-column
           label="操作"
-        width="250">
+          width="250">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -62,42 +62,43 @@
       </el-pagination>
     </el-row>
   </div>
-
 </template>
 
 <script>
 import SearchBar from './SearchBar'
-import ProfileEditForm from './ProfileEditForm'
+import DeviceServiceEdit from './DeviceServiceEdit'
 export default {
-  name: 'DeviceProfile',
-  components: {ProfileEditForm, SearchBar},
+  name: 'DeviceService',
+  components: {DeviceServiceEdit, SearchBar},
   data () {
     return {
       currentPage: 1,
       pagesize: 18,
       tableData: [
-        { id: '1',
-          name: '温湿度传感器',
-          model: 'modbus',
-          status: 'on'
+        { id: '0',
+          name: '温湿度监测',
+          deviceName: '温湿度传感器',
+          commandType: 'get',
+          description: '检测温湿度传感器数据'
         },
-        { id: '2',
-          name: '温湿度传感器',
-          model: 'modbus',
-          status: 'off'
+        { id: '1',
+          name: '温湿度传感器告警',
+          deviceName: '温湿度传感器',
+          commandType: 'post',
+          description: '发出告警信息'
         }
       ],
       multipleSelection: []
     }
   },
   // mounted: function () {
-  //   this.loadProfiles()
+  //   this.loadDeviceServices()
   // },
   methods: {
-    loadProfiles () {
+    loadDeviceServices () {
       var _this = this
       this.$axios
-        .get('8091/api/profile/list').then(resp => {
+        .get('8082/api/command/list').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
@@ -109,12 +110,18 @@ export default {
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
-    createProfile () {
-      this.$refs.profileEditForm.dialogFormVisible = true
+    createDeviceService () {
+      this.$refs.deviceServiceEdit.dialogFormVisible = true
     },
     handleEdit (index, row) {
-      this.$refs.profileEditForm.dialogFormVisible = true
-      this.$refs.profileEditForm.form = row
+      this.$refs.deviceServiceEdit.dialogFormVisible = true
+      this.$refs.deviceServiceEdit.form = {
+        id: row.id,
+        name: row.name,
+        deviceName: row.deviceName,
+        description: row.description,
+        commandType: row.commandType
+      }
     },
     handleStatus (ind, tablerow) {
       if (tablerow.status === 'on') {
@@ -130,10 +137,10 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .get('8091/api/profile/delete?id=' + tablerow.id, {
+          .get('8082/api/command/delete?id=' + tablerow.id, {
           }).then(resp => {
             if (resp && resp === 200) {
-              this.loadProfiles()
+              this.loadScenarios()
             }
           })
       }).catch(() => {
@@ -146,7 +153,7 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('8091/api/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('8082/api/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

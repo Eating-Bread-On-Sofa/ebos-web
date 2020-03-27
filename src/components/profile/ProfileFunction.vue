@@ -1,10 +1,16 @@
 <template>
   <div>
-    <el-row style="height: 840px">
+    <el-row style="height: 800px">
       <search-bar @onSearch="funcSearchResult" ref="searchBar"></search-bar>
+      <br>
+      <!--新增按钮-->
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createProfileFunction()">新增
+      </el-button>
+      <br>
+      <profile-func-edit @onSubmit="loadProfileFuncs()" ref="profileFuncEdit"></profile-func-edit>
       <el-table
-        :ref="multipleTable"
-        :data="tableData"
+        ref="multipleTable"
+        :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         tooltip-effect="dark"
         border
         style="width: 100%;"
@@ -59,16 +65,27 @@
         </el-table-column>
       </el-table>
     </el-row>
+    <el-row>
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="pagesize"
+        :total="tableData.length">
+      </el-pagination>
+    </el-row>
   </div>
 </template>
 
 <script>
 import SearchBar from './SearchBar'
+import ProfileFuncEdit from './ProfileFuncEdit'
 export default {
   name: 'ProfileFunction',
-  components: {SearchBar},
+  components: {ProfileFuncEdit, SearchBar},
   data () {
     return {
+      currentPage: 1,
+      pagesize: 18,
       tableData: [
         {
           id: '1',
@@ -92,9 +109,66 @@ export default {
       multipleSelection: []
     }
   },
+  // mounted: function () {
+  //   this.loadProfileFuncs()
+  // },
   methods: {
+    loadProfileFuncs () {
+      var _this = this
+      this.$axios
+        .get('/8091/api/profile/list').then(resp => {
+          if (resp && resp.status === 200) {
+            _this.tableData = resp.data
+          }
+        })
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
+    },
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage
+    },
+    createProfileFunction () {
+      this.$refs.profileFuncEdit.dialogFormVisible = true
+    },
+    handleEdit (index, row) {
+      this.$refs.profileFuncEdit.dialogFormVisible = true
+      this.$refs.profileFuncEdit.form = {
+        id: row.id,
+        name: row.name,
+        function: row.function,
+        model: row.model,
+        service: row.service,
+        style: row.style,
+        sync: row.sync
+      }
+    },
+    handleStatus (ind, tablerow) {
+      if (tablerow.status === 'on') {
+        tablerow.status = 'off'
+      } else {
+        tablerow.status = 'on'
+      }
+    },
+    handleDelete (index, tablerow) {
+      this.$confirm('此操作将永久删除该，是否继续？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'waring'
+      }).then(() => {
+        this.$axios
+          .get('8091/api/profilefunc/delete?id=' + tablerow.id, {
+          }).then(resp => {
+            if (resp && resp === 200) {
+              this.loadProfileFuncs()
+            }
+          })
+      }).catch(() => {
+        this.message({
+          type: 'info',
+          message: '已取消删除'
+        })
+      })
     },
     funcSearchResult () {
       var _this = this
