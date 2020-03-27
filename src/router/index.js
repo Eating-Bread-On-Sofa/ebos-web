@@ -17,6 +17,9 @@ import GatewayException from '../components/log/GatewayException'
 import ScenarioIndex from '../components/Scenario/ScenarioIndex'
 import ScenarioService from '../components/Scenario/ScenarioService'
 import DeviceService from '../components/Scenario/DeviceService'
+import MessageRoutingIndex from '../components/messagerouting/MessageRoutingIndex'
+import RuleIndex from '../components/rule/RuleIndex'
+import DeviceIndex from '../components/device/DeviceIndex'
 
 Vue.use(Router)
 
@@ -35,19 +38,43 @@ export default new Router({
           component: AppIndex
         },
         {
-          path: '/rule',
-          name: 'Rule',
-          component: Rule
+          path: '/ruleIndex',
+          name: 'RuleIndex',
+          component: RuleIndex,
+          redirect: '/rule',
+          children: [
+            {
+              path: '/rule',
+              name: 'Rule',
+              component: Rule
+            }
+          ]
         },
         {
-          path: '/device',
-          name: 'Device',
-          component: Device
+          path: '/deviceIndex',
+          name: 'DeviceIndex',
+          component: DeviceIndex,
+          redirect: '/device',
+          children: [
+            {
+              path: '/device',
+              name: 'Device',
+              component: Device
+            }
+          ]
         },
         {
-          path: '/messageRouting',
-          name: 'MessageRouting',
-          component: MessageRouting
+          path: '/messageRoutingIndex',
+          name: 'MessageRoutingIndex',
+          component: MessageRoutingIndex,
+          redirect: '/messageRouting',
+          children: [
+            {
+              path: '/messageRouting',
+              name: 'MessageRouting',
+              component: MessageRouting
+            }
+          ]
         },
         {
           path: '/profile',
@@ -86,31 +113,29 @@ export default new Router({
           ]
         },
         {
-          path: '/log',
-          name: 'Log',
-          component: Log
-        },
-        {
           path: '/logIndex',
           name: 'LogIndex',
-          component: LogIndex
+          component: LogIndex,
+          redirect: '/log',
+          children: [
+            {
+              path: '/log',
+              name: 'Log',
+              component: Log
+            },
+            {
+              path: '/deviceException',
+              name: 'DeviceException',
+              component: DeviceException
+            },
+            {
+              path: '/gatewayException',
+              name: 'GatewayException',
+              component: GatewayException
+            }
+          ]
         }
       ]
-    },
-    {
-      path: '/log',
-      name: 'Log',
-      component: Log
-    },
-    {
-      path: '/DeviceException',
-      name: 'DeviceException',
-      component: DeviceException
-    },
-    {
-      path: '/GatewayException',
-      name: 'GatewayException',
-      component: GatewayException
     },
     {
       path: '/login',

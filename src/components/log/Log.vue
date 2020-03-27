@@ -1,30 +1,32 @@
 <template>
   <div id="app">
-    <!--表格数据及操作-->
-    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
-      <el-table-column prop="date" label="日期" width="140" sortable>
-      </el-table-column>
-      <el-table-column prop="time" label="时间" width="120">
-      </el-table-column>
-      <el-table-column prop="user" label="用户" width="280">
-      </el-table-column>
-      <el-table-column prop="event" label="事件" width="300">
-      </el-table-column>
-      <el-table-column label="操作" width="200">
-        <template slot-scope="scope">
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-row style="height: 800px;">
+      <!--表格数据及操作-->
+      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+        <el-table-column prop="date" label="日期" sortable>
+        </el-table-column>
+        <el-table-column prop="time" label="时间">
+        </el-table-column>
+        <el-table-column prop="user" label="用户">
+        </el-table-column>
+        <el-table-column prop="event" label="事件">
+        </el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-row>
     <!--分页条-->
-    <div style="text-align: center;margin-top: 30px;">
+    <el-row>
       <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="total"
-        @current-change="current_change">
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="pagesize"
+        :total="table.length">
       </el-pagination>
-    </div>
+    </el-row>
 
   </div>
 </template>
@@ -37,7 +39,6 @@ export default {
       activeIndex: '1',
       activeIndex2: '1',
       userIndex: 0,
-      total: 0,
       pagesize: 10,
       currentPage: 1
     }
@@ -48,6 +49,9 @@ export default {
   methods: {
     indexMethod (index) {
       return index
+    },
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage
     },
     handleClose (done) {
       this.$confirm('确认关闭？')

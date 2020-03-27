@@ -1,13 +1,19 @@
 <template>
   <div id="MessageRouting">
-    <div class="searchWord_rule">
-      <div style="display: inline-block"> 搜索：</div>
-      <el-input v-model="search" style="display: inline-block;width: 1300px"
-                placeholder="请输入搜索内容">
-      </el-input>
+    <el-row style="height: 800px;">
+    <div style="margin-bottom: 30px;display: flex;justify-content: center;align-items: center;">
+      <el-input v-model="keywords" prefix-icon="el-icon-search" size="small" style="width: 400px;margin-right: 10px"
+                placeholder="请输入搜索内容"></el-input>
+      <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
     </div>
+    <br>
+    <!--新增按钮-->
+    <el-col :span="1" class="grid" style="float: right">
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round @click="dialogCreateVisible = true">新增</el-button>
+    </el-col>
+    <br>
     <!--表格数据及操作-->
-    <el-table :data="table" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection" width="55">
       </el-table-column>
@@ -18,32 +24,33 @@
         </template>
       </el-table-column>
       <!--表头-->
-      <el-table-column prop="ruleName" label="路由消息" width="140">
+      <el-table-column prop="ruleName" label="路由消息">
       </el-table-column>
-      <el-table-column prop="ruleCondition" label="消息来源" width="180">
+      <el-table-column prop="ruleCondition" label="消息来源">
       </el-table-column>
-      <el-table-column prop="function" label="消息去向" width="280">
+      <el-table-column prop="function" label="消息去向">
       </el-table-column>
-      <el-table-column prop="function" label="函数计算" width="280">
+      <el-table-column prop="function" label="函数计算">
       </el-table-column>
-      <el-table-column prop="function" label="添加时间" width="280">
+      <el-table-column prop="function" label="添加时间">
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.$index)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <br>
-    <!--新增按钮-->
-    <el-col :span="1" class="grid">
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round @click="dialogCreateVisible = true">新增</el-button>
-    </el-col>
-    <br>
+    </el-row>
     <!--分页条-->
-    <el-pagination background layout="prev, pager, next" :total="1000">
-    </el-pagination>
+    <el-row>
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :current-page="currentPage"
+        :page-size="pagesize"
+        :total="table.length">
+      </el-pagination>
+    </el-row>
 
     <el-dialog
       title="新建案例"
@@ -80,7 +87,7 @@
       </span>
     </el-dialog>
 
-    <el-dialog>
+    <el-dialog
       title="编辑"
       :visible.sync="dialogVisible"
       width="30%"
@@ -109,8 +116,6 @@
         <el-button type="primary" @click="confirm">确 定</el-button>
       </span>
     </el-dialog>
-    <el-button style="width: 300px; margin:20px 5px 20px 25px;" type="primary" @click="toHome">返回</el-button>
-
   </div>
 </template>
 
@@ -128,6 +133,7 @@ export default {
       dialogCreateVisible: false,
       table: [],
       dialogVisible: false,
+      keywords: '',
       editObj: {
         routerName: '',
         messageSource: '',
@@ -138,8 +144,7 @@ export default {
       activeIndex: '1',
       activeIndex2: '1',
       userIndex: 0,
-      total: 0,
-      pagesize: 10,
+      pagesize: 18,
       currentPage: 1
     }
   },
@@ -154,6 +159,9 @@ export default {
       this.post()
     },
     current_change: function (currentPage) {
+      this.currentPage = currentPage
+    },
+    handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
     handleClose (done) {
@@ -196,9 +204,6 @@ export default {
     confirm () {
       this.dialogVisible = false
       this.table.splice(this.userIndex, 1, this.editObj)
-    },
-    toHome () {
-      this.$router.push('/')
     },
     delete () {
       this.$http.delete('8083/api/messageRoutingDelete',
