@@ -53,23 +53,23 @@ export default new Router({
           path: '/logIndex',
           name: 'LogIndex',
           component: LogIndex
+        },
+        {
+          path: '/log',
+          name: 'Log',
+          component: Log
+        },
+        {
+          path: '/DeviceException',
+          name: 'DeviceException',
+          component: DeviceException
+        },
+        {
+          path: '/GatewayException',
+          name: 'GatewayException',
+          component: GatewayException
         }
       ]
-    },
-    {
-      path: '/log',
-      name: 'Log',
-      component: Log
-    },
-    {
-      path: '/DeviceException',
-      name: 'DeviceException',
-      component: DeviceException
-    },
-    {
-      path: '/GatewayException',
-      name: 'GatewayException',
-      component: GatewayException
     },
     {
       path: '/login',
