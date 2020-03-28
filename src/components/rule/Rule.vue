@@ -1,54 +1,55 @@
 <template>
   <div id="app">
-    <div class="searchWord_rule">
-      <div style="display: inline-block"> 搜索：</div>
-      <el-input v-model="search" style="display: inline-block;width: 1300px"
-                placeholder="请输入搜索内容">
-      </el-input>
-    </div>
+    <el-row style="height: 800px;">
+      <div style="margin-bottom: 30px;display: flex;justify-content: center;align-items: center;">
+        <el-input v-model="keywords" prefix-icon="el-icon-search" size="small" style="width: 400px;margin-right: 10px"
+                  placeholder="请输入搜索内容"></el-input>
+        <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
+      </div>
+      <br>
+      <!--新增按钮-->
+      <el-col :span="1" class="grid" style="float: right">
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round @click="dialogCreateVisible = true">新增</el-button>
+      </el-col>
+      <br>
     <!--表格数据及操作-->
     <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
-      <el-table-column type="selection" width="55">
+      <el-table-column type="selection">
       </el-table-column>
       <!--序号-->
-      <el-table-column label="序号" width="80">
+      <el-table-column label="序号">
         <template slot-scope="scope">
           {{scope.$index+1}}
         </template>
       </el-table-column>
       <!--表头-->
-      <el-table-column prop="ruleName" label="规则名称" width="140">
+      <el-table-column prop="ruleName" label="规则名称">
       </el-table-column>
-      <el-table-column prop="ruleCondition" label="规则条件" width="180">
+      <el-table-column prop="ruleCondition" label="规则条件">
         <template slot-scope="scope">
           {{scope.row.parameter}}{{scope.row.condition}}{{scope.row.threshold}}
         </template>
       </el-table-column>
-      <el-table-column prop="function" label="执行功能" width="280">
+      <el-table-column prop="function" label="执行功能">
       </el-table-column>
-      <el-table-column label="操作" width="200">
+      <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.$index)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
-    <br>
-    <!--新增按钮-->
-    <el-col :span="1" class="grid">
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round @click="dialogCreateVisible = true">新增</el-button>
-    </el-col>
-    <br>
-    <!--分页条-->
-    <div style="text-align: center;margin-top: 30px;">
-      <el-pagination
-        background
-        layout="prev, pager, next"
-        :total="total"
-        @current-change="current_change">
-      </el-pagination>
-    </div>
+    </el-row>
+      <!--分页条-->
+      <el-row>
+        <el-pagination
+          @current-change="handleCurrentChange"
+          :current-page="currentPage"
+          :page-size="pagesize"
+          :total="table.length">
+        </el-pagination>
+      </el-row>
 
     <el-dialog
       title="新建规则"
@@ -155,6 +156,7 @@ export default {
       dialogCreateVisible: false,
       table: [],
       dialogVisible: false,
+      keywords: '',
       editObj: {
         ruleName: '',
         parameter: '',
@@ -166,7 +168,6 @@ export default {
       activeIndex: '1',
       activeIndex2: '1',
       userIndex: 0,
-      total: 0,
       pagesize: 10,
       currentPage: 1
     }
@@ -182,6 +183,9 @@ export default {
       this.add()
     },
     current_change: function (currentPage) {
+      this.currentPage = currentPage
+    },
+    handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
     handleClose (done) {

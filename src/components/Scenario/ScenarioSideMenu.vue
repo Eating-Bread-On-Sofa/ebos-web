@@ -2,13 +2,13 @@
   <el-row class="submenu">
     <div style="background-color: #a4da89;height: 50px;padding-top: 20px">
       <i class="el-icon-s-open"></i>
-      <h4 style="display: inline">设备模板</h4>
+      <h4 style="display: inline">场景服务</h4>
     </div>
     <el-menu
-      default-active="/deviceprofile"
+      default-active="/scenarioservice"
       active-text-color="red"
       router>
-      <el-menu-item v-for="(item, i) in profileMenu" :index="item.name" :key="i" style="float: left">
+      <el-menu-item v-for="(item, i) in ScenarioMenu" :index="item.name" :key="i" style="float: left">
         <i class="el-icon-s-order"></i>
         {{item.menuname}}
       </el-menu-item>
@@ -18,12 +18,12 @@
 
 <script>
 export default {
-  name: 'ProfileSideMenu',
+  name: 'ScenarioSideMenu',
   data () {
     return {
-      profileMenu: [
-        {name: '/deviceprofile', menuname: '设备模板'},
-        {name: '/profilefunction', menuname: '模板功能管理'}
+      ScenarioMenu: [
+        {name: '/scenarioservice', menuname: '场景服务'},
+        {name: '/deviceservice', menuname: '设备服务'}
       ]
     }
   }

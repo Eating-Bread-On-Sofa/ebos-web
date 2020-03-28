@@ -1,24 +1,16 @@
 <template>
   <el-row class="submenu">
     <div style="background-color: #a4da89;height: 50px;padding-top: 20px">
-      <i class="el-icon-s-home"></i>
+      <i class="el-icon-s-open"></i>
       <h4 style="display: inline">操作审计</h4>
     </div>
     <el-menu
-      default-active="0"
+      default-active="/log"
       active-text-color="red"
-      @select="handleSelect">
-      <el-menu-item index="0">
-        <i class="el-icon-s-platform"></i>
-        <span slot="title">操作日志</span>
-      </el-menu-item>
-      <el-menu-item index="1">
-        <i class="el-icon-s-custom"></i>
-        <span slot="title">设备异常</span>
-      </el-menu-item>
-      <el-menu-item index="2">
-        <i class="el-icon-setting"></i>
-        <span slot="title">网关异常</span>
+      router>
+      <el-menu-item v-for="(item, i) in MenuList" :index="item.name" :key="i" style="float: left">
+        <i class="el-icon-s-order"></i>
+        {{item.menuname}}
       </el-menu-item>
     </el-menu>
   </el-row>
@@ -27,19 +19,13 @@
 <script>
 export default {
   name: 'LogSideMenu',
-  methods: {
-    handleSelect (key) {
-      switch (key) {
-        case '0':
-          this.$router.push('/log')
-          break
-        case '1':
-          this.$router.push('/DeviceException')
-          break
-        case '2':
-          this.$router.push('/GatewayException')
-          break
-      }
+  data () {
+    return {
+      MenuList: [
+        {name: '/log', menuname: '操作日志'},
+        {name: '/deviceException', menuname: '设备异常'},
+        {name: '/gatewayException', menuname: '网关异常'}
+      ]
     }
   }
 }

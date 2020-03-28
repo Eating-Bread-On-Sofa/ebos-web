@@ -27,6 +27,7 @@ export default {
         {name: '/rule', navItem: '规则引擎'},
         {name: '/profile', navItem: '设备模板'},
         {name: '/device', navItem: '设备管理'},
+        {name: '/scenario', navItem: '场景服务'},
         {name: '/scenarioCommand', navItem: '服务管理'},
         {name: '/user', navItem: '用户管理'},
         {name: '/logIndex', navItem: '操作审计'}

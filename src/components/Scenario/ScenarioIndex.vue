@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-side style="width: 150px;margin-top: 20px">
-      <log-side-menu></log-side-menu>
+      <scenario-side-menu></scenario-side-menu>
     </el-side>
     <el-main>
       <router-view/>
@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import LogSideMenu from './LogSideMenu'
+import ScenarioSideMenu from './ScenarioSideMenu'
 export default {
-  name: 'LogIndex',
-  components: {LogSideMenu}
+  name: 'ScenarioIndex',
+  components: {ScenarioSideMenu}
 }
 </script>
 
