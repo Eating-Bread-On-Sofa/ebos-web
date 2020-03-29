@@ -9,7 +9,7 @@
             <div class="card-panel-text">
               今日设备数量增加：
             </div>
-            <count-to :start-val="0" :end-val="3734" :duration="2600" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="99" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -22,7 +22,7 @@
             <div class="card-panel-text">
               今日网关数量增加：
             </div>
-            <count-to :start-val="0" :end-val="676" :duration="3000" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="67" :duration="3000" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -35,7 +35,7 @@
             <div class="card-panel-text">
               需要更换的设备：
             </div>
-            <count-to :start-val="0" :end-val="292" :duration="3200" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="29" :duration="3200" class="card-panel-num" />
           </div>
         </div>
       </el-col>
