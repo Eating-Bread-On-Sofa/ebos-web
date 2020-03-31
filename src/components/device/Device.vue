@@ -164,7 +164,7 @@ export default {
       this.put()
     },
     post () {
-      this.$http.post('8081/api/device',
+      this.$axios.post('8081/api/device',
         {
           'information': this.form.information
         }
@@ -173,7 +173,7 @@ export default {
       })
     },
     put () {
-      this.$http.put('8081/api/device',
+      this.$axios.put('8081/api/device',
         {
           'information': this.form.information
         }
@@ -182,7 +182,7 @@ export default {
       })
     },
     get () {
-      this.$http.get('8081/api/device/ping'
+      this.$axios.get('8081/api/device/ping'
       ).then(res => {
         return 'pong'
       })

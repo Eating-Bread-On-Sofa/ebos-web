@@ -3,7 +3,7 @@
     <el-row style="height: 800px;">
       <!--表格数据及操作-->
       <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
-        <el-table-column prop="date" label="日期" sortable>
+        <el-table-column prop="date" label="日期">
         </el-table-column>
         <el-table-column prop="time" label="时间">
         </el-table-column>

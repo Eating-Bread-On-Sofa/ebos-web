@@ -180,6 +180,7 @@ export default {
       console.log('submit!')
       this.dialogCreateVisible = false
       this.post()
+      console.log(this.form)
       this.add()
     },
     current_change: function (currentPage) {
@@ -233,7 +234,16 @@ export default {
       this.table.splice(this.userIndex, 1, this.editObj)
     },
     delete () {
-      this.$http.delete('8083/api/ruleDelete',
+      this.$axios.post('8083/api/ruleDelete',
+        {
+          'ruleName': this.form.ruleName
+        }
+      ).then(res => {
+        console.log(res)
+      })
+    },
+    post () {
+      this.$axios.post('http://localhost:8083/api/webdata',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
@@ -245,9 +255,11 @@ export default {
       ).then(res => {
         console.log(res)
       })
+      // this.ruleCreate()
     },
-    post () {
-      this.$http.post('8083/api/webdata',
+    ruleCreate()
+    {
+      this.$axios.post('http://localhost:8083/api/ruleCreate',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
@@ -261,7 +273,7 @@ export default {
       })
     },
     get () {
-      this.$http.get('api/webdata').then(res => {
+      this.$axios.get('api/webdata').then(res => {
         console.log(res)
         return 'hahah'
         // var data = []
