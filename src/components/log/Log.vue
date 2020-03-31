@@ -2,8 +2,13 @@
   <div id="app">
     <el-row style="height: 800px;">
       <!--表格数据及操作-->
-      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
-        <el-table-column prop="date" label="日期">
+      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%"
+                v-loading="loading"
+                element-loading-text="拼命加载中"
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.8)"
+                stripe ref="multipleTable" tooltip-effect="dark">
+        <el-table-column prop="date" label="日期" sortable>
         </el-table-column>
         <el-table-column prop="time" label="时间">
         </el-table-column>
