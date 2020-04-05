@@ -9,7 +9,6 @@ import MessageRouting from '../components/messagerouting/MessageRouting'
 import AppIndex from '../components/home/AppIndex'
 import ProfileIndex from '../components/profile/ProfileIndex'
 import DeviceProfile from '../components/profile/DeviceProfile'
-import ProfileFunction from '../components/profile/ProfileFunction'
 import LogIndex from '../components/log/LogIndex'
 import Log from '../components/log/Log'
 import DeviceException from '../components/log/DeviceException'
@@ -86,11 +85,6 @@ export default new Router({
               path: '/deviceprofile',
               name: 'DeviceProfile',
               component: DeviceProfile
-            },
-            {
-              path: '/profilefunction',
-              name: 'ProfileFunction',
-              component: ProfileFunction
             }
           ]
         },

@@ -8,7 +8,7 @@
       default-active="/deviceprofile"
       active-text-color="red"
       router>
-      <el-menu-item v-for="(item, i) in profileMenu" :index="item.name" :key="i" style="float: left">
+      <el-menu-item v-for="(item, i) in profileMenu" :index="item.name" :key="i">
         <i class="el-icon-s-order"></i>
         {{item.menuname}}
       </el-menu-item>
@@ -22,8 +22,7 @@ export default {
   data () {
     return {
       profileMenu: [
-        {name: '/deviceprofile', menuname: '设备模板'},
-        {name: '/profilefunction', menuname: '模板功能管理'}
+        {name: '/deviceprofile', menuname: '设备模板'}
       ]
     }
   }

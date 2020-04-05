@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-row style="height: 800px;">
+    <el-row style="height: 1200px;">
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>
       <!--新增按钮-->
@@ -19,6 +19,59 @@
         border
         style="width: 100%;"
         @selection-change="handleSelectionChange">
+        <!--展示设备模板功能-->
+        <el-table-column type="expand">
+          <template slot-scope="props">
+            <el-table
+              :data="props.row.deviceResources"
+              style="width: 100%">
+              <el-table-column
+                type="index"
+                width="50"
+                label="序号">
+              </el-table-column>
+              <el-table-column
+                prop="name"
+                label="功能名称">
+              </el-table-column>
+              <el-table-column
+                prop="description"
+                label="功能描述">
+              </el-table-column>
+              <!--多级表头-->
+              <el-table-column label="properties">
+                <el-table-column label="value">
+                  <el-table-column
+                    prop="properties.value.type"
+                    label="类型">
+                  </el-table-column>
+                  <el-table-column
+                    prop="properties.value.readWrite"
+                    label="读写权限">
+                  </el-table-column>
+                  <el-table-column
+                    prop="properties.value.defaultValue"
+                    label="默认值">
+                  </el-table-column>
+                </el-table-column>
+                <el-table-column label="units">
+                  <el-table-column
+                    prop="properties.units.type"
+                    label="类型">
+                  </el-table-column>
+                  <el-table-column
+                    prop="properties.units.readWrite"
+                    label="读写权限">
+                  </el-table-column>
+                  <el-table-column
+                    prop="properties.units.defaultValue"
+                    label="默认值">
+                  </el-table-column>
+                </el-table-column>
+              </el-table-column>
+            </el-table>
+          </template>
+        </el-table-column>
         <el-table-column
           type="selection">
         </el-table-column>
@@ -130,7 +183,7 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/api/profile/127.0.0.1/{tablerow.id}', {
+          .delete('/api/profile/127.0.0.1/' + tablerow.id, {
           }).then(resp => {
             if (resp && resp === 200) {
               this.loadProfiles()
@@ -146,7 +199,7 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('http://localhost:8091/api/profile/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('/profiles/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

@@ -174,7 +174,7 @@ export default {
     }
   },
   created: function () {
-    // this.get()
+    this.get()
   },
   methods: {
     onSubmit () {

@@ -13,10 +13,9 @@
 <script>
 import ProfileSideMenu from './ProfileSideMenu'
 import DeviceProfile from './DeviceProfile'
-import ProfileFunction from './ProfileFunction'
 export default {
   name: 'ProfileIndex',
-  components: {ProfileFunction, DeviceProfile, ProfileSideMenu}
+  components: {DeviceProfile, ProfileSideMenu}
 }
 </script>
 
