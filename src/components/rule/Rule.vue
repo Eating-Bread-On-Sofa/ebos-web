@@ -177,10 +177,13 @@ export default {
     this.get()
   },
   methods: {
+    /* loading () {
+    }, */
     onSubmit () {
       console.log('submit!')
       this.dialogCreateVisible = false
       this.post()
+      console.log(this.form)
       this.add()
     },
     current_change: function (currentPage) {
@@ -234,7 +237,16 @@ export default {
       this.table.splice(this.userIndex, 1, this.editObj)
     },
     delete () {
-      this.$http.delete('8083/api/ruleDelete',
+      this.$axios.post('/rules/ruleDelete',
+        {
+          'ruleName': this.form.ruleName
+        }
+      ).then(res => {
+        console.log(res)
+      })
+    },
+    post () {
+      this.$axios.post('/rules/webdata',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
@@ -246,9 +258,10 @@ export default {
       ).then(res => {
         console.log(res)
       })
+      // this.ruleCreate()
     },
-    post () {
-      this.$http.post('8083/api/webdata',
+    ruleCreate () {
+      this.$axios.post('/rules/ruleCreate',
         {
           'ruleName': this.form.ruleName,
           'parameter': this.form.parameter,
@@ -263,23 +276,11 @@ export default {
     },
     get () {
       var _this = this
-      this.$http.get('/rules/webdata').then(resp => {
+      this.$axios.get('/rules/rules').then(resp => {
         console.log(resp)
-        // return 'hahah'
         if (resp && resp.status === 200) {
           _this.table = resp.data
         }
-        // var data = []
-        // for (var x = 0; x < res.data.length; x++) {
-        //   var obj = {}
-        //   obj.date = res.data[x].date
-        //   obj.name = res.data[x].name
-        //   obj.address = res.data[x].address
-        //   obj.event = res.data[x].event
-        //   data[x] = obj
-        // }
-        // this.table = data
-        // this.total = data.length
       })
     }
   },
