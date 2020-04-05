@@ -177,6 +177,8 @@ export default {
     // this.get()
   },
   methods: {
+    /* loading () {
+    }, */
     onSubmit () {
       console.log('submit!')
       this.dialogCreateVisible = false
@@ -258,8 +260,7 @@ export default {
       })
       // this.ruleCreate()
     },
-    ruleCreate()
-    {
+    ruleCreate () {
       this.$axios.post('http://localhost:8083/api/ruleCreate',
         {
           'ruleName': this.form.ruleName,
