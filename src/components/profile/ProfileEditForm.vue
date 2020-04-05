@@ -32,7 +32,7 @@ export default {
     },
     onSubmit () {
       this.$axios
-        .post('8091/pai/profile/yml', {
+        .post('api/profile/yml', {
           yml: this.form
         }).then(resp => {
           if (resp && resp.status === 200) {

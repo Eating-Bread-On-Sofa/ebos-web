@@ -67,7 +67,7 @@ export default {
     },
     onSubmit () {
       this.$axios
-        .post('8091/api/profilefunc', {
+        .post('/profiles/profilefunc', {
           id: this.form.id,
           name: this.form.name,
           function: this.form.function,

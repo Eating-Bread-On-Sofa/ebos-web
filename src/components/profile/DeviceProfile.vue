@@ -31,24 +31,31 @@
           label="设备类型">
         </el-table-column>
         <el-table-column
+          prop="manufacturer"
+          label="制造商">
+        </el-table-column>
+        <el-table-column
           prop="model"
           label="支持协议">
         </el-table-column>
         <el-table-column
-          label="状态">
-          <template slot-scope="scope">{{scope.row.status}}</template>
+          prop="created"
+          label="生成日期">
         </el-table-column>
         <el-table-column
-          label="操作"
-        width="250">
+          prop="modified"
+          label="修改日期">
+        </el-table-column>
+        <el-table-column
+          label="操作">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-            <el-button
-              size="mini"
-              type="success"
-              @click="handleStatus(scope.$index, scope.row)">启用/禁用</el-button>
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              @click="handleEdit(scope.$index, scope.row)">修改</el-button>-->
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              type="success"-->
+<!--              @click="handleStatus(scope.$index, scope.row)">启用/禁用</el-button>-->
             <el-button
               size="mini"
               type="danger"
@@ -79,29 +86,18 @@ export default {
     return {
       currentPage: 1,
       pagesize: 18,
-      tableData: [
-        { id: '1',
-          name: '温湿度传感器',
-          model: 'modbus',
-          status: 'on'
-        },
-        { id: '2',
-          name: '温湿度传感器',
-          model: 'modbus',
-          status: 'off'
-        }
-      ],
+      tableData: [],
       multipleSelection: []
     }
   },
-  // mounted: function () {
-  //   this.loadProfiles()
-  // },
+  mounted: function () {
+    this.loadProfiles()
+  },
   methods: {
     loadProfiles () {
       var _this = this
       this.$axios
-        .get('8091/api/profile/list').then(resp => {
+        .get('/profiles/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
@@ -116,17 +112,17 @@ export default {
     createProfile () {
       this.$refs.profileEditForm.dialogFormVisible = true
     },
-    handleEdit (index, row) {
-      this.$refs.profileEditForm.dialogFormVisible = true
-      this.$refs.profileEditForm.form = row
-    },
-    handleStatus (ind, tablerow) {
-      if (tablerow.status === 'on') {
-        tablerow.status = 'off'
-      } else {
-        tablerow.status = 'on'
-      }
-    },
+    // handleEdit (index, row) {
+    //   this.$refs.profileEditForm.dialogFormVisible = true
+    //   this.$refs.profileEditForm.form = row
+    // },
+    // handleStatus (ind, tablerow) {
+    //   if (tablerow.status === 'on') {
+    //     tablerow.status = 'off'
+    //   } else {
+    //     tablerow.status = 'on'
+    //   }
+    // },
     handleDelete (index, tablerow) {
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
         confirmButtonText: '确定',
@@ -134,7 +130,7 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .get('8091/api/profile/delete?id=' + tablerow.id, {
+          .delete('/api/profile/127.0.0.1/{tablerow.id}', {
           }).then(resp => {
             if (resp && resp === 200) {
               this.loadProfiles()
@@ -150,7 +146,7 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('8091/api/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8091/api/profile/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

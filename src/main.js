@@ -20,7 +20,7 @@ Vue.use(ElementUI)
 // Vue.prototype.$message = Message
 // 设置反向代理，前端请求默认发送到 http://localhost:
 var axios = require('axios')
-axios.defaults.baseURL = 'http://localhost:'
+// axios.defaults.baseURL = 'http://localhost:'
 // 让前端能够带上 cookie，我们需要通过 axios 主动开启 withCredentials 功能
 axios.defaults.withCredentials = true
 // 全局注册，之后可在其他组件中通过 this.$axios 发送数据

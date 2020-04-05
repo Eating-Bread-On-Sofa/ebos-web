@@ -10,7 +10,44 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/profiles': {
+        target: 'http://localhost:8091/api/profile/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/profiles': ''
+        },
+
+      },
+      '/devices': {
+        target: 'http://localhost:8081/api/device/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/devices': ''
+        }
+      },
+      '/rules': {
+        target: 'http://localhost:8083/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/rules': ''
+        }
+      },
+      '/logs': {
+        target: 'http://localhost:8081/api/device/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/logs': ''
+        }
+      },
+      // '/api': {
+      //   target: 'http://localhost:8091/api/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/api': ''
+      //   }
+      // }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
