@@ -23,19 +23,23 @@
       <el-table-column type="selection">
       </el-table-column>
       <!--序号-->
-      <el-table-column label="序号">
+      <el-table-column label="序号" style="width: 15px">
         <template slot-scope="scope">
           {{scope.$index+1}}
         </template>
       </el-table-column>
       <!--表头-->
-      <el-table-column prop="deviceName" label="设备名称">
+      <el-table-column prop="name" label="设备名称">
       </el-table-column>
-      <el-table-column prop="deviceTemplate" label="设备模板">
+      <el-table-column prop="id" label="设备ID">
       </el-table-column>
-      <el-table-column prop="deviceProtocol" label="设备协议">
+      <el-table-column prop="profile" label="设备模板">
       </el-table-column>
-      <el-table-column prop="realTime" label="添加时间">
+      <el-table-column prop="service" label="服务">
+      </el-table-column>
+      <el-table-column prop="description" label="设备描述">
+      </el-table-column>
+      <el-table-column prop="operatingState" label="操作状态">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -187,9 +191,12 @@ export default {
       })
     },
     get () {
-      this.$axios.get('8081/api/device/ping'
-      ).then(res => {
-        return 'pong'
+      var _this = this
+      this.$axios.get('/devices/127.0.0.1'
+      ).then(resp => {
+        if (resp && resp.status === 200) {
+          _this.table = resp.data
+        }
       })
     }
   },

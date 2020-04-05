@@ -275,9 +275,13 @@ export default {
       })
     },
     get () {
-      this.$axios.get('api/webdata').then(res => {
-        console.log(res)
-        return 'hahah'
+      var _this = this
+      this.$http.get('/rules/webdata').then(resp => {
+        console.log(resp)
+        // return 'hahah'
+        if (resp && resp.status === 200) {
+          _this.table = resp.data
+        }
         // var data = []
         // for (var x = 0; x < res.data.length; x++) {
         //   var obj = {}
