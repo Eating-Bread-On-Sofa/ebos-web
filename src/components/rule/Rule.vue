@@ -177,8 +177,6 @@ export default {
     this.get()
   },
   methods: {
-    /* loading () {
-    }, */
     onSubmit () {
       console.log('submit!')
       this.dialogCreateVisible = false
@@ -220,6 +218,16 @@ export default {
               'ruleName': row.ruleName
             }
           ).then(res => {
+            console.log('+++数据+++')
+            console.log(row)
+            console.log(res)
+          })
+          this.$axios.post('/rules/rule',
+            {
+              'ruleId': row.ruleId
+            }
+          ).then(res => {
+            console.log('+++删除的+++')
             console.log(res)
           })
         })
@@ -253,7 +261,6 @@ export default {
           'service': this.form.service
         }
       ).then(res => {
-        console.log(res)
       })
       this.ruleCreate()
     },
@@ -281,6 +288,7 @@ export default {
           obj.ruleJudge = resp.data[x].ruleJudge
           obj.parameter = resp.data[x].parameter
           obj.ruleExecute = resp.data[x].ruleExecute
+          obj.ruleId = resp.data[x].ruleId
           data[x] = obj
         }
         if (resp && resp.status === 200) {
