@@ -149,7 +149,7 @@ export default {
     loadProfiles () {
       var _this = this
       this.$axios
-        .get('/profiles/127.0.0.1/127.0.0.1').then(resp => {
+        .get('/profiles/ip/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
@@ -176,16 +176,17 @@ export default {
     //   }
     // },
     handleDelete (index, tablerow) {
+      var _this = this
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/api/profile/127.0.0.1/' + tablerow.id, {
+          .delete('/profiles/ip/127.0.0.1/id/' + tablerow.id, {
           }).then(resp => {
             if (resp && resp === 200) {
-              this.loadProfiles()
+              _this.loadProfiles()
             }
           })
       }).catch(() => {
