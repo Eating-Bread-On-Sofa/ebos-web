@@ -16,7 +16,6 @@
         element-loading-background="rgba(0, 0, 0, 0.8)"
         :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         tooltip-effect="dark"
-        border
         style="width: 100%;"
         @selection-change="handleSelectionChange">
         <!--展示设备模板功能-->
@@ -150,7 +149,7 @@ export default {
     loadProfiles () {
       var _this = this
       this.$axios
-        .get('/profiles/127.0.0.1').then(resp => {
+        .get('/profiles/127.0.0.1/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
