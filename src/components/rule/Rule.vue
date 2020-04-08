@@ -29,15 +29,15 @@
       </el-table-column>
       <el-table-column prop="ruleCondition" label="规则条件">
         <template slot-scope="scope">
-          {{scope.row.parameter}}{{scope.row.condition}}{{scope.row.threshold}}
+          {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
         </template>
       </el-table-column>
-      <el-table-column prop="function" label="执行功能">
+      <el-table-column prop="ruleExecute" label="执行功能">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>
-          <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.$index)">删除</el-button>
+          <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -71,17 +71,17 @@
                 </el-select>
               </el-form-item>
               <el-form-item label="规则条件">
-                <el-select v-model="form.condition" placeholder="请选择规则条件" style="width:100%">
+                <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
                   <el-option label="大于" value=">"></el-option>
                   <el-option label="小于" value="<"></el-option>
                   <el-option label="等于" value="="></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="参数门限">
-                <el-input v-model="form.threshold"  placeholder="请输入内容"></el-input>
+                <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
               </el-form-item>
               <el-form-item label="执行功能">
-                <el-input v-model="form.function"  placeholder="请输入内容"></el-input>
+                <el-input v-model="form.ruleExecute"  placeholder="请输入内容"></el-input>
               </el-form-item>
               <el-form-item label="服务名称">
                 <el-input v-model="form.service"  placeholder="请输入内容"></el-input>
@@ -117,17 +117,17 @@
             </el-select>
           </el-form-item>
           <el-form-item label="规则条件">
-            <el-select v-model="editObj.condition" placeholder="请选择规则条件" style="width:100%">
+            <el-select v-model="editObj.ruleJudge" placeholder="请选择规则条件" style="width:100%">
               <el-option label="大于" value=">"></el-option>
               <el-option label="小于" value="<"></el-option>
               <el-option label="等于" value="="></el-option>
             </el-select>
           </el-form-item>
           <el-form-item label="参数门限">
-            <el-input v-model="editObj.threshold"></el-input>
+            <el-input v-model="editObj.ruleParaThreshold"></el-input>
           </el-form-item>
           <el-form-item label="执行功能">
-            <el-input v-model="editObj.function"></el-input>
+            <el-input v-model="editObj.ruleExecute"></el-input>
           </el-form-item>
           <el-form-item label="服务名称">
             <el-input v-model="editObj.service"></el-input>
@@ -149,9 +149,9 @@ export default {
       form: {
         ruleName: '',
         parameter: '',
-        condition: '',
-        threshold: '',
-        function: '',
+        ruleJudge: '',
+        ruleParaThreshold: '',
+        ruleExecute: '',
         service: ''
       },
       dialogCreateVisible: false,
@@ -161,9 +161,9 @@ export default {
       editObj: {
         ruleName: '',
         parameter: '',
-        condition: '',
-        threshold: '',
-        function: '',
+        ruleJudge: '',
+        ruleParaThreshold: '',
+        ruleExecute: '',
         service: ''
       },
       activeIndex: '1',
@@ -205,29 +205,35 @@ export default {
       this.form = {
         ruleName: '',
         parameter: '',
-        condition: '',
-        threshold: '',
-        function: '',
+        ruleJudge: '',
+        ruleParaThreshold: '',
+        ruleExecute: '',
         service: ''
       }
     },
-    del (idx) {
+    del (row, idx) {
       this.$confirm('确认删除？')
         .then(_ => {
           this.table.splice(idx, 1)
+          this.$axios.post('/rules/ruleDelete',
+            {
+              'ruleName': row.ruleName
+            }
+          ).then(res => {
+            console.log(res)
+          })
         })
         .catch(_ => {
         })
-      this.delete()
     },
     edit (item, idx) {
       this.userIndex = idx
       this.editObj = {
         ruleName: item.ruleName,
         parameter: item.parameter,
-        condition: item.condition,
-        threshold: item.threshold,
-        function: item.function,
+        ruleJudge: item.ruleJudge,
+        ruleParaThreshold: item.ruleParaThreshold,
+        ruleExecute: item.ruleExecute,
         service: item.service
       }
       this.dialogVisible = true
@@ -236,50 +242,49 @@ export default {
       this.dialogVisible = false
       this.table.splice(this.userIndex, 1, this.editObj)
     },
-    delete () {
-      this.$axios.post('/rules/ruleDelete',
-        {
-          'ruleName': this.form.ruleName
-        }
-      ).then(res => {
-        console.log(res)
-      })
-    },
     post () {
       this.$axios.post('/rules/webdata',
         {
           'ruleName': this.form.ruleName,
-          'parameter': this.form.parameter,
-          'condition': this.form.condition,
-          'threshold': this.form.threshold,
-          'function': this.form.function,
+          'rulePara': this.form.parameter,
+          'ruleJudge': this.form.ruleJudge,
+          'ruleParaThreshold': this.form.ruleParaThreshold,
+          'ruleExecute': this.form.ruleExecute,
           'service': this.form.service
         }
       ).then(res => {
         console.log(res)
       })
-      // this.ruleCreate()
+      this.ruleCreate()
     },
     ruleCreate () {
       this.$axios.post('/rules/ruleCreate',
         {
           'ruleName': this.form.ruleName,
-          'parameter': this.form.parameter,
-          'condition': this.form.condition,
-          'threshold': this.form.threshold,
-          'function': this.form.function,
+          'rulePara': this.form.parameter,
+          'ruleJudge': this.form.ruleJudge,
+          'ruleParaThreshold': this.form.ruleParaThreshold,
+          'ruleExecute': this.form.ruleExecute,
           'service': this.form.service
         }
       ).then(res => {
-        console.log(res)
       })
     },
     get () {
       var _this = this
-      this.$axios.get('/rules/rules').then(resp => {
-        console.log(resp)
+      this.$axios.get('/rules/getRules').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.ruleName = resp.data[x].ruleName
+          obj.ruleParaThreshold = resp.data[x].threshold
+          obj.ruleJudge = resp.data[x].ruleJudge
+          obj.parameter = resp.data[x].parameter
+          obj.ruleExecute = resp.data[x].ruleExecute
+          data[x] = obj
+        }
         if (resp && resp.status === 200) {
-          _this.table = resp.data
+          _this.table = data
         }
       })
     }

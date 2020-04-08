@@ -49,7 +49,7 @@ export default {
     }
   },
   created: function () {
-    this.AddDb()
+    this.get()
   },
   methods: {
     indexMethod (index) {
@@ -79,7 +79,7 @@ export default {
         .catch(_ => {
         })
     },
-    AddDb () {
+    get () {
       this.$http.get('http://localhost:8081/api/logtest').then(res => {
         var data = []
         for (var x = 0; x < res.data.length; x++) {
