@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-dialog
-        title="新增/修改设备模板"
+        title="新增设备模板"
         :visible.sync="dialogFormVisible"
         @close="clear">
 <!--        <el-form v-model="form" style="text-align: left" ref="dataForm">-->
@@ -10,9 +10,18 @@
 <!--          </el-form-item>-->
 <!--        </el-form>-->
 
-        <el-input v-model="gwip" autocomplete="off" placeholder="请输入网关的IP地址"></el-input>
-        <el-input type="textarea" row="10" v-model="text"></el-input>
-        <file-reader @load="text = $event"></file-reader>
+<!--        <el-input v-model="gwip" autocomplete="off" placeholder="请输入网关的IP地址"></el-input>-->
+        <el-form v-model="profileForm" style="text-align: left">
+          <el-form-item label="选择网关" prop="gwip">
+            <el-select v-model="profileForm.gwip" placeholer="请选择网关IP">
+              <el-option v-for="item in gwList" :key="item.ip" :label="item.name" :value="item.ip"></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="yml描述" prop="text">
+            <el-input type="textarea" row="10" v-model="profileForm.text" placeholder="请检查上传yml文件内容，或输入yml格式文本"></el-input>
+            <file-reader @load="profileForm.text = $event"></file-reader>
+          </el-form-item>
+        </el-form>
         <div slot="footer" class="dialog-footer">
           <el-button @click="dialogFormVisible = false">取消</el-button>
           <el-button type="primary" @click="onSubmit">确定</el-button>
@@ -29,14 +38,27 @@ export default {
   data () {
     return {
       dialogFormVisible: false,
-      gwip: '',
-      text: ''
+      profileForm: {
+        gwip: '',
+        text: ''
+      },
+      gwList: []
     }
   },
+  mounted () {
+    this.getGWList()
+  },
   methods: {
+    getGWList () {
+      this.$axios
+        .get('/gateways/gateway').then(resp => {
+          if (resp && resp.status === 200) {
+            this.gwList = resp.data
+          }
+        })
+    },
     clear () {
-      this.gwip = ''
-      this.text = ''
+      this.profileForm = {}
     },
     onSubmit () {
       var _this = this
@@ -44,7 +66,7 @@ export default {
       var instance = axios.create({
         headers: {'content-type': 'text/plain'}
       })
-      instance.post('profiles/ip/' + _this.gwip + '/yml', _this.text
+      instance.post('profiles/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
       ).then(resp => {
         if (resp && resp.status === 200) {
           _this.dialogFormVisible = false

@@ -183,9 +183,8 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/profiles/ip/127.0.0.1/id/' + tablerow.id, {
-          }).then(resp => {
-            if (resp && resp === 200) {
+          .delete('/profiles/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
+            if (resp && resp.status === 200) {
               _this.loadProfiles()
             }
           })

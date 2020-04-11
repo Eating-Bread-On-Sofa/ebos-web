@@ -19,6 +19,10 @@ import DeviceService from '../components/Scenario/DeviceService'
 import MessageRoutingIndex from '../components/messagerouting/MessageRoutingIndex'
 import RuleIndex from '../components/rule/RuleIndex'
 import DeviceIndex from '../components/device/DeviceIndex'
+import GatewayIndex from '../components/Gateway/GatewayIndex'
+import Gateway from '../components/Gateway/Gateway'
+import CommandIndex from '../components/Command/CommandIndex'
+import Command from '../components/Command/Command'
 
 Vue.use(Router)
 
@@ -46,6 +50,19 @@ export default new Router({
               path: '/rule',
               name: 'Rule',
               component: Rule
+            }
+          ]
+        },
+        {
+          path: '/gatewayIndex',
+          name: 'GatewayIndex',
+          component: GatewayIndex,
+          redirect: '/gateway',
+          children: [
+            {
+              path: '/gateway',
+              name: 'Gateway',
+              component: Gateway
             }
           ]
         },
@@ -103,6 +120,19 @@ export default new Router({
               path: '/deviceservice',
               name: 'DeviceService',
               component: DeviceService
+            }
+          ]
+        },
+        {
+          path: '/commandIndex',
+          name: 'CommandIndex',
+          component: CommandIndex,
+          redirect: '/command',
+          children: [
+            {
+              path: '/command',
+              name: 'Command',
+              component: Command
             }
           ]
         },

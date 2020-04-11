@@ -33,13 +33,27 @@ module.exports = {
           '^/rules': ''
         }
       },
-      '/logs': {
-        target: 'http://localhost:8081/api/device/',
+      // '/logs': {
+      //   target: 'http://localhost:8081/api/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/logs': ''
+      //   }
+      // },
+      '/gateways': {
+        target: 'http://localhost:8089/api/',
         changeOrigin: true,
         pathRewrite: {
-          '^/logs': ''
+          '^/gateways': ''
         }
       },
+      '/commands': {
+        target: 'http://localhost:8082/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/commands': ''
+        }
+      }
       // '/api': {
       //   target: 'http://localhost:8091/api/',
       //   changeOrigin: true,
