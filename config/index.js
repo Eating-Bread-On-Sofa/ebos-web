@@ -47,6 +47,13 @@ module.exports = {
           '^/gateways': ''
         }
       },
+      '/scenarios': {
+        target: 'http://localhost:8092/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/scenarios': ''
+        }
+      },
       '/commands': {
         target: 'http://localhost:8082/api/',
         changeOrigin: true,

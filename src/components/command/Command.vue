@@ -7,7 +7,7 @@
         <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createCommand()">新增
         </el-button>
         <br>
-        <command-edit-form @onSubmit="loadCommands" ref="commandEditForm"></command-edit-form>
+        <command-edit-form @onSubmit="loadCommands()" ref="commandEditForm"></command-edit-form>
         <el-table
           ref="multipleTable"
           v-loading="loading"
@@ -33,7 +33,7 @@
           <el-table-column label="描述" prop="description"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
-              <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+<!--              <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
               <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
             </template>
           </el-table-column>
@@ -55,7 +55,7 @@ import SearchBar from './SearchBar'
 import CommandEditForm from './CommandEditForm'
 export default {
   name: 'Command',
-  components: [SearchBar, CommandEditForm],
+  components: {SearchBar, CommandEditForm},
   data () {
     return {
       currentPage: 1,

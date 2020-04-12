@@ -11,10 +11,9 @@
 
 <script>
 import GatewaySideMenu from './GatewaySideMenu'
-import Gateway from './Gateway'
 export default {
   name: 'GatewayIndex',
-  components: {GatewaySideMenu, Gateway}
+  components: {GatewaySideMenu}
 }
 </script>
 

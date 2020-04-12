@@ -19,10 +19,10 @@ import DeviceService from '../components/Scenario/DeviceService'
 import MessageRoutingIndex from '../components/messagerouting/MessageRoutingIndex'
 import RuleIndex from '../components/rule/RuleIndex'
 import DeviceIndex from '../components/device/DeviceIndex'
-import GatewayIndex from '../components/Gateway/GatewayIndex'
-import Gateway from '../components/Gateway/Gateway'
-import CommandIndex from '../components/Command/CommandIndex'
-import Command from '../components/Command/Command'
+import GatewayIndex from '../components/gateway/GatewayIndex'
+import Gateway from '../components/gateway/Gateway'
+import CommandIndex from '../components/command/CommandIndex'
+import Command from '../components/command/Command'
 
 Vue.use(Router)
 
