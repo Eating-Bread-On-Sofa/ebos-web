@@ -66,8 +66,9 @@
               </el-form-item>
               <el-form-item label="设备参数">
                 <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
-                  <el-option label="温度" value="温度"></el-option>
-                  <el-option label="湿度" value="湿度"></el-option>
+<!--                  <el-option label="温度" value="温度"></el-option>-->
+<!--                  <el-option label="湿度" value="湿度"></el-option>-->
+                  <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="规则条件">
@@ -80,11 +81,20 @@
               <el-form-item label="参数门限">
                 <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
               </el-form-item>
+<!--              <el-form-item label="执行功能">-->
+<!--                <el-input v-model="form.ruleExecute"  placeholder="请输入内容"></el-input>-->
+<!--              </el-form-item>-->
               <el-form-item label="执行功能">
-                <el-input v-model="form.ruleExecute"  placeholder="请输入内容"></el-input>
+                <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
+                  <el-option label="告警" value="告警"></el-option>
+                  <el-option label="告警且执行" value="告警且执行"></el-option>
+                </el-select>
               </el-form-item>
               <el-form-item label="服务名称">
-                <el-input v-model="form.service"  placeholder="请输入内容"></el-input>
+                <el-select v-model="form.service" placeholder="请选择服务" style="width:100%">
+                  <el-option v-for="item in services" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+<!--                <el-input v-model="form.service"  placeholder="请输入内容"></el-input>-->
               </el-form-item>
             </el-col>
           </el-row>
@@ -146,6 +156,14 @@
 export default {
   data () {
     return {
+      paras: [
+        {value: '温度', label: '温度'}, {value: '湿度', label: '湿度'},
+        {value: '动态', label: '动态添加参数'}
+      ],
+      services: [
+        {value: '服务1', label: '服务1'}, {value: '服务2', label: '服务2'},
+        {value: '动态', label: '动态添加服务'}
+      ],
       form: {
         ruleName: '',
         parameter: '',
@@ -175,6 +193,7 @@ export default {
   },
   created: function () {
     this.get()
+    // this.getFormInfo()
   },
   methods: {
     onSubmit () {
@@ -218,8 +237,6 @@ export default {
               'ruleName': row.ruleName
             }
           ).then(res => {
-            console.log('+++数据+++')
-            console.log(row)
             console.log(res)
           })
           this.$axios.post('/rules/rule',
@@ -294,6 +311,18 @@ export default {
         if (resp && resp.status === 200) {
           _this.table = data
         }
+      })
+    },
+    getFormInfo () {
+      this.$axios.get('/rules/getFormInfo').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].value
+          obj.value = resp.data[x].value
+          data[x] = obj
+        }
+        this.paras = data
       })
     }
   },
