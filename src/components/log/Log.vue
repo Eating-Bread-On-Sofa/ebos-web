@@ -81,8 +81,6 @@ export default {
         return 'debug-row'
       }
     },
-    shenji () {
-    }
   }
 }
 </script>
