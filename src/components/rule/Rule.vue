@@ -34,9 +34,11 @@
       </el-table-column>
       <el-table-column prop="ruleExecute" label="执行功能">
       </el-table-column>
+      <el-table-column prop="service" label="服务">
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>
+          <!--<el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>-->
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
         </template>
       </el-table-column>
@@ -305,6 +307,7 @@ export default {
           obj.ruleJudge = resp.data[x].ruleJudge
           obj.parameter = resp.data[x].parameter
           obj.ruleExecute = resp.data[x].ruleExecute
+          obj.service = resp.data[x].service
           obj.ruleId = resp.data[x].ruleId
           data[x] = obj
         }
