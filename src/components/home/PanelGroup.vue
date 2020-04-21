@@ -1,6 +1,6 @@
 <template>
     <el-row :gutter="40" class="panel-group">
-      <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('devices')">
           <div class="card-panel-icon-wrapper icon-device">
             <i class="el-icon-s-platform" style="font-size: 50px"></i>
@@ -13,7 +13,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('gateways')">
           <div class="card-panel-icon-wrapper icon-gateway">
             <i class="el-icon-s-management" style="font-size: 50px"></i>
@@ -26,7 +26,7 @@
           </div>
         </div>
       </el-col>
-      <el-col :xs="12" :sm="12" :lg="8" class="card-panel-col">
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('replaces')">
           <div class="card-panel-icon-wrapper icon-replace">
             <i class="el-icon-s-operation" style="font-size: 50px"></i>
@@ -36,6 +36,19 @@
               需要更换的设备：
             </div>
             <count-to :start-val="0" :end-val="29" :duration="3200" class="card-panel-num" />
+          </div>
+        </div>
+      </el-col>
+      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+        <div class="card-panel" @click="handleSetLineChartData('replaces')">
+          <div class="card-panel-icon-wrapper icon-replace">
+            <i class="el-icon-warning" style="font-size: 50px"></i>
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              未运行为微服务数：
+            </div>
+            <count-to :start-val="0" :end-val="2" :duration="3200" class="card-panel-num" />
           </div>
         </div>
       </el-col>

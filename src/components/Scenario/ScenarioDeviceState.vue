@@ -31,27 +31,13 @@ export default {
   name: 'ScenarioDeviceState',
   data () {
     return {
-      scenarioName: '',
       dialogFormVisible: false,
-      tableData: []
+      deviceData: []
     }
   },
-  mounted () {
-    this.loadStates()
-  },
   methods: {
-    loadStates () {
-      var _this = this
-      this.$axios
-        .get('/scenarios/scenario/status/' + _this.scenarioName).then(resp => {
-          if (resp && resp.status === 200) {
-            _this.tableData = resp.data
-          }
-        })
-    },
     clear () {
-      this.tableData = []
-      this.scenarioName = ''
+      this.deviceData = []
     }
   }
 }

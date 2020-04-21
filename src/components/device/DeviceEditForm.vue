@@ -79,6 +79,7 @@ export default {
   },
   mounted () {
     this.getGWList()
+    this.getProfileList()
   },
   methods: {
     getGWList () {
@@ -88,6 +89,9 @@ export default {
             this.gwList = resp.data
           }
         })
+    },
+    getProfileList () {
+
     },
     clear () {
       this.deviceEditForm = {

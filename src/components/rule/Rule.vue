@@ -14,7 +14,7 @@
       <br>
     <!--表格数据及操作-->
     <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)"  v-loading="loading" element-loading-text="拼命加载中"
-              element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+              element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.3)" style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection">
       </el-table-column>
@@ -58,7 +58,7 @@
       width="30%"
       :before-close="handleClose">
       <div>
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form ref="form" :model="form" label-width="120px">
           <el-row>
             <el-col :span="18">
               <el-form-item label="规则名称">
@@ -146,6 +146,7 @@
 export default {
   data () {
     return {
+      loading: true,
       form: {
         ruleName: '',
         parameter: '',
@@ -183,9 +184,6 @@ export default {
       this.post()
       console.log(this.form)
       this.add()
-    },
-    current_change: function (currentPage) {
-      this.currentPage = currentPage
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
@@ -293,6 +291,7 @@ export default {
         }
         if (resp && resp.status === 200) {
           _this.table = data
+          _this.loading = false
         }
       })
     }

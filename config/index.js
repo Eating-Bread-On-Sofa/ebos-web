@@ -19,6 +19,13 @@ module.exports = {
         },
 
       },
+      '/mqrouters': {
+        target: 'http://localhost:8084/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/mqrouters': ''
+        }
+      },
       '/devices': {
         target: 'http://localhost:8081/api/device/',
         changeOrigin: true,
@@ -33,13 +40,13 @@ module.exports = {
           '^/rules': ''
         }
       },
-      // '/logs': {
-      //   target: 'http://localhost:8081/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/logs': ''
-      //   }
-      // },
+      '/logs': {
+        target: 'http://localhost:8089/api/gateway/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/logs': ''
+        }
+      },
       '/gateways': {
         target: 'http://localhost:8089/api/',
         changeOrigin: true,

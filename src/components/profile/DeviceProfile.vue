@@ -13,10 +13,11 @@
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
+        element-loading-background="rgba(0, 0, 0, 0.3)"
         :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         tooltip-effect="dark"
         style="width: 100%;"
+        stripe
         @selection-change="handleSelectionChange">
         <!--展示设备模板功能-->
         <el-table-column type="expand">
@@ -76,7 +77,7 @@
         </el-table-column>
         <el-table-column
           prop="id"
-          label="设备ID">
+          label="模板ID">
         </el-table-column>
         <el-table-column
           prop="name"
@@ -101,9 +102,10 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-<!--            <el-button-->
-<!--              size="mini"-->
-<!--              @click="handleEdit(scope.$index, scope.row)">修改</el-button>-->
+            <el-button
+              size="mini"
+              type="success"
+              @click="handleExport(scope.$index, scope.row)">导出模板</el-button>
 <!--            <el-button-->
 <!--              size="mini"-->
 <!--              type="success"-->
@@ -139,7 +141,8 @@ export default {
       currentPage: 1,
       pagesize: 18,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      loading: true
     }
   },
   mounted: function () {
@@ -152,6 +155,7 @@ export default {
         .get('/profiles/ip/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
+            _this.loading = false
           }
         })
     },
@@ -164,17 +168,33 @@ export default {
     createProfile () {
       this.$refs.profileEditForm.dialogFormVisible = true
     },
-    // handleEdit (index, row) {
-    //   this.$refs.profileEditForm.dialogFormVisible = true
-    //   this.$refs.profileEditForm.form = row
-    // },
-    // handleStatus (ind, tablerow) {
-    //   if (tablerow.status === 'on') {
-    //     tablerow.status = 'off'
-    //   } else {
-    //     tablerow.status = 'on'
-    //   }
-    // },
+    handleExport (index, tablerow) {
+      var filecontent
+      this.$axios
+        .get('/profiles/yml/' + tablerow.id).then(resp => {
+          if (resp && resp.status === 200) {
+            filecontent = resp.data
+            if ('download' in document.createElement('a')) {
+              this.download(filecontent, tablerow.name + '.yaml')
+            } else {
+              window.alert('浏览器不支持！')
+            }
+          }
+        }).catch(() => {
+          this.$message('模板导出失败！')
+        })
+    },
+    download (content, filename) {
+      let link = document.createElement('a')
+      link.download = filename
+      link.style.display = 'none'
+      // 字符内容转变成blob地址
+      let blob = new Blob([content])
+      link.href = URL.createObjectURL(blob)
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+    },
     handleDelete (index, tablerow) {
       var _this = this
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {

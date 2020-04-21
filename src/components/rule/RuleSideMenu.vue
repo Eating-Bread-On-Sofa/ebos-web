@@ -8,7 +8,7 @@
       default-active="/rule"
       active-text-color="red"
       router>
-      <el-menu-item v-for="(item, i) in MenuList" :index="item.name" :key="i" style="float: left">
+      <el-menu-item v-for="(item, i) in MenuList" :index="item.name" :key="i">
         <i class="el-icon-s-order"></i>
         {{item.menuname}}
       </el-menu-item>

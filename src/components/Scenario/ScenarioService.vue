@@ -8,16 +8,17 @@
       </el-button>
       <br>
       <scenario-edit-form @onSubmit="loadScenarios()" ref="scenarioEditForm"></scenario-edit-form>
+      <scenario-show ref="scenarioShow"></scenario-show>
       <scenario-device-state ref="scenarioDeviceState"></scenario-device-state>
       <el-table
         ref="multipleTable"
         v-loading="loading"
         element-loading-text="拼命加载中"
         element-loading-spinner="el-icon-loading"
-        element-loading-background="rgba(0, 0, 0, 0.8)"
+        element-loading-background="rgba(0, 0, 0, 0.3)"
         :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
         tooltip-effect="dark"
-        border
+        stripe
         style="width: 100%;">
         <el-table-column
           prop="name"
@@ -65,15 +66,15 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="250">
+          width="350">
           <template slot-scope="scope">
             <el-button
               size="mini"
-              @click="handleState(scope.$index, scope.row)">查看设备状态</el-button>
-<!--            <el-button-->
-<!--              size="mini"-->
-<!--              type="success"-->
-<!--              @click="handleStatus(scope.$index, scope.row)">启用/禁用</el-button>-->
+              @click="handleStatus(scope.$index, scope.row)">查看设备状态</el-button>
+            <el-button
+              size="mini"
+              type="success"
+              @click="handleShow(scope.$index, scope.row)">场景展示</el-button>
             <el-button
               size="mini"
               type="danger"
@@ -97,9 +98,10 @@
 import SearchBar from './SearchBar'
 import ScenarioEditForm from './ScenarioEditForm'
 import ScenarioDeviceState from './ScenarioDeviceState'
+import ScenarioShow from './ScenarioShow'
 export default {
   name: 'ScenarioServcie',
-  components: {ScenarioDeviceState, ScenarioEditForm, SearchBar},
+  components: {ScenarioShow, ScenarioDeviceState, ScenarioEditForm, SearchBar},
   data () {
     return {
       currentPage: 1,
@@ -153,10 +155,11 @@ export default {
         //     }
         //   ]
         // }
-      ]
+      ],
+      loading: true
     }
   },
-  mounted: function () {
+  mounted () {
     this.loadScenarios()
   },
   methods: {
@@ -166,7 +169,10 @@ export default {
         .get('/scenarios/scenario').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
+            _this.loading = false
           }
+        }).catch(e => {
+          _this.$message('数据加载失败！' + e)
         })
     },
     handleCurrentChange: function (currentPage) {
@@ -175,19 +181,18 @@ export default {
     createScenario () {
       this.$refs.scenarioEditForm.dialogFormVisible = true
     },
-    // handleEdit (index, row) {
-    //   this.$refs.scenarioEditForm.dialogFormVisible = true
-    //   this.$refs.scenarioEditForm.form = {
-    //     id: row.id,
-    //     name: row.name,
-    //     deviceName: row.deviceName,
-    //     commandName: row.commandName,
-    //     commandType: row.commandType
-    //   }
-    // },
-    handleState (index, tablerow) {
-      this.$refs.scenarioDeviceState.scenarioName = tablerow.name
-      this.$refs.scenarioDeviceState.dialogFormVisible = true
+    handleShow (index, row) {
+      this.$scenarioShow.dialogFormVisible = true
+    },
+    handleStatus (index, tablerow) {
+      var _this = this
+      this.$axios
+        .get('/scenarios/scenario/status/' + tablerow.name).then(resp => {
+          if (resp && resp.status === 200) {
+            _this.$refs.scenarioDeviceState.dialogFormVisible = true
+            _this.$refs.scenarioDeviceState.deviceData = resp.data
+          }
+        })
     },
     handleDelete (index, tablerow) {
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {

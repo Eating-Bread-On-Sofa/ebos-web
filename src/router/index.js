@@ -15,7 +15,6 @@ import DeviceException from '../components/log/DeviceException'
 import GatewayException from '../components/log/GatewayException'
 import ScenarioIndex from '../components/Scenario/ScenarioIndex'
 import ScenarioService from '../components/Scenario/ScenarioService'
-import DeviceService from '../components/Scenario/DeviceService'
 import MessageRoutingIndex from '../components/messagerouting/MessageRoutingIndex'
 import RuleIndex from '../components/rule/RuleIndex'
 import DeviceIndex from '../components/device/DeviceIndex'
@@ -106,20 +105,15 @@ export default new Router({
           ]
         },
         {
-          path: '/scenario',
+          path: '/scenarioIndex',
           name: 'ScenarioIndex',
           component: ScenarioIndex,
-          redirect: '/scenarioservice',
+          redirect: '/scenario',
           children: [
             {
-              path: '/scenarioservice',
+              path: '/scenario',
               name: 'ScenarioService',
               component: ScenarioService
-            },
-            {
-              path: '/deviceservice',
-              name: 'DeviceService',
-              component: DeviceService
             }
           ]
         },

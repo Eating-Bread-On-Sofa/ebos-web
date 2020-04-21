@@ -16,16 +16,16 @@
           v-loading="loading"
           element-loading-text="拼命加载中"
           element-loading-spinner="el-icon-loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-background="rgba(0, 0, 0, 0.3)"
           :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
           tooltip-effect="dark"
-          border
+          stripe
           style="width: 100%;"
           @selection-change="handleSelectionChange">
           <el-table-column
             type="index"
-            width="50"
-            label="序号">
+            width="250px"
+          label="序号">
           </el-table-column>
           <el-table-column
             prop="name"
@@ -43,7 +43,12 @@
                 @click="handleState(scope.$index, scope.row)">查询网关状态</el-button>
               <el-button
                 size="mini"
+                type="warning"
                 @click="handleEdit(scope.$index, scope.row)">修改IP</el-button>
+              <el-button
+                size="mini"
+                type="primary"
+                @click="handleBackup(scope.$index, scope.row)">备份</el-button>
               <el-button
                 size="mini"
                 type="success"
@@ -81,7 +86,17 @@ export default {
       currentPage: 1,
       pagesize: 18,
       tableData: [],
-      multipleSelection: []
+      multipleSelection: [],
+      loading: true,
+      gwState: {
+        counter: 0,
+        edgexCounter: 0,
+        edgexOnline: 0,
+        serviceCounter: 0,
+        serviceOnline: 0
+      },
+      edgexOffline: [],
+      serviceOffline: []
     }
   },
   mounted () {
@@ -94,6 +109,7 @@ export default {
         .get('/gateways/gateway').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
+            _this.loading = false
           }
         })
     },
@@ -107,24 +123,29 @@ export default {
       this.currentPage = currentPage
     },
     handleState (index, row) {
-      var _this = this
-      this.$axios
-        .get('/gateways/gateway/state/' + row.name).then(resp => {
-          if (resp && resp.status === 200) {
-            _this.$refs.gatewayState.dialogFormVisible = true
-            _this.$refs.gatewayState.gwState.name = row.name
-            _this.$refs.gatewayState.gwState.ip = row.ip
-            _this.$refs.gatewayState.gwState.edgexCoreMetadata = resp.data['edgex-core-metadata']
-            _this.$refs.gatewayState.gwState.edgexCoreData = resp.data['edgex-core-data']
-            _this.$refs.gatewayState.gwState.edgexCoreCommand = resp.data['edgex-core-command']
-            _this.$refs.gatewayState.gwState.gatewayInstance = resp.data['gateway-instance']
-            _this.$refs.gatewayState.gwState.command = resp.data['command']
-          }
-        })
+      this.$refs.gatewayState.gwState.name = row.name
+      this.$refs.gatewayState.gwState.ip = row.ip
+      this.$refs.gatewayState.dialogFormVisible = true
     },
     handleEdit (index, row) {
       this.$refs.gatewayIpEdit.dialogFormVisible = true
       this.$refs.gatewayIpEdit.gwIpForm = row
+    },
+    handleBackup (index, tablerow) {
+      this.$axios
+        .post('/gateways/gateway/copy/' + tablerow.ip, {
+          command: '1',
+          device: '1',
+          deviceprofile: '1',
+          deviceservice: '1',
+          export: '1'
+        }).then(resp => {
+          if (resp && resp.status === 200) {
+            this.$message('备份成功！')
+          }
+        }).catch(e => {
+          this.$message('备份失败！')
+        })
     },
     handleRecover (index, row) {
       this.$refs.gatewayRecover.dialogFormVisible = true
