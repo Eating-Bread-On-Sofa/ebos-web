@@ -2,6 +2,7 @@
   <div>
     <el-dialog
       title="增加指令"
+      width="30%"
       :visible.sync="dialogFormVisible"
       @close="clear">
       <el-form v-model="commandForm" label-width="120px" style="text-align: left">

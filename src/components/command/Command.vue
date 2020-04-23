@@ -13,10 +13,10 @@
           v-loading="loading"
           element-loading-text="拼命加载中"
           element-loading-spinner="el-icon-loading"
-          element-loading-background="rgba(0, 0, 0, 0.8)"
+          element-loading-background="rgba(0, 0, 0, 0.3)"
           :data="tableData.slice((currentPage-1)*pagesize,currentPage*pagesize)"
           tooltip-effect="dark"
-          border
+          stripe
           style="width: 100%;">
           <el-table-column
             type="index"
@@ -60,7 +60,8 @@ export default {
     return {
       currentPage: 1,
       pagesize: 18,
-      tableData: []
+      tableData: [],
+      loading: true
     }
   },
   mounted () {
@@ -72,6 +73,7 @@ export default {
         .get('/commands/command').then(resp => {
           if (resp && resp.status === 200) {
             this.tableData = resp.data
+            this.loading = false
           }
         })
     },

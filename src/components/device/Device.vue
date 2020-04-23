@@ -9,11 +9,11 @@
       <br>
       <device-edit-form @onSubmit="loadDevices" ref="deviceEdit"></device-edit-form>
     <!--表格数据及操作-->
-    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" border style="width: 100%"
+    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
               v-loading="loading"
               element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading"
-              element-loading-background="rgba(0, 0, 0, 0.8)"
+              element-loading-background="rgba(0, 0, 0, 0.3)"
               stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection">
@@ -69,7 +69,8 @@ export default {
     return {
       table: [],
       pagesize: 18,
-      currentPage: 1
+      currentPage: 1,
+      loading: true
     }
   },
   mounted () {
@@ -82,6 +83,7 @@ export default {
         .get('/devices/ip/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
+            _this.loading = false
           }
         })
     },

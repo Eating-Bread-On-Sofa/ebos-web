@@ -8,7 +8,7 @@
       default-active="/scenarioservice"
       active-text-color="red"
       router>
-      <el-menu-item v-for="(item, i) in ScenarioMenu" :index="item.name" :key="i" style="float: left">
+      <el-menu-item v-for="(item, i) in ScenarioMenu" :index="item.name" :key="i">
         <i class="el-icon-s-order"></i>
         {{item.menuname}}
       </el-menu-item>
@@ -22,8 +22,7 @@ export default {
   data () {
     return {
       ScenarioMenu: [
-        {name: '/scenarioservice', menuname: '场景服务'},
-        {name: '/deviceservice', menuname: '设备服务'}
+        {name: '/scenarioservice', menuname: '场景服务'}
       ]
     }
   }

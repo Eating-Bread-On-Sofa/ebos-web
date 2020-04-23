@@ -14,7 +14,7 @@
       <br>
     <!--表格数据及操作-->
     <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)"  v-loading="loading" element-loading-text="拼命加载中"
-              element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.8)" border style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+              element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.3)" style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection">
       </el-table-column>
@@ -34,11 +34,9 @@
       </el-table-column>
       <el-table-column prop="ruleExecute" label="执行功能">
       </el-table-column>
-      <el-table-column prop="service" label="服务">
-      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <!--<el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>-->
+          <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
         </template>
       </el-table-column>
@@ -60,7 +58,7 @@
       width="30%"
       :before-close="handleClose">
       <div>
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form ref="form" :model="form" label-width="120px">
           <el-row>
             <el-col :span="18">
               <el-form-item label="规则名称">
@@ -201,9 +199,6 @@ export default {
       console.log(this.form)
       this.add()
     },
-    current_change: function (currentPage) {
-      this.currentPage = currentPage
-    },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
@@ -303,12 +298,12 @@ export default {
           obj.ruleJudge = resp.data[x].ruleJudge
           obj.parameter = resp.data[x].parameter
           obj.ruleExecute = resp.data[x].ruleExecute
-          obj.service = resp.data[x].service
           obj.ruleId = resp.data[x].ruleId
           data[x] = obj
         }
         if (resp && resp.status === 200) {
           _this.table = data
+          _this.loading = false
         }
       })
     },
