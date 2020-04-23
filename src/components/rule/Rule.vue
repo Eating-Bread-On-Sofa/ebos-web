@@ -83,9 +83,6 @@
               <el-form-item label="参数门限">
                 <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
               </el-form-item>
-<!--              <el-form-item label="执行功能">-->
-<!--                <el-input v-model="form.ruleExecute"  placeholder="请输入内容"></el-input>-->
-<!--              </el-form-item>-->
               <el-form-item label="执行功能">
                 <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
                   <el-option label="告警" value="告警"></el-option>
@@ -159,12 +156,11 @@ export default {
   data () {
     return {
       paras: [
-        {value: '温度', label: '温度'}, {value: '湿度', label: '湿度'},
-        {value: '动态', label: '动态添加参数'}
+        {value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}
       ],
       services: [
         {value: '服务1', label: '服务1'}, {value: '服务2', label: '服务2'},
-        {value: '动态', label: '动态添加服务'}
+        {value: '其他服务', label: '其他服务'}
       ],
       form: {
         ruleName: '',
