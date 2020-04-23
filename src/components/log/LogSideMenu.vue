@@ -23,8 +23,8 @@ export default {
     return {
       MenuList: [
         {name: '/log', menuname: '操作日志'},
-        {name: '/deviceException', menuname: '设备异常'},
-        {name: '/gatewayException', menuname: '网关异常'}
+        {name: '/deviceLog', menuname: '设备日志'},
+        {name: '/gatewayLog', menuname: '网关日志'}
       ]
     }
   }

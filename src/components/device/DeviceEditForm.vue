@@ -7,7 +7,7 @@
       @close="clear">
       <el-form v-model="deviceEditForm" label-width="120px" style="text-align: left">
         <el-form-item label="选择网关" prop="gwip">
-          <el-select v-model="deviceEditForm.gwip" placeholer="请选择网关IP">
+          <el-select v-model="deviceEditForm.gwip" placeholer="请选择网关IP" @change="handleGWIP">
             <el-option v-for="item in gwList" :key="item.ip" :label="item.name" :value="item.ip"></el-option>
           </el-select>
         </el-form-item>
@@ -17,33 +17,41 @@
         <el-form-item label="设备描述" prop="description">
           <el-input v-model="deviceEditForm.deviceForm.description" autocomplete="off" placeholder="请输入设备描述"></el-input>
         </el-form-item>
-        <el-form-item label="操作状态" prop="operatingState">
-          <el-select v-model="deviceEditForm.deviceForm.operatingState" placeholder="请选择操作状态">
-            <el-option label="ENABLED" value="ENABLED"></el-option>
-            <el-option label="UNABLED" value="UNABLED"></el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item label="管理状态" prop="adminState">
-          <el-select v-model="deviceEditForm.deviceForm.adminState" placeholder="请选择管理状态">
-            <el-option label="UNLOCKED" value="UNLOCKED"></el-option>
-            <el-option label="LOCKED" value="LOCKED"></el-option>
-          </el-select>
-        </el-form-item>
+<!--        <el-form-item label="操作状态" prop="operatingState">-->
+<!--          <el-select v-model="deviceEditForm.deviceForm.operatingState" placeholder="请选择操作状态">-->
+<!--            <el-option label="ENABLED" value="ENABLED"></el-option>-->
+<!--            <el-option label="UNABLED" value="UNABLED"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="管理状态" prop="adminState">-->
+<!--          <el-select v-model="deviceEditForm.deviceForm.adminState" placeholder="请选择管理状态">-->
+<!--            <el-option label="UNLOCKED" value="UNLOCKED"></el-option>-->
+<!--            <el-option label="LOCKED" value="LOCKED"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
         <el-form-item label="标签" prop="labels">
           <el-input v-model="deviceEditForm.deviceForm.labels" autocomplete="off" placeholder="请输入标签"></el-input>
         </el-form-item>
         <el-form-item label="协议" prop="protocols">
           <el-input v-model="deviceEditForm.deviceForm.protocols" autocomplete="off" placeholder="请输入协议"></el-input>
         </el-form-item>
-        <el-form-item label="设备服务名称" prop="service.name">
-          <el-input v-model="deviceEditForm.deviceForm.service.name" autocomplete="off" placeholder="请输入设备服务名称"></el-input>
-        </el-form-item>
-        <el-form-item label="服务管理状态" prop="service">
-          <el-select v-model="deviceEditForm.deviceForm.service.adminState" placeholder="请选择服务管理状态">
-            <el-option label="UNLOCKED" value="UNLOCKED"></el-option>
-            <el-option label="LOCKED" value="LOCKED"></el-option>
+        <el-form-item label="设备模板" prop="profile">
+          <el-select v-model="deviceEditForm.deviceForm.profile.name" placeholer="请选择设备模板">
+            <el-option v-for="item in profileList" :key="item.id" :label="item.name" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
+        <el-form-item label="设备服务名称" prop="service.name">
+          <el-select v-model="deviceEditForm.deviceForm.service.name" placeholder="请选择设备服务">
+            <el-option v-for="(item, i) in deviceServiceList" :key="i" :label="item.name" :value="item.name"></el-option>
+          </el-select>
+<!--          <el-input v-model="deviceEditForm.deviceForm.service.name" autocomplete="off" placeholder="请输入设备服务名称"></el-input>-->
+        </el-form-item>
+<!--        <el-form-item label="服务管理状态" prop="service">-->
+<!--          <el-select v-model="deviceEditForm.deviceForm.service.adminState" placeholder="请选择服务管理状态">-->
+<!--            <el-option label="UNLOCKED" value="UNLOCKED"></el-option>-->
+<!--            <el-option label="LOCKED" value="LOCKED"></el-option>-->
+<!--          </el-select>-->
+<!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取消</el-button>
@@ -60,18 +68,23 @@ export default {
     return {
       dialogFormVisible: false,
       gwList: [],
+      profileList: [],
+      deviceServiceList: [],
       deviceEditForm: {
         gwip: '',
         deviceForm: {
           name: '',
           description: '',
-          operatingState: '',
-          adminState: '',
+          operatingState: 'ENABLED',
+          adminState: 'UNLOCKED',
           labels: [],
           protocols: {},
           service: {
             name: '',
-            adminState: ''
+            adminState: 'UNLOCKED'
+          },
+          profile: {
+            name: ''
           }
         }
       }
@@ -79,7 +92,6 @@ export default {
   },
   mounted () {
     this.getGWList()
-    this.getProfileList()
   },
   methods: {
     getGWList () {
@@ -90,8 +102,29 @@ export default {
           }
         })
     },
+    handleGWIP () {
+      this.getDeviceServiceList()
+      this.getProfileList()
+    },
     getProfileList () {
-
+      this.$axios
+        .get('/profiles/ip/' + this.deviceEditForm.gwip).then(resp => {
+          if (resp && resp.status === 200) {
+            this.profileList = resp.data
+          }
+        }).catch(() => {
+          this.$message('请先选择网关!')
+        })
+    },
+    getDeviceServiceList () {
+      this.$axios
+        .get('/devices/service/' + this.deviceEditForm.gwip).then(resp => {
+          if (resp && resp.status === 200) {
+            this.deviceServiceList = resp.data
+          }
+        }).catch(() => {
+          this.$message('请先选择网关!')
+        })
     },
     clear () {
       this.deviceEditForm = {
@@ -99,12 +132,16 @@ export default {
         deviceForm: {
           name: '',
           description: '',
-          operatingState: '',
-          adminState: '',
+          operatingState: 'ENABLED',
+          adminState: 'UNLOCKED',
           labels: [],
+          protocols: {},
+          profile: {
+            name: ''
+          },
           service: {
             name: '',
-            adminState: ''
+            adminState: 'UNLOCKED'
           }
         }
       }

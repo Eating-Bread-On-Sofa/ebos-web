@@ -47,6 +47,13 @@ module.exports = {
           '^/logs': ''
         }
       },
+      '/instances': {
+        target: 'http://localhost:8090/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/instances': ''
+        }
+      },
       '/gateways': {
         target: 'http://localhost:8089/api/',
         changeOrigin: true,

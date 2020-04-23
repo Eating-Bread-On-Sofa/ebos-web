@@ -72,9 +72,9 @@
 </template>
 <script>
 export default {
+  name: 'Log',
   data () {
     return {
-      dialogCreateVisible: false,
       table: [],
       pagesize: 10,
       currentPage: 1,

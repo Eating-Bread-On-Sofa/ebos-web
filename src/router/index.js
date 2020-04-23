@@ -142,12 +142,12 @@ export default new Router({
               component: Log
             },
             {
-              path: '/deviceException',
+              path: '/deviceLog',
               name: 'DeviceException',
               component: DeviceException
             },
             {
-              path: '/gatewayException',
+              path: '/gatewayLog',
               name: 'GatewayException',
               component: GatewayException
             }
