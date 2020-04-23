@@ -80,7 +80,7 @@ export default {
       } else {
         return 'debug-row'
       }
-    },
+    }
   }
 }
 </script>

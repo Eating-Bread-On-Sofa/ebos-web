@@ -36,7 +36,7 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>
+          <!--<el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>-->
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
         </template>
       </el-table-column>
@@ -84,7 +84,7 @@
               <el-form-item label="执行功能">
                 <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
                   <el-option label="告警" value="告警"></el-option>
-                  <el-option label="告警且执行" value="告警且执行"></el-option>
+                  <el-option label="告警且执行" value="警告且操作设备"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="服务名称">
@@ -153,13 +153,8 @@
 export default {
   data () {
     return {
-      paras: [
-        {value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}
-      ],
-      services: [
-        {value: '服务1', label: '服务1'}, {value: '服务2', label: '服务2'},
-        {value: '其他服务', label: '其他服务'}
-      ],
+      paras: [],
+      services: [],
       form: {
         ruleName: '',
         parameter: '',
@@ -189,7 +184,8 @@ export default {
   },
   created: function () {
     this.get()
-    // this.getFormInfo()
+    this.getFormPara()
+    this.getFormService()
   },
   methods: {
     onSubmit () {
@@ -307,8 +303,33 @@ export default {
         }
       })
     },
-    getFormInfo () {
-      this.$axios.get('/rules/getFormInfo').then(resp => {
+    getFormPara () {
+      this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.paras = data
+      })
+    },
+    getFormService () {
+      this.$axios.get('/scenarios/scenario').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.services = data
+      })
+    }
+
+    /* getFormPara () {
+      this.$axios.get('/rules/getFormPara').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -318,7 +339,19 @@ export default {
         }
         this.paras = data
       })
-    }
+    },
+    getFormService () {
+      this.$axios.get('/rules/getFormService').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].value
+          obj.value = resp.data[x].value
+          data[x] = obj
+        }
+        this.services = data
+      })
+    } */
   },
   computed: {
     search () {
