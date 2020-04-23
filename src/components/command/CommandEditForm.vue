@@ -29,7 +29,7 @@
                 </el-form-item>
                 <el-form-item label="指令选择">
                   <el-select v-model="commandForm.list" placeholder="">
-                    <el-option v-for="item in commandList" :key="item.commandId" :label="item.commandName" :value="item"></el-option>
+                    <el-option v-for="item in commandList" :key="item.commandId" :label="'指令:' + item.commandName + '||设备:' + item.deviceName" :value="item"></el-option>
                   </el-select>
                 </el-form-item>
       </el-form>
@@ -77,7 +77,6 @@ export default {
         })
     },
     clear () {
-      this.commandList = []
       this.commandForm = {
         list: {},
         commandEdit: {

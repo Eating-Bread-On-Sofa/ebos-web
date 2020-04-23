@@ -117,6 +117,8 @@ export default {
             _this.dialogFormVisible = false
             _this.$emit('onSubmit')
           }
+        }).catch(() => {
+          _this.$message('添加设备失败！请重试！')
         })
     }
   }

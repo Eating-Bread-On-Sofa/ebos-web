@@ -12,9 +12,38 @@
                 ref="multipleTable" tooltip-effect="dark">
         <el-table-column prop="date" label="时间" sortable>
         </el-table-column>
-        <el-table-column prop="source" label="日志来源">
+        <el-table-column
+          prop="source"
+          label="日志来源"
+          :filters="[
+          { text: '网关管理', value: '网关管理'},
+          { text: '设备管理', value: '设备管理'},
+          { text: '网关实例', value: '网关实例'},
+          { text: '指令管理', value: '指令'},
+          { text: '场景管理', value: '场景'},
+          { text: '消息路由', value: '消息路由'},
+          { text: '设备模板', value: '设备模板'}]"
+          :filter-method="filterSource"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              close-transition>{{scope.row.source}}</el-tag>
+          </template>
         </el-table-column>
-        <el-table-column prop="category" label="级别">
+        <el-table-column
+          prop="category"
+          label="级别"
+          :filters="[
+          { text: '信息', value: 'info'},
+          { text: '警告', value: 'warn'},
+          { text: '错误', value: 'error'},
+          { text: '调试', value: 'debug'}]"
+          :filter-method="filterCategory"
+          filter-placement="bottom-end">
+          <template slot-scope="scope">
+            <el-tag
+              close-transition>{{scope.row.category}}</el-tag>
+          </template>
         </el-table-column>
         <el-table-column prop="gatewayName" label="网关名称">
         </el-table-column>
@@ -80,6 +109,12 @@ export default {
       } else {
         return 'debug-row'
       }
+    },
+    filterCategory (value, row) {
+      return row.category === value
+    },
+    filterSource (value, row) {
+      return row.source === value
     }
   }
 }
