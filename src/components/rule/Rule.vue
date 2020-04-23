@@ -285,7 +285,7 @@ export default {
     },
     get () {
       var _this = this
-      this.$axios.get('/rules/getRules').then(resp => {
+      this.$axios.get('/rules/getRuleLists').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
