@@ -29,6 +29,11 @@
       </el-table-column>
       <el-table-column prop="id" label="设备ID">
       </el-table-column>
+      <el-table-column label="支持协议">
+        <template slot-scope="scope">
+          <span v-for="(item, key) in scope.row.protocols" :key="key">{{ key }}</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="profile" label="设备模板">
       </el-table-column>
       <el-table-column prop="service" label="服务">
@@ -39,9 +44,9 @@
       </el-table-column>
       <el-table-column prop="operatingState" label="操作状态">
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="250px">
         <template slot-scope="scope">
-<!--          <el-button type="primary" icon="el-icon-edit" size="mini" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>-->
+          <el-button type="success" icon="el-icon-edit" size="mini" @click="handleData(scope.$index, scope.row)">查看设备数据</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
         </template>
       </el-table-column>
@@ -90,6 +95,7 @@ export default {
     createDevice () {
       this.$refs.deviceEdit.dialogFormVisible = true
     },
+    handleData (index, row) {},
     handleDelete (index, row) {
       var _this = this
       this.$confirm('此操作将永久删除该设备，是否继续？', '提示', {

@@ -30,10 +30,15 @@
 <!--          </el-select>-->
 <!--        </el-form-item>-->
         <el-form-item label="标签" prop="labels">
-          <el-input v-model="deviceEditForm.deviceForm.labels" autocomplete="off" placeholder="请输入标签"></el-input>
+          <el-input v-model="deviceEditForm.labelText" autocomplete="off" placeholder="请输入标签" @change="handleLabel"></el-input>
         </el-form-item>
         <el-form-item label="协议" prop="protocols">
-          <el-input v-model="deviceEditForm.deviceForm.protocols" autocomplete="off" placeholder="请输入协议"></el-input>
+          <el-select v-model="deviceEditForm.protocolName" placeholder="请选择协议" @change="handleProtocol">
+            <el-option v-for="(item, i) in protocolList" :key="i" :label="item" :value="item"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-for="(item, key) in deviceEditForm.deviceForm.protocols[deviceEditForm.protocolName]" :key="key" :label="key">
+          <el-input v-model="deviceEditForm.deviceForm.protocols[deviceEditForm.protocolName][key]"></el-input>
         </el-form-item>
         <el-form-item label="设备模板" prop="profile">
           <el-select v-model="deviceEditForm.deviceForm.profile.name" placeholer="请选择设备模板">
@@ -69,9 +74,13 @@ export default {
       dialogFormVisible: false,
       gwList: [],
       profileList: [],
+      protocolList: [],
+      protocolItem: {},
       deviceServiceList: [],
       deviceEditForm: {
         gwip: '',
+        labelText: '',
+        protocolName: '',
         deviceForm: {
           name: '',
           description: '',
@@ -92,6 +101,7 @@ export default {
   },
   mounted () {
     this.getGWList()
+    this.getProtocolList()
   },
   methods: {
     getGWList () {
@@ -102,9 +112,33 @@ export default {
           }
         })
     },
+    getProtocolList () {
+      var _this = this
+      this.$axios
+        .get('/devices/protocol').then(resp => {
+          if (resp && resp.status === 200) {
+            _this.protocolList = resp.data
+          }
+        }).catch(() => {
+          this.$message('获取协议列表失败！')
+        })
+    },
     handleGWIP () {
       this.getDeviceServiceList()
       this.getProfileList()
+    },
+    handleProtocol () {
+      this.$axios
+        .get('/devices/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+          if (resp && resp.status === 200) {
+            this.deviceEditForm.deviceForm.protocols = resp.data
+          }
+        }).catch(() => {
+          this.$message('获取协议信息失败！')
+        })
+    },
+    handleLabel () {
+      this.deviceEditForm.deviceForm.labels.push(this.deviceEditForm.labelText)
     },
     getProfileList () {
       this.$axios

@@ -46,6 +46,7 @@ export default {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.$emit('onSubmit')
+            _this.dialogFormVisible = false
           }
         }).catch(e => {
           this.$message('添加失败' + e)
