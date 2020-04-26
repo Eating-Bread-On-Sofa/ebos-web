@@ -203,7 +203,7 @@ export default {
         this.$axios
           .delete('/scenarios/scenario/name/' + tablerow.name, {
           }).then(resp => {
-            if (resp && resp === 200) {
+            if (resp && resp.status === 200) {
               this.loadScenarios()
             }
           })

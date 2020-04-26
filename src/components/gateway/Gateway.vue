@@ -148,9 +148,16 @@ export default {
         })
     },
     handleRecover (index, row) {
-      this.$refs.gatewayRecover.dialogFormVisible = true
-      this.$refs.gatewayRecover.gwRecoverForm.name = row.name
-      this.$refs.gatewayRecover.gwRecoverForm.ip = row.ip
+      this.$axios.get('/gateways/gateway/version/' + row.ip).then(resp => {
+        if (resp && resp.status === 200) {
+          this.$refs.gatewayRecover.versionList = resp.data
+          this.$refs.gatewayRecover.dialogFormVisible = true
+          this.$refs.gatewayRecover.gwRecoverForm.name = row.name
+          this.$refs.gatewayRecover.gwRecoverForm.ip = row.ip
+        }
+      }).catch(() => {
+        this.$message('获取版本信息失败！')
+      })
     },
     handleDelete (index, tablerow) {
       var _this = this

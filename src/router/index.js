@@ -22,6 +22,7 @@ import GatewayIndex from '../components/gateway/GatewayIndex'
 import Gateway from '../components/gateway/Gateway'
 import CommandIndex from '../components/command/CommandIndex'
 import Command from '../components/command/Command'
+import DeviceMonitor from '../components/device/DeviceMonitor'
 
 Vue.use(Router)
 
@@ -75,6 +76,11 @@ export default new Router({
               path: '/device',
               name: 'Device',
               component: Device
+            },
+            {
+              path: '/monitor',
+              name: 'DeviceMonitor',
+              component: DeviceMonitor
             }
           ]
         },

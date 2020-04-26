@@ -12,6 +12,11 @@
           <el-form-item label="网关IP地址" prop="ip">
             <el-input v-model="gwRecoverForm.ip" autocomplete="off" :disabled="true"></el-input>
           </el-form-item>
+          <el-form-item label="选择版本">
+            <el-select v-model="gwRecoverForm.version">
+              <el-option v-for="item in versionList" :key="item.version" :label="item.version" :value="item.version"></el-option>
+            </el-select>
+          </el-form-item>
           <el-form-item label="恢复项：">
             <el-switch v-model="gwRecoverForm.command" inactive-text="指令" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
             <el-switch v-model="gwRecoverForm.deviceprofile" inactive-text="设备模板" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
@@ -36,9 +41,11 @@ export default {
   name: 'GatewayRecover',
   data () {
     return {
+      versionList: [],
       gwRecoverForm: {
         name: '',
         ip: '',
+        version: '',
         command: '0',
         deviceIp: '0',
         deviceprofile: '0',
@@ -56,7 +63,7 @@ export default {
     onSubmit () {
       var _this = this
       this.$axios
-        .post('/gateways/gateway/recover/' + _this.gwRecoverForm.ip, {
+        .post('/gateways/gateway/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
           command: _this.gwRecoverForm.command,
           device: {
             deviceIp: _this.gwRecoverForm.deviceIp

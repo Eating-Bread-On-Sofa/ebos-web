@@ -46,8 +46,9 @@
       </el-table-column>
       <el-table-column label="操作" width="250px">
         <template slot-scope="scope">
-          <el-button type="success" icon="el-icon-edit" size="mini" @click="handleData(scope.$index, scope.row)">查看设备数据</el-button>
+          <el-button type="success" icon="el-icon-edit" size="mini" @click="handleChart(scope.$index, scope.row)">查看设备数据</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+<!--          <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleTest(scope.$index, scope.row)">test</el-button>-->
         </template>
       </el-table-column>
     </el-table>
@@ -95,7 +96,27 @@ export default {
     createDevice () {
       this.$refs.deviceEdit.dialogFormVisible = true
     },
-    handleData (index, row) {},
+    // handleChart (index, row) {
+    //   var date = new Date()
+    //   var data1 = []
+    //   var data2 = []
+    //   this.$axios.get('/surveillances/surveillance/' + row.id).then(resp => {
+    //     if (resp && resp.status === 200) {
+    //       var type = Object.keys(resp.data)
+    //       console.log(type)
+    //       data1.push([date, resp.data[type[0]]])
+    //       data2.push([date, resp.data[type[1]]])
+    //       if (data1.length > 60) {
+    //         data1.shift()
+    //         data2.shift()
+    //       }
+    //       this.$refs.deviceMonitor.dataForm.type = type
+    //       this.$refs.deviceMonitor.dataForm.data1 = data1
+    //       this.$refs.deviceMonitor.dataForm.data2 = data2
+    //       this.$refs.deviceMonitor.dialogFormVisible = true
+    //     }
+    //   })
+    // },
     handleDelete (index, row) {
       var _this = this
       this.$confirm('此操作将永久删除该设备，是否继续？', '提示', {
@@ -116,6 +137,13 @@ export default {
         })
       })
     },
+    // handleTest (index, row) {
+    //   this.$axios.get('/devices/ip/127.0.0.1/id/' + row.id).then(resp => {
+    //     if (resp && resp.status === 200) {
+    //       console.log(resp.data)
+    //     }
+    //   })
+    // },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },

@@ -22,7 +22,8 @@ export default {
   data () {
     return {
       MenuList: [
-        {name: '/device', menuname: '设备列表'}
+        {name: '/device', menuname: '设备列表'},
+        {name: '/monitor', menuname: '设备监控'}
       ]
     }
   }

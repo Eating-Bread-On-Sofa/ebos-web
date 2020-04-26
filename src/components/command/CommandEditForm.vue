@@ -27,9 +27,12 @@
                 <el-form-item label="jsonObject" placeholder="">
                   <el-input type="textarea" v-model="commandForm.commandEdit.jsonObject" autocomplete="off" placeholder=""></el-input>
                 </el-form-item>
-                <el-form-item label="指令选择">
-                  <el-select v-model="commandForm.list" placeholder="">
-                    <el-option v-for="item in commandList" :key="item.commandId" :label="'指令:' + item.commandName + '||设备:' + item.deviceName" :value="item"></el-option>
+                <el-form-item label="指令选择" prop="list">
+                  <el-select v-model="commandForm.command" placeholder="" @change="handleCommand">
+                    <el-option v-for="(item, i) in commandList" :key="i" :label="item.commandName" :value="i">
+                      <span style="float: left">指令：{{ item.commandName }}</span>
+                      <span style="float: right; color: #8492a6; font-size: 13px">设备：{{ item.deviceName }}</span>
+                    </el-option>
                   </el-select>
                 </el-form-item>
       </el-form>
@@ -49,6 +52,7 @@ export default {
       dialogFormVisible: false,
       commandList: [],
       commandForm: {
+        command: '',
         list: {},
         commandEdit: {
           commandType: '',
@@ -75,6 +79,9 @@ export default {
             this.commandList = resp.data
           }
         })
+    },
+    handleCommand () {
+      this.commandForm.list = this.commandList[this.commandForm.command]
     },
     clear () {
       this.commandForm = {
