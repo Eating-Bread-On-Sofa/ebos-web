@@ -34,6 +34,8 @@
       </el-table-column>
       <el-table-column prop="ruleExecute" label="执行功能">
       </el-table-column>
+      <el-table-column prop="service" label="服务">
+      </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <!--<el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>-->
@@ -153,8 +155,8 @@
 export default {
   data () {
     return {
-      paras: [],
-      services: [],
+      paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
+      services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
       form: {
         ruleName: '',
         parameter: '',
@@ -295,6 +297,7 @@ export default {
           obj.parameter = resp.data[x].parameter
           obj.ruleExecute = resp.data[x].ruleExecute
           obj.ruleId = resp.data[x].ruleId
+          obj.service = resp.data[x].service
           data[x] = obj
         }
         if (resp && resp.status === 200) {
@@ -327,31 +330,6 @@ export default {
         this.services = data
       })
     }
-
-    /* getFormPara () {
-      this.$axios.get('/rules/getFormPara').then(resp => {
-        var data = []
-        for (var x = 0; x < resp.data.length; x++) {
-          var obj = {}
-          obj.label = resp.data[x].value
-          obj.value = resp.data[x].value
-          data[x] = obj
-        }
-        this.paras = data
-      })
-    },
-    getFormService () {
-      this.$axios.get('/rules/getFormService').then(resp => {
-        var data = []
-        for (var x = 0; x < resp.data.length; x++) {
-          var obj = {}
-          obj.label = resp.data[x].value
-          obj.value = resp.data[x].value
-          data[x] = obj
-        }
-        this.services = data
-      })
-    } */
   },
   computed: {
     search () {
