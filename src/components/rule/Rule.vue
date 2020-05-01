@@ -19,13 +19,15 @@
       <el-table-column type="selection">
       </el-table-column>
       <!--序号-->
-      <el-table-column label="序号">
+      <el-table-column label="序号" width="70px">
         <template slot-scope="scope">
           {{scope.$index+1}}
         </template>
       </el-table-column>
       <!--表头-->
-      <el-table-column prop="ruleName" label="规则名称">
+      <el-table-column prop="ruleName" label="规则名称" width="200px">
+      </el-table-column>
+      <el-table-column prop="device" label="设备名称">
       </el-table-column>
       <el-table-column prop="ruleCondition" label="规则条件">
         <template slot-scope="scope">
@@ -35,6 +37,8 @@
       <el-table-column prop="ruleExecute" label="执行功能">
       </el-table-column>
       <el-table-column prop="service" label="服务">
+      </el-table-column>
+      <el-table-column prop="scenario" label="场景">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -66,10 +70,13 @@
               <el-form-item label="规则名称">
                 <el-input v-model="form.ruleName"  placeholder="请输入内容"></el-input>
               </el-form-item>
+              <el-form-item label="设备选择">
+                <el-select v-model="form.device" placeholder="请选择设备" style="width:100%">
+                  <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
+              </el-form-item>
               <el-form-item label="设备参数">
                 <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
-<!--                  <el-option label="温度" value="温度"></el-option>-->
-<!--                  <el-option label="湿度" value="湿度"></el-option>-->
                   <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -93,59 +100,19 @@
                 <el-select v-model="form.service" placeholder="请选择服务" style="width:100%">
                   <el-option v-for="item in services" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
-<!--                <el-input v-model="form.service"  placeholder="请输入内容"></el-input>-->
+              </el-form-item>
+              <el-form-item label="场景选择">
+                <el-select v-model="form.scenario" placeholder="请选择场景" style="width:100%">
+                  <el-option v-for="item in scenarios" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                </el-select>
               </el-form-item>
             </el-col>
           </el-row>
         </el-form>
-
       </div>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogCreateVisible = false">取 消</el-button>
         <el-button type="primary" @click="onSubmit">确 定</el-button>
-      </span>
-    </el-dialog>
-
-    <el-dialog
-      title="编辑"
-      :visible.sync="dialogVisible"
-      width="30%"
-      :before-close="handleClose">
-      <div>
-        <el-form ref="form" :model="editObj" label-width="80px">
-          <el-form-item label="规则名称">
-            <el-input v-model="editObj.ruleName"></el-input>
-          </el-form-item>
-          <!--<el-form-item label="设备参数">
-            <el-input v-model="editObj.parameter"></el-input>
-          </el-form-item>-->
-          <el-form-item label="设备参数">
-            <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
-              <el-option label="温度" value="温度"></el-option>
-              <el-option label="湿度" value="湿度"></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="规则条件">
-            <el-select v-model="editObj.ruleJudge" placeholder="请选择规则条件" style="width:100%">
-              <el-option label="大于" value=">"></el-option>
-              <el-option label="小于" value="<"></el-option>
-              <el-option label="等于" value="="></el-option>
-            </el-select>
-          </el-form-item>
-          <el-form-item label="参数门限">
-            <el-input v-model="editObj.ruleParaThreshold"></el-input>
-          </el-form-item>
-          <el-form-item label="执行功能">
-            <el-input v-model="editObj.ruleExecute"></el-input>
-          </el-form-item>
-          <el-form-item label="服务名称">
-            <el-input v-model="editObj.service"></el-input>
-          </el-form-item>
-        </el-form>
-      </div>
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="dialogVisible = false">取 消</el-button>
-        <el-button type="primary" @click="confirm">确 定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -156,27 +123,23 @@ export default {
   data () {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
+      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: '设备二', label: '设备二'}],
       services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
+      scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
       form: {
+        device: '',
         ruleName: '',
         parameter: '',
         ruleJudge: '',
         ruleParaThreshold: '',
         ruleExecute: '',
-        service: ''
+        service: '',
+        scenario: ''
       },
       dialogCreateVisible: false,
       table: [],
       dialogVisible: false,
       keywords: '',
-      editObj: {
-        ruleName: '',
-        parameter: '',
-        ruleJudge: '',
-        ruleParaThreshold: '',
-        ruleExecute: '',
-        service: ''
-      },
       activeIndex: '1',
       activeIndex2: '1',
       userIndex: 0,
@@ -186,8 +149,10 @@ export default {
   },
   created: function () {
     this.get()
-    this.getFormPara()
+    this.getFormDevices()
+    this.getFormParas()
     this.getFormService()
+    this.getFormScenario()
   },
   methods: {
     onSubmit () {
@@ -211,12 +176,14 @@ export default {
     add () {
       this.table.push(this.form)
       this.form = {
+        device: '',
         ruleName: '',
         parameter: '',
         ruleJudge: '',
         ruleParaThreshold: '',
         ruleExecute: '',
-        service: ''
+        service: '',
+        scenario: ''
       }
     },
     del (row, idx) {
@@ -242,22 +209,6 @@ export default {
         .catch(_ => {
         })
     },
-    edit (item, idx) {
-      this.userIndex = idx
-      this.editObj = {
-        ruleName: item.ruleName,
-        parameter: item.parameter,
-        ruleJudge: item.ruleJudge,
-        ruleParaThreshold: item.ruleParaThreshold,
-        ruleExecute: item.ruleExecute,
-        service: item.service
-      }
-      this.dialogVisible = true
-    },
-    confirm () {
-      this.dialogVisible = false
-      this.table.splice(this.userIndex, 1, this.editObj)
-    },
     post () {
       this.$axios.post('/rules/webdata',
         {
@@ -266,7 +217,9 @@ export default {
           'ruleJudge': this.form.ruleJudge,
           'ruleParaThreshold': this.form.ruleParaThreshold,
           'ruleExecute': this.form.ruleExecute,
-          'service': this.form.service
+          'service': this.form.service,
+          'device': this.form.device,
+          'scenario': this.form.scenario
         }
       ).then(res => {
       })
@@ -280,7 +233,9 @@ export default {
           'ruleJudge': this.form.ruleJudge,
           'ruleParaThreshold': this.form.ruleParaThreshold,
           'ruleExecute': this.form.ruleExecute,
-          'service': this.form.service
+          'service': this.form.service,
+          'device': this.form.device,
+          'scenario': this.form.scenario
         }
       ).then(res => {
       })
@@ -298,6 +253,8 @@ export default {
           obj.ruleExecute = resp.data[x].ruleExecute
           obj.ruleId = resp.data[x].ruleId
           obj.service = resp.data[x].service
+          obj.device = resp.data[x].device
+          obj.scenario = resp.data[x].scenario
           data[x] = obj
         }
         if (resp && resp.status === 200) {
@@ -306,7 +263,7 @@ export default {
         }
       })
     },
-    getFormPara () {
+    getFormDevices () {
       this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
@@ -315,7 +272,31 @@ export default {
           obj.value = resp.data[x].name
           data[x] = obj
         }
+        this.devices = data
+      })
+    },
+    getFormParas () {
+      this.$axios.get('/commands/command/list').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].commandName
+          obj.value = resp.data[x].commandName
+          data[x] = obj
+        }
         this.paras = data
+      })
+    },
+    getFormScenario () {
+      this.$axios.get('/scenarios/scenario').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.services = data
       })
     },
     getFormService () {
