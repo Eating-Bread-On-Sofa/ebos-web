@@ -8,7 +8,6 @@
       </el-button>
       <br>
       <scenario-edit-form @onSubmit="loadScenarios()" ref="scenarioEditForm"></scenario-edit-form>
-      <scenario-show ref="scenarioShow"></scenario-show>
       <scenario-device-state ref="scenarioDeviceState"></scenario-device-state>
       <el-table
         ref="multipleTable"
@@ -71,10 +70,10 @@
             <el-button
               size="mini"
               @click="handleStatus(scope.$index, scope.row)">查看设备状态</el-button>
-            <el-button
-              size="mini"
-              type="success"
-              @click="handleShow(scope.$index, scope.row)">场景展示</el-button>
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              type="success"-->
+<!--              @click="handleShow(scope.$index, scope.row)">场景展示</el-button>-->
             <el-button
               size="mini"
               type="danger"
@@ -181,18 +180,18 @@ export default {
     createScenario () {
       this.$refs.scenarioEditForm.dialogFormVisible = true
     },
-    handleShow (index, row) {
-      this.$scenarioShow.dialogFormVisible = true
-    },
+    // handleShow (index, row) {
+    //   this.$scenarioShow.dialogFormVisible = true
+    // },
     handleStatus (index, tablerow) {
-      var _this = this
-      this.$axios
-        .get('/scenarios/scenario/status/' + tablerow.name).then(resp => {
-          if (resp && resp.status === 200) {
-            _this.$refs.scenarioDeviceState.dialogFormVisible = true
-            _this.$refs.scenarioDeviceState.deviceData = resp.data
-          }
-        })
+      this.$axios.get('/scenarios/scenario/status/' + tablerow.name).then(resp => {
+        if (resp && resp.status === 200) {
+          this.$refs.scenarioDeviceState.statusData = resp.data
+          this.$refs.scenarioDeviceState.dialogFormVisible = true
+        }
+      }).catch(() => {
+        this.$message('获取状态信息失败！')
+      })
     },
     handleDelete (index, tablerow) {
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
