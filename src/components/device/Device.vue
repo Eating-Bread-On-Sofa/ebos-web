@@ -46,7 +46,7 @@
       </el-table-column>
       <el-table-column label="操作" width="250px">
         <template slot-scope="scope">
-          <el-button type="success" icon="el-icon-edit" size="mini" @click="handleChart(scope.$index, scope.row)">查看设备数据</el-button>
+          <el-button type="success" icon="el-icon-edit" size="mini" @click="handleTest(scope.$index, scope.row)">测试</el-button>
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
 <!--          <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleTest(scope.$index, scope.row)">test</el-button>-->
         </template>
@@ -137,13 +137,15 @@ export default {
         })
       })
     },
-    // handleTest (index, row) {
-    //   this.$axios.get('/devices/ip/127.0.0.1/id/' + row.id).then(resp => {
-    //     if (resp && resp.status === 200) {
-    //       console.log(resp.data)
-    //     }
-    //   })
-    // },
+    handleTest (index, row) {
+      this.$axios.get('/devices/details/127.0.0.1/' + row.id).then(resp => {
+        if (resp && resp.status === 200) {
+          this.$message('连接成功！')
+        }
+      }).catch(() => {
+        this.$message('连接失败！')
+      })
+    },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },

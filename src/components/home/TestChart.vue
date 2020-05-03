@@ -8,18 +8,27 @@ export default {
   name: 'TestChart',
   data () {
     return {
-      charts: ''
-    }
-  },
-  methods: {
-    drawLine (id) {
-      this.charts = echarts.init(document.getElementById(id))
-      this.charts.setOption({
+      charts: '',
+      gatewayAddition: [],
+      deviceAddition: [],
+      xdata1: [],
+      ydata1: [],
+      ydata2: [],
+      option: {
+        // title: {
+        //   text: '设备注册信息统计',
+        //   left: 'center',
+        //   top: 20,
+        //   textStyle: {
+        //     color: '#ccc',
+        //     fontStyle: 'italic'
+        //   }
+        // },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
-          data: ['设备注册数量']
+          data: ['新增设备数量', '新增网关数量']
         },
         grid: {
           top: 10,
@@ -37,27 +46,60 @@ export default {
         xAxis: {
           type: 'category',
           boundaryGap: false,
-          data: ['2020/3/1', '2020/3/10', '2020/3/15', '2020/3/20', '2020/3/23', '2020/3/26', '2020/3/28']
+          data: ''
 
         },
         yAxis: {
           type: 'value'
         },
 
-        series: [{
-          name: '设备注册数量',
-          type: 'line',
-          stack: '总量',
-          data: [1, 3, 10, 15, 20, 35, 40]
-        }]
-      })
+        series: [
+          {
+            name: '新增设备数量',
+            type: 'line',
+            stack: '增量',
+            data: ''
+          },
+          {
+            name: '新增网关数量',
+            type: 'line',
+            data: ''
+          }
+        ]
+      }
     }
   },
   mounted () {
-    this.$nextTick(function () {
-      this.drawLine('main')
-    })
+    this.getAddition()
+  },
+  methods: {
+    getAddition () {
+      this.$axios.get('/gateways/gateway/days?days=30').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gatewayAddition = resp.data
+        }
+      })
+      this.$axios.get('/devices/days?days=30').then(resp => {
+        if (resp && resp.status === 200) {
+          this.deviceAddition = resp.data
+          this.drawLine(this.gatewayAddition, this.deviceAddition)
+        }
+      })
+    },
+    drawLine (gatewayAddition, deviceAddition) {
+      for (var x = 29; x >= 0; x--) {
+        this.xdata1.push(deviceAddition[x]['endDate'].slice(0, 10))
+        this.ydata1.push(deviceAddition[x]['count'])
+        this.ydata2.push(gatewayAddition[x]['count'])
+      }
+      this.option.xAxis.data = this.xdata1
+      this.option.series[0].data = this.ydata1
+      this.option.series[1].data = this.ydata2
+      this.charts = echarts.init(document.getElementById('main'))
+      this.charts.setOption(this.option)
+    }
   }
+
 }
 </script>
 

@@ -68,13 +68,6 @@ module.exports = {
           '^/scenarios': ''
         }
       },
-      '/surveillances': {
-        target: 'http://localhost:8087/api/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/surveillances': ''
-        }
-      },
       '/commands': {
         target: 'http://localhost:8082/api/',
         changeOrigin: true,

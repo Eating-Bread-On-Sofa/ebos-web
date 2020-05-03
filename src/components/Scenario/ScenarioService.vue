@@ -170,8 +170,8 @@ export default {
             _this.tableData = resp.data
             _this.loading = false
           }
-        }).catch(e => {
-          _this.$message('数据加载失败！' + e)
+        }).catch(() => {
+          _this.$message('数据加载失败！')
         })
     },
     handleCurrentChange: function (currentPage) {
@@ -194,7 +194,7 @@ export default {
       })
     },
     handleDelete (index, tablerow) {
-      this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
+      this.$confirm('此操作将永久删除该场景，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'waring'

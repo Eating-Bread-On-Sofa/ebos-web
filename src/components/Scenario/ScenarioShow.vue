@@ -59,20 +59,24 @@ export default {
         if (resp && resp.status === 200) {
           this.$refs.scenarioPanel.gatewayNum = resp.data.content.length
           var Num = 0
+          var deviceNum = []
+          var deviceOnline = []
           for (var x = 0; x < resp.data.content.length; x++) {
             Num += resp.data.content[x].commands.length
+            for (var i = 0; i < resp.data.content[x].commands.length; i++) {
+              if (deviceNum.indexOf(resp.data.content[x].commands[i].deviceName) === -1) {
+                deviceNum.push(resp.data.content[x].commands[i].deviceName)
+              }
+            }
+            this.$axios.get('/devices/online/' + resp.data.content[x].gatewayIP).then(resp => {
+              if (resp && resp.status === 200) {
+                deviceOnline.concat(resp.data)
+              }
+            })
           }
           this.$refs.scenarioPanel.commandNum = Num
-        }
-      })
-      this.$axios.get('/surveillances/surveillance/totalnum').then(resp => {
-        if (resp && resp.status === 200) {
-          this.$refs.scenarioPanel.deviceTotalNum = resp.data
-        }
-      })
-      this.$axios.get('/surveillances/surveillance/onlinenum').then(resp => {
-        if (resp && resp.status === 200) {
-          this.$refs.scenarioPanel.deviceOnlineNum = resp.data
+          this.$refs.scenarioPanel.deviceTotalNum = deviceNum.length
+          this.$refs.scenarioPanel.deviceOnlineNum = deviceOnline.length
         }
       })
     },

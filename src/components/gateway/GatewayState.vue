@@ -55,13 +55,7 @@ export default {
       },
       edgexOffline: [],
       serviceOffline: [],
-      FormData: {
-        edgexcoremetadata: 'OFFLINE',
-        edgexcoredata: 'ONLINE',
-        gatewayinstance: 'ONLINE',
-        edgexcorecommand: 'ONLINE',
-        command: 'ONLINE'
-      },
+      FormData: {},
       dialogFormVisible: false
     }
   },
@@ -75,6 +69,8 @@ export default {
         .get('/gateways/gateway/state/' + this.gwState.name).then(resp => {
           if (resp && resp.status === 200) {
             _this.FormData = resp.data
+            delete _this.FormData[0].gatewayName
+            delete _this.FormData[0].gatewayIP
             _this.stateCounter()
           }
         }).catch(() => {

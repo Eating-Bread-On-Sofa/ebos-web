@@ -296,11 +296,11 @@ export default {
           obj.value = resp.data[x].name
           data[x] = obj
         }
-        this.services = data
+        this.scenarios = data
       })
     },
     getFormService () {
-      this.$axios.get('/scenarios/scenario').then(resp => {
+      this.$axios.get('/commands/command').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
