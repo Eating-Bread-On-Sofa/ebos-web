@@ -106,7 +106,7 @@ export default {
   methods: {
     getGWList () {
       this.$axios
-        .get('/gateways/gateway').then(resp => {
+        .get('/gateways/').then(resp => {
           if (resp && resp.status === 200) {
             this.gwList = resp.data
           }

@@ -28,7 +28,8 @@ import ScenarioShow from '../components/Scenario/ScenarioShow'
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'history', // 将模式转换成history模式
+  base: '/bjtu/', // 配置路由的根目录
   routes: [
     {
       path: '/home',

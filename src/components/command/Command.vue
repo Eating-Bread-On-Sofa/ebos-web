@@ -70,7 +70,7 @@ export default {
   methods: {
     loadCommands () {
       this.$axios
-        .get('/commands/command').then(resp => {
+        .get('/commands/').then(resp => {
           if (resp && resp.status === 200) {
             this.tableData = resp.data
             this.loading = false
@@ -88,7 +88,7 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/commands/command?name=' + row.name).then(resp => {
+          .delete('/commands?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadCommands()
             }

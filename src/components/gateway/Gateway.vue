@@ -106,7 +106,7 @@ export default {
     loadGateways () {
       var _this = this
       this.$axios
-        .get('/gateways/gateway').then(resp => {
+        .get('/gateways/').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -133,7 +133,7 @@ export default {
     },
     handleBackup (index, tablerow) {
       this.$axios
-        .post('/gateways/gateway/copy/' + tablerow.ip, {
+        .post('/gateways/copy/' + tablerow.ip, {
           command: '1',
           device: '1',
           deviceprofile: '1',
@@ -148,7 +148,7 @@ export default {
         })
     },
     handleRecover (index, row) {
-      this.$axios.get('/gateways/gateway/version/' + row.ip).then(resp => {
+      this.$axios.get('/gateways/version/' + row.ip).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.gatewayRecover.versionList = resp.data
           this.$refs.gatewayRecover.dialogFormVisible = true
@@ -167,7 +167,7 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/gateways/gateway/' + tablerow.name).then(resp => {
+          .delete('/gateways/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadGateways()
             }

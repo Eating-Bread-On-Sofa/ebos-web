@@ -13,14 +13,9 @@
       <div class="dashboard-editor-container">
         <scenario-panel ref="scenarioPanel" />
         <el-row :gutter="32">
-          <el-col :xs="24" :sm="24" :lg="12">
+          <el-col :xs="24" :sm="24" :lg="24">
             <div class="chart-wrapper">
-              <line-chart />
-            </div>
-          </el-col>
-          <el-col :xs="24" :sm="24" :lg="12">
-            <div class="chart-wrapper">
-              <test-chart />
+              <scenario-alert ref="scenarioAlert" />
             </div>
           </el-col>
         </el-row>
@@ -31,9 +26,10 @@
 
 <script>
 import ScenarioPanel from './ScenarioPanel'
+import ScenarioAlert from './ScenarioAlert'
 export default {
   name: 'ScenarioShow',
-  components: {ScenarioPanel},
+  components: {ScenarioAlert, ScenarioPanel},
   data () {
     return {
       scenarioList: [],
@@ -46,7 +42,7 @@ export default {
   methods: {
     loadScenarios () {
       var _this = this
-      this.$axios.get('/scenarios/scenario').then(resp => {
+      this.$axios.get('/scenarios/').then(resp => {
         if (resp && resp.status === 200) {
           _this.scenarioList = resp.data
         }
@@ -55,7 +51,8 @@ export default {
       })
     },
     handleScenario () {
-      this.$axios.get('/scenarios/scenario/name/' + this.scenarioSelect).then(resp => {
+      this.$refs.scenarioAlert.scenarioName = this.scenarioSelect
+      this.$axios.get('/scenarios/name/' + this.scenarioSelect).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.scenarioPanel.gatewayNum = resp.data.content.length
           var Num = 0
