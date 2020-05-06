@@ -72,7 +72,7 @@ export default {
     loadDeviceException () {
       var _this = this
       this.$axios
-        .get('/logs/log/source/' + '设备管理').then(resp => {
+        .get('/gateways/log/source/' + '设备管理').then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
             _this.loading = false

@@ -74,7 +74,7 @@ export default {
   },
   methods: {
     getAddition () {
-      this.$axios.get('/gateways/gateway/days?days=30').then(resp => {
+      this.$axios.get('/gateways/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           this.gatewayAddition = resp.data
         }

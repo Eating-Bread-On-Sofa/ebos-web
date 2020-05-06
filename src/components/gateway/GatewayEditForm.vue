@@ -40,7 +40,7 @@ export default {
     onSubmit () {
       var _this = this
       this.$axios
-        .post('/gateways/gateway', {
+        .post('/gateways/', {
           name: _this.gwForm.name,
           ip: _this.gwForm.ip
         }).then(resp => {

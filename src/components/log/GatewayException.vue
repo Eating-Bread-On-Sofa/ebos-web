@@ -68,7 +68,7 @@ export default {
     loadGWInstanceLog () {
       var _this = this
       this.$axios
-        .get('/instances/instance/log').then(resp => {
+        .get('/instances/log').then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
             _this.loading = false

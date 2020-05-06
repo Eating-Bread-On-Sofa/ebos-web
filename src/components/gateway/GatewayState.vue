@@ -66,7 +66,7 @@ export default {
     loadState () {
       var _this = this
       this.$axios
-        .get('/gateways/gateway/state/' + this.gwState.name).then(resp => {
+        .get('/gateways/state/' + this.gwState.name).then(resp => {
           if (resp && resp.status === 200) {
             _this.FormData = resp.data
             delete _this.FormData[0].gatewayName

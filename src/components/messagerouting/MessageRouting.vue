@@ -66,7 +66,7 @@ export default {
   methods: {
     loadMessageRouting () {
       this.$axios
-        .get('/mqrouters/router').then(resp => {
+        .get('/mqrouters/').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -88,7 +88,7 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/mqrouters/router', {
+          .delete('/mqrouters/', {
             name: row.name,
             incomingQueue: row.incomingQueue,
             outcomingQueue: row.outcomingQueue,
@@ -108,7 +108,7 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('/mqrouters/router/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
+        .get('/mqrouters/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
           }

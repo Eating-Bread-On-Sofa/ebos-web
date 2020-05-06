@@ -276,7 +276,7 @@ export default {
       })
     },
     getFormParas () {
-      this.$axios.get('/commands/command/list').then(resp => {
+      this.$axios.get('/commands/list').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -288,7 +288,7 @@ export default {
       })
     },
     getFormScenario () {
-      this.$axios.get('/scenarios/scenario').then(resp => {
+      this.$axios.get('/scenarios/').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -300,7 +300,7 @@ export default {
       })
     },
     getFormService () {
-      this.$axios.get('/commands/command').then(resp => {
+      this.$axios.get('/commands/').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
