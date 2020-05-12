@@ -73,7 +73,8 @@ export default {
   methods: {
     getGWList () {
       this.$axios
-        .get('/gateways/').then(resp => {
+        .get('http://localhost:8000/gc').then(resp => {
+        // .get('/gateways/').then(resp => {
           if (resp && resp.status === 200) {
             this.gwList = resp.data
           }
@@ -89,7 +90,8 @@ export default {
       //     this.deviceList = resp.data
       //   }
       // })
-      this.$axios.get('/commands/list').then(resp => {
+      this.$axios.get('http://localhost:8000/c/list').then(resp => {
+      // this.$axios.get('/commands/list').then(resp => {
         if (resp && resp.status === 200) {
           this.commandList = resp.data
         }
@@ -130,7 +132,8 @@ export default {
     onSubmit () {
       this.scenarioEdit.form.content.push(this.gwAndDevice)
       this.$axios
-        .post('/scenarios/', this.scenarioEdit.form).then(resp => {
+        .post('http://localhost:8000/s', this.scenarioEdit.form).then(resp => {
+        // .post('/scenarios/', this.scenarioEdit.form).then(resp => {
           if (resp && resp.status === 200) {
             this.dialogFormVisible = false
             this.$emit('onSubmit')

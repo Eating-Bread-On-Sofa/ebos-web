@@ -18,13 +18,13 @@ module.exports = {
       //     '^/profiles': ''
       //   }
       // },
-      '/profiles': {
-        target: 'http://localhost:8000/p/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/profiles': ''
-        }
-      },
+      // '/profiles': {
+      //   target: 'http://localhost:8000/p/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/profiles': ''
+      //   }
+      // },
       // '/mqrouters': {
       //   target: 'http://localhost:8084/api/',
       //   changeOrigin: true,
@@ -32,13 +32,13 @@ module.exports = {
       //     '^/mqrouters': ''
       //   }
       // },
-      '/mqrouters': {
-        target: 'http://localhost:8000/mqr/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/mqrouters': ''
-        }
-      },
+      // '/mqrouters': {
+      //   target: 'http://localhost:8000/mqr/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/mqrouters': ''
+      //   }
+      // },
       // '/devices': {
       //   target: 'http://localhost:8081/api/device/',
       //   changeOrigin: true,
@@ -46,13 +46,13 @@ module.exports = {
       //     '^/devices': ''
       //   }
       // },
-      '/devices': {
-        target: 'http://localhost:8000/d/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/devices': ''
-        }
-      },
+      // '/devices': {
+      //   target: 'http://localhost:8000/d/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/devices': ''
+      //   }
+      // },
       // '/rules': {
       //   target: 'http://localhost:8083/api/',
       //   changeOrigin: true,
@@ -60,13 +60,13 @@ module.exports = {
       //     '^/rules': ''
       //   }
       // },
-      '/rules': {
-        target: 'http://localhost:8000/rc/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/rules': ''
-        }
-      },
+      // '/rules': {
+      //   target: 'http://localhost:8000/rc/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/rules': ''
+      //   }
+      // },
       // '/logs': {
       //   target: 'http://localhost:8089/api/gateway/',
       //   changeOrigin: true,
@@ -81,13 +81,13 @@ module.exports = {
       //     '^/instances': ''
       //   }
       // },
-      '/instances': {
-        target: 'http://localhost:8000/gi/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/instances': ''
-        }
-      },
+      // '/instances': {
+      //   target: 'http://localhost:8000/gi/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/instances': ''
+      //   }
+      // },
       // '/gateways': {
       //   target: 'http://localhost:8089/api/',
       //   changeOrigin: true,
@@ -95,13 +95,13 @@ module.exports = {
       //     '^/gateways': ''
       //   }
       // },
-      '/gateways': {
-        target: 'http://localhost:8000/gc/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/gateways': ''
-        }
-      },
+      // '/gateways': {
+      //   target: 'http://localhost:8000/gc/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/gateways': ''
+      //   }
+      // },
       // '/scenarios': {
       //   target: 'http://localhost:8092/api/',
       //   changeOrigin: true,
@@ -109,13 +109,13 @@ module.exports = {
       //     '^/scenarios': ''
       //   }
       // },
-      '/scenarios': {
-        target: 'http://localhost:8000/s/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/scenarios': ''
-        }
-      },
+      // '/scenarios': {
+      //   target: 'http://localhost:8000/s/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/scenarios': ''
+      //   }
+      // },
       // '/notices': {
       //   target: 'http://localhost:8088/api/notice/',
       //   changeOrigin: true,
@@ -123,13 +123,13 @@ module.exports = {
       //     '^/notices': ''
       //   }
       // },
-      '/notices': {
-        target: 'http://localhost:8000/n/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/notices': ''
-        }
-      },
+      // '/notices': {
+      //   target: 'http://localhost:8000/n/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/notices': ''
+      //   }
+      // },
       // '/commands': {
       //   target: 'http://localhost:8082/api/',
       //   changeOrigin: true,
@@ -137,13 +137,13 @@ module.exports = {
       //     '^/commands': ''
       //   }
       // }
-      '/commands': {
-        target: 'http://localhost:8000/c/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/commands': ''
-        }
-      }
+      // '/commands': {
+      //   target: 'http://localhost:8000/c/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/commands': ''
+      //   }
+      // }
       // '/api': {
       //   target: 'http://localhost:8091/api/',
       //   changeOrigin: true,
@@ -189,9 +189,9 @@ module.exports = {
     index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist/bjtu'),
+    assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
-    assetsPublicPath: '/bjtu/',
+    assetsPublicPath: './',
 
     /**
      * Source Maps

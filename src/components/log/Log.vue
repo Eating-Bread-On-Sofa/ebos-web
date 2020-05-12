@@ -87,7 +87,8 @@ export default {
   methods: {
     loadLogs () {
       this.$axios
-        .get('/gateways/log').then(resp => {
+        .get('http://localhost:8000/gc/log').then(resp => {
+        // .get('/gateways/log').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false

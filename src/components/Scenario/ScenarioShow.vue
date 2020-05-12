@@ -42,7 +42,8 @@ export default {
   methods: {
     loadScenarios () {
       var _this = this
-      this.$axios.get('/scenarios/').then(resp => {
+      this.$axios.get('http://localhost:8000/s').then(resp => {
+      // this.$axios.get('/scenarios/').then(resp => {
         if (resp && resp.status === 200) {
           _this.scenarioList = resp.data
         }
@@ -52,7 +53,8 @@ export default {
     },
     handleScenario () {
       this.$refs.scenarioAlert.scenarioName = this.scenarioSelect
-      this.$axios.get('/scenarios/name/' + this.scenarioSelect).then(resp => {
+      this.$axios.get('http://localhost:8000/s/name/' + this.scenarioSelect).then(resp => {
+      // this.$axios.get('/scenarios/name/' + this.scenarioSelect).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.scenarioPanel.gatewayNum = resp.data.content.length
           var Num = 0
@@ -65,7 +67,8 @@ export default {
                 deviceNum.push(resp.data.content[x].commands[i].deviceName)
               }
             }
-            this.$axios.get('/devices/online/' + resp.data.content[x].gatewayIP).then(resp => {
+            this.$axios.get('http://localhost:8000/d/online/' + resp.data.content[x].gatewayIP).then(resp => {
+            // this.$axios.get('/devices/online/' + resp.data.content[x].gatewayIP).then(resp => {
               if (resp && resp.status === 200) {
                 deviceOnline.concat(resp.data)
               }

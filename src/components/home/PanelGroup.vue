@@ -75,7 +75,8 @@ export default {
   },
   methods: {
     getDeviceCount () {
-      this.$axios.get('/devices/days?days=1').then(resp => {
+      this.$axios.get('http://localhost:8000/d/days?days=1').then(resp => {
+      // this.$axios.get('/devices/days?days=1').then(resp => {
         if (resp && resp.status === 200) {
           this.deviceCount = resp.data[0].count
         }
@@ -84,14 +85,16 @@ export default {
       })
     },
     getGatewayCount () {
-      this.$axios.get('/gateways/gc/days?days=1').then(resp => {
+      this.$axios.get('http://localhost:8000/gc/days?days=1').then(resp => {
+      // this.$axios.get('/gateways/gc/days?days=1').then(resp => {
         if (resp && resp.status === 200) {
           this.gatewayCount = resp.data[0].count
         }
       })
     },
     getGatewayState () {
-      this.$axios.get('/gateways/state').then(resp => {
+      this.$axios.get('http://localhost:8000/gc/state').then(resp => {
+      // this.$axios.get('/gateways/state').then(resp => {
         if (resp && resp.status === 200) {
           this.microService = resp.data
           for (var i = 0; i < this.microService.length; i++) {

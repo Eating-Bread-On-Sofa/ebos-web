@@ -67,7 +67,8 @@ export default {
   },
   methods: {
     loadAlert () {
-      this.$axios.get('/notices/alert?days=10').then(resp => {
+      this.$axios.get('http://localhost:8000/n/alert?days=10').then(resp => {
+      // this.$axios.get('/notices/alert?days=10').then(resp => {
         if (resp && resp.status === 200) {
           this.deal(resp.data)
         }

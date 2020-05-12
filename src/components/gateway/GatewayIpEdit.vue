@@ -41,7 +41,8 @@ export default {
     onSubmit () {
       var _this = this
       this.$axios
-        .put('/gateways/', {
+        .put('http://localhost:8000/gc', {
+        // .put('/gateways/', {
           name: _this.gwIpForm.name,
           ip: _this.gwIpForm.ip
         }).then(resp => {
