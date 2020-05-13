@@ -34,15 +34,9 @@
           {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
         </template>
       </el-table-column>
-      <el-table-column prop="ruleCondition" label="规则条件2" width="150px">
-        <template slot-scope="scope">
-          {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
-        </template>
+      <el-table-column prop="rule2" label="规则条件2" width="150px">
       </el-table-column>
-      <el-table-column prop="ruleCondition" label="规则条件3" width="150px">
-        <template slot-scope="scope">
-          {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
-        </template>
+      <el-table-column prop="rule3" label="规则条件3" width="150px">
       </el-table-column>
       <el-table-column prop="ruleExecute" label="执行功能" width="100px">
       </el-table-column>
@@ -52,7 +46,6 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
-          <!--<el-button type="primary" icon="el-icon-edit" size="mini" @click="edit(scope.row,scope.$index)">编辑</el-button>-->
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
         </template>
       </el-table-column>
@@ -74,7 +67,7 @@
       width="50%"
       :before-close="handleClose">
       <div>
-        <el-form ref="form" :model="form" label-width="100px">
+        <el-form ref="form" :model="form" label-width="80px">
           <el-row>
             <el-col :span="24">
               <el-form-item label="规则名称">
@@ -86,30 +79,55 @@
                 </el-select>
               </el-form-item>
               <el-row>
-                <el-col :span="6">
-                  <el-form-item label="设备参数">
-                    <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
-                      <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                  <el-form-item label="规则条件">
-                    <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
-                      <el-option label="大于" value=">"></el-option>
-                      <el-option label="小于" value="<"></el-option>
-                      <el-option label="等于" value="="></el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                  <el-form-item label="参数门限">
-                    <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="6">
-                  <el-button type="primary" @click="addNewRule">增加规则</el-button>
-                </el-col>
+                <el-col :span="7">
+                    <el-form-item label="设备参数">
+                      <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
+                        <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="7">
+                    <el-form-item label="规则条件">
+                      <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
+                        <el-option label="大于" value=">"></el-option>
+                        <el-option label="小于" value="<"></el-option>
+                        <el-option label="等于" value="="></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="7">
+                    <el-form-item label="参数门限">
+                      <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                  </el-col>
+                <div v-for="(item, index) in form.dynamicItem" :key="index">
+                  <el-col :span="7">
+                    <el-form-item label="设备参数" :prop="'dynamicItem.' + index + '.name'">
+                      <el-select v-model="item.parameter" placeholder="请选择参数" style="width:100%">
+                        <el-option v-for="item1 in paras" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="7">
+                    <el-form-item label="规则条件" :prop="'dynamicItem.' + index + '.phone'">
+                      <el-select v-model="item.ruleJudge" placeholder="请选择规则条件" style="width:100%">
+                        <el-option label="大于" value=">"></el-option>
+                        <el-option label="小于" value="<"></el-option>
+                        <el-option label="等于" value="="></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="7">
+                    <el-form-item label="参数门限" :prop="'dynamicItem.' + index + '.phone'">
+                      <el-input v-model="item.ruleParaThreshold"  placeholder="请输入内容"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="3">
+                    <el-form-item  label-width="20px">
+                      <el-button type="primary" @click="deleteNewRule(item,index)" icon="el-icon-delete" circle size="small"></el-button>
+                    </el-form-item>
+                  </el-col>
+                </div>
               </el-row>
               <el-form-item label="执行功能">
                 <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
@@ -132,6 +150,7 @@
         </el-form>
       </div>
       <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="addNewRule">增加规则</el-button>
         <el-button @click="dialogCreateVisible = false">取 消</el-button>
         <el-button type="primary" @click="onSubmit">确 定</el-button>
       </span>
@@ -155,7 +174,10 @@ export default {
         ruleParaThreshold: '',
         ruleExecute: '',
         service: '',
-        scenario: ''
+        scenario: '',
+        dynamicItem: [],
+        rule2: '',
+        rule3: ''
       },
       dialogCreateVisible: false,
       table: [],
@@ -193,6 +215,13 @@ export default {
         })
     },
     add () {
+      if (this.form.dynamicItem.length === 2) {
+        this.form.rule2 = this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+        this.form.rule3 = this.form.dynamicItem[1].parameter + this.form.dynamicItem[1].ruleJudge + this.form.dynamicItem[1].ruleParaThreshold
+      }
+      if (this.form.dynamicItem.length === 1) {
+        this.form.rule2 = this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+      }
       this.table.push(this.form)
       this.form = {
         device: '',
@@ -202,7 +231,8 @@ export default {
         ruleParaThreshold: '',
         ruleExecute: '',
         service: '',
-        scenario: ''
+        scenario: '',
+        dynamicItem: []
       }
     },
     del (row, idx) {
@@ -241,7 +271,8 @@ export default {
           'ruleExecute': this.form.ruleExecute,
           'service': this.form.service,
           'device': this.form.device,
-          'scenario': this.form.scenario
+          'scenario': this.form.scenario,
+          'newRuleObj': this.form.dynamicItem
         }
       ).then(res => {
       })
@@ -340,7 +371,18 @@ export default {
       })
     },
     addNewRule () {
-      alert('增加规则')
+      if (this.form.dynamicItem.length === 2) {
+        alert('最多设置三条规则')
+      } else {
+        this.form.dynamicItem.push({
+          parameter: '',
+          ruleJudge: '',
+          ruleParaThreshold: ''
+        })
+      }
+    },
+    deleteNewRule (item, index) {
+      this.form.dynamicItem.splice(index, 1)
     }
   },
   computed: {
