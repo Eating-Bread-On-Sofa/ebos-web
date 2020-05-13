@@ -22,7 +22,8 @@ export default {
   data () {
     return {
       ScenarioMenu: [
-        {name: '/scenarioservice', menuname: '场景服务'}
+        {name: '/scenario', menuname: '场景服务'},
+        {name: '/scenarioShow', menuname: '场景展示'}
       ]
     }
   }

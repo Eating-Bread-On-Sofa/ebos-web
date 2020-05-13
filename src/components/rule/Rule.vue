@@ -123,7 +123,7 @@ export default {
   data () {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
-      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: '设备二', label: '设备二'}],
+      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}],
       services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
       scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
       form: {
@@ -149,8 +149,8 @@ export default {
   },
   created: function () {
     this.get()
-    this.getFormDevices()
-    this.getFormParas()
+    // this.getFormDevices()
+    // this.getFormParas()
     this.getFormService()
     this.getFormScenario()
   },
@@ -296,11 +296,11 @@ export default {
           obj.value = resp.data[x].name
           data[x] = obj
         }
-        this.services = data
+        this.scenarios = data
       })
     },
     getFormService () {
-      this.$axios.get('/scenarios/scenario').then(resp => {
+      this.$axios.get('/commands/command').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}

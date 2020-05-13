@@ -5,7 +5,7 @@
         :visible.sync="dialogFormVisible"
         width="30%"
         @close="clear">
-        <el-form v-model="scenarioEdit" style="text-align: left" ref="dataForm">
+        <el-form v-model="scenarioEdit" label-width="120px" style="text-align: left" ref="dataForm">
           <el-form-item label="场景服务名称">
             <el-input v-model="scenarioEdit.form.name" autocomplete="off" placeholder="请输入场景服务名称"></el-input>
           </el-form-item>
@@ -73,7 +73,7 @@ export default {
   methods: {
     getGWList () {
       this.$axios
-        .get('/gateways/gateway').then(resp => {
+        .get('/gateways/').then(resp => {
           if (resp && resp.status === 200) {
             this.gwList = resp.data
           }
@@ -89,7 +89,7 @@ export default {
       //     this.deviceList = resp.data
       //   }
       // })
-      this.$axios.get('/commands/command/list').then(resp => {
+      this.$axios.get('/commands/list').then(resp => {
         if (resp && resp.status === 200) {
           this.commandList = resp.data
         }
@@ -130,7 +130,7 @@ export default {
     onSubmit () {
       this.scenarioEdit.form.content.push(this.gwAndDevice)
       this.$axios
-        .post('/scenarios/scenario', this.scenarioEdit.form).then(resp => {
+        .post('/scenarios/', this.scenarioEdit.form).then(resp => {
           if (resp && resp.status === 200) {
             this.dialogFormVisible = false
             this.$emit('onSubmit')

@@ -9,7 +9,7 @@
             <div class="card-panel-text">
               今日设备数量增加：
             </div>
-            <count-to :start-val="0" :end-val="99" :duration="2600" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="deviceCount" :duration="2600" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -22,7 +22,7 @@
             <div class="card-panel-text">
               今日网关数量增加：
             </div>
-            <count-to :start-val="0" :end-val="67" :duration="3000" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="gatewayCount" :duration="3000" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -35,7 +35,7 @@
             <div class="card-panel-text">
               需要更换的设备：
             </div>
-            <count-to :start-val="0" :end-val="29" :duration="3200" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="0" :duration="3200" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -48,7 +48,7 @@
             <div class="card-panel-text">
               未运行为微服务数：
             </div>
-            <count-to :start-val="0" :end-val="2" :duration="3200" class="card-panel-num" />
+            <count-to :start-val="0" :end-val="offlineCount" :duration="3200" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -60,7 +60,50 @@ import CountTo from 'vue-count-to'
 export default {
   name: 'PanelGroup',
   components: {CountTo},
+  data () {
+    return {
+      deviceCount: 0,
+      gatewayCount: 0,
+      microService: [],
+      offlineCount: 0
+    }
+  },
+  mounted () {
+    this.getDeviceCount()
+    this.getGatewayCount()
+    this.getGatewayState()
+  },
   methods: {
+    getDeviceCount () {
+      this.$axios.get('/devices/days?days=1').then(resp => {
+        if (resp && resp.status === 200) {
+          this.deviceCount = resp.data[0].count
+        }
+      }).catch(() => {
+        this.$message('获取设备新增信息失败！')
+      })
+    },
+    getGatewayCount () {
+      this.$axios.get('/gateways/gc/days?days=1').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gatewayCount = resp.data[0].count
+        }
+      })
+    },
+    getGatewayState () {
+      this.$axios.get('/gateways/state').then(resp => {
+        if (resp && resp.status === 200) {
+          this.microService = resp.data
+          for (var i = 0; i < this.microService.length; i++) {
+            for (var key in resp.data[i]) {
+              if (resp.data[i][key] === 'OFFLINE') {
+                this.offlineCount += 1
+              }
+            }
+          }
+        }
+      })
+    },
     handleSetLineChartData (type) {
       this.$emit('handleSetLineChartData', type)
     }

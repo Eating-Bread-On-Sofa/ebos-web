@@ -8,7 +8,6 @@
       </el-button>
       <br>
       <scenario-edit-form @onSubmit="loadScenarios()" ref="scenarioEditForm"></scenario-edit-form>
-      <scenario-show ref="scenarioShow"></scenario-show>
       <scenario-device-state ref="scenarioDeviceState"></scenario-device-state>
       <el-table
         ref="multipleTable"
@@ -71,10 +70,10 @@
             <el-button
               size="mini"
               @click="handleStatus(scope.$index, scope.row)">查看设备状态</el-button>
-            <el-button
-              size="mini"
-              type="success"
-              @click="handleShow(scope.$index, scope.row)">场景展示</el-button>
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              type="success"-->
+<!--              @click="handleShow(scope.$index, scope.row)">场景展示</el-button>-->
             <el-button
               size="mini"
               type="danger"
@@ -166,13 +165,13 @@ export default {
     loadScenarios () {
       var _this = this
       this.$axios
-        .get('/scenarios/scenario').then(resp => {
+        .get('/scenarios/').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
           }
-        }).catch(e => {
-          _this.$message('数据加载失败！' + e)
+        }).catch(() => {
+          _this.$message('数据加载失败！')
         })
     },
     handleCurrentChange: function (currentPage) {
@@ -181,27 +180,27 @@ export default {
     createScenario () {
       this.$refs.scenarioEditForm.dialogFormVisible = true
     },
-    handleShow (index, row) {
-      this.$scenarioShow.dialogFormVisible = true
-    },
+    // handleShow (index, row) {
+    //   this.$scenarioShow.dialogFormVisible = true
+    // },
     handleStatus (index, tablerow) {
-      var _this = this
-      this.$axios
-        .get('/scenarios/scenario/status/' + tablerow.name).then(resp => {
-          if (resp && resp.status === 200) {
-            _this.$refs.scenarioDeviceState.dialogFormVisible = true
-            _this.$refs.scenarioDeviceState.deviceData = resp.data
-          }
-        })
+      this.$axios.get('/scenarios/status/' + tablerow.name).then(resp => {
+        if (resp && resp.status === 200) {
+          this.$refs.scenarioDeviceState.statusData = resp.data
+          this.$refs.scenarioDeviceState.dialogFormVisible = true
+        }
+      }).catch(() => {
+        this.$message('获取状态信息失败！')
+      })
     },
     handleDelete (index, tablerow) {
-      this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
+      this.$confirm('此操作将永久删除该场景，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/scenarios/scenario/name/' + tablerow.name, {
+          .delete('/scenarios/name/' + tablerow.name, {
           }).then(resp => {
             if (resp && resp.status === 200) {
               this.loadScenarios()
@@ -217,7 +216,7 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('/scenarios/scenario/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('/scenarios/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

@@ -8,16 +8,14 @@ export default {
   name: 'LineChart',
   data () {
     return {
-      charts: ''
-    }
-  },
-  methods: {
-    drawLine (id) {
-      this.charts = echarts.init(document.getElementById(id))
-      this.charts.setOption({
+      charts: '',
+      scenarioAddition: [],
+      xdata: [],
+      ydata: [],
+      option: {
         tooltip: {},
         legend: {
-          data: ['服务接入数量']
+          data: ['场景服务接入数量']
         },
         grid: {
           top: 10,
@@ -33,23 +31,43 @@ export default {
           }
         },
         xAxis: {
-          data: ['2020/3/1', '2020/3/4', '2020/3/8', '2020/3/10', '2020/3/12', '2020/3/15', '2020/3/20', '2020/3/23']
+          data: ''
 
         },
-        yAxis: {},
+        yAxis: {
+          max: 3
+        },
 
         series: [{
-          name: '服务接入数量',
+          name: '场景服务接入数量',
           type: 'bar',
-          data: ['3', '1', '2', '3', '2', '4', '4', '5']
+          data: ''
         }]
-      })
+      }
     }
   },
   mounted () {
-    this.$nextTick(function () {
-      this.drawLine('lineChart')
-    })
+    this.loadScenarioAddition()
+  },
+  methods: {
+    loadScenarioAddition () {
+      this.$axios.get('/scenarios/days?days=30').then(resp => {
+        if (resp && resp.status === 200) {
+          this.scenarioAddition = resp.data
+          this.drawLine(this.scenarioAddition)
+        }
+      })
+    },
+    drawLine (data) {
+      for (var x = 29; x >= 0; x--) {
+        this.xdata.push(data[x]['endDate'].slice(0, 10))
+        this.ydata.push(data[x]['count'])
+      }
+      this.option.xAxis.data = this.xdata
+      this.option.series[0].data = this.ydata
+      this.charts = echarts.init(document.getElementById('lineChart'))
+      this.charts.setOption(this.option)
+    }
   }
 }
 </script>

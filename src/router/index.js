@@ -23,11 +23,13 @@ import Gateway from '../components/gateway/Gateway'
 import CommandIndex from '../components/command/CommandIndex'
 import Command from '../components/command/Command'
 import DeviceMonitor from '../components/device/DeviceMonitor'
+import ScenarioShow from '../components/Scenario/ScenarioShow'
 
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history',
+  mode: 'history', // 将模式转换成history模式
+  base: '/bjtu/', // 配置路由的根目录
   routes: [
     {
       path: '/home',
@@ -120,6 +122,11 @@ export default new Router({
               path: '/scenario',
               name: 'ScenarioService',
               component: ScenarioService
+            },
+            {
+              path: '/scenarioShow',
+              name: 'ScenarioShow',
+              component: ScenarioShow
             }
           ]
         },

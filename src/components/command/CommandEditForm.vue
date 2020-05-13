@@ -74,7 +74,7 @@ export default {
   methods: {
     getCommandList () {
       this.$axios
-        .get('/commands/command/list').then(resp => {
+        .get('/commands/list').then(resp => {
           if (resp && resp.status === 200) {
             this.commandList = resp.data
           }
@@ -106,7 +106,7 @@ export default {
       this.commandForm.commandEdit.deviceId = this.commandForm.list.deviceId
       this.commandForm.commandEdit.deviceName = this.commandForm.list.deviceName
       this.$axios
-        .post('/commands/command', _this.commandForm.commandEdit).then(resp => {
+        .post('/commands/', _this.commandForm.commandEdit).then(resp => {
           if (resp && resp.status === 200) {
             _this.dialogFormVisible = false
             _this.$emit('onSubmit')

@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <el-row style="height: 800px;">
+    <el-row>
       <el-button type="success" @click="shenji" style="float: right">开始审计</el-button>
       <!--表格数据及操作-->
       <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
@@ -87,7 +87,7 @@ export default {
   methods: {
     loadLogs () {
       this.$axios
-        .get('/logs/log').then(resp => {
+        .get('/gateways/log').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
