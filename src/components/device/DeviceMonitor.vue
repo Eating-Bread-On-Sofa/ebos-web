@@ -100,7 +100,9 @@ export default {
   },
   methods: {
     loadDevices () {
-      this.$axios.get('/devices/online/127.0.0.1').then(resp => {
+      this.$axios.get('http://localhost:8081/api/device/online/127.0.0.1').then(resp => {
+      // this.$axios.get('http://localhost:8000/d/online/127.0.0.1').then(resp => {
+      // this.$axios.get('/devices/online/127.0.0.1').then(resp => {
         if (resp && resp.status === 200) {
           this.deviceList = resp.data
         }
@@ -119,7 +121,9 @@ export default {
       // this.dataForm.type = []
       // this.dataForm.data1 = []
       // this.dataForm.data2 = []
-      this.$axios.get('/devices/details/127.0.0.1/' + id).then(resp => {
+      this.$axios.get('http://localhost:8081/api/details/127.0.0.1/' + id).then(resp => {
+      // this.$axios.get('http://localhost:8000/d/details/127.0.0.1/' + id).then(resp => {
+      // this.$axios.get('/devices/details/127.0.0.1/' + id).then(resp => {
         if (resp && resp.status === 200) {
           this.dataForm.type = Object.keys(resp.data)
           this.dataForm.data1.push([date, resp.data[this.dataForm.type[0]]])
@@ -138,7 +142,9 @@ export default {
       })
       setInterval(() => {
         var date = new Date()
-        this.$axios.get('/devices/details/127.0.0.1/' + id).then(resp => {
+        this.$axios.get('http://localhost:8081/api/details/127.0.0.1/' + id).then(resp => {
+        // this.$axios.get('http://localhost:8000/d/details/127.0.0.1/' + id).then(resp => {
+        // this.$axios.get('/devices/details/127.0.0.1/' + id).then(resp => {
           if (resp && resp.status === 200) {
             this.dataForm.data1.push([date, resp.data[this.dataForm.type[0]]])
             this.dataForm.data2.push([date, resp.data[this.dataForm.type[1]]])

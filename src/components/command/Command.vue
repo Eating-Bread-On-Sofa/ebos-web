@@ -70,7 +70,8 @@ export default {
   methods: {
     loadCommands () {
       this.$axios
-        .get('/commands/').then(resp => {
+        .get('http://localhost:8000/c').then(resp => {
+        // .get('/commands/').then(resp => {
           if (resp && resp.status === 200) {
             this.tableData = resp.data
             this.loading = false
@@ -88,7 +89,8 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/commands?name=' + row.name).then(resp => {
+          .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
+          // .delete('/commands?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadCommands()
             }
@@ -106,7 +108,8 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('/commands/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8000/c/search?keywords=' + this.$refs.searchBar.keywords, {
+        // .get('/commands/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

@@ -1,5 +1,4 @@
 import Vue from 'vue'
-import Router from 'vue-router'
 import Rule from '../components/rule/Rule'
 import Home from '../components/Home'
 import Login from '../components/Login'
@@ -25,11 +24,13 @@ import Command from '../components/command/Command'
 import DeviceMonitor from '../components/device/DeviceMonitor'
 import ScenarioShow from '../components/Scenario/ScenarioShow'
 
+import Router from 'vue-router'
+
 Vue.use(Router)
 
 export default new Router({
-  mode: 'history', // 将模式转换成history模式
-  base: '/bjtu/', // 配置路由的根目录
+  // mode: 'history', // 将模式转换成history模式
+  // base: '/bjtu/', // 配置路由的根目录
   routes: [
     {
       path: '/home',

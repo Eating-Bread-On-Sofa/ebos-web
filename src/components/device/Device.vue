@@ -86,7 +86,9 @@ export default {
     loadDevices () {
       var _this = this
       this.$axios
-        .get('/devices/ip/127.0.0.1').then(resp => {
+        .get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
+        // .get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
+        // .get('/devices/ip/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
             _this.loading = false
@@ -125,7 +127,9 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/devices/ip/127.0.0.1/name/' + row.name).then(resp => {
+          .delete('http://localhost:8081/api/device/ip/127.0.0.1/name/' + row.name).then(resp => {
+          // .delete('http://localhost:8000/d/ip/127.0.0.1/name/' + row.name).then(resp => {
+          // .delete('/devices/ip/127.0.0.1/name/' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadDevices()
             }
@@ -138,7 +142,9 @@ export default {
       })
     },
     handleTest (index, row) {
-      this.$axios.get('/devices/details/127.0.0.1/' + row.id).then(resp => {
+      this.$axios.get('http://localhost:8081/api/device/details/127.0.0.1/' + row.id).then(resp => {
+      // this.$axios.get('http://localhost:8000/d/details/127.0.0.1/' + row.id).then(resp => {
+      // this.$axios.get('/devices/details/127.0.0.1/' + row.id).then(resp => {
         if (resp && resp.status === 200) {
           this.$message('连接成功！')
         }
@@ -152,7 +158,8 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('/devices/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8000/d/search?keywords=' + this.$refs.searchBar.keywords, {
+        // .get('/devices/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data

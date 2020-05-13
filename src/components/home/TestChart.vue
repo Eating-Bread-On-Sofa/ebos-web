@@ -74,12 +74,22 @@ export default {
   },
   methods: {
     getAddition () {
+<<<<<<< HEAD
       this.$axios.get('/gateways/days?days=30').then(resp => {
+=======
+      this.$axios.get('http://localhost:8000/gc/days?days=30').then(resp => {
+      // this.$axios.get('/gateways/days?days=30').then(resp => {
+>>>>>>> 3849457aeb372fe79896a0b9b013b5a52631bfed
         if (resp && resp.status === 200) {
           this.gatewayAddition = resp.data
         }
       })
+<<<<<<< HEAD
       this.$axios.get('/devices/days?days=30').then(resp => {
+=======
+      this.$axios.get('http://localhost:8000/d/days?days=30').then(resp => {
+      // this.$axios.get('/devices/days?days=30').then(resp => {
+>>>>>>> 3849457aeb372fe79896a0b9b013b5a52631bfed
         if (resp && resp.status === 200) {
           this.deviceAddition = resp.data
           this.drawLine(this.gatewayAddition, this.deviceAddition)

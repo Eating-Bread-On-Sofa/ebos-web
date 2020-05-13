@@ -190,7 +190,8 @@ export default {
       this.$confirm('确认删除？')
         .then(_ => {
           this.table.splice(idx, 1)
-          this.$axios.post('/rules/ruleDelete',
+          this.$axios.post('http://localhost:8000/rc/ruleDelete',
+          // this.$axios.post('/rules/ruleDelete',
             {
               'ruleName': row.ruleName
             }
@@ -198,6 +199,7 @@ export default {
             console.log(res)
           })
           this.$axios.post('/rules/rule',
+          // this.$axios.post('/rules/rule',
             {
               'ruleId': row.ruleId
             }
@@ -210,7 +212,8 @@ export default {
         })
     },
     post () {
-      this.$axios.post('/rules/webdata',
+      this.$axios.post('http://localhost:8000/rc/webdata',
+      // this.$axios.post('/rules/webdata',
         {
           'ruleName': this.form.ruleName,
           'rulePara': this.form.parameter,
@@ -226,7 +229,8 @@ export default {
       this.ruleCreate()
     },
     ruleCreate () {
-      this.$axios.post('/rules/ruleCreate',
+      this.$axios.post('http://localhost:8000/rc/ruleCreate',
+      // this.$axios.post('/rules/ruleCreate',
         {
           'ruleName': this.form.ruleName,
           'rulePara': this.form.parameter,
@@ -242,7 +246,8 @@ export default {
     },
     get () {
       var _this = this
-      this.$axios.get('/rules/getRuleLists').then(resp => {
+      this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+      // this.$axios.get('/rules/getRuleLists').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -264,7 +269,8 @@ export default {
       })
     },
     getFormDevices () {
-      this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
+      this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
+      // this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -276,7 +282,8 @@ export default {
       })
     },
     getFormParas () {
-      this.$axios.get('/commands/command/list').then(resp => {
+      this.$axios.get('http://localhost:8000/c/list').then(resp => {
+      // this.$axios.get('/commands/list').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -288,7 +295,8 @@ export default {
       })
     },
     getFormScenario () {
-      this.$axios.get('/scenarios/scenario').then(resp => {
+      this.$axios.get('http://localhost:8000/s').then(resp => {
+      // this.$axios.get('/scenarios/').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -300,7 +308,8 @@ export default {
       })
     },
     getFormService () {
-      this.$axios.get('/commands/command').then(resp => {
+      this.$axios.get('http://localhost:8000/c').then(resp => {
+      // this.$axios.get('/commands/').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}

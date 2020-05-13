@@ -165,7 +165,8 @@ export default {
     loadScenarios () {
       var _this = this
       this.$axios
-        .get('/scenarios/').then(resp => {
+        .get('http://localhost:8000/s').then(resp => {
+        // .get('/scenarios/').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -184,7 +185,8 @@ export default {
     //   this.$scenarioShow.dialogFormVisible = true
     // },
     handleStatus (index, tablerow) {
-      this.$axios.get('/scenarios/status/' + tablerow.name).then(resp => {
+      this.$axios.get('http://localhost:8000/s/status/' + tablerow.name).then(resp => {
+      // this.$axios.get('/scenarios/status/' + tablerow.name).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.scenarioDeviceState.statusData = resp.data
           this.$refs.scenarioDeviceState.dialogFormVisible = true
@@ -200,7 +202,8 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('/scenarios/name/' + tablerow.name, {
+          .delete('http://localhost:8000/s/name/' + tablerow.name, {
+          // .delete('/scenarios/name/' + tablerow.name, {
           }).then(resp => {
             if (resp && resp.status === 200) {
               this.loadScenarios()
@@ -216,7 +219,8 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-        .get('/scenarios/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8000/s/search?keywords=' + this.$refs.searchBar.keywords, {
+        // .get('/scenarios/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

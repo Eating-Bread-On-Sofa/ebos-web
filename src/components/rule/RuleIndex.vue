@@ -1,5 +1,5 @@
 <template>
-  <el-container>
+  <el-container style="margin-top: 5px;margin-right: 5px;margin-left: 5px">
     <el-side style="width: 150px;margin-top: 20px">
       <rule-side-menu></rule-side-menu>
     </el-side>

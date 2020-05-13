@@ -1,6 +1,6 @@
 <template>
   <div id="Login" class="img1">
-    <el-container>
+    <el-container style="margin-top: 5px;margin-right: 5px;margin-left: 5px">
       <el-main>
         <el-row>
           <el-col :span="12" :offset="6" :xs="24">

@@ -51,7 +51,8 @@ export default {
   methods: {
     getGWList () {
       this.$axios
-        .get('/gateways/').then(resp => {
+        .get('http://localhost:8000/gc').then(resp => {
+        // .get('/gateways/').then(resp => {
           if (resp && resp.status === 200) {
             this.gwList = resp.data
           }
@@ -66,7 +67,8 @@ export default {
       var instance = axios.create({
         headers: {'content-type': 'text/plain'}
       })
-      instance.post('profiles/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
+      instance.post('http://localhost:8000/p/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
+      // instance.post('profiles/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
       ).then(resp => {
         if (resp && resp.status === 200) {
           _this.dialogFormVisible = false
