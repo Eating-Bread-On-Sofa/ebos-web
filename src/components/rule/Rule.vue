@@ -25,20 +25,30 @@
         </template>
       </el-table-column>
       <!--表头-->
-      <el-table-column prop="ruleName" label="规则名称" width="200px">
+      <el-table-column prop="ruleName" label="规则名称" width="100px">
       </el-table-column>
-      <el-table-column prop="device" label="设备名称">
+      <el-table-column prop="device" label="设备名称" width="200px">
       </el-table-column>
-      <el-table-column prop="ruleCondition" label="规则条件">
+      <el-table-column prop="ruleCondition" label="规则条件1" width="150px">
         <template slot-scope="scope">
           {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
         </template>
       </el-table-column>
-      <el-table-column prop="ruleExecute" label="执行功能">
+      <el-table-column prop="ruleCondition" label="规则条件2" width="150px">
+        <template slot-scope="scope">
+          {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
+        </template>
       </el-table-column>
-      <el-table-column prop="service" label="服务">
+      <el-table-column prop="ruleCondition" label="规则条件3" width="150px">
+        <template slot-scope="scope">
+          {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
+        </template>
       </el-table-column>
-      <el-table-column prop="scenario" label="场景">
+      <el-table-column prop="ruleExecute" label="执行功能" width="100px">
+      </el-table-column>
+      <el-table-column prop="service" label="服务" width="100px">
+      </el-table-column>
+      <el-table-column prop="scenario" label="场景" width="100px">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -61,12 +71,12 @@
     <el-dialog
       title="新建规则"
       :visible.sync="dialogCreateVisible"
-      width="30%"
+      width="50%"
       :before-close="handleClose">
       <div>
-        <el-form ref="form" :model="form" label-width="120px">
+        <el-form ref="form" :model="form" label-width="100px">
           <el-row>
-            <el-col :span="18">
+            <el-col :span="24">
               <el-form-item label="规则名称">
                 <el-input v-model="form.ruleName"  placeholder="请输入内容"></el-input>
               </el-form-item>
@@ -75,21 +85,32 @@
                   <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="设备参数">
-                <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
-                  <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="规则条件">
-                <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
-                  <el-option label="大于" value=">"></el-option>
-                  <el-option label="小于" value="<"></el-option>
-                  <el-option label="等于" value="="></el-option>
-                </el-select>
-              </el-form-item>
-              <el-form-item label="参数门限">
-                <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
-              </el-form-item>
+              <el-row>
+                <el-col :span="6">
+                  <el-form-item label="设备参数">
+                    <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
+                      <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="规则条件">
+                    <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
+                      <el-option label="大于" value=">"></el-option>
+                      <el-option label="小于" value="<"></el-option>
+                      <el-option label="等于" value="="></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-form-item label="参数门限">
+                    <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="6">
+                  <el-button type="primary" @click="addNewRule">增加规则</el-button>
+                </el-col>
+              </el-row>
               <el-form-item label="执行功能">
                 <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
                   <el-option label="告警" value="告警"></el-option>
@@ -156,10 +177,8 @@ export default {
   },
   methods: {
     onSubmit () {
-      console.log('submit!')
       this.dialogCreateVisible = false
       this.post()
-      console.log(this.form)
       this.add()
     },
     handleCurrentChange: function (currentPage) {
@@ -319,6 +338,9 @@ export default {
         }
         this.services = data
       })
+    },
+    addNewRule () {
+      alert('增加规则')
     }
   },
   computed: {

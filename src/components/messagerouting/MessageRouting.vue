@@ -66,12 +66,8 @@ export default {
   methods: {
     loadMessageRouting () {
       this.$axios
-<<<<<<< HEAD
-        .get('/mqrouters/').then(resp => {
-=======
         .get('http://localhost:8000/mqr').then(resp => {
         // .get('/mqrouters/').then(resp => {
->>>>>>> 3849457aeb372fe79896a0b9b013b5a52631bfed
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -93,12 +89,8 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-<<<<<<< HEAD
-          .delete('/mqrouters/', {
-=======
           .delete('http://localhost:8000/mqr/', {
           // .delete('/mqrouters/', {
->>>>>>> 3849457aeb372fe79896a0b9b013b5a52631bfed
             name: row.name,
             incomingQueue: row.incomingQueue,
             outcomingQueue: row.outcomingQueue,
@@ -118,12 +110,8 @@ export default {
     searchResult () {
       var _this = this
       this.$axios
-<<<<<<< HEAD
-        .get('/mqrouters/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
-=======
         .get('http://localhost:8000/mqr/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
         // .get('/mqrouters/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
->>>>>>> 3849457aeb372fe79896a0b9b013b5a52631bfed
           if (resp && resp.status === 200) {
             _this.table = resp.data
           }

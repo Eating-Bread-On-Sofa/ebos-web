@@ -44,12 +44,8 @@ export default {
     onSubmit () {
       var _this = this
       this.$axios
-<<<<<<< HEAD
-        .post('/mqrouters/', _this.FormData).then(resp => {
-=======
         .post('http://localhost:8000/mqr', _this.FormData).then(resp => {
         // .post('/mqrouters/', _this.FormData).then(resp => {
->>>>>>> 3849457aeb372fe79896a0b9b013b5a52631bfed
           if (resp && resp.status === 200) {
             _this.dialogFormVisible = false
             _this.$emit('onSubmit')
