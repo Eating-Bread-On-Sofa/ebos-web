@@ -272,7 +272,12 @@ export default {
           'service': this.form.service,
           'device': this.form.device,
           'scenario': this.form.scenario,
-          'newRuleObj': this.form.dynamicItem
+          'rulePara2': this.form.dynamicItem[0].parameter,
+          'ruleJudge2': this.form.dynamicItem[0].ruleJudge,
+          'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
+          'rulePara3': this.form.dynamicItem[1].parameter,
+          'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
+          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold
         }
       ).then(res => {
       })
@@ -289,7 +294,13 @@ export default {
           'ruleExecute': this.form.ruleExecute,
           'service': this.form.service,
           'device': this.form.device,
-          'scenario': this.form.scenario
+          'scenario': this.form.scenario,
+          'rulePara2': this.form.dynamicItem[0].parameter,
+          'ruleJudge2': this.form.dynamicItem[0].ruleJudge,
+          'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
+          'rulePara3': this.form.dynamicItem[1].parameter,
+          'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
+          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold
         }
       ).then(res => {
       })
@@ -310,6 +321,8 @@ export default {
           obj.service = resp.data[x].service
           obj.device = resp.data[x].device
           obj.scenario = resp.data[x].scenario
+          obj.rule2 = resp.data[x].parameter2 + resp.data[x].ruleJudge2 + resp.data[x].threshold2
+          obj.rule3 = resp.data[x].parameter3 + resp.data[x].ruleJudge3 + resp.data[x].threshold3
           data[x] = obj
         }
         if (resp && resp.status === 200) {
