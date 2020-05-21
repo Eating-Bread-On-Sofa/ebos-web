@@ -13,7 +13,7 @@
             <el-input v-model="FormData.incomingQueue" placeholder="请输入传入队列名称"></el-input>
           </el-form-item>
           <el-form-item label="传出队列">
-            <el-input v-model="FormData.outcomingQueue" placeholder="请输入传出队列名称"></el-input>
+            <el-input v-model="FormData.outgoingQueue" placeholder="请输入传出队列名称"></el-input>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -33,7 +33,7 @@ export default {
       FormData: {
         name: '',
         incomingQueue: '',
-        outcomingQueue: ''
+        outgoingQueue: ''
       }
     }
   },

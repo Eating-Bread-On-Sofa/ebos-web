@@ -25,7 +25,7 @@
         <!--表头-->
         <el-table-column prop="name" label="消息路由名称"></el-table-column>
         <el-table-column prop="incomingQueue" label="消息来源"></el-table-column>
-        <el-table-column prop="outcomingQueue" label="消息去向"></el-table-column>
+        <el-table-column prop="outgoingQueue" label="消息去向"></el-table-column>
         <el-table-column prop="createTime" label="创建时间"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
@@ -93,7 +93,7 @@ export default {
           // .delete('/mqr', {
             name: row.name,
             incomingQueue: row.incomingQueue,
-            outcomingQueue: row.outcomingQueue,
+            outgoingQueue: row.outcomingQueue,
             createTime: row.createTime
           }).then(resp => {
             if (resp && resp.status === 200) {

@@ -67,8 +67,8 @@ export default {
       var instance = axios.create({
         headers: {'content-type': 'text/plain'}
       })
-      instance.post('http://localhost:8091/profile/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
-      // instance.post('http://localhost:8000/p/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
+      // instance.post('http://localhost:8091/profile/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
+      instance.post('http://localhost:8000/p/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
       // instance.post('/p/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
       ).then(resp => {
         if (resp && resp.status === 200) {
