@@ -29,7 +29,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history', // 将模式转换成history模式
+  mode: 'history', // 将模式转换成history模式
   // base: '/bjtu/', // 配置路由的根目录
   routes: [
     {

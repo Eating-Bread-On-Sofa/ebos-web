@@ -75,13 +75,13 @@ export default {
   methods: {
     getAddition () {
       this.$axios.get('http://localhost:8000/gc/days?days=30').then(resp => {
-      // this.$axios.get('/gateways/days?days=30').then(resp => {
+      // this.$axios.get('/gc/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           this.gatewayAddition = resp.data
         }
       })
       this.$axios.get('http://localhost:8000/d/days?days=30').then(resp => {
-      // this.$axios.get('/devices/days?days=30').then(resp => {
+      // this.$axios.get('/d/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           this.deviceAddition = resp.data
           this.drawLine(this.gatewayAddition, this.deviceAddition)

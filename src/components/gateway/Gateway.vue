@@ -106,8 +106,9 @@ export default {
     loadGateways () {
       var _this = this
       this.$axios
+        // .get('http://localhost:8089/api/gateway').then(resp => {
         .get('http://localhost:8000/gc').then(resp => {
-        // .get('/gateways/').then(resp => {
+        // .get('/gc').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -135,7 +136,7 @@ export default {
     handleBackup (index, tablerow) {
       this.$axios
         .post('http://localhost:8000/gc/copy/' + tablerow.ip, {
-        // .post('/gateways/copy/' + tablerow.ip, {
+        // .post('/gc/copy/' + tablerow.ip, {
           command: '1',
           device: '1',
           deviceprofile: '1',
@@ -151,7 +152,7 @@ export default {
     },
     handleRecover (index, row) {
       this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
-      // this.$axios.get('/gateways/version/' + row.ip).then(resp => {
+      // this.$axios.get('/gc/version/' + row.ip).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.gatewayRecover.versionList = resp.data
           this.$refs.gatewayRecover.dialogFormVisible = true
@@ -170,8 +171,9 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
+          // .delete('http://localhost:8089/api/gateway/' + tablerow.name).then(resp => {
           .delete('http://localhost:8000/gc' + tablerow.name).then(resp => {
-          // .delete('/gateways/' + tablerow.name).then(resp => {
+          // .delete('/gc/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadGateways()
             }

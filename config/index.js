@@ -145,7 +145,7 @@ module.exports = {
       //   }
       // }
       // '/api': {
-      //   target: 'http://localhost:8091/api/',
+      //   target: 'http://localhost:8000/',
       //   changeOrigin: true,
       //   pathRewrite: {
       //     '^/api': ''
@@ -185,11 +185,13 @@ module.exports = {
   },
 
   build: {
+    // 环境变量
+    env: require('./prod.env'),
     // Template for index.html
     index: path.resolve(__dirname, '../dist/index.html'),
 
     // Paths
-    assetsRoot: path.resolve(__dirname, '../dist/bjtu'),
+    assetsRoot: path.resolve(__dirname, '../dist'),
     assetsSubDirectory: 'static',
     assetsPublicPath: './',
 

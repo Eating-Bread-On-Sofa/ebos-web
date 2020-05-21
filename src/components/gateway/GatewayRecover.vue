@@ -63,8 +63,8 @@ export default {
     onSubmit () {
       var _this = this
       this.$axios
-        .post('http://localhost:8000/gc/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
-        // .post('/gateways/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+        .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+        // .post('/gc/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
           command: _this.gwRecoverForm.command,
           device: {
             deviceIp: _this.gwRecoverForm.deviceIp

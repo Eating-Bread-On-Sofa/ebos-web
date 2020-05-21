@@ -7,7 +7,7 @@
       <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createProfile()">新增
       </el-button>
       <br>
-      <profile-edit-form @onSubmit="loadProfiles()" ref="profileEditForm"></profile-edit-form>
+      <profile-edit-form @onSubmit="loadProfiles" ref="profileEditForm"></profile-edit-form>
       <el-table
         ref="multipleTable"
         v-loading="loading"
@@ -153,7 +153,7 @@ export default {
       var _this = this
       this.$axios
         .get('http://localhost:8000/p/ip/127.0.0.1').then(resp => {
-        // .get('/profiles/ip/127.0.0.1').then(resp => {
+        // .get('/p/ip/127.0.0.1').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -173,7 +173,7 @@ export default {
       var filecontent
       this.$axios
         .get('http://localhost:8000/p/yml/' + tablerow.id).then(resp => {
-        // .get('/profiles/yml/' + tablerow.id).then(resp => {
+        // .get('/p/yml/' + tablerow.id).then(resp => {
           if (resp && resp.status === 200) {
             filecontent = resp.data
             if ('download' in document.createElement('a')) {
@@ -206,7 +206,7 @@ export default {
       }).then(() => {
         this.$axios
           .delete('http://localhost:8000/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
-          // .delete('/profiles/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
+          // .delete('/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadProfiles()
             }
@@ -222,7 +222,7 @@ export default {
       var _this = this
       this.$axios
         .get('http://localhost:8000/p/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/profiles/search?keywords=' + this.$refs.searchBar.keywords, {
+        // .get('/p/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

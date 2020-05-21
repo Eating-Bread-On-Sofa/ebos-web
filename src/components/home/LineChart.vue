@@ -52,7 +52,7 @@ export default {
   methods: {
     loadScenarioAddition () {
       this.$axios.get('http://localhost:8000/s/days?days=30').then(resp => {
-      // this.$axios.get('/scenarios/days?days=30').then(resp => {
+      // this.$axios.get('/s/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           this.scenarioAddition = resp.data
           this.drawLine(this.scenarioAddition)

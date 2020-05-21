@@ -107,7 +107,7 @@ export default {
     getGWList () {
       this.$axios
         .get('http://localhost:8000/gc').then(resp => {
-        // .get('/gateways/').then(resp => {
+        // .get('/gc').then(resp => {
           if (resp && resp.status === 200) {
             this.gwList = resp.data
           }
@@ -117,7 +117,7 @@ export default {
       var _this = this
       this.$axios
         .get('http://localhost:8000/d/protocol').then(resp => {
-        // .get('/devices/protocol').then(resp => {
+        // .get('/d/protocol').then(resp => {
           if (resp && resp.status === 200) {
             _this.protocolList = resp.data
           }
@@ -132,7 +132,7 @@ export default {
     handleProtocol () {
       this.$axios
         .get('http://localhost:8000/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
-        // .get('/devices/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+        // .get('/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
           if (resp && resp.status === 200) {
             this.deviceEditForm.deviceForm.protocols = resp.data
           }
@@ -145,7 +145,7 @@ export default {
     },
     getProfileList () {
       this.$axios
-        // .get('/profiles/ip/' + this.deviceEditForm.gwip).then(resp => {
+        // .get('/p/ip/' + this.deviceEditForm.gwip).then(resp => {
         .get('http://localhost:8000/p/ip/' + this.deviceEditForm.gwip).then(resp => {
           if (resp && resp.status === 200) {
             this.profileList = resp.data
@@ -157,7 +157,7 @@ export default {
     getDeviceServiceList () {
       this.$axios
         .get('http://localhost:8000/d/service/' + this.deviceEditForm.gwip).then(resp => {
-        // .get('/devices/service/' + this.deviceEditForm.gwip).then(resp => {
+        // .get('/d/service/' + this.deviceEditForm.gwip).then(resp => {
           if (resp && resp.status === 200) {
             this.deviceServiceList = resp.data
           }
@@ -188,9 +188,9 @@ export default {
     onSubmit () {
       var _this = this
       this.$axios
-        .post('http://localhost:8081/api/device/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
-        // .post('http://localhost:8000/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
-        // .post('/devices/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        // .post('http://localhost:8081/api/device/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        .post('http://localhost:8000/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        // .post('/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
           if (resp && resp.status === 200) {
             _this.dialogFormVisible = false
             _this.$emit('onSubmit')

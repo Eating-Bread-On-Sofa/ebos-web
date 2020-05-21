@@ -166,7 +166,7 @@ export default {
       var _this = this
       this.$axios
         .get('http://localhost:8000/s').then(resp => {
-        // .get('/scenarios/').then(resp => {
+        // .get('/s').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -186,7 +186,7 @@ export default {
     // },
     handleStatus (index, tablerow) {
       this.$axios.get('http://localhost:8000/s/status/' + tablerow.name).then(resp => {
-      // this.$axios.get('/scenarios/status/' + tablerow.name).then(resp => {
+      // this.$axios.get('/s/status/' + tablerow.name).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.scenarioDeviceState.statusData = resp.data
           this.$refs.scenarioDeviceState.dialogFormVisible = true
@@ -203,7 +203,7 @@ export default {
       }).then(() => {
         this.$axios
           .delete('http://localhost:8000/s/name/' + tablerow.name, {
-          // .delete('/scenarios/name/' + tablerow.name, {
+          // .delete('/s/name/' + tablerow.name, {
           }).then(resp => {
             if (resp && resp.status === 200) {
               this.loadScenarios()
@@ -220,7 +220,7 @@ export default {
       var _this = this
       this.$axios
         .get('http://localhost:8000/s/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/scenarios/search?keywords=' + this.$refs.searchBar.keywords, {
+        // .get('/s/search?keywords=' + this.$refs.searchBar.keywords, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

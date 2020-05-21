@@ -42,7 +42,7 @@ export default {
       var _this = this
       this.$axios
         .put('http://localhost:8000/gc', {
-        // .put('/gateways/', {
+        // .put('/gc', {
           name: _this.gwIpForm.name,
           ip: _this.gwIpForm.ip
         }).then(resp => {

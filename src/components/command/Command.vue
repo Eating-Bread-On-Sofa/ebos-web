@@ -71,7 +71,7 @@ export default {
     loadCommands () {
       this.$axios
         .get('http://localhost:8000/c').then(resp => {
-        // .get('/commands/').then(resp => {
+        // .get('/c').then(resp => {
           if (resp && resp.status === 200) {
             this.tableData = resp.data
             this.loading = false
@@ -90,7 +90,7 @@ export default {
       }).then(() => {
         this.$axios
           .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
-          // .delete('/commands?name=' + row.name).then(resp => {
+          // .delete('/c?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadCommands()
             }

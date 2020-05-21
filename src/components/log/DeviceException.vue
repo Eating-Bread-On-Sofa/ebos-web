@@ -73,7 +73,7 @@ export default {
       var _this = this
       this.$axios
         .get('http://localhost:8000/gc/log/source/' + '设备管理').then(resp => {
-        // .get('/gateways/log/source/' + '设备管理').then(resp => {
+        // .get('/gc/log/source/' + '设备管理').then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
             _this.loading = false

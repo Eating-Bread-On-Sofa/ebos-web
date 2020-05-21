@@ -22,12 +22,13 @@ Vue.use(ElementUI)
 var axios1 = require('axios')
 var axios = axios1.create({
   withCredentials: false,
+  crossDomain: true,
   timeout: 30000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   }
 })
-// axios.defaults.baseURL = 'http://localhost:'
+// axios.defaults.baseURL = 'http://localhost:8000'
 // 让前端能够带上 cookie，我们需要通过 axios 主动开启 withCredentials 功能
 axios.defaults.withCredentials = false
 // 全局注册，之后可在其他组件中通过 this.$axios 发送数据
