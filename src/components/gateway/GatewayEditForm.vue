@@ -59,12 +59,5 @@ export default {
 </script>
 
 <style scoped>
-  el-switch {
-    display: inline-block;
-    height: 30px;
-    width: 100px;
-    margin-right: 10px;
-    padding-right: 5px;
-  }
 
 </style>
