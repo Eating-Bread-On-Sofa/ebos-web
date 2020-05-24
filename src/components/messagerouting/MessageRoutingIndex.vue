@@ -1,8 +1,8 @@
 <template>
     <el-container style="margin-top: 5px;margin-right: 5px;margin-left: 5px">
-      <el-side style="width: 150px;margin-top: 20px">
+      <el-aside style="width: 150px;margin-top: 20px">
         <message-routing-side-menu></message-routing-side-menu>
-      </el-side>
+      </el-aside>
       <el-main>
         <router-view/>
       </el-main>

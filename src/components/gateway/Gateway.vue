@@ -4,12 +4,84 @@
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
         <br>
         <!--新增按钮-->
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createGateway()">新增
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
         </el-button>
+        <div>
+          <el-dialog
+            title="新增网关信息"
+            :visible.sync="createDialog"
+            width="30%"
+            @close="clear">
+            <el-form v-model="gwForm" label-width="120px" style="text-align: left">
+              <el-form-item label="网关名称" prop="name">
+                <el-input v-model="gwForm.name" autocomplete="off" placeholder="请输入网关名称"></el-input>
+              </el-form-item>
+              <el-form-item label="网关IP地址" prop="ip">
+                <el-input v-model="gwForm.ip" autocomplete="off" placeholder="请输入网关IP地址"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="createDialog = false">取消</el-button>
+              <el-button type="primary" @click.once="createOnSubmit">确定</el-button>
+            </div>
+          </el-dialog>
+        </div>
+        <div>
+          <el-dialog
+            title="修改网关IP地址"
+            :visible.sync="editDialog"
+            width="30%"
+            @close="clear">
+            <el-form v-model="gwForm" label-width="120px" style="text-align: left">
+              <el-form-item label="网关名称" prop="name">
+                <el-input v-model="gwForm.name" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="网关IP地址" prop="ip">
+                <el-input v-model="gwForm.ip" autocomplete="off" placeholder="请输入新的IP地址"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="editDialog = false">取消</el-button>
+              <el-button type="primary" @click="editOnSubmit">确定</el-button>
+            </div>
+          </el-dialog>
+        </div>
+        <div>
+          <el-dialog
+            title="网关恢复"
+            width="30%"
+            :visible.sync="recoverDialog"
+            @close="clear">
+            <el-form v-model="gwRecoverForm" label-width="120px" style="text-align: left">
+              <el-form-item label="网关名称" prop="name">
+                <el-input v-model="gwRecoverForm.name" autocomplete="off" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="网关IP地址" prop="ip">
+                <el-input v-model="gwRecoverForm.ip" autocomplete="off" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="选择版本">
+                <el-select v-model="gwRecoverForm.version">
+                  <el-option v-for="item in versionList" :key="item.version" :label="item.version" :value="item.version"></el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="恢复项：">
+                <el-switch v-model="gwRecoverForm.command" inactive-text="指令" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
+                <el-switch v-model="gwRecoverForm.deviceprofile" inactive-text="设备模板" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
+                <el-switch v-model="gwRecoverForm.deviceservice" inactive-text="设备服务" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
+                <el-switch v-model="gwRecoverForm.export" inactive-text="导出层" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
+                <el-switch v-model="isDisplay" inactive-text="设备" active-color="#13ce66" inactive-color="#ff4949" active-value="inline" inactive-value="none"></el-switch>
+              </el-form-item>
+              <el-form-item label="设备管理ip" prop="device" :style="{display: isDisplay}">
+                <el-input v-model="gwRecoverForm.deviceIp" autocomplete="off" placeholder="请输入需恢复的设备管理服务器IP"></el-input>
+              </el-form-item>
+            </el-form>
+            <div slot="footer" class="dialog-footer">
+              <el-button @click="recoverDialog = false">取消</el-button>
+              <el-button type="primary" @click="recoverOnSubmit">确定</el-button>
+            </div>
+          </el-dialog>
+        </div>
         <br>
-        <gateway-edit-form @onSubmit="loadGateways()" ref="gatewayEditForm"></gateway-edit-form>
-        <gateway-ip-edit @onEdit="loadGateways()" ref="gatewayIpEdit"></gateway-ip-edit>
-        <gateway-recover @onRecover="loadGateways()" ref="gatewayRecover"></gateway-recover>
         <gateway-state ref="gatewayState"></gateway-state>
         <el-table
           ref="multipleTable"
@@ -73,19 +145,35 @@
 </template>
 
 <script>
-import GatewayEditForm from './GatewayEditForm'
 import SearchBar from './SearchBar'
-import GatewayIpEdit from './GatewayIpEdit'
-import GatewayRecover from './GatewayRecover'
 import GatewayState from './GatewayState'
 export default {
   name: 'Gateway',
-  components: {GatewayState, GatewayRecover, GatewayIpEdit, GatewayEditForm, SearchBar},
+  components: {GatewayState, SearchBar},
   data () {
     return {
       currentPage: 1,
       pagesize: 18,
       tableData: [],
+      gwForm: {
+        name: '',
+        ip: ''
+      },
+      createDialog: false,
+      editDialog: false,
+      recoverDialog: false,
+      versionList: [],
+      gwRecoverForm: {
+        name: '',
+        ip: '',
+        version: '',
+        command: '0',
+        deviceIp: '0',
+        deviceprofile: '0',
+        deviceservice: '0',
+        export: '0'
+      },
+      isDisplay: 'none',
       multipleSelection: [],
       loading: true,
       gwState: {
@@ -104,7 +192,7 @@ export default {
   },
   methods: {
     loadGateways () {
-      var _this = this
+      const _this = this
       this.$axios
         // .get('http://localhost:8089/api/gateway').then(resp => {
         .get('http://localhost:8000/gc').then(resp => {
@@ -115,8 +203,60 @@ export default {
           }
         })
     },
-    createGateway () {
-      this.$refs.gatewayEditForm.dialogFormVisible = true
+    clear () {
+      this.gwForm = {
+        name: '',
+        ip: ''
+      }
+    },
+    recoverClear () {
+      this.versionList = []
+      this.gwRecoverForm = {
+        name: '',
+        ip: '',
+        version: '',
+        command: '0',
+        deviceIp: '0',
+        deviceprofile: '0',
+        deviceservice: '0',
+        export: '0'
+      }
+      this.isDisplay = 'none'
+    },
+    createOnSubmit () {
+      const _this = this
+      this.$axios
+      // .post('http://localhost:8089/api/gateway', {
+        .post('http://localhost:8000/gc', {
+          // .post('/gc', {
+          name: _this.gwForm.name,
+          ip: _this.gwForm.ip
+        }).then(resp => {
+          if (resp && resp.status === 200) {
+            _this.loadGateways()
+            _this.$message('添加网关信息成功！')
+            _this.createDialog = false
+          }
+        }).catch(e => {
+          this.$message('添加失败' + e)
+        })
+    },
+    editOnSubmit () {
+      const _this = this
+      this.$axios
+        .put('http://localhost:8000/gc', {
+          // .put('/gc', {
+          name: _this.gwForm.name,
+          ip: _this.gwForm.ip
+        }).then(resp => {
+          if (resp && resp.status === 200) {
+            _this.editDialog = false
+            _this.$message('修改网关信息成功！')
+            _this.loadGateways()
+          }
+        }).catch(e => {
+          _this.$message('修改失败' + e)
+        })
     },
     handleSelectionChange (val) {
       this.multipleSelection = val
@@ -130,11 +270,12 @@ export default {
       this.$refs.gatewayState.dialogFormVisible = true
     },
     handleEdit (index, row) {
-      this.$refs.gatewayIpEdit.dialogFormVisible = true
-      this.$refs.gatewayIpEdit.gwIpForm = row
+      this.editDialog = true
+      this.gwForm.name = row.name
     },
     handleBackup (index, tablerow) {
       this.$axios
+        // .post('http://localhost:8089/api/gateway/copy/' + tablerow.ip, {
         .post('http://localhost:8000/gc/copy/' + tablerow.ip, {
         // .post('/gc/copy/' + tablerow.ip, {
           command: '1',
@@ -146,7 +287,7 @@ export default {
           if (resp && resp.status === 200) {
             this.$message('备份成功！')
           }
-        }).catch(e => {
+        }).catch(() => {
           this.$message('备份失败！')
         })
     },
@@ -154,17 +295,39 @@ export default {
       this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
       // this.$axios.get('/gc/version/' + row.ip).then(resp => {
         if (resp && resp.status === 200) {
-          this.$refs.gatewayRecover.versionList = resp.data
-          this.$refs.gatewayRecover.dialogFormVisible = true
-          this.$refs.gatewayRecover.gwRecoverForm.name = row.name
-          this.$refs.gatewayRecover.gwRecoverForm.ip = row.ip
+          this.versionList = resp.data
+          this.recoverDialog = true
+          this.gwRecoverForm.name = row.name
+          this.gwRecoverForm.ip = row.ip
         }
       }).catch(() => {
         this.$message('获取版本信息失败！')
       })
     },
+    recoverOnSubmit () {
+      const _this = this
+      this.$axios
+        .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+          // .post('/gc/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+          command: _this.gwRecoverForm.command,
+          device: {
+            deviceIp: _this.gwRecoverForm.deviceIp
+          },
+          deviceprofile: _this.gwRecoverForm.deviceprofile,
+          deviceservice: _this.gwRecoverForm.deviceservice,
+          export: _this.gwRecoverForm.export
+        }).then(resp => {
+          if (resp && resp.status === 200) {
+            _this.recoverDialog = false
+            _this.$message('恢复成功')
+            _this.recoverClear()
+          }
+        }).catch(e => {
+          _this.$message('恢复失败' + e)
+        })
+    },
     handleDelete (index, tablerow) {
-      var _this = this
+      const _this = this
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -186,7 +349,7 @@ export default {
       })
     },
     searchResult () {
-      var _this = this
+      const _this = this
       this.$axios
         .get('http://localhost:8000/gc/search?keywords=' + this.$refs.searchBar.keywords, {
         // .get('/gateways/search?keywords=' + this.$refs.searchBar.keywords, {
