@@ -32,16 +32,16 @@
           {{scope.row.device}}:{{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
         </template>
       </el-table-column>
-      <el-table-column prop="rule2" label="规则条件2" width="250px">
+      <el-table-column prop="rule2" label="规则条件2" width="280px">
       </el-table-column>
-      <el-table-column prop="rule3" label="规则条件3" width="250px">
+      <el-table-column prop="rule3" label="规则条件3" width="280px">
       </el-table-column>
       <el-table-column prop="ruleExecute" label="执行功能" width="120px">
       </el-table-column>
       <el-table-column prop="service" label="服务" width="80px">
       </el-table-column>
-      <el-table-column prop="scenario" label="场景" width="80px">
-      </el-table-column>
+<!--      <el-table-column prop="scenario" label="场景" width="80px">-->
+<!--      </el-table-column>-->
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
@@ -62,10 +62,10 @@
     <el-dialog
       title="新建规则"
       :visible.sync="dialogCreateVisible"
-      width="50%"
+      width="55%"
       :before-close="handleClose">
       <div>
-        <el-form ref="form" :model="form" label-width="80px">
+        <el-form ref="form" :model="form" label-width="70px">
           <el-row>
             <el-col :span="24">
               <el-form-item label="规则名称">
@@ -130,6 +130,14 @@
                     </el-form-item>
                   </el-col>
                   <el-col :span="3">
+                    <el-form-item label="逻辑" :prop="'dynamicItem.' + index"  label-width="40px">
+                      <el-select v-model="item.logic" placeholder="请选择逻辑" style="width:100%">
+                        <el-option label="且" value="且"></el-option>
+                        <el-option label="或" value="或"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="1">
                     <el-form-item  label-width="20px">
                       <el-button type="primary" @click="deleteNewRule(item,index)" icon="el-icon-delete" circle size="small"></el-button>
                     </el-form-item>
@@ -139,7 +147,8 @@
               <el-form-item label="执行功能">
                 <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
                   <el-option label="告警" value="告警"></el-option>
-                  <el-option label="告警且执行" value="警告且操作设备"></el-option>
+                  <el-option label="告警且操作设备" value="告警且操作设备"></el-option>
+                  <el-option label="操作设备" value="操作设备"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="服务名称">
@@ -147,11 +156,11 @@
                   <el-option v-for="item in services" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="场景选择">
-                <el-select v-model="form.scenario" placeholder="请选择场景" style="width:100%">
-                  <el-option v-for="item in scenarios" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
+<!--              <el-form-item label="场景选择">-->
+<!--                <el-select v-model="form.scenario" placeholder="请选择场景" style="width:100%">-->
+<!--                  <el-option v-for="item in scenarios" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
+<!--                </el-select>-->
+<!--              </el-form-item>-->
             </el-col>
           </el-row>
         </el-form>
@@ -181,7 +190,7 @@ export default {
         ruleParaThreshold: '',
         ruleExecute: '',
         service: '',
-        scenario: '',
+        // scenario: '',
         dynamicItem: [],
         rule2: '',
         rule3: ''
@@ -202,7 +211,7 @@ export default {
     // this.getFormDevices()
     // this.getFormParas()
     this.getFormService()
-    this.getFormScenario()
+    // this.getFormScenario()
   },
   methods: {
     onSubmit () {
@@ -223,13 +232,12 @@ export default {
     },
     add () {
       if (this.form.dynamicItem.length === 2) {
-        this.form.rule2 = this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
-        this.form.rule3 = this.form.dynamicItem[1].device + ':' + this.form.dynamicItem[1].parameter + this.form.dynamicItem[1].ruleJudge + this.form.dynamicItem[1].ruleParaThreshold
+        this.form.rule2 = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+        this.form.rule3 = this.form.dynamicItem[1].logic + ' ' + this.form.dynamicItem[1].device + ':' + this.form.dynamicItem[1].parameter + this.form.dynamicItem[1].ruleJudge + this.form.dynamicItem[1].ruleParaThreshold
       }
       if (this.form.dynamicItem.length === 1) {
-        this.form.rule2 = this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+        this.form.rule2 = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
       }
-      console.log(this.form.dynamicItem)
       this.table.push(this.form)
       this.form = {
         device: '',
@@ -239,7 +247,7 @@ export default {
         ruleParaThreshold: '',
         ruleExecute: '',
         service: '',
-        scenario: '',
+        // scenario: '',
         dynamicItem: []
       }
     },
@@ -279,7 +287,7 @@ export default {
           'ruleExecute': this.form.ruleExecute,
           'service': this.form.service,
           'device': this.form.device,
-          'scenario': this.form.scenario,
+          // 'scenario': this.form.scenario,
           'rulePara2': this.form.dynamicItem[0].parameter,
           'ruleJudge2': this.form.dynamicItem[0].ruleJudge,
           'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
@@ -287,7 +295,9 @@ export default {
           'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
           'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold,
           'device2': this.form.dynamicItem[0].device,
-          'device3': this.form.dynamicItem[1].device
+          'device3': this.form.dynamicItem[1].device,
+          'logic2': this.form.dynamicItem[0].logic,
+          'logic3': this.form.dynamicItem[1].logic
         }
       ).then(res => {
       })
@@ -304,7 +314,7 @@ export default {
           'ruleExecute': this.form.ruleExecute,
           'service': this.form.service,
           'device': this.form.device,
-          'scenario': this.form.scenario,
+          // 'scenario': this.form.scenario,
           'rulePara2': this.form.dynamicItem[0].parameter,
           'ruleJudge2': this.form.dynamicItem[0].ruleJudge,
           'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
@@ -312,7 +322,9 @@ export default {
           'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
           'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold,
           'device2': this.form.dynamicItem[0].device,
-          'device3': this.form.dynamicItem[1].device
+          'device3': this.form.dynamicItem[1].device,
+          'logic2': this.form.dynamicItem[0].logic,
+          'logic3': this.form.dynamicItem[1].logic
         }
       ).then(res => {
       })
@@ -332,9 +344,9 @@ export default {
           obj.ruleId = resp.data[x].ruleId
           obj.service = resp.data[x].service
           obj.device = resp.data[x].device
-          obj.scenario = resp.data[x].scenario
-          obj.rule2 = resp.data[x].device2 + ':' + resp.data[x].parameter2 + resp.data[x].ruleJudge2 + resp.data[x].threshold2
-          obj.rule3 = resp.data[x].device3 + ':' + resp.data[x].parameter3 + resp.data[x].ruleJudge3 + resp.data[x].threshold3
+          // obj.scenario = resp.data[x].scenario
+          obj.rule2 = resp.data[x].logic2 + ' ' + resp.data[x].device2 + ':' + resp.data[x].parameter2 + resp.data[x].ruleJudge2 + resp.data[x].threshold2
+          obj.rule3 = resp.data[x].logic3 + ' ' + resp.data[x].parameter3 + resp.data[x].ruleJudge3 + resp.data[x].threshold3
           data[x] = obj
         }
         if (resp && resp.status === 200) {
