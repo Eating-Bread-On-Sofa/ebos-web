@@ -16,33 +16,31 @@
     <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)"  v-loading="loading" element-loading-text="拼命加载中"
               element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.3)" style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
-      <el-table-column type="selection">
+      <el-table-column type="selection" width="30px">
       </el-table-column>
       <!--序号-->
-      <el-table-column label="序号" width="70px">
+      <el-table-column label="序号" width="50px">
         <template slot-scope="scope">
           {{scope.$index+1}}
         </template>
       </el-table-column>
       <!--表头-->
-      <el-table-column prop="ruleName" label="规则名称" width="100px">
+      <el-table-column prop="ruleName" label="规则名称" width="80px">
       </el-table-column>
-      <el-table-column prop="device" label="设备名称" width="200px">
-      </el-table-column>
-      <el-table-column prop="ruleCondition" label="规则条件1" width="150px">
+      <el-table-column prop="ruleCondition" label="规则条件1" width="250px">
         <template slot-scope="scope">
-          {{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
+          {{scope.row.device}}:{{scope.row.parameter}}{{scope.row.ruleJudge}}{{scope.row.ruleParaThreshold}}
         </template>
       </el-table-column>
-      <el-table-column prop="rule2" label="规则条件2" width="150px">
+      <el-table-column prop="rule2" label="规则条件2" width="250px">
       </el-table-column>
-      <el-table-column prop="rule3" label="规则条件3" width="150px">
+      <el-table-column prop="rule3" label="规则条件3" width="250px">
       </el-table-column>
-      <el-table-column prop="ruleExecute" label="执行功能" width="100px">
+      <el-table-column prop="ruleExecute" label="执行功能" width="120px">
       </el-table-column>
-      <el-table-column prop="service" label="服务" width="100px">
+      <el-table-column prop="service" label="服务" width="80px">
       </el-table-column>
-      <el-table-column prop="scenario" label="场景" width="100px">
+      <el-table-column prop="scenario" label="场景" width="80px">
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -73,43 +71,52 @@
               <el-form-item label="规则名称">
                 <el-input v-model="form.ruleName"  placeholder="请输入内容"></el-input>
               </el-form-item>
-              <el-form-item label="设备选择">
-                <el-select v-model="form.device" placeholder="请选择设备" style="width:100%">
-                  <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
-                </el-select>
-              </el-form-item>
               <el-row>
-                <el-col :span="7">
+                <el-col :span="5">
+                  <el-form-item label="设备选择">
+                    <el-select v-model="form.device" placeholder="请选择设备" style="width:100%">
+                      <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
                     <el-form-item label="设备参数">
                       <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
                         <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="7">
-                    <el-form-item label="规则条件">
-                      <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
-                        <el-option label="大于" value=">"></el-option>
-                        <el-option label="小于" value="<"></el-option>
-                        <el-option label="等于" value="="></el-option>
+                <el-col :span="5">
+                  <el-form-item label="规则条件">
+                    <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
+                      <el-option label="大于" value=">"></el-option>
+                      <el-option label="小于" value="<"></el-option>
+                      <el-option label="等于" value="="></el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="5">
+                  <el-form-item label="参数门限">
+                    <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
+                  </el-form-item>
+                </el-col>
+                <div v-for="(item, index) in form.dynamicItem" :key="index">
+                  <el-col :span="5">
+                    <el-form-item label="设备选择" :prop="'dynamicItem.' + index">
+                      <el-select v-model="item.device" placeholder="请选择设备" style="width:100%">
+                        <el-option v-for="item1 in devices" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="7">
-                    <el-form-item label="参数门限">
-                      <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
-                    </el-form-item>
-                  </el-col>
-                <div v-for="(item, index) in form.dynamicItem" :key="index">
-                  <el-col :span="7">
-                    <el-form-item label="设备参数" :prop="'dynamicItem.' + index + '.name'">
+                  <el-col :span="5">
+                    <el-form-item label="设备参数" :prop="'dynamicItem.' + index">
                       <el-select v-model="item.parameter" placeholder="请选择参数" style="width:100%">
                         <el-option v-for="item1 in paras" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="7">
-                    <el-form-item label="规则条件" :prop="'dynamicItem.' + index + '.phone'">
+                  <el-col :span="5">
+                    <el-form-item label="规则条件" :prop="'dynamicItem.' + index">
                       <el-select v-model="item.ruleJudge" placeholder="请选择规则条件" style="width:100%">
                         <el-option label="大于" value=">"></el-option>
                         <el-option label="小于" value="<"></el-option>
@@ -117,8 +124,8 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="7">
-                    <el-form-item label="参数门限" :prop="'dynamicItem.' + index + '.phone'">
+                  <el-col :span="5">
+                    <el-form-item label="参数门限" :prop="'dynamicItem.' + index">
                       <el-input v-model="item.ruleParaThreshold"  placeholder="请输入内容"></el-input>
                     </el-form-item>
                   </el-col>
@@ -163,7 +170,7 @@ export default {
   data () {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
-      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}],
+      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
       services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
       scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
       form: {
@@ -200,7 +207,7 @@ export default {
   methods: {
     onSubmit () {
       this.dialogCreateVisible = false
-      this.post()
+      // this.post()
       this.add()
     },
     handleCurrentChange: function (currentPage) {
@@ -216,12 +223,13 @@ export default {
     },
     add () {
       if (this.form.dynamicItem.length === 2) {
-        this.form.rule2 = this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
-        this.form.rule3 = this.form.dynamicItem[1].parameter + this.form.dynamicItem[1].ruleJudge + this.form.dynamicItem[1].ruleParaThreshold
+        this.form.rule2 = this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+        this.form.rule3 = this.form.dynamicItem[1].device + ':' + this.form.dynamicItem[1].parameter + this.form.dynamicItem[1].ruleJudge + this.form.dynamicItem[1].ruleParaThreshold
       }
       if (this.form.dynamicItem.length === 1) {
-        this.form.rule2 = this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+        this.form.rule2 = this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
       }
+      console.log(this.form.dynamicItem)
       this.table.push(this.form)
       this.form = {
         device: '',
@@ -277,7 +285,9 @@ export default {
           'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
           'rulePara3': this.form.dynamicItem[1].parameter,
           'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
-          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold
+          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold,
+          'device2': this.form.dynamicItem[0].device,
+          'device3': this.form.dynamicItem[1].device
         }
       ).then(res => {
       })
@@ -300,7 +310,9 @@ export default {
           'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
           'rulePara3': this.form.dynamicItem[1].parameter,
           'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
-          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold
+          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold,
+          'device2': this.form.dynamicItem[0].device,
+          'device3': this.form.dynamicItem[1].device
         }
       ).then(res => {
       })
@@ -321,8 +333,8 @@ export default {
           obj.service = resp.data[x].service
           obj.device = resp.data[x].device
           obj.scenario = resp.data[x].scenario
-          obj.rule2 = resp.data[x].parameter2 + resp.data[x].ruleJudge2 + resp.data[x].threshold2
-          obj.rule3 = resp.data[x].parameter3 + resp.data[x].ruleJudge3 + resp.data[x].threshold3
+          obj.rule2 = resp.data[x].device2 + ':' + resp.data[x].parameter2 + resp.data[x].ruleJudge2 + resp.data[x].threshold2
+          obj.rule3 = resp.data[x].device3 + ':' + resp.data[x].parameter3 + resp.data[x].ruleJudge3 + resp.data[x].threshold3
           data[x] = obj
         }
         if (resp && resp.status === 200) {
@@ -388,6 +400,7 @@ export default {
         alert('最多设置三条规则')
       } else {
         this.form.dynamicItem.push({
+          device: '',
           parameter: '',
           ruleJudge: '',
           ruleParaThreshold: ''
