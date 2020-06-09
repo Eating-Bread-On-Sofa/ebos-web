@@ -36,13 +36,17 @@
       </el-table-column>
       <el-table-column prop="rule3" label="规则条件3" width="280px">
       </el-table-column>
+      <el-table-column prop="rule4" label="规则条件4" width="280px">
+      </el-table-column>
+      <el-table-column prop="rule5" label="规则条件5" width="280px">
+      </el-table-column>
       <el-table-column prop="ruleExecute" label="执行功能" width="120px">
       </el-table-column>
       <el-table-column prop="service" label="服务" width="80px">
       </el-table-column>
 <!--      <el-table-column prop="scenario" label="场景" width="80px">-->
 <!--      </el-table-column>-->
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="200px">
         <template slot-scope="scope">
           <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
         </template>
@@ -200,9 +204,7 @@ export default {
         ruleExecute: '',
         service: '',
         // scenario: '',
-        dynamicItem: [],
-        rule2: '',
-        rule3: ''
+        dynamicItem: []
       },
       dialogCreateVisible: false,
       table: [],
@@ -225,7 +227,7 @@ export default {
   methods: {
     onSubmit () {
       this.dialogCreateVisible = false
-      // this.post()
+      this.post()
       this.add()
     },
     handleCurrentChange: function (currentPage) {
@@ -240,12 +242,9 @@ export default {
         })
     },
     add () {
-      if (this.form.dynamicItem.length === 2) {
-        this.form.rule2 = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
-        this.form.rule3 = this.form.dynamicItem[1].logic + ' ' + this.form.dynamicItem[1].device + ':' + this.form.dynamicItem[1].parameter + this.form.dynamicItem[1].ruleJudge + this.form.dynamicItem[1].ruleParaThreshold
-      }
-      if (this.form.dynamicItem.length === 1) {
-        this.form.rule2 = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[0].device + ':' + this.form.dynamicItem[0].parameter + this.form.dynamicItem[0].ruleJudge + this.form.dynamicItem[0].ruleParaThreshold
+      for (var i = 0; i < this.form.dynamicItem.length; i++) {
+        var rule = 'rule' + (i + 2)
+        this.form[rule] = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[i].device + ':' + this.form.dynamicItem[i].parameter + this.form.dynamicItem[i].ruleJudge + this.form.dynamicItem[i].ruleParaThreshold
       }
       this.table.push(this.form)
       this.form = {
@@ -264,7 +263,10 @@ export default {
       this.$confirm('确认删除？')
         .then(_ => {
           this.table.splice(idx, 1)
+          // 代理网关
           this.$axios.post('http://localhost:8000/rc/ruleDelete',
+          // 实际地址
+          // this.$axios.post('http://localhost:8083/api/ruleDelete',
           // this.$axios.post('/rules/ruleDelete',
             {
               'ruleName': row.ruleName
@@ -272,13 +274,15 @@ export default {
           ).then(res => {
             console.log(res)
           })
-          this.$axios.post('/rules/rule',
           // this.$axios.post('/rules/rule',
+          // 代理网关
+          this.$axios.post('http://localhost:8000/rc/rule',
+            // 实际地址
+          // this.$axios.post('http://localhost:8083/api/rule',
             {
               'ruleId': row.ruleId
             }
           ).then(res => {
-            console.log('+++删除的+++')
             console.log(res)
           })
         })
@@ -286,7 +290,10 @@ export default {
         })
     },
     post () {
+      // 代理网关
       this.$axios.post('http://localhost:8000/rc/webdata',
+      // 实际地址
+      // this.$axios.post('http://localhost:8083/api/webdata',
       // this.$axios.post('/rules/webdata',
         {
           'ruleName': this.form.ruleName,
@@ -297,23 +304,17 @@ export default {
           'service': this.form.service,
           'device': this.form.device,
           // 'scenario': this.form.scenario,
-          'rulePara2': this.form.dynamicItem[0].parameter,
-          'ruleJudge2': this.form.dynamicItem[0].ruleJudge,
-          'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
-          'rulePara3': this.form.dynamicItem[1].parameter,
-          'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
-          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold,
-          'device2': this.form.dynamicItem[0].device,
-          'device3': this.form.dynamicItem[1].device,
-          'logic2': this.form.dynamicItem[0].logic,
-          'logic3': this.form.dynamicItem[1].logic
+          'otherRules': this.form.dynamicItem
         }
       ).then(res => {
       })
       this.ruleCreate()
     },
     ruleCreate () {
+      // 代理网关
       this.$axios.post('http://localhost:8000/rc/ruleCreate',
+      // 实际地址
+      // this.$axios.post('http://localhost:8083/api/ruleCreate',
       // this.$axios.post('/rules/ruleCreate',
         {
           'ruleName': this.form.ruleName,
@@ -324,23 +325,17 @@ export default {
           'service': this.form.service,
           'device': this.form.device,
           // 'scenario': this.form.scenario,
-          'rulePara2': this.form.dynamicItem[0].parameter,
-          'ruleJudge2': this.form.dynamicItem[0].ruleJudge,
-          'ruleParaThreshold2': this.form.dynamicItem[0].ruleParaThreshold,
-          'rulePara3': this.form.dynamicItem[1].parameter,
-          'ruleJudge3': this.form.dynamicItem[1].ruleJudge,
-          'ruleParaThreshold3': this.form.dynamicItem[1].ruleParaThreshold,
-          'device2': this.form.dynamicItem[0].device,
-          'device3': this.form.dynamicItem[1].device,
-          'logic2': this.form.dynamicItem[0].logic,
-          'logic3': this.form.dynamicItem[1].logic
+          'otherRules': this.form.dynamicItem
         }
       ).then(res => {
       })
     },
     get () {
       var _this = this
+      // 代理网关
       this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+      // 实际地址
+      // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
       // this.$axios.get('/rules/getRuleLists').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
@@ -354,8 +349,11 @@ export default {
           obj.service = resp.data[x].service
           obj.device = resp.data[x].device
           // obj.scenario = resp.data[x].scenario
-          obj.rule2 = resp.data[x].logic2 + ' ' + resp.data[x].device2 + ':' + resp.data[x].parameter2 + resp.data[x].ruleJudge2 + resp.data[x].threshold2
-          obj.rule3 = resp.data[x].logic3 + ' ' + resp.data[x].parameter3 + resp.data[x].ruleJudge3 + resp.data[x].threshold3
+          for (var i = 0; i < resp.data[x].otherRules.length; i++) {
+            var rule = 'rule' + (i + 2)
+            obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold
+          }
+          console.log(obj)
           data[x] = obj
         }
         if (resp && resp.status === 200) {
@@ -417,16 +415,13 @@ export default {
       })
     },
     addNewRule () {
-      if (this.form.dynamicItem.length === 2) {
-        alert('最多设置三条规则')
-      } else {
-        this.form.dynamicItem.push({
-          device: '',
-          parameter: '',
-          ruleJudge: '',
-          ruleParaThreshold: ''
-        })
-      }
+      this.form.dynamicItem.push({
+        logic: '',
+        device: '',
+        parameter: '',
+        ruleJudge: '',
+        ruleParaThreshold: ''
+      })
     },
     deleteNewRule (item, index) {
       this.form.dynamicItem.splice(index, 1)
