@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <el-row>
+      <log-echart ref="LogEchartDialog" v-bind:logs="table" v-bind:dialogVisible="chartDialog" @hideDialog="chartDialog = false" ></log-echart>
       <el-button type="success" @click="shenji" style="float: right">开始审计</el-button>
+      <el-button type="success" @click="chartDialog = true" style="float: right">日志统计图</el-button>
       <!--表格数据及操作-->
       <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
                 :row-class-name="tableRowClassName"
@@ -71,11 +73,14 @@
   </div>
 </template>
 <script>
+import LogEchart from './LogEchart'
 export default {
   name: 'Log',
+  components: {LogEchart},
   data () {
     return {
       table: [],
+      chartDialog: false,
       pagesize: 10,
       currentPage: 1,
       loading: false
@@ -87,8 +92,8 @@ export default {
   methods: {
     loadLogs () {
       this.$axios
-        .get('http://localhost:8000/gc/log').then(resp => {
-        // .get('/gc/log').then(resp => {
+        // .get('http://localhost:8000/gc/log').then(resp => {
+        .get('/logs/log').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -116,6 +121,9 @@ export default {
     },
     filterSource (value, row) {
       return row.source === value
+    },
+    shenji () {
+
     }
   }
 }

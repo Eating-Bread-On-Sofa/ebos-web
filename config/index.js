@@ -39,13 +39,13 @@ module.exports = {
       //     '^/mqrouters': ''
       //   }
       // },
-      // '/devices': {
-      //   target: 'http://localhost:8081/api/device/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/devices': ''
-      //   }
-      // },
+      '/devices': {
+        target: 'http://localhost:8081/api/device/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/devices': ''
+        }
+      },
       // '/devices': {
       //   target: 'http://localhost:8000/d/',
       //   changeOrigin: true,
@@ -67,20 +67,20 @@ module.exports = {
       //     '^/rules': ''
       //   }
       // },
-      // '/logs': {
-      //   target: 'http://localhost:8089/api/gateway/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/logs': ''
-      //   }
-      // },
-      // '/instances': {
-      //   target: 'http://localhost:8090/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/instances': ''
-      //   }
-      // },
+      '/logs': {
+        target: 'http://localhost:8089/api/gateway/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/logs': ''
+        }
+      },
+      '/instances': {
+        target: 'http://localhost:8090/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/instances': ''
+        }
+      },
       // '/instances': {
       //   target: 'http://localhost:8000/gi/',
       //   changeOrigin: true,
@@ -88,13 +88,13 @@ module.exports = {
       //     '^/instances': ''
       //   }
       // },
-      // '/gateways': {
-      //   target: 'http://localhost:8089/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/gateways': ''
-      //   }
-      // },
+      '/gateways': {
+        target: 'http://localhost:8089/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/gateways': ''
+        }
+      },
       // '/gateways': {
       //   target: 'http://localhost:8000/gc/',
       //   changeOrigin: true,
@@ -102,13 +102,13 @@ module.exports = {
       //     '^/gateways': ''
       //   }
       // },
-      // '/scenarios': {
-      //   target: 'http://localhost:8092/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/scenarios': ''
-      //   }
-      // },
+      '/scenarios': {
+        target: 'http://localhost:8092/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/scenarios': ''
+        }
+      },
       // '/scenarios': {
       //   target: 'http://localhost:8000/s/',
       //   changeOrigin: true,
