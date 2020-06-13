@@ -1,9 +1,15 @@
 <template>
   <div id="app">
     <el-row>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>日志管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
+    <el-row>
       <div style="margin-bottom: 30px">
-        <el-date-picker v-model="searchData.firstDate" type="date" placeholder="请选择开始日期" style="width: 150px"></el-date-picker>
-        <el-date-picker v-model="searchData.lastDate" type="date" placeholder="请选择结束日期" style="width: 150px; margin-left: 10px"></el-date-picker>
+        <el-date-picker v-model="searchData.firstDate" type="date" placeholder="请选择开始日期" style="width: 160px"></el-date-picker>
+        <el-date-picker v-model="searchData.lastDate" type="date" placeholder="请选择结束日期" style="width: 160px; margin-left: 10px"></el-date-picker>
         <el-select v-model="searchData.source" placeholder="请选择源" style="width: 150px; margin-left: 10px">
           <el-option v-for="item in sourceList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>

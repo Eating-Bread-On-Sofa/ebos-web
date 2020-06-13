@@ -1,5 +1,11 @@
 <template>
   <div id="MessageRouting">
+    <el-row>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>消息路由</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
     <el-row style="height: 800px;">
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>

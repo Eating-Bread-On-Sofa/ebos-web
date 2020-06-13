@@ -1,5 +1,12 @@
 <template>
     <div>
+      <el-row>
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/deviceIndex' }">设备管理</el-breadcrumb-item>
+          <el-breadcrumb-item>设备监控</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-row>
       <el-row style="margin-top: 100px">
         <el-form v-model="deviceId" style="text-align: left;float: left">
           <el-form-item label="设备选择">

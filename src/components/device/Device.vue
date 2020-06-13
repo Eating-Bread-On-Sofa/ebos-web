@@ -1,6 +1,12 @@
 <template>
   <div id="app">
-    <el-row style="height: 800px;">
+    <el-row>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>设备管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
+    <el-row>
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>
       <!--新增按钮-->

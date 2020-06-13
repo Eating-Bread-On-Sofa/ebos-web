@@ -1,5 +1,11 @@
 <template>
   <div>
+    <el-row>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>模板管理</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
     <el-row style="height: 1200px;">
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>

@@ -1,8 +1,5 @@
 <template>
   <el-container style="margin-top: 5px;margin-right: 5px;margin-left: 5px">
-<!--    <el-aside style="width: 150px;margin-top: 20px">-->
-<!--      <home-side-menu></home-side-menu>-->
-<!--    </el-aside>-->
     <el-main>
       <div class="dashboard-editor-container">
         <panel-group />
@@ -24,14 +21,13 @@
 </template>
 
 <script>
-import HomeSideMenu from './HomeSideMenu'
 import PanelGroup from './PanelGroup'
 import LineChart from './LineChart'
 import TestChart from './TestChart'
 
 export default {
   name: 'AppIndex',
-  components: {TestChart, LineChart, PanelGroup, HomeSideMenu}
+  components: {TestChart, LineChart, PanelGroup}
 }
 </script>
 

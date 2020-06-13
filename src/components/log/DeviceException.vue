@@ -1,5 +1,12 @@
 <template>
   <div id="app">
+    <el-row>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/logIndex' }">日志管理</el-breadcrumb-item>
+        <el-breadcrumb-item>设备日志</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
     <el-row style="height: 800px;">
       <el-button type="success" @click="shenji" style="float: right">开始审计</el-button>
       <!--表格数据及操作-->

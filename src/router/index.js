@@ -23,6 +23,7 @@ import CommandIndex from '../components/command/CommandIndex'
 import Command from '../components/command/Command'
 import DeviceMonitor from '../components/device/DeviceMonitor'
 import ScenarioShow from '../components/Scenario/ScenarioShow'
+import ProfilesLibrary from '../components/profile/ProfilesLibrary'
 
 import Router from 'vue-router'
 
@@ -101,15 +102,20 @@ export default new Router({
           ]
         },
         {
-          path: '/profile',
+          path: '/profileIndex',
           name: 'ProfileIndex',
           component: ProfileIndex,
           redirect: '/deviceprofile',
           children: [
             {
-              path: '/deviceprofile',
+              path: '/deviceProfile',
               name: 'DeviceProfile',
               component: DeviceProfile
+            },
+            {
+              path: '/profilesLibrary',
+              name: 'ProfilesLibrary',
+              component: ProfilesLibrary
             }
           ]
         },

@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      // '/profiles': {
-      //   target: 'http://localhost:8091/api/profile/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/profiles': ''
-      //   }
-      // },
+      '/profiles': {
+        target: 'http://localhost:8091/api/profile/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/profiles': ''
+        }
+      },
       // '/profiles': {
       //   target: 'http://localhost:8000/p/',
       //   changeOrigin: true,

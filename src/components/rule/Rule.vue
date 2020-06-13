@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+    <el-row>
+      <el-breadcrumb separator="/">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>规则引擎</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
     <el-row style="height: 800px;">
       <div style="margin-bottom: 30px;display: flex;justify-content: center;align-items: center;">
         <el-input v-model="keywords" prefix-icon="el-icon-search" size="small" style="width: 400px;margin-right: 10px"
