@@ -7,6 +7,7 @@ import './assets/font_icon/iconfont.css'
 import store from './store'
 import router from './router'
 import App from './App'
+import './style/style.css'
 
 // Vue.use(Loading.directive)
 Vue.use(ElementUI)

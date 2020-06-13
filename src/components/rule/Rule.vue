@@ -8,13 +8,15 @@
       </div>
       <br>
       <!--新增按钮-->
-      <el-col :span="1" class="grid" style="float: right">
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round @click="dialogCreateVisible = true">新增</el-button>
-      </el-col>
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="dialogCreateVisible = true">新增
+      </el-button>
       <br>
     <!--表格数据及操作-->
-    <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)"  v-loading="loading" element-loading-text="拼命加载中"
-              element-loading-spinner="el-icon-loading" element-loading-background="rgba(0, 0, 0, 0.3)" style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
+      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)"
+                v-loading="loading"
+                element-loading-text="拼命加载中"
+                element-loading-spinner="el-icon-loading"
+                element-loading-background="rgba(0, 0, 0, 0.3)" style="width: 100%" stripe ref="multipleTable" tooltip-effect="dark">
       <!--勾选框-->
       <el-table-column type="selection" width="30px">
       </el-table-column>
@@ -206,6 +208,7 @@ export default {
         // scenario: '',
         dynamicItem: []
       },
+      loading: true,
       dialogCreateVisible: false,
       table: [],
       dialogVisible: false,

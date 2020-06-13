@@ -1,7 +1,7 @@
 <template>
   <div>
-    <nav-menu></nav-menu>
-    <router-view/>
+    <nav-menu style="position: relative; top:100px;"></nav-menu>
+    <router-view style="position:absolute; width: 70%; top:80px; left:350px; border: 1px solid gray; padding-top: 20px; background-color: #f5f6f8"/>
   </div>
 </template>
 

@@ -4,9 +4,8 @@
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>
       <!--新增按钮-->
-      <el-col :span="1" class="grid" style="float: right">
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round @click="createMQRouter">新增</el-button>
-      </el-col>
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createMQRouter">新增
+      </el-button>
       <br>
       <message-routing-edit-form @onSubmit="loadMessageRouting" ref="messageRoutingEditForm"></message-routing-edit-form>
       <!--表格数据及操作-->
