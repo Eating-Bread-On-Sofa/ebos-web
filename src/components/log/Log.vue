@@ -10,8 +10,8 @@
         <el-select v-model="searchData.category" placeholder="请选择源" style="width: 150px; margin-left: 10px">
           <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="searchData.f" placeholder="请选择源" style="width: 150px; margin-left: 10px">
-          <el-option v-for="item in fList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        <el-select v-model="searchData.operation" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+          <el-option v-for="item in operationList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-button @click="search" style="margin-left: 10px">查询</el-button>
       </div>
@@ -103,7 +103,7 @@ export default {
         lastDate: '',
         source: '',
         category: '',
-        f: ''
+        operation: ''
       },
       sourceList: [{value: '全部', label: '全部'},
         {value: '网关实例', label: '网关实例'},
@@ -122,7 +122,7 @@ export default {
         {value: 'warn', label: 'warn'},
         {value: 'error', label: 'error'},
         {value: 'null', label: 'null'}],
-      fList: [{value: 'all', label: 'all'},
+      operationList: [{value: 'all', label: 'all'},
         {value: 'create', label: 'create'},
         {value: 'delete', label: 'delete'},
         {value: 'update', label: 'update'},
