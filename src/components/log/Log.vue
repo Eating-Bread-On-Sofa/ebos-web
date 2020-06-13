@@ -1,8 +1,22 @@
 <template>
   <div id="app">
     <el-row>
+      <div style="margin-bottom: 30px">
+        <el-date-picker v-model="searchData.firstDate" type="date" placeholder="请选择开始日期" style="width: 150px"></el-date-picker>
+        <el-date-picker v-model="searchData.lastDate" type="date" placeholder="请选择结束日期" style="width: 150px; margin-left: 10px"></el-date-picker>
+        <el-select v-model="searchData.source" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+          <el-option v-for="item in sourceList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-select v-model="searchData.category" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+          <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-select v-model="searchData.f" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+          <el-option v-for="item in fList" :key="item.value" :label="item.label" :value="item.value"></el-option>
+        </el-select>
+        <el-button @click="search" style="margin-left: 10px">查询</el-button>
+      </div>
       <log-echart ref="LogEchartDialog" v-bind:logs="table" v-bind:dialogVisible="chartDialog" @hideDialog="chartDialog = false" ></log-echart>
-      <el-button type="success" @click="shenji" style="float: right">开始审计</el-button>
+      <el-button type="success" @click="shenji" style="float: right; margin-left: 20px">开始审计</el-button>
       <el-button type="success" @click="chartDialog = true" style="float: right">日志统计图</el-button>
       <!--表格数据及操作-->
       <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
@@ -83,7 +97,37 @@ export default {
       chartDialog: false,
       pagesize: 10,
       currentPage: 1,
-      loading: false
+      loading: false,
+      searchData: {
+        firstDate: '',
+        lastDate: '',
+        source: '',
+        category: '',
+        f: ''
+      },
+      sourceList: [{value: '全部', label: '全部'},
+        {value: '网关实例', label: '网关实例'},
+        {value: '规则引擎', label: '规则引擎'},
+        {value: '消息路由', label: '消息路由'},
+        {value: '通知管理', label: '通知管理'},
+        {value: '模板管理', label: '模板管理'},
+        {value: '网关管理', label: '网关管理'},
+        {value: '设备指令', label: '设备指令'},
+        {value: '设备管理', label: '设备管理'},
+        {value: '场景管理', label: '场景管理'},
+        {value: '服务管理', label: '服务管理'}],
+      categoryList: [{value: 'all', label: 'all'},
+        {value: 'debug', label: 'debug'},
+        {value: 'info', label: 'info'},
+        {value: 'warn', label: 'warn'},
+        {value: 'error', label: 'error'},
+        {value: 'null', label: 'null'}],
+      fList: [{value: 'all', label: 'all'},
+        {value: 'create', label: 'create'},
+        {value: 'delete', label: 'delete'},
+        {value: 'update', label: 'update'},
+        {value: 'retrieve', label: 'retrieve'},
+        {value: 'null', label: 'null'}]
     }
   },
   mounted: function () {
@@ -101,6 +145,16 @@ export default {
         }).catch(() => {
           this.$message('获取日志失败!')
         })
+    },
+    search () {
+      console.log(this.searchData)
+      this.searchPost()
+    },
+    searchPost () {
+      // 发送this.searchData
+      alert(this.searchData)
+      this.$axios.get().then(resp => {
+      })
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage

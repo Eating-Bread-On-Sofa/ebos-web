@@ -1,6 +1,6 @@
 <template>
   <div>
-    <img src="../../img/logo.jpg" alt="" style="height: 100px; width: 20.8%; position:absolute; top:-100px; left:0; min-width: 200px">
+    <img src="../../img/logo.jpg" alt="" style="height: 100px; width: 20.8%; position:absolute; top:-100px; left:0; min-width: 120px">
     <span style="position: absolute; right: 100px; padding-top: 0;font-size: 20px;font-weight: bold; top: -90px; line-height:50px;  color: #881401; font-family: 楷体">BJTU边缘计算平台</span>
     <i class="el-icon-switch-button" v-on:click="logout" style="position: absolute; font-size: 40px; padding: 10px; top: -100px; right: 0; color: #881401"></i>
     <el-col :span="5">
@@ -11,13 +11,13 @@
         text-color="white"
         unique-opened="true"
         active-text-color="#F59044"
-        style="min-width: 200px">
+        style="min-width: 120px">
         <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
           <template slot="title">
             <i :class=item.icon></i>
             <span>{{ item.navItem }}</span>
           </template>
-          <el-menu-item class="subMenu" v-for="(subitem,j) in item.subList" :key="j" :index="subitem.name">{{subitem.subItem}}</el-menu-item>
+          <el-menu-item class="subMenu" v-for="(subitem,j) in item.subList" :key="j" :index="subitem.name" style="min-width: 120px">{{subitem.subItem}}</el-menu-item>
         </el-submenu>
       </el-menu>
     </el-col>
