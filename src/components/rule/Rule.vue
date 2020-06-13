@@ -336,9 +336,9 @@ export default {
     get () {
       var _this = this
       // 代理网关
-      this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+      // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
       // 实际地址
-      // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
+      this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
       // this.$axios.get('/rules/getRuleLists').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
@@ -356,7 +356,7 @@ export default {
             var rule = 'rule' + (i + 2)
             obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold
           }
-          console.log(obj)
+          // console.log(obj)
           data[x] = obj
         }
         if (resp && resp.status === 200) {
@@ -428,11 +428,39 @@ export default {
     },
     deleteNewRule (item, index) {
       this.form.dynamicItem.splice(index, 1)
-    }
-  },
-  computed: {
+    },
     search () {
-      return 'Rule Search'
+      var key = this.keywords
+      var searchTable = []
+      for (var x = 0; x < this.table.length; x++) {
+        if (this.table[x].ruleName.indexOf(key) !== -1 ||
+          this.table[x].ruleParaThreshold.toString().indexOf(key) !== -1 ||
+          this.table[x].parameter.indexOf(key) !== -1 ||
+          this.table[x].rule2.indexOf(key) !== -1 ||
+          this.table[x].rule3.indexOf(key) !== -1 ||
+          this.table[x].rule4.indexOf(key) !== -1 ||
+          this.table[x].rule5.indexOf(key) !== -1 ||
+          this.table[x].service.indexOf(key) !== -1 ||
+          this.table[x].ruleExecute.indexOf(key) !== -1 ||
+          this.table[x].device.indexOf(key) !== -1) {
+          var obj = {}
+          obj.ruleName = this.table[x].ruleName
+          obj.ruleParaThreshold = this.table[x].ruleParaThreshold
+          obj.ruleJudge = this.table[x].ruleJudge
+          obj.parameter = this.table[x].parameter
+          obj.ruleExecute = this.table[x].ruleExecute
+          obj.ruleId = this.table[x].ruleId
+          obj.service = this.table[x].service
+          obj.device = this.table[x].device
+          obj.rule2 = this.table[x].rule2
+          obj.rule3 = this.table[x].rule3
+          obj.rule4 = this.table[x].rule4
+          obj.rule5 = this.table[x].rule5
+          // obj.scenario = resp.data[x].scenario
+          searchTable[x] = obj
+        }
+      }
+      this.table = searchTable
     }
   }
 }
