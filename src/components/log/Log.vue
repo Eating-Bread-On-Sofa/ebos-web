@@ -8,15 +8,15 @@
     </el-row>
     <el-row>
       <div style="margin-bottom: 30px">
-        <el-date-picker v-model="searchData.firstDate" type="date" placeholder="请选择开始日期" style="width: 160px"></el-date-picker>
-        <el-date-picker v-model="searchData.lastDate" type="date" placeholder="请选择结束日期" style="width: 160px; margin-left: 10px"></el-date-picker>
-        <el-select v-model="searchData.source" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+        <el-date-picker v-model="firstDate" type="date" placeholder="请选择开始日期" style="width: 160px"></el-date-picker>
+        <el-date-picker v-model="lastDate" type="date" placeholder="请选择结束日期" style="width: 160px; margin-left: 10px"></el-date-picker>
+        <el-select v-model="source" placeholder="请选择源" style="width: 150px; margin-left: 10px">
           <el-option v-for="item in sourceList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="searchData.category" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+        <el-select v-model="category" placeholder="请选择源" style="width: 150px; margin-left: 10px">
           <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="searchData.operation" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+        <el-select v-model="operation" placeholder="请选择源" style="width: 150px; margin-left: 10px">
           <el-option v-for="item in operationList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
         <el-button @click="search" style="margin-left: 10px">查询</el-button>
@@ -104,13 +104,11 @@ export default {
       pagesize: 10,
       currentPage: 1,
       loading: false,
-      searchData: {
-        firstDate: '',
-        lastDate: '',
-        source: '',
-        category: '',
-        operation: ''
-      },
+      firstDate: '',
+      lastDate: '',
+      source: '',
+      category: '',
+      operation: '',
       sourceList: [{value: '全部', label: '全部'},
         {value: '网关实例', label: '网关实例'},
         {value: '规则引擎', label: '规则引擎'},
@@ -153,13 +151,26 @@ export default {
         })
     },
     search () {
-      console.log(this.searchData)
       this.searchPost()
     },
     searchPost () {
-      // 发送this.searchData
-      alert(this.searchData)
-      this.$axios.get().then(resp => {
+      var first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth()}/${this.firstDate.getDate()}`
+      var last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth()}/${this.lastDate.getDate()}`
+      var tableData = []
+      this.$axios.get(`http://localhost:8090/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        var data = resp.data
+        for (var i = 0; i < data.length; i++) {
+          console.log(data[i])
+          var obj = {}
+          obj.date = data[i].date
+          obj.category = data[i].category
+          obj.id = data[i].id
+          obj.message = data[i].message
+          obj.operation = data[i].operation
+          obj.source = data[i].source
+          tableData[i] = obj
+        }
+        this.table = tableData
       })
     },
     handleCurrentChange: function (currentPage) {
