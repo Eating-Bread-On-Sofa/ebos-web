@@ -10,7 +10,7 @@ import App from './App'
 import './style/style.css'
 
 // Vue.use(Loading.directive)
-Vue.use(ElementUI)
+Vue.use(ElementUI, {size: 'small'})
 
 // Vue.prototype.$loading = Loading.service
 // Vue.prototype.$msgbox = MessageBox

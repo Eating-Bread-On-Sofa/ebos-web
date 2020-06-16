@@ -53,13 +53,13 @@ module.exports = {
       //     '^/devices': ''
       //   }
       // },
-      // '/rules': {
-      //   target: 'http://localhost:8083/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/rules': ''
-      //   }
-      // },
+      '/rules': {
+        target: 'http://localhost:8083/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/rules': ''
+        }
+      },
       // '/rules': {
       //   target: 'http://localhost:8000/rc/',
       //   changeOrigin: true,
@@ -102,6 +102,13 @@ module.exports = {
       //     '^/gateways': ''
       //   }
       // },
+      '/services': {
+        target: 'http://localhost:8085/api/service/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/services': ''
+        }
+      },
       '/scenarios': {
         target: 'http://localhost:8092/api/',
         changeOrigin: true,
@@ -116,13 +123,13 @@ module.exports = {
       //     '^/scenarios': ''
       //   }
       // },
-      // '/notices': {
-      //   target: 'http://localhost:8088/api/notice/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/notices': ''
-      //   }
-      // },
+      '/notices': {
+        target: 'http://localhost:8088/api/notice/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/notices': ''
+        }
+      },
       // '/notices': {
       //   target: 'http://localhost:8000/n/',
       //   changeOrigin: true,
@@ -130,13 +137,13 @@ module.exports = {
       //     '^/notices': ''
       //   }
       // },
-      // '/commands': {
-      //   target: 'http://localhost:8082/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/commands': ''
-      //   }
-      // }
+      '/commands': {
+        target: 'http://localhost:8082/api/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/commands': ''
+        }
+      }
       // '/commands': {
       //   target: 'http://localhost:8000/c/',
       //   changeOrigin: true,

@@ -1,19 +1,40 @@
 <template>
   <div>
+    <div>
+      <el-dialog
+        title="请先选择网关"
+        width="30%"
+        :visible.sync="selectDialog">
+        <el-form v-model="gwip" label-width="120px" style="text-align: left">
+          <el-form-item label="选择网关">
+            <el-select style="width: 240px" v-model="gwip" placeholder="请选择模板下发网关">
+              <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+                <span style="float: left">网关名称：{{ item.name }}</span>
+                <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="selectDialog = false">取消</el-button>
+          <el-button type="primary" @click="loadProfiles">确定</el-button>
+        </div>
+      </el-dialog>
+    </div>
     <el-row>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
         <el-breadcrumb-item>模板管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <el-row style="height: 1200px;">
+    <el-row>
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createProfile()">新增
-      </el-button>
-      <br>
-      <profile-edit-form @onSubmit="loadProfiles" ref="profileEditForm"></profile-edit-form>
+<!--      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createProfile()">新增-->
+<!--      </el-button>-->
+<!--      <br>-->
+<!--      <profile-edit-form @onSubmit="loadProfiles" ref="profileEditForm"></profile-edit-form>-->
       <el-table
         ref="multipleTable"
         v-loading="loading"
@@ -108,10 +129,10 @@
         <el-table-column
           label="操作">
           <template slot-scope="scope">
-            <el-button
-              size="mini"
-              type="success"
-              @click="handleExport(scope.$index, scope.row)">导出模板</el-button>
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              type="success"-->
+<!--              @click="handleExport(scope.$index, scope.row)">导出模板</el-button>-->
 <!--            <el-button-->
 <!--              size="mini"-->
 <!--              type="success"-->
@@ -138,32 +159,49 @@
 
 <script>
 import SearchBar from './SearchBar'
-import ProfileEditForm from './ProfileEditForm'
+// import ProfileEditForm from './ProfileEditForm'
 export default {
   name: 'DeviceProfile',
-  components: {ProfileEditForm, SearchBar},
+  components: {SearchBar},
   data () {
     return {
       currentPage: 1,
       pagesize: 18,
+      gwList: [],
+      gwip: '',
+      selectDialog: false,
       tableData: [],
       multipleSelection: [],
       loading: true
     }
   },
   mounted: function () {
-    this.loadProfiles()
+    this.selectGw()
+    // this.loadProfiles()
   },
   methods: {
+    selectGw () {
+      this.$axios.get('/gateways/gateway').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gwList = resp.data
+          this.selectDialog = true
+        }
+      }).catch(() => {
+        this.$message('获取网关信息失败！')
+      })
+    },
     loadProfiles () {
+      this.selectDialog = false
       var _this = this
       this.$axios
-        .get('http://localhost:8000/p/ip/127.0.0.1').then(resp => {
-        // .get('/p/ip/127.0.0.1').then(resp => {
+        // .get('http://localhost:8000/p/ip/127.0.0.1').then(resp => {
+        .get('/profiles/gateway/' + this.gwip).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
           }
+        }).catch(() => {
+          this.$message('获取该网关设备模板失败！')
         })
     },
     handleSelectionChange (val) {
@@ -175,34 +213,34 @@ export default {
     createProfile () {
       this.$refs.profileEditForm.dialogFormVisible = true
     },
-    handleExport (index, tablerow) {
-      var filecontent
-      this.$axios
-        .get('http://localhost:8000/p/yml/' + tablerow.id).then(resp => {
-        // .get('/p/yml/' + tablerow.id).then(resp => {
-          if (resp && resp.status === 200) {
-            filecontent = resp.data
-            if ('download' in document.createElement('a')) {
-              this.download(filecontent, tablerow.name + '.yaml')
-            } else {
-              window.alert('浏览器不支持！')
-            }
-          }
-        }).catch(() => {
-          this.$message('模板导出失败！')
-        })
-    },
-    download (content, filename) {
-      let link = document.createElement('a')
-      link.download = filename
-      link.style.display = 'none'
-      // 字符内容转变成blob地址
-      let blob = new Blob([content])
-      link.href = URL.createObjectURL(blob)
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-    },
+    // handleExport (index, tablerow) {
+    //   var filecontent
+    //   this.$axios
+    //     // .get('http://localhost:8000/p/yml/' + tablerow.id).then(resp => {
+    //     .get('/profiles/name/' + tablerow.name).then(resp => {
+    //       if (resp && resp.status === 200) {
+    //         filecontent = resp.data
+    //         if ('download' in document.createElement('a')) {
+    //           this.download(filecontent, tablerow.name + '.yaml')
+    //         } else {
+    //           window.alert('浏览器不支持！')
+    //         }
+    //       }
+    //     }).catch(() => {
+    //       this.$message('模板导出失败！')
+    //     })
+    // },
+    // download (content, filename) {
+    //   let link = document.createElement('a')
+    //   link.download = filename
+    //   link.style.display = 'none'
+    //   // 字符内容转变成blob地址
+    //   let blob = new Blob([content])
+    //   link.href = URL.createObjectURL(blob)
+    //   document.body.appendChild(link)
+    //   link.click()
+    //   document.body.removeChild(link)
+    // },
     handleDelete (index, tablerow) {
       var _this = this
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
@@ -211,9 +249,10 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('http://localhost:8000/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
-          // .delete('/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
+          // .delete('http://localhost:8000/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
+          .delete('/profiles/gateway/' + this.gwip, {data: tablerow.name}).then(resp => {
             if (resp && resp.status === 200) {
+              this.$message(resp.data)
               _this.loadProfiles()
             }
           })

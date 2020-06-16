@@ -6,7 +6,7 @@
           <el-breadcrumb-item>网关管理</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
-      <el-row style="height: 800px;">
+      <el-row>
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
         <br>
         <!--新增按钮-->
@@ -114,7 +114,9 @@
             label="IP地址">
           </el-table-column>
           <el-table-column
-            label="操作">
+            label="操作"
+            width="500px"
+            min-width="160px">
             <template slot-scope="scope">
               <el-button
                 size="mini"
@@ -201,8 +203,8 @@ export default {
       const _this = this
       this.$axios
         // .get('http://localhost:8089/api/gateway').then(resp => {
-        .get('http://localhost:8000/gc').then(resp => {
-        // .get('/gc').then(resp => {
+        // .get('http://localhost:8000/gc').then(resp => {
+        .get('/gateways/gateway').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -233,8 +235,8 @@ export default {
       const _this = this
       this.$axios
       // .post('http://localhost:8089/api/gateway', {
-        .post('http://localhost:8000/gc', {
-          // .post('/gc', {
+      //   .post('http://localhost:8000/gc', {
+        .post('/gateways/gateway', {
           name: _this.gwForm.name,
           ip: _this.gwForm.ip
         }).then(resp => {
@@ -250,8 +252,8 @@ export default {
     editOnSubmit () {
       const _this = this
       this.$axios
-        .put('http://localhost:8000/gc', {
-          // .put('/gc', {
+        // .put('http://localhost:8000/gc', {
+        .put('/gateways/gateway', {
           name: _this.gwForm.name,
           ip: _this.gwForm.ip
         }).then(resp => {
@@ -282,8 +284,8 @@ export default {
     handleBackup (index, tablerow) {
       this.$axios
         // .post('http://localhost:8089/api/gateway/copy/' + tablerow.ip, {
-        .post('http://localhost:8000/gc/copy/' + tablerow.ip, {
-        // .post('/gc/copy/' + tablerow.ip, {
+        // .post('http://localhost:8000/gc/copy/' + tablerow.ip, {
+        .post('/gateways/gateway/copy/' + tablerow.ip, {
           command: '1',
           device: '1',
           deviceprofile: '1',
@@ -298,8 +300,8 @@ export default {
         })
     },
     handleRecover (index, row) {
-      this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
-      // this.$axios.get('/gc/version/' + row.ip).then(resp => {
+      // this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
+      this.$axios.get('/gateways/gateway/version/' + row.ip).then(resp => {
         if (resp && resp.status === 200) {
           this.versionList = resp.data
           this.recoverDialog = true
@@ -313,8 +315,8 @@ export default {
     recoverOnSubmit () {
       const _this = this
       this.$axios
-        .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
-          // .post('/gc/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+        // .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+        .post('/gateways/gateway/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
           command: _this.gwRecoverForm.command,
           device: {
             deviceIp: _this.gwRecoverForm.deviceIp
@@ -341,8 +343,8 @@ export default {
       }).then(() => {
         this.$axios
           // .delete('http://localhost:8089/api/gateway/' + tablerow.name).then(resp => {
-          .delete('http://localhost:8000/gc' + tablerow.name).then(resp => {
-          // .delete('/gc/' + tablerow.name).then(resp => {
+          // .delete('http://localhost:8000/gc' + tablerow.name).then(resp => {
+          .delete('/gateways/gateway/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadGateways()
             }

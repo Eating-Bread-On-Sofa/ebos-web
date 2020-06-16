@@ -6,7 +6,7 @@
       <i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 20px;font-size: 40px; padding: 10px;color: #881401"></i>
     </el-header>
     <el-container>
-      <el-aside style="width: 200px">
+      <el-aside style="width: 200px;height: 100%">
         <nav-menu></nav-menu>
       </el-aside>
       <el-main style="padding: 0px;">

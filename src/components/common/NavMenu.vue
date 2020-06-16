@@ -1,19 +1,21 @@
 <template>
-  <el-menu
-    default-active="/index"
-    router
-    unique-opened
-    background-color="#881401"
-    text-color="white"
-    active-text-color="#F59044">
-    <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
-      <template slot="title">
-        <i :class=item.icon></i>
-        <span>{{ item.navItem }}</span>
-      </template>
-      <el-menu-item class="subMenu" v-for="(subItem,j) in item.subList" :key="j" :index="subItem.name">{{subItem.subItem}}</el-menu-item>
-    </el-submenu>
-  </el-menu>
+  <div>
+    <el-menu
+      default-active="/index"
+      router
+      unique-opened
+      background-color="#881401"
+      text-color="white"
+      active-text-color="#F59044">
+      <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
+        <template slot="title">
+          <i :class=item.icon></i>
+          <span>{{ item.navItem }}</span>
+        </template>
+        <el-menu-item class="subMenu" v-for="(subItem,j) in item.subList" :key="j" :index="subItem.name">{{subItem.subItem}}</el-menu-item>
+      </el-submenu>
+    </el-menu>
+  </div>
 </template>
 
 <script>
@@ -29,7 +31,7 @@ export default {
         },
         {name: '/gatewayIndex',
           navItem: '网关管理',
-          subList: [{name: '/gateway', subItem: '网关列表'}],
+          subList: [{name: '/gateway', subItem: '网关列表'}, {name: '/gatewayService', subItem: '网关服务'}, {name: '/serviceManage', subItem: '服务管理'}],
           icon: 'el-icon-monitor'
         },
         {name: '/messageRoutingIndex',
@@ -44,7 +46,7 @@ export default {
         },
         {name: '/profileIndex',
           navItem: '设备模板',
-          subList: [{name: '/deviceProfile', subItem: '模板管理'}, {name: '/profilesLibrary', subItem: '模板库'}],
+          subList: [{name: '/deviceProfile', subItem: '模板管理'}, {name: '/profileLib', subItem: '模板库'}],
           icon: 'el-icon-document-add'
         },
         {name: '/deviceIndex',

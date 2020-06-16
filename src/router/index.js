@@ -23,7 +23,9 @@ import CommandIndex from '../components/command/CommandIndex'
 import Command from '../components/command/Command'
 import DeviceMonitor from '../components/device/DeviceMonitor'
 import ScenarioShow from '../components/Scenario/ScenarioShow'
-import ProfilesLibrary from '../components/profile/ProfilesLibrary'
+import ServiceManage from '../components/gateway/ServiceManage'
+import GatewayService from '../components/gateway/GatewayService'
+import ProfileLib from '../components/profile/ProfileLib'
 
 import Router from 'vue-router'
 
@@ -67,6 +69,16 @@ export default new Router({
               path: '/gateway',
               name: 'Gateway',
               component: Gateway
+            },
+            {
+              path: '/gatewayService',
+              name: 'GatewayServcie',
+              component: GatewayService
+            },
+            {
+              path: '/serviceManage',
+              name: 'ServiceManage',
+              component: ServiceManage
             }
           ]
         },
@@ -105,7 +117,7 @@ export default new Router({
           path: '/profileIndex',
           name: 'ProfileIndex',
           component: ProfileIndex,
-          redirect: '/deviceprofile',
+          redirect: '/deviceProfile',
           children: [
             {
               path: '/deviceProfile',
@@ -113,9 +125,9 @@ export default new Router({
               component: DeviceProfile
             },
             {
-              path: '/profilesLibrary',
-              name: 'ProfilesLibrary',
-              component: ProfilesLibrary
+              path: '/profileLib',
+              name: 'ProfileLib',
+              component: ProfileLib
             }
           ]
         },

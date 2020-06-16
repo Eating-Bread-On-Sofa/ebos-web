@@ -145,8 +145,8 @@ export default {
     },
     getProfileList () {
       this.$axios
-        // .get('/p/ip/' + this.deviceEditForm.gwip).then(resp => {
-        .get('http://localhost:8000/p/ip/' + this.deviceEditForm.gwip).then(resp => {
+        .get('/profiles/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
+        // .get('http://localhost:8000/p/ip/' + this.deviceEditForm.gwip).then(resp => {
           if (resp && resp.status === 200) {
             this.profileList = resp.data
           }
