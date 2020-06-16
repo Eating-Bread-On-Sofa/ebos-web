@@ -226,14 +226,29 @@ export default {
       currentPage: 1
     }
   },
+  mounted () {
+    this.ruleAlert()
+  },
   created: function () {
     this.get()
-    // this.getFormDevices()
+    this.getFormDevices()
     // this.getFormParas()
     this.getFormService()
     // this.getFormScenario()
   },
   methods: {
+    ruleAlert () {
+      var that = this
+      setInterval(function () {
+        that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
+          var flag = resp.data.alertFlag
+          var msg = resp.data.alertMsg
+          if (flag === true) {
+            that.$alert('告警信息： ' + msg)
+          }
+        })
+      }, 5000)
+    },
     onSubmit () {
       this.dialogCreateVisible = false
       this.post()
