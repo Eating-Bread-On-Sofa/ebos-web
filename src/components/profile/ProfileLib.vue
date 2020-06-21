@@ -2,13 +2,12 @@
     <div>
       <el-row>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>模板库</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
       <el-row>
         <br>
-        <!--新增按钮-->
         <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
         </el-button>
         <profile-edit-form :dialogFormVisible="createDialog" @hideDialog="createDialog = false" @onSubmit="loadProfileLib"></profile-edit-form>
@@ -21,7 +20,7 @@
               <el-input style="width: 240px" v-model="profileForm.name" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="选择网关">
-              <el-select style="width: 240px" v-model="profileForm.gwip" placeholder="请选择模板下发网关">
+              <el-select style="width: 240px" v-model="profileForm.gwip" multiple collapse-tags placeholder="请选择模板下发网关">
                 <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
                   <span style="float: left">网关名称：{{ item.name }}</span>
                   <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
@@ -106,12 +105,6 @@
             label="模板名称">
           </el-table-column>
           <el-table-column
-            label="设备类型">
-            <template slot-scope="scope">
-              <span>{{ scope.row.yml.name }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column
             label="制造商">
             <template slot-scope="scope">
               <span>{{ scope.row.yml.manufacturer }}</span>
@@ -121,6 +114,12 @@
             label="支持协议">
             <template slot-scope="scope">
               <span>{{ scope.row.yml.model }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column
+            label="描述">
+            <template slot-scope="scope">
+              <span>{{ scope.row.yml.description }}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -166,7 +165,7 @@ export default {
       dialogVisible: false,
       profileForm: {
         name: '',
-        gwip: ''
+        gwip: []
       },
       gwList: [],
       currentPage: 1,
@@ -193,6 +192,11 @@ export default {
   },
   methods: {
     loadProfileLib () {
+      // 实际API
+      // this.$axios.get('http://localhost:8091/api/profile').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/p').then(resp => {
+      // 开发模式代理API
       this.$axios.get('/profiles').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
@@ -207,21 +211,30 @@ export default {
       this.currentPage = currentPage
     },
     handleOutGiving (index, tablerow) {
-      this.$axios.get('/gateways/gateway').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // 开发模式代理API
+      this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.profileForm.name = tablerow.name
           this.dialogVisible = true
         }
       }).catch(() => {
-        this.$message('获取网关信息失败！')
+        this.$message.error('获取网关信息失败！')
         this.dialogVisible = false
       })
     },
     handleExport (index, tablerow) {
       var filecontent
       this.$axios
-      // .get('http://localhost:8000/p/yml/' + tablerow.id).then(resp => {
+        // 实际API
+        // .get('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
+        // 开发模式下代理API
         .get('/profiles/name/' + tablerow.name).then(resp => {
           if (resp && resp.status === 200) {
             filecontent = resp.data
@@ -232,7 +245,7 @@ export default {
             }
           }
         }).catch(() => {
-          this.$message('模板导出失败！')
+          this.$message.error('模板导出失败！')
         })
     },
     download (content, filename) {
@@ -254,7 +267,11 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-        // .delete('http://localhost:8000/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
+          // 实际API
+          // .delete('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
+          // kong网关代理API
+          // .delete('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
+          // 开发模式代理API
           .delete('/profiles/name/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadProfileLib()
@@ -262,21 +279,34 @@ export default {
           })
       }).catch(() => {
         this.message({
-          type: 'info',
+          type: 'error',
           message: '已取消删除'
         })
       })
     },
     onSubmit () {
-      this.$axios.post('/profiles/gateway/' + this.profileForm.gwip, this.profileForm.name
-      ).then(resp => {
-        if (resp && resp.status === 200) {
-          this.dialogVisible = false
-          this.$message('模板下发至网关成功！')
-        }
-      }).catch(() => {
-        this.$message('模板下发失败！')
-      })
+      let ip = this.profileForm.gwip
+      let profileName = this.profileForm.name
+      for (let x in this.profileForm.gwip) {
+        // 实际API
+        // this.$axios.post('http://localhost:8091/api/profile/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
+        // kong网关代理API
+        // this.$axios.post('http://localhost:8000/p/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
+        // 开发模式下代理API
+        this.$axios.post('/profiles/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
+        ).then(resp => {
+          if (resp && resp.status === 200) {
+            this.$message.success(profileName + '模板下发至' + ip[x] + '网关成功！')
+          }
+        }).catch(() => {
+          this.$message.error(profileName + '模板下发至' + ip[x] + '失败！')
+        })
+      }
+      this.dialogVisible = false
+      this.profileForm = {
+        name: '',
+        gwip: []
+      }
     }
   }
 }

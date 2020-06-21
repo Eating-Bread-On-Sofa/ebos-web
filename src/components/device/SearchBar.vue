@@ -10,7 +10,6 @@
     </el-input>
     <el-button size="small" type="primary" icon="el-icon-search" @click="searchClick">搜索</el-button>
   </div>
-
 </template>
 
 <script>
@@ -18,13 +17,13 @@ export default {
   name: 'SearchBar',
   data () {
     return {
-      keywords: '',
-      response: []
+      keywords: ''
     }
   },
   methods: {
     searchClick () {
-      this.$emit('onSearch')
+      this.$emit('onSearch', this.keywords)
+      this.keywords = ''
     }
   }
 }

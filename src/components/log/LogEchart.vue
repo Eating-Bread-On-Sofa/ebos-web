@@ -29,7 +29,14 @@ export default {
     },
     logs: {
       type: Array,
-      required: true
+      required: true,
+      default () {
+        return {
+          logs: [
+            {source: '', category: ''}
+          ]
+        }
+      }
     }
   },
   data () {

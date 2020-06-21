@@ -6,12 +6,12 @@
         <el-row :gutter="32">
           <el-col :xs="24" :sm="24" :lg="12">
             <div class="chart-wrapper">
-              <line-chart />
+              <scenario-line-chart />
             </div>
           </el-col>
           <el-col :xs="24" :sm="24" :lg="12">
             <div class="chart-wrapper">
-              <test-chart />
+              <device-line-chart />
             </div>
           </el-col>
         </el-row>
@@ -22,12 +22,12 @@
 
 <script>
 import PanelGroup from './PanelGroup'
-import LineChart from './LineChart'
-import TestChart from './TestChart'
+import ScenarioLineChart from './ScenarioLineChart'
+import DeviceLineChart from './DeviceLineChart'
 
 export default {
   name: 'AppIndex',
-  components: {TestChart, LineChart, PanelGroup}
+  components: {DeviceLineChart, ScenarioLineChart, PanelGroup}
 }
 </script>
 

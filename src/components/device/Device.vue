@@ -1,19 +1,62 @@
 <template>
   <div id="app">
+    <div>
+      <el-dialog
+        title="请先选择网关"
+        width="30%"
+        :visible.sync="selectDialog">
+        <el-form v-model="gwip" label-width="120px" style="text-align: left">
+          <el-form-item label="选择网关">
+            <el-select style="width: 240px" v-model="gwip" placeholder="请选择网关查看设备">
+              <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+                <span style="float: left">网关名称：{{ item.name }}</span>
+                <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+          <el-button @click="selectDialog = false">取消</el-button>
+          <el-button type="primary" @click="loadDevices">确定</el-button>
+        </div>
+      </el-dialog>
+    </div>
     <el-row>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>设备管理</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-col :span="12">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
+          <el-breadcrumb-item>设备管理</el-breadcrumb-item>
+          <el-breadcrumb-item>ip: {{gwip}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-col>
+      <el-col :span="12">
+          <el-button type="text" icon="el-icon-refresh" @click="loadDevices" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right">刷新</el-button>
+      </el-col>
     </el-row>
     <el-row>
-      <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
-      <br>
+      <el-col :span="12">
+        <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
+      </el-col>
+      <el-col :span="12">
+        <div  style="margin-top: 20px;margin-bottom: 30px;float: right">
+          <el-button type="success" icon="el-icon-guide">网关选择：</el-button>
+          <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
+            <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+              <span style="float: left">网关名称：{{ item.name }}</span>
+              <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+            </el-option>
+          </el-select>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDevice()">新增
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="editDialog = true">新增
       </el-button>
       <br>
-      <device-edit-form @onSubmit="loadDevices" ref="deviceEdit"></device-edit-form>
+      <device-edit-form :gwList="gwList" :editDialog="editDialog" @onSubmit="loadDevices" @hideDialog="editDialog = false" ref="deviceEdit"></device-edit-form>
+    </el-row>
+    <el-row>
     <!--表格数据及操作-->
     <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
               v-loading="loading"
@@ -50,6 +93,8 @@
       </el-table-column>
       <el-table-column prop="operatingState" label="操作状态">
       </el-table-column>
+      <el-table-column prop="createdTime" label="创建时间">
+      </el-table-column>
       <el-table-column label="操作" width="250px">
         <template slot-scope="scope">
           <el-button type="success" icon="el-icon-edit" size="mini" @click="handleTest(scope.$index, scope.row)">测试</el-button>
@@ -82,25 +127,49 @@ export default {
       table: [],
       pagesize: 18,
       currentPage: 1,
-      loading: true
+      loading: true,
+      gwList: [],
+      gwip: '',
+      selectDialog: false,
+      editDialog: false
     }
   },
   mounted () {
-    this.loadDevices()
+    this.selectGw()
+    // this.loadDevices()
   },
   methods: {
+    selectGw () {
+      // 实际API
+      // .post('http://localhost:8089/api/gateway', {
+      // kong网关代理API
+      // .post('http://localhost:8000/gc', {
+      // 开发模式下代理API
+      this.$axios.get('/gateways').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gwList = resp.data
+          this.selectDialog = true
+        }
+      }).catch(() => {
+        this.$message.error('获取网关信息失败！')
+      })
+    },
     loadDevices () {
+      this.selectDialog = false
       var _this = this
       this.$axios
-        // .get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
-        .get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
-        // .get('/d/ip/127.0.0.1').then(resp => {
+        // 实际API
+        // .get('http://localhost:8081/api/device/ip/' + this.gwip).then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/d/ip/' + this.gwip).then(resp => {
+        // 开发模式代理API
+        .get('/devices/ip/' + this.gwip).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
             _this.loading = false
           }
         }).catch(() => {
-          this.$message('拉取设备列表失败！')
+          this.$message.error('拉取设备列表失败！')
         })
     },
     createDevice () {
@@ -135,43 +204,52 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          // .delete('http://localhost:8081/api/device/ip/127.0.0.1/name/' + row.name).then(resp => {
-          .delete('http://localhost:8000/d/ip/127.0.0.1/name/' + row.name).then(resp => {
-          // .delete('/d/ip/127.0.0.1/name/' + row.name).then(resp => {
+          // 实际API
+          // .delete('http://localhost:8081/api/device/ip/' + this.gwip + '/name/' + row.name).then(resp => {
+          // kong网关代理API
+          // .delete('http://localhost:8000/d/ip/' + this.gwip + '/name/' + row.name).then(resp => {
+          // 开发模式下代理API
+          .delete('/devices/ip/' + this.gwip + '/name/' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadDevices()
             }
           })
       }).catch(() => {
         this.message({
-          type: 'info',
+          type: 'error',
           message: '已取消删除'
         })
       })
     },
     handleTest (index, row) {
-      // this.$axios.get('http://localhost:8081/api/device/details/127.0.0.1/' + row.id).then(resp => {
-      this.$axios.get('http://localhost:8000/d/details/127.0.0.1/' + row.id).then(resp => {
-      // this.$axios.get('/d/details/127.0.0.1/' + row.id).then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/device/details/' + this.gwip + '/' + row.id).then(resp => {
+      // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + row.id).then(resp => {
+      this.$axios.get('/devices/details/' + this.gwip + '/' + row.id).then(resp => {
         if (resp && resp.status === 200) {
-          this.$message('连接成功！')
+          this.$message.sueecss('连接成功！当前设备读数为：' + resp.data)
         }
       }).catch(() => {
-        this.$message('连接失败！')
+        this.$message.error('连接设备失败！')
       })
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
-    searchResult () {
+    searchResult (e) {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/d/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/d/search?keywords=' + this.$refs.searchBar.keywords, {
-        }).then(resp => {
+        // 实际API
+        // .get('http://localhost:8081/api/device/ip/' + this.gwip + '/' + e).then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/d/ip/' + this.gwip + '/' + e).then(resp => {
+        // 开发模式下代理API
+        .get('/devices/ip/' + this.gwip + '/' + e).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
           }
+        }).catch(() => {
+          this.$message.error('搜索失败！')
         })
     }
   }

@@ -71,7 +71,8 @@ export default {
         },
         {name: '/logIndex',
           navItem: '操作审计',
-          subList: [{name: '/log', subItem: '操作日志'}, {name: '/deviceLog', subItem: '设备日志'}, {name: '/gatewayLog', subItem: '网关日志'}],
+          subList: [{name: '/log', subItem: '操作日志'}],
+          // subList: [{name: '/log', subItem: '操作日志'}, {name: '/deviceLog', subItem: '设备日志'}, {name: '/gatewayLog', subItem: '网关日志'}],
           icon: 'el-icon-warning-outline'
         }
       ]

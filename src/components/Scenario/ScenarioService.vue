@@ -2,18 +2,57 @@
   <div>
     <el-row>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
         <el-breadcrumb-item>场景服务</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <el-row style="height: 800px;">
+    <el-row>
       <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
-      <br>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createScenario()">新增
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
       </el-button>
-      <br>
-      <scenario-edit-form @onSubmit="loadScenarios()" ref="scenarioEditForm"></scenario-edit-form>
+      <div>
+        <el-dialog
+          title="新增/修改场景服务"
+          :visible.sync="createDialog"
+          width="30%"
+          @close="clear">
+          <el-form label-width="120px" style="text-align: left" ref="dataForm">
+            <el-form-item label="场景服务名称">
+              <el-input v-model="scenarioEdit.name" autocomplete="off" placeholder="请输入场景服务名称"></el-input>
+            </el-form-item>
+            <el-form-item label="选择网关">
+              <el-select v-model="gwIndex" placeholer="请选择网关" @change="handleGW">
+                <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="i">
+                  <span style="float: left">{{ item.name }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">{{ item.ip}}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="设备及命令">
+              <el-select v-model="command" multiple placeholder="请选择设备及命令">
+                <el-option v-for="(item, i) in commandList" :key="i" :label="item.commandName" :value="i">
+                  <span style="float: left">指令：{{ item.commandName }}</span>
+                  <span style="float: right; color: #8492a6; font-size: 13px">设备：{{ item.deviceName}}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="规则引擎">
+              <el-select v-model="scenarioEdit.rules" multiple placeholder="请配置规则引擎">
+                <el-option v-for="(item, i) in ruleList" :key="i" :label="item.ruleName" :value="item.ruleName"></el-option>
+              </el-select>
+            </el-form-item>
+            <!--          <el-form-item label="服务命令内容">-->
+            <!--            <el-input type="textarea" :row="10" v-model="form.command" autocomplete="off" placeholder="请输入要执行的命令名称JSON数组，如: [{'name':'1'},{'name':'2'}]"></el-input>-->
+            <!--          </el-form-item>-->
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click=clear>取消</el-button>
+            <el-button type="primary" @click="onSubmit">确定</el-button>
+          </div>
+        </el-dialog>
+      </div>
+
       <scenario-device-state ref="scenarioDeviceState"></scenario-device-state>
       <el-table
         ref="multipleTable"
@@ -33,7 +72,7 @@
           label="网关名称">
           <template slot-scope="scope">
             <table width="100%">
-              <tr v-for="item in scope.row.content" :key="item.index">{{ item.gatewayName }}</tr>
+              <tr v-for="item in scope.row.content[0]" :key="item.index">{{ item.gatewayName }}</tr>
             </table>
           </template>
         </el-table-column>
@@ -41,33 +80,26 @@
           label="网关IP">
           <template slot-scope="scope">
             <table width="100%">
-              <tr v-for="item in scope.row.content" :key="item.index">{{ item.gatewayIP }}</tr>
+              <tr v-for="item in scope.row.content[0]" :key="item.index">{{ item.gatewayIP }}</tr>
             </table>
           </template>
         </el-table-column>
         <el-table-column
-          label="设备列表">
+          label="设备及指令">
           <template slot-scope="scope">
-            <table width="100%">
-              <tr v-for="item in scope.row.content" :key="item.index">
-                <table width="100%">
-                  <tr v-for="subitem in item.commands" :key="subitem.index">{{ subitem.deviceName }}</tr>
-                </table>
-              </tr>
-            </table>
+            <li v-for="i in scope.row.content[0].commands" :key="i">
+              <span>device: {{ scope.row.content[0].command[i].deviceName }} , command: {{ scope.row.content[0].command[i].commandName }}</span>
+            </li>
+          </template>
+        </el-table-column>
+        <el-table-column label="规则">
+          <template slot-scope="scope">
+            <li v-for= " i in scope.row.rules" :key="i">{{ scope.row.rules[i] }}</li>
           </template>
         </el-table-column>
         <el-table-column
-          label="指令列表">
-          <template slot-scope="scope">
-            <table width="100%">
-              <tr v-for="item in scope.row.content" :key="item.index">
-                <table width="100%">
-                  <tr v-for="subitem in item.commands" :key="subitem.index">{{ subitem.commandName }}</tr>
-                </table>
-              </tr>
-            </table>
-          </template>
+          label="创建日期"
+          prop="created">
         </el-table-column>
         <el-table-column
           label="操作"
@@ -100,7 +132,7 @@
 </template>
 
 <script>
-import SearchBar from './SearchBar'
+import SearchBar from '../common/SearchBar'
 import ScenarioEditForm from './ScenarioEditForm'
 import ScenarioDeviceState from './ScenarioDeviceState'
 import ScenarioShow from './ScenarioShow'
@@ -111,57 +143,24 @@ export default {
     return {
       currentPage: 1,
       pagesize: 18,
-      tableData: [
-        // {
-        //   name: 'scenario1',
-        //   content: [
-        //     {
-        //       gatewayName: 'gw1',
-        //       gatewayIP: '127.0.0.1',
-        //       commands: [
-        //         {
-        //           deviceName: 'Random-Integer-Generator01',
-        //           commandName: 'GenerateRandomValue_Int8'
-        //         },
-        //         {
-        //           deviceName: 'Random-Integer-Generator01',
-        //           commandName: 'GenerateRandomValue_Int32'
-        //         }
-        //       ]
-        //     }
-        //   ]
-        // },
-        // {
-        //   name: 'scenario2',
-        //   content: [
-        //     {
-        //       gatewayName: 'gw1',
-        //       gatewayIP: '127.0.0.1',
-        //       commands: [
-        //         {
-        //           deviceName: 'Random-Integer-Generator01',
-        //           commandName: 'GenerateRandomValue_Int8'
-        //         },
-        //         {
-        //           deviceName: 'Random-Integer-Generator01',
-        //           commandName: 'GenerateRandomValue_Int32'
-        //         }
-        //       ]
-        //     },
-        //     {
-        //       gatewayName: 'gw2',
-        //       gatewayIP: 'localhost',
-        //       commands: [
-        //         {
-        //           deviceName: 'Random-Integer-Generator01',
-        //           commandName: 'GenerateRandomValue_Int16'
-        //         }
-        //       ]
-        //     }
-        //   ]
-        // }
-      ],
-      loading: true
+      tableData: [],
+      loading: true,
+      createDialog: false,
+      gwList: [],
+      ruleList: [],
+      commandList: [],
+      gwIndex: '',
+      command: [],
+      gwAndDevice: {
+        gatewayName: '',
+        gatewayIP: '',
+        commands: []
+      },
+      scenarioEdit: {
+        name: '',
+        rules: [],
+        content: []
+      }
     }
   },
   mounted () {
@@ -171,28 +170,30 @@ export default {
     loadScenarios () {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/s').then(resp => {
-        // .get('/s').then(resp => {
+        // 实际API
+        // .get('http://localhost:8092/api/scenario').then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/s').then(resp => {
+        // 开发模式下代理API
+        .get('/scenarios').then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
           }
         }).catch(() => {
-          _this.$message('数据加载失败！')
+          _this.$message.error('数据加载失败！')
         })
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
-    createScenario () {
-      this.$refs.scenarioEditForm.dialogFormVisible = true
-    },
-    // handleShow (index, row) {
-    //   this.$scenarioShow.dialogFormVisible = true
-    // },
     handleStatus (index, tablerow) {
-      this.$axios.get('http://localhost:8000/s/status/' + tablerow.name).then(resp => {
-      // this.$axios.get('/s/status/' + tablerow.name).then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8092/api/scenario/status/' + tablerow.name).then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/s/status/' + tablerow.name).then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/scenarios/status/' + tablerow.name).then(resp => {
         if (resp && resp.status === 200) {
           this.$refs.scenarioDeviceState.statusData = resp.data
           this.$refs.scenarioDeviceState.dialogFormVisible = true
@@ -208,19 +209,106 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('http://localhost:8000/s/name/' + tablerow.name, {
-          // .delete('/s/name/' + tablerow.name, {
+          // 实际API
+          // .delete('http://localhost:8092/api/scenario/name/' + tablerow.name, {
+          // kong网关代理API
+          // .delete('http://localhost:8000/s/name/' + tablerow.name, {
+          // 开发模式下代理API
+          .delete('/scenarios/name/' + tablerow.name, {
           }).then(resp => {
             if (resp && resp.status === 200) {
+              this.$message.success('已删除场景服务：' + tablerow)
               this.loadScenarios()
             }
           })
       }).catch(() => {
-        this.message({
-          type: 'info',
-          message: '已取消删除'
+        this.$message({
+          type: 'error',
+          message: '删除操作已取消！'
         })
       })
+    },
+    getGWList () {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // 开发模式代理API
+      this.$axios.get('/gateways').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gwList = resp.data
+        }
+      }).catch(() => {
+        this.$message.error('获取网关信息失败！请重试！')
+      })
+      this.getRuleList()
+    },
+    handleGW () {
+      this.gwAndDevice.gatewayName = this.gwList[this.gwIndex].name
+      this.gwAndDevice.gatewayIP = this.gwList[this.gwIndex].ip
+      // 实际API
+      // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/c/list').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/commands/list').then(resp => {
+        if (resp && resp.status === 200) {
+          this.commandList = resp.data
+        }
+      }).catch(() => {
+        this.$message('获取指令列表失败！')
+      })
+    },
+    getRuleList () {
+      // 实际API
+      // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+      // 开发模式下代理API
+      this.$axios('/rules/getRuleLists').then(resp => {
+        if (resp && resp.status === 200) {
+          this.ruleList = resp.data
+        }
+      }).catch(() => {
+        this.$message.error('获取规则失败！')
+      })
+    },
+    clear () {
+      this.createDialog = false
+      this.gwIndex = ''
+      this.command = []
+      this.gwAndDevice = {
+        gatewayName: '',
+        gatewayIP: '',
+        commands: []
+      }
+      this.scenarioEdit = {
+        name: '',
+        rules: [],
+        content: []
+      }
+    },
+    onSubmit () {
+      let item = {}
+      for (let x in this.command) {
+        item.commandName = this.commandList[this.command[x]].commandName
+        item.deviceName = this.commandList[this.command[x]].deviceName
+        this.gwAndDevice.commands.push(item)
+        item = {}
+      }
+      this.scenarioEdit.content.push(this.gwAndDevice)
+      this.$axios
+        // 实际API
+        // .post('http://localhost:8092/api/scenario', this.scenarioEdit.form).then(resp => {
+        // kong网关代理API
+        // .post('http://localhost:8000/s', this.scenarioEdit.form).then(resp => {
+        // 开发模式下代理API
+        .post('/scenarios', this.scenarioEdit.form).then(resp => {
+          if (resp && resp.status === 200) {
+            this.createDialog = false
+            this.loadScenarios()
+          }
+        })
     },
     searchResult () {
       var _this = this
@@ -232,6 +320,13 @@ export default {
             _this.tableData = resp.data
           }
         })
+    }
+  },
+  watch: {
+    createDialog: function (newValue, oldValue) {
+      if (newValue) {
+        this.getGWList()
+      }
     }
   }
 }

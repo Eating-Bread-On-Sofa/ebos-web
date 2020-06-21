@@ -3,7 +3,7 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('devices')">
           <div class="card-panel-icon-wrapper icon-device">
-            <i class="el-icon-s-platform" style="font-size: 50px"></i>
+            <i class="el-icon-s-platform" style="font-size: 40px"></i>
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
@@ -16,7 +16,7 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('gateways')">
           <div class="card-panel-icon-wrapper icon-gateway">
-            <i class="el-icon-s-management" style="font-size: 50px"></i>
+            <i class="el-icon-s-management" style="font-size: 40px"></i>
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
@@ -29,7 +29,7 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('replaces')">
           <div class="card-panel-icon-wrapper icon-replace">
-            <i class="el-icon-s-operation" style="font-size: 50px"></i>
+            <i class="el-icon-s-operation" style="font-size: 40px"></i>
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
@@ -42,7 +42,7 @@
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
         <div class="card-panel" @click="handleSetLineChartData('replaces')">
           <div class="card-panel-icon-wrapper icon-replace">
-            <i class="el-icon-warning" style="font-size: 50px"></i>
+            <i class="el-icon-warning" style="font-size: 40px"></i>
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
@@ -75,31 +75,45 @@ export default {
   },
   methods: {
     getDeviceCount () {
-      this.$axios.get('http://localhost:8000/d/days?days=1').then(resp => {
-      // this.$axios.get('/d/days?days=1').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/device/days?days=1').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/d/days?days=1').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/devices/days?days=1').then(resp => {
         if (resp && resp.status === 200) {
           this.deviceCount = resp.data[0].count
         }
       }).catch(() => {
-        this.$message('获取设备新增信息失败！')
+        this.$message.error('获取设备新增信息失败！')
       })
     },
     getGatewayCount () {
-      this.$axios.get('http://localhost:8000/gc/days?days=1').then(resp => {
-      // this.$axios.get('/gc/days?days=1').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway/days?days=1').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gc/days?days=1').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/gateways/days?days=1').then(resp => {
         if (resp && resp.status === 200) {
           this.gatewayCount = resp.data[0].count
         }
+      }).catch(() => {
+        this.$message.error('获取网关新增信息失败！')
       })
     },
     getGatewayState () {
-      this.$axios.get('http://localhost:8000/gc/state').then(resp => {
-      // this.$axios.get('/gc/state').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway/state').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gc/state').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/gateways/state').then(resp => {
         if (resp && resp.status === 200) {
           this.microService = resp.data
-          for (var i = 0; i < this.microService.length; i++) {
-            for (var key in resp.data[i]) {
-              if (resp.data[i][key] === 'OFFLINE') {
+          for (var i in resp.data) {
+            for (var key in resp.data[i]['state']) {
+              if (!resp.data[i]['state'][key]) {
                 this.offlineCount += 1
               }
             }

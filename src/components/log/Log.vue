@@ -1,31 +1,37 @@
 <template>
   <div id="app">
     <el-row>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>日志管理</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-col :span="12">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
+          <el-breadcrumb-item>日志管理</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-col>
+      <el-col :span="12">
+        <el-button type="text" icon="el-icon-refresh" @click="loadLogs" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right">刷新</el-button>
+      </el-col>
     </el-row>
     <el-row>
-      <div style="margin-bottom: 30px">
+      <div style="margin-top: 20px;margin-bottom: 30px;float: left">
         <el-date-picker v-model="firstDate" type="date" placeholder="请选择开始日期" style="width: 160px"></el-date-picker>
         <el-date-picker v-model="lastDate" type="date" placeholder="请选择结束日期" style="width: 160px; margin-left: 10px"></el-date-picker>
-        <el-select v-model="source" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+        <el-select v-model="source" placeholder="请选择日志来源" style="margin-left: 10px">
           <el-option v-for="item in sourceList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="category" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+        <el-select v-model="category" placeholder="请选择日志分类" style="margin-left: 10px">
           <el-option v-for="item in categoryList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-select v-model="operation" placeholder="请选择源" style="width: 150px; margin-left: 10px">
+        <el-select v-model="operation" placeholder="请选择操作类型" style="margin-left: 10px">
           <el-option v-for="item in operationList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-button @click="search" style="margin-left: 10px">查询</el-button>
+        <el-button @click="searchPost" style="margin-left: 10px">查询</el-button>
       </div>
-      <log-echart ref="LogEchartDialog" v-bind:logs="table" v-bind:dialogVisible="chartDialog" @hideDialog="chartDialog = false" ></log-echart>
-      <el-button type="success" @click="shenji" style="float: right; margin-left: 20px">开始审计</el-button>
+    </el-row>
+      <log-echart ref="LogEchartDialog" :logs="table" v-bind:dialogVisible="chartDialog" @hideDialog="chartDialog = false" ></log-echart>
       <el-button type="success" @click="chartDialog = true" style="float: right">日志统计图</el-button>
+    <el-row>
       <!--表格数据及操作-->
-      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%"
+      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;"
                 :row-class-name="tableRowClassName"
                 v-loading="loading"
                 element-loading-text="拼命加载中"
@@ -66,10 +72,6 @@
             <el-tag
               close-transition>{{scope.row.category}}</el-tag>
           </template>
-        </el-table-column>
-        <el-table-column prop="gatewayName" label="网关名称">
-        </el-table-column>
-        <el-table-column prop="gatewayIP" label="网关IP">
         </el-table-column>
         <el-table-column prop="message" label="日志信息">
         </el-table-column>
@@ -140,18 +142,19 @@ export default {
   methods: {
     loadLogs () {
       this.$axios
+        // 实际API
+        // .get('http://localhost:8090/api/logtest').then(resp => {
+        // kong网关代理API
         // .get('http://localhost:8000/gc/log').then(resp => {
-        .get('/logs/log').then(resp => {
+        // 开发模式下代理API
+        .get('/logs/logtest').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
           }
         }).catch(() => {
-          this.$message('获取日志失败!')
+          this.$message.error('获取日志失败!')
         })
-    },
-    search () {
-      this.searchPost()
     },
     searchPost () {
       var first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth()}/${this.firstDate.getDate()}`
@@ -192,9 +195,6 @@ export default {
     },
     filterSource (value, row) {
       return row.source === value
-    },
-    shenji () {
-
     }
   }
 }

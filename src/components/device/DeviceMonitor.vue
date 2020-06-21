@@ -1,27 +1,57 @@
 <template>
     <div>
+      <div>
+        <el-dialog
+          title="请先选择网关"
+          width="30%"
+          :visible.sync="selectDialog">
+          <el-form v-model="gwip" label-width="120px" style="text-align: left">
+            <el-form-item label="选择网关">
+              <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
+                <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.ip">
+                  <span style="float: left">网关名称：{{ item.name }}</span>
+                  <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="选择设备">
+              <el-select v-model="deviceId" placeholder="请选择设备" @change="getDeviceName">
+                <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer">
+            <el-button @click="selectDialog = false">取消</el-button>
+            <el-button type="primary" @click="handleDeviceId">确定</el-button>
+          </div>
+        </el-dialog>
+      </div>
       <el-row>
         <el-breadcrumb separator="/">
           <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/deviceIndex' }">设备管理</el-breadcrumb-item>
           <el-breadcrumb-item>设备监控</el-breadcrumb-item>
+          <el-breadcrumb-item>网关：{{ gwip }}</el-breadcrumb-item>
+          <el-breadcrumb-item>设备：{{ deviceName }}</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
-      <el-row style="margin-top: 100px">
-        <el-form v-model="deviceId" style="text-align: left;float: left">
-          <el-form-item label="设备选择">
-            <el-select v-model="deviceId" placeholder="请选择设备" @change="handleDeviceId">
-              <el-option v-for="item in deviceList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+      <el-row  style="margin-top: 20px;margin-bottom: 30px;">
+        <el-col :span="12">
+          <div style="float: left">
+            <el-button type="success" icon="el-icon-guide" @change="handleDeviceId">在线设备</el-button>
+            <el-select v-model="deviceId" placeholder="请选择设备" @change="getDeviceName">
+              <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
             </el-select>
-          </el-form-item>
-        </el-form>
-        <el-form v-model="interval" style="text-align: left;float: right;">
-          <el-form-item label="更新周期">
-            <el-select v-model="interval" placeholder="请选择更新周期">
+          </div>
+        </el-col>
+        <el-col :span="12">
+          <div style="float: right">
+            <el-button type="success" icon="el-icon-guide">更新周期</el-button>
+            <el-select v-model="interval" placeholder="请选择更新周期" @change="handleDeviceId">
               <el-option v-for="item in intervals" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
-          </el-form-item>
-        </el-form>
+          </div>
+        </el-col>
       </el-row>
       <el-row>
         <div id="detailchart" style="width: 1200px;height:600px;margin-top: 20px"></div>
@@ -34,9 +64,14 @@ export default {
   name: 'DeviceMonitor',
   data () {
     return {
-      dialogFormVisible: false,
+      gwList: [],
+      gwip: '',
+      selectDialog: false,
       deviceId: '',
-      deviceList: [],
+      deviceName: '',
+      deviceList: [
+        {name: ''}
+      ],
       interval: 1000,
       intervals: [
         {label: '1秒', value: 1000},
@@ -100,37 +135,59 @@ export default {
     }
   },
   mounted () {
-    this.loadDevices()
-    // setInterval(() => {
-    //   this.$
-    // })
+    this.selectGw()
   },
   methods: {
+    selectGw () {
+      // 实际API
+      // .post('http://localhost:8089/api/gateway', {
+      // kong网关代理API
+      // .post('http://localhost:8000/gc', {
+      // 开发模式下代理API
+      this.$axios.get('/gateways').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gwList = resp.data
+          this.selectDialog = true
+        }
+      }).catch(() => {
+        this.$message.error('获取网关信息失败！')
+      })
+    },
     loadDevices () {
-      // this.$axios.get('http://localhost:8081/api/device/online/127.0.0.1').then(resp => {
-      this.$axios.get('http://localhost:8000/d/online/127.0.0.1').then(resp => {
-      // this.$axios.get('/d/online/127.0.0.1').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/device/online/' + this.gwip).then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/d/online/' + this.gwip).then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/devices/online/' + this.gwip).then(resp => {
         if (resp && resp.status === 200) {
           this.deviceList = resp.data
         }
       }).catch(() => {
-        this.$message('获取在线设备列表失败！')
+        this.$message.error('获取在线设备列表失败！')
       })
     },
     handleDeviceId () {
+      let id = this.deviceList[this.deviceId].id
       this.dataForm.type = []
       this.dataForm.data1 = []
       this.dataForm.data2 = []
-      this.drawCharts(this.deviceId)
+      this.drawCharts(id)
+    },
+    getDeviceName () {
+      this.deviceName = this.deviceList[this.deviceId].name
     },
     drawCharts (id) {
       var date = new Date()
       // this.dataForm.type = []
       // this.dataForm.data1 = []
       // this.dataForm.data2 = []
-      // this.$axios.get('http://localhost:8081/api/details/127.0.0.1/' + id).then(resp => {
-      this.$axios.get('http://localhost:8000/d/details/127.0.0.1/' + id).then(resp => {
-      // this.$axios.get('/d/details/127.0.0.1/' + id).then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/d/details/' + this.gwip + '/' + id).then(resp => {
         if (resp && resp.status === 200) {
           this.dataForm.type = Object.keys(resp.data)
           this.dataForm.data1.push([date, resp.data[this.dataForm.type[0]]])
@@ -149,9 +206,12 @@ export default {
       })
       setInterval(() => {
         var date = new Date()
-        // this.$axios.get('http://localhost:8081/api/details/127.0.0.1/' + id).then(resp => {
-        this.$axios.get('http://localhost:8000/d/details/127.0.0.1/' + id).then(resp => {
-        // this.$axios.get('/d/details/127.0.0.1/' + id).then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
+        // kong网关代理API
+        // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+        // 开发模式下代理API
+        this.$axios.get('/d/details/' + this.gwip + '/' + id).then(resp => {
           if (resp && resp.status === 200) {
             this.dataForm.data1.push([date, resp.data[this.dataForm.type[0]]])
             this.dataForm.data2.push([date, resp.data[this.dataForm.type[1]]])
@@ -165,55 +225,6 @@ export default {
           }
         })
       }, this.interval)
-    },
-    testdrawCharts () {
-      let chart = this.$refs.detailChart
-      let myChart = echarts.init(chart)
-      myChart.setOption({
-        title: {
-          text: '设备监控情况',
-          left: 80,
-          textStyle: {
-            fontSize: 22
-          }
-        },
-        tooltip: {
-          trigger: 'axis'
-        },
-        xAxis: {
-          type: 'time',
-          name: '时间'
-        },
-        yAxis: {},
-        legend: {
-          left: 200,
-          bottom: 0,
-          itemHeight: 28,
-          itemWidth: 70
-        },
-        series: [
-          {
-            name: this.dataForm.type[0],
-            type: 'line',
-            data: this.dataForm.data1,
-            symbol: 'emptyTriangle',
-            symbolSize: 6,
-            lineStyle: {
-              width: 2
-            }
-          },
-          {
-            name: this.dataForm.type[1],
-            type: 'line',
-            data: this.dataForm.data2,
-            symbol: 'emptyCircle',
-            symbolSize: 6,
-            lineStyle: {
-              width: 2
-            }
-          }
-        ]
-      })
     },
     clear () {
       this.dialogFormVisible = false

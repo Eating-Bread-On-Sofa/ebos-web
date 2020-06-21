@@ -5,7 +5,7 @@
 <script>
 import echarts from 'echarts'
 export default {
-  name: 'LineChart',
+  name: 'ScenarioLineChart',
   data () {
     return {
       charts: '',
@@ -13,29 +13,36 @@ export default {
       xdata: [],
       ydata: [],
       option: {
+        title: {
+          text: '近30天场景服务接入信息统计',
+          left: 'center',
+          top: 20,
+          textStyle: {
+            color: '#ffcf3d',
+            fontStyle: 'italic'
+          }
+        },
         tooltip: {},
         legend: {
           data: ['场景服务接入数量']
         },
-        grid: {
-          top: 10,
-          left: '2%',
-          right: '2%',
-          bottom: '3%',
-          containLabel: true
-        },
-
         toolbox: {
           feature: {
             saveAsImage: {}
           }
         },
         xAxis: {
+          type: 'category',
+          boundaryGap: false,
           data: ''
 
         },
         yAxis: {
-          max: 3
+          splitLine: {
+            show: false
+          },
+          type: 'value',
+          max: 10
         },
 
         series: [{
@@ -51,8 +58,12 @@ export default {
   },
   methods: {
     loadScenarioAddition () {
-      this.$axios.get('http://localhost:8000/s/days?days=30').then(resp => {
-      // this.$axios.get('/s/days?days=30').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8092/api/scenario/days?days=30').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/s/days?days=30').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/scenarios/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           this.scenarioAddition = resp.data
           this.drawLine(this.scenarioAddition)

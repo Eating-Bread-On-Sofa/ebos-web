@@ -44,7 +44,6 @@ export default {
     return {
       dialogFormVisible: false,
       gwList: [],
-      // deviceList: [],
       commandList: [],
       gwIndex: '',
       command: [],

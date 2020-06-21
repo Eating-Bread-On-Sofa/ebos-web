@@ -2,7 +2,7 @@
     <div>
       <el-row>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>网关管理</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
@@ -27,8 +27,8 @@
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="createDialog = false">取消</el-button>
-              <el-button type="primary" @click.once="createOnSubmit">确定</el-button>
+              <el-button @click="clear">取消</el-button>
+              <el-button type="primary" @click="createOnSubmit">确定</el-button>
             </div>
           </el-dialog>
         </div>
@@ -38,16 +38,19 @@
             :visible.sync="editDialog"
             width="30%"
             @close="clear">
-            <el-form v-model="gwForm" label-width="120px" style="text-align: left">
+            <el-form v-model="gwEdit" label-width="120px" style="text-align: left">
               <el-form-item label="网关名称" prop="name">
-                <el-input v-model="gwForm.name" :disabled="true"></el-input>
+                <el-input v-model="gwEdit.name" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="创建时间" prop="created">
+                <el-input v-model="gwEdit.created" :disabled="true"></el-input>
               </el-form-item>
               <el-form-item label="网关IP地址" prop="ip">
-                <el-input v-model="gwForm.ip" autocomplete="off" placeholder="请输入新的IP地址"></el-input>
+                <el-input v-model="gwEdit.ip" autocomplete="off" placeholder="请输入新的IP地址"></el-input>
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="editDialog = false">取消</el-button>
+              <el-button @click="clear">取消</el-button>
               <el-button type="primary" @click="editOnSubmit">确定</el-button>
             </div>
           </el-dialog>
@@ -57,7 +60,7 @@
             title="网关恢复"
             width="30%"
             :visible.sync="recoverDialog"
-            @close="clear">
+            @close="recoverClear">
             <el-form v-model="gwRecoverForm" label-width="120px" style="text-align: left">
               <el-form-item label="网关名称" prop="name">
                 <el-input v-model="gwRecoverForm.name" autocomplete="off" :disabled="true"></el-input>
@@ -70,25 +73,25 @@
                   <el-option v-for="item in versionList" :key="item.version" :label="item.version" :value="item.version"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="恢复项：">
-                <el-switch v-model="gwRecoverForm.command" inactive-text="指令" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
-                <el-switch v-model="gwRecoverForm.deviceprofile" inactive-text="设备模板" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
-                <el-switch v-model="gwRecoverForm.deviceservice" inactive-text="设备服务" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
-                <el-switch v-model="gwRecoverForm.export" inactive-text="导出层" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>
-                <el-switch v-model="isDisplay" inactive-text="设备" active-color="#13ce66" inactive-color="#ff4949" active-value="inline" inactive-value="none"></el-switch>
-              </el-form-item>
-              <el-form-item label="设备管理ip" prop="device" :style="{display: isDisplay}">
-                <el-input v-model="gwRecoverForm.deviceIp" autocomplete="off" placeholder="请输入需恢复的设备管理服务器IP"></el-input>
-              </el-form-item>
+<!--              <el-form-item label="恢复项：">-->
+<!--                <el-switch v-model="gwRecoverForm.command" inactive-text="指令" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>-->
+<!--                <el-switch v-model="gwRecoverForm.deviceprofile" inactive-text="设备模板" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>-->
+<!--                <el-switch v-model="gwRecoverForm.deviceservice" inactive-text="设备服务" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>-->
+<!--                <el-switch v-model="gwRecoverForm.export" inactive-text="导出层" active-color="#13ce66" inactive-color="#ff4949" active-value="1" inactive-value="0"></el-switch>-->
+<!--                <el-switch v-model="isDisplay" inactive-text="设备" active-color="#13ce66" inactive-color="#ff4949" active-value="inline" inactive-value="none"></el-switch>-->
+<!--              </el-form-item>-->
+<!--              <el-form-item label="设备管理ip" prop="device" :style="{display: isDisplay}">-->
+<!--                <el-input v-model="gwRecoverForm.deviceIp" autocomplete="off" placeholder="请输入需恢复的设备管理服务器IP"></el-input>-->
+<!--              </el-form-item>-->
             </el-form>
             <div slot="footer" class="dialog-footer">
-              <el-button @click="recoverDialog = false">取消</el-button>
+              <el-button @click="recoverClear">取消</el-button>
               <el-button type="primary" @click="recoverOnSubmit">确定</el-button>
             </div>
           </el-dialog>
         </div>
         <br>
-        <gateway-state ref="gatewayState"></gateway-state>
+<!--        <gateway-state ref="gatewayState"></gateway-state>-->
         <el-table
           ref="multipleTable"
           v-loading="loading"
@@ -102,25 +105,44 @@
           @selection-change="handleSelectionChange">
           <el-table-column
             type="index"
-            width="250px"
-          label="序号">
+            label="序号"
+            align="center">
           </el-table-column>
           <el-table-column
             prop="name"
-            label="网关名称">
+            label="网关名称"
+            align="center">
           </el-table-column>
           <el-table-column
             prop="ip"
-            label="IP地址">
+            label="IP地址"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            prop="created"
+            label="创建时间"
+            align="center">
+          </el-table-column>
+          <el-table-column
+            label="网关状态"
+            width="250%"
+            align="center">
+            <template slot-scope="scope">
+              <ul style="text-align: left">
+                <li v-for="(value, key) in scope.row.state" :key="key">
+                  {{ key }} : {{ value }}
+                </li>
+              </ul>
+            </template>
           </el-table-column>
           <el-table-column
             label="操作"
-            width="500px"
-            min-width="160px">
+            width="400%"
+            align="center">
             <template slot-scope="scope">
-              <el-button
-                size="mini"
-                @click="handleState(scope.$index, scope.row)">查询网关状态</el-button>
+<!--              <el-button-->
+<!--                size="mini"-->
+<!--                @click="handleState(scope.$index, scope.row)">查询网关状态</el-button>-->
               <el-button
                 size="mini"
                 type="warning"
@@ -154,10 +176,10 @@
 
 <script>
 import SearchBar from './SearchBar'
-import GatewayState from './GatewayState'
+// import GatewayState from './GatewayState'
 export default {
   name: 'Gateway',
-  components: {GatewayState, SearchBar},
+  components: {SearchBar},
   data () {
     return {
       currentPage: 1,
@@ -167,6 +189,11 @@ export default {
         name: '',
         ip: ''
       },
+      gwEdit: {
+        name: '',
+        ip: '',
+        created: ''
+      },
       createDialog: false,
       editDialog: false,
       recoverDialog: false,
@@ -174,25 +201,19 @@ export default {
       gwRecoverForm: {
         name: '',
         ip: '',
-        version: '',
-        command: '0',
-        deviceIp: '0',
-        deviceprofile: '0',
-        deviceservice: '0',
-        export: '0'
+        version: ''
       },
-      isDisplay: 'none',
       multipleSelection: [],
-      loading: true,
-      gwState: {
-        counter: 0,
-        edgexCounter: 0,
-        edgexOnline: 0,
-        serviceCounter: 0,
-        serviceOnline: 0
-      },
-      edgexOffline: [],
-      serviceOffline: []
+      loading: true
+    //   gwState: {
+    //     counter: 0,
+    //     edgexCounter: 0,
+    //     edgexOnline: 0,
+    //     serviceCounter: 0,
+    //     serviceOnline: 0
+    //   },
+    //   edgexOffline: [],
+    //   serviceOffline: []
     }
   },
   mounted () {
@@ -200,70 +221,91 @@ export default {
   },
   methods: {
     loadGateways () {
-      const _this = this
+      let data = []
       this.$axios
+        // 实际API
         // .get('http://localhost:8089/api/gateway').then(resp => {
+        // kong网关代理API
         // .get('http://localhost:8000/gc').then(resp => {
-        .get('/gateways/gateway').then(resp => {
+        // 开发模式下代理API
+        .get('/gateways').then(resp => {
           if (resp && resp.status === 200) {
-            _this.tableData = resp.data
-            _this.loading = false
+            data = resp.data
+            for (let item in data) {
+              this.$axios.get('/gateways/state/' + data[item].name).then(state => {
+                if (state && state.status === 200) {
+                  data[item].state = state.data.state
+                }
+              })
+            }
+            this.tableData = data
+            this.loading = false
           }
         })
     },
     clear () {
+      this.createDialog = false
+      this.editDialog = false
       this.gwForm = {
         name: '',
         ip: ''
       }
+      this.gwEdit = {
+        name: '',
+        ip: '',
+        created: ''
+      }
     },
     recoverClear () {
+      this.recoverDialog = false
       this.versionList = []
       this.gwRecoverForm = {
         name: '',
         ip: '',
-        version: '',
-        command: '0',
-        deviceIp: '0',
-        deviceprofile: '0',
-        deviceservice: '0',
-        export: '0'
+        version: ''
       }
-      this.isDisplay = 'none'
     },
     createOnSubmit () {
       const _this = this
       this.$axios
+        // 实际API
       // .post('http://localhost:8089/api/gateway', {
+        // kong网关代理API
       //   .post('http://localhost:8000/gc', {
-        .post('/gateways/gateway', {
+        // 开发模式下代理API
+        .post('/gateways', {
           name: _this.gwForm.name,
           ip: _this.gwForm.ip
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.loadGateways()
-            _this.$message('添加网关信息成功！')
+            _this.$message.success('添加网关信息成功！')
             _this.createDialog = false
           }
         }).catch(e => {
-          this.$message('添加失败' + e)
+          this.$message.error('添加失败' + e)
         })
     },
     editOnSubmit () {
       const _this = this
       this.$axios
+        // 实际API
+      // .put('http://localhost:8089/api/gateway', {
+        // kong网关代理API
         // .put('http://localhost:8000/gc', {
-        .put('/gateways/gateway', {
-          name: _this.gwForm.name,
-          ip: _this.gwForm.ip
+        // 开发模式下代理API
+        .put('/gateways', {
+          name: _this.gwEdit.name,
+          ip: _this.gwEdit.ip,
+          created: _this.gwEdit.created
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.editDialog = false
-            _this.$message('修改网关信息成功！')
+            _this.$message.success('修改网关信息成功！')
             _this.loadGateways()
           }
         }).catch(e => {
-          _this.$message('修改失败' + e)
+          _this.$message.error('修改失败' + e)
         })
     },
     handleSelectionChange (val) {
@@ -272,36 +314,43 @@ export default {
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
-    handleState (index, row) {
-      this.$refs.gatewayState.gwState.name = row.name
-      this.$refs.gatewayState.gwState.ip = row.ip
-      this.$refs.gatewayState.dialogFormVisible = true
-    },
+    // handleState (index, row) {
+    //   this.$refs.gatewayState.gwState.name = row.name
+    //   this.$refs.gatewayState.gwState.ip = row.ip
+    //   this.$refs.gatewayState.dialogFormVisible = true
+    // },
     handleEdit (index, row) {
       this.editDialog = true
-      this.gwForm.name = row.name
+      this.gwEdit.name = row.name
+      this.gwEdit.created = row.created
     },
     handleBackup (index, tablerow) {
       this.$axios
-        // .post('http://localhost:8089/api/gateway/copy/' + tablerow.ip, {
-        // .post('http://localhost:8000/gc/copy/' + tablerow.ip, {
-        .post('/gateways/gateway/copy/' + tablerow.ip, {
-          command: '1',
-          device: '1',
-          deviceprofile: '1',
-          deviceservice: '1',
-          export: '1'
-        }).then(resp => {
+        // 实际API
+        // .get('http://localhost:8089/api/gateway/copy/' + tablerow.ip, {
+        // kong 网关代理API
+        // .get('http://localhost:8000/gc/copy/' + tablerow.ip, {
+        // 开发模式下代理API
+        .get('/gateways/copy/' + tablerow.ip).then(resp => {
           if (resp && resp.status === 200) {
-            this.$message('备份成功！')
+            this.$message({
+              showClose: true,
+              type: 'success',
+              message: '备份成功！'
+
+            })
           }
         }).catch(() => {
-          this.$message('备份失败！')
+          this.$message.error('备份失败！')
         })
     },
     handleRecover (index, row) {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway/version/' + row.ip).then(resp => {
+      // kong网关代理API
       // this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
-      this.$axios.get('/gateways/gateway/version/' + row.ip).then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/gateways/version/' + row.ip).then(resp => {
         if (resp && resp.status === 200) {
           this.versionList = resp.data
           this.recoverDialog = true
@@ -309,42 +358,74 @@ export default {
           this.gwRecoverForm.ip = row.ip
         }
       }).catch(() => {
-        this.$message('获取版本信息失败！')
+        this.$message.error('获取网关备份版本信息失败！')
       })
     },
     recoverOnSubmit () {
       const _this = this
       this.$axios
+        // 实际API
+      // .post('http://localhost:8089/api/gateway/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
+        // kong网关代理API
         // .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
-        .post('/gateways/gateway/recover/ip' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version, {
-          command: _this.gwRecoverForm.command,
-          device: {
-            deviceIp: _this.gwRecoverForm.deviceIp
-          },
-          deviceprofile: _this.gwRecoverForm.deviceprofile,
-          deviceservice: _this.gwRecoverForm.deviceservice,
-          export: _this.gwRecoverForm.export
-        }).then(resp => {
+        // 开发模式代理API
+        .post('/gateways/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version).then(resp => {
           if (resp && resp.status === 200) {
-            _this.recoverDialog = false
-            _this.$message('恢复成功')
+            let command = ''
+            let edgeXDevice = ''
+            let edgeXService = ''
+            let edgeXExport = ''
+            for (let x in resp.data) {
+              if (x === 'command') {
+                command = resp.data.command
+              } else if (x === 'edgeXDevice') {
+                for (let i in resp.data[x]) {
+                  edgeXDevice = i + ':' + resp.data[x][i] + ';'
+                }
+              } else if (x === 'edgeXService') {
+                for (let i in resp.data[x]) {
+                  edgeXService = i + ':' + resp.data[x][i] + ';'
+                }
+              } else if (x === 'edgeXExport') {
+                for (let i in resp.data[x]) {
+                  edgeXExport = i + ':' + resp.data[x][i] + ';'
+                }
+              } else {
+                this.$message.warning('恢复成功！')
+              }
+              // _this.$message({
+              //   showClose: true,
+              //   dangerouslyUseHTMLString: true,
+              //   type: 'success',
+              //   message: x + '： ' + resp.data[x]
+              // })
+            }
+            _this.$message({
+              showClose: true,
+              dangerouslyUseHTMLString: true,
+              type: 'success',
+              message: '<ul><li>command:' + command + '</li><li>edgeXDevice:' + edgeXDevice + '</li><li>edgeXService:' + edgeXService + '</li><li>edgeXEport:' + edgeXExport + '</li></ul>'
+            })
             _this.recoverClear()
           }
         }).catch(e => {
-          _this.$message('恢复失败' + e)
+          _this.$message.error('恢复失败!')
         })
     },
     handleDelete (index, tablerow) {
       const _this = this
-      this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
+      this.$confirm('此操作将永久删除该网关，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'waring'
       }).then(() => {
         this.$axios
+          // 实际API
           // .delete('http://localhost:8089/api/gateway/' + tablerow.name).then(resp => {
+          // kong网关代理API
           // .delete('http://localhost:8000/gc' + tablerow.name).then(resp => {
-          .delete('/gateways/gateway/' + tablerow.name).then(resp => {
+          // 开发模式代理API
+          .delete('/gateways/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadGateways()
             }
