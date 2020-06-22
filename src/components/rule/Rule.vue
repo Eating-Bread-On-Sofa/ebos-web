@@ -234,7 +234,6 @@ export default {
     this.getFormDevices()
     // this.getFormParas()
     this.getFormService()
-    // this.getFormScenario()
   },
   methods: {
     ruleAlert () {
