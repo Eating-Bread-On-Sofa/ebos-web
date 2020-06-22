@@ -79,10 +79,12 @@ export default {
   },
   methods: {
     loadAlert () {
+      // kong网关代理API
       // this.$axios.get('http://localhost:8000/n/alert?days=10').then(resp => {
       // 实际地址
-      this.$axios.get('http://localhost:8088/api/notice/alert?days=10').then(resp => {
-      // this.$axios.get('/n/alert?days=10').then(resp => {
+      // this.$axios.get('http://localhost:8092/api/scenario/notice?days=10').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/scenarios/notice?days=10').then(resp => {
         if (resp && resp.status === 200) {
           this.deal(resp.data)
         }
