@@ -25,13 +25,13 @@ module.exports = {
       //     '^/profiles': ''
       //   }
       // },
-      // '/mqrouters': {
-      //   target: 'http://localhost:8084/api/',
-      //   changeOrigin: true,
-      //   pathRewrite: {
-      //     '^/mqrouters': ''
-      //   }
-      // },
+      '/mqr': {
+        target: 'http://localhost:8084/api/router/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/mqr': ''
+        }
+      },
       // '/mqrouters': {
       //   target: 'http://localhost:8000/mqr/',
       //   changeOrigin: true,
@@ -68,7 +68,7 @@ module.exports = {
       //   }
       // },
       '/logs': {
-        target: 'http://localhost:8089/api/gateway/',
+        target: 'http://localhost:8090/api/',
         changeOrigin: true,
         pathRewrite: {
           '^/logs': ''
@@ -89,7 +89,7 @@ module.exports = {
       //   }
       // },
       '/gateways': {
-        target: 'http://localhost:8089/api/',
+        target: 'http://localhost:8089/api/gateway/',
         changeOrigin: true,
         pathRewrite: {
           '^/gateways': ''
@@ -110,7 +110,7 @@ module.exports = {
         }
       },
       '/scenarios': {
-        target: 'http://localhost:8092/api/',
+        target: 'http://localhost:8092/api/scenario/',
         changeOrigin: true,
         pathRewrite: {
           '^/scenarios': ''
@@ -138,7 +138,7 @@ module.exports = {
       //   }
       // },
       '/commands': {
-        target: 'http://localhost:8082/api/',
+        target: 'http://localhost:8082/api/command/',
         changeOrigin: true,
         pathRewrite: {
           '^/commands': ''

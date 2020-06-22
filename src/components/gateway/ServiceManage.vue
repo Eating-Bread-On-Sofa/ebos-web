@@ -2,7 +2,7 @@
   <div>
     <el-row>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
         <el-breadcrumb-item>服务管理</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
@@ -56,14 +56,15 @@
         <el-dialog
           title="模板分发至网关"
           width="30%"
-          :visible.sync="dialogVisible">
+          :visible.sync="dialogVisible"
+          @close="clear">
           <el-form v-model="serviceForm" label-width="120px" style="text-align: left">
             <el-form-item label="服务名称">
               <el-input style="width: 240px" v-model="serviceForm.name" :disabled="true"></el-input>
             </el-form-item>
             <el-form-item label="选择网关">
-              <el-select style="width: 240px" v-model="serviceForm.gwip" placeholder="请选择服务下发网关">
-                <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+              <el-select style="width: 240px" v-model="serviceForm.gwip" multiple collapse-tags placeholder="请选择服务下发网关">
+                <el-option v-for="(item, i) in gwList" :key="i" :value="item.ip">
                   <span style="float: left">网关名称：{{ item.name }}</span>
                   <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
                 </el-option>
@@ -71,7 +72,7 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取消</el-button>
+            <el-button @click="clear">取消</el-button>
             <el-button type="primary" @click="onSubmit">确定</el-button>
           </div>
         </el-dialog>
@@ -136,7 +137,7 @@ export default {
       dialogVisible: false,
       serviceForm: {
         name: '',
-        gwip: ''
+        gwip: []
       },
       gwList: [],
       loading: true
@@ -155,41 +156,72 @@ export default {
       this.uploadDialog = false
       this.loadService()
     },
+    clear () {
+      this.dialogVisible = false
+      this.serviceForm = {
+        name: '',
+        gwip: []
+      }
+    },
     loadService () {
+      // 实际API
+      // this.$axios.get('http://localhost:8085/api/service/list').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/serv/list').then(resp => {
+      // 开发模式下代理API
       this.$axios.get('/services/list').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false
         }
       }).catch(() => {
-        this.$message('获取服务列表失败！')
+        this.$message.error('获取服务列表失败！')
       })
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
     handleOutGiving (index, row) {
-      this.$axios.get('/gateways/gateway').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.serviceForm.name = row.name
           this.dialogVisible = true
         }
       }).catch(() => {
-        this.$message('获取网关信息失败！')
+        this.$message.error('获取网关信息失败！')
         this.dialogVisible = false
       })
     },
     onSubmit () {
-      this.$axios.post('/services/ip/' + this.serviceForm.gwip + '/name/' + this.serviceForm.name
-      ).then(resp => {
-        if (resp && resp.status === 200) {
-          this.dialogVisible = false
-          this.$message('服务下发至网关成功！')
-        }
-      }).catch(() => {
-        this.$message('服务下发失败！')
-      })
+      let serviceName = this.serviceForm.name
+      let ip = this.serviceForm.gwip
+      for (let x in this.serviceForm.gwip) {
+        // 实际API
+        // this.$axios.post('http://localhost:8085/api/service/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
+        // kong网关代理API
+        // this.$axios.get('http://localhost:8000/serv/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
+        // 开发模式下代理API
+        this.$axios.post('/services/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
+          if (resp && resp.status === 200) {
+            this.$message({
+              showClose: true,
+              type: 'success',
+              message: serviceName + '服务下发至网关' + ip[x] + '成功！'})
+          }
+        }).catch(() => {
+          this.$message({
+            showClose: true,
+            type: 'error',
+            message: serviceName + '服务下发至网关' + ip[x] + '失败！'})
+        })
+      }
+      this.dialogVisible = false
     }
   }
 }

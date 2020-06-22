@@ -2,7 +2,7 @@
     <div>
       <el-row>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>指令管理</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
@@ -10,10 +10,10 @@
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
         <br>
         <!--新增按钮-->
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createCommand()">新增
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
         </el-button>
         <br>
-        <command-edit-form @onSubmit="loadCommands()" ref="commandEditForm"></command-edit-form>
+        <command-edit-form ref="CommandEditForm" :createDialog="createDialog" @hideDialog="createDialog = false" @onSubmit="loadCommands()"></command-edit-form>
         <el-table
           ref="multipleTable"
           v-loading="loading"
@@ -67,6 +67,7 @@ export default {
       currentPage: 1,
       pagesize: 18,
       tableData: [],
+      createDialog: false,
       loading: true
     }
   },
@@ -76,16 +77,19 @@ export default {
   methods: {
     loadCommands () {
       this.$axios
-        .get('http://localhost:8000/c').then(resp => {
-        // .get('/c').then(resp => {
+        // 实际API
+        // .get('http://localhost:8082/api/command').then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/c').then(resp => {
+        // 开发模式下代理API
+        .get('/commands').then(resp => {
           if (resp && resp.status === 200) {
             this.tableData = resp.data
             this.loading = false
           }
+        }).catch(() => {
+          this.$message.error('获取指令信息失败！')
         })
-    },
-    createCommand () {
-      this.$refs.commandEditForm.dialogFormVisible = true
     },
     handleDelete (index, row) {
       var _this = this
@@ -95,16 +99,20 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
+          // 实际API
+          // .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
+          // kong网关代理API
           // .delete('/c?name=' + row.name).then(resp => {
+          // 开发模式下代理API
+          .delete('/commands?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadCommands()
             }
           })
       }).catch(() => {
-        this.message({
-          type: 'info',
-          message: '已取消删除'
+        this.$message({
+          type: 'error',
+          message: '删除操作已取消!'
         })
       })
     },

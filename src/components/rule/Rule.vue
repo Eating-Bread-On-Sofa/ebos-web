@@ -2,7 +2,7 @@
   <div id="app">
     <el-row>
       <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
         <el-breadcrumb-item>规则引擎</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
@@ -239,7 +239,12 @@ export default {
     ruleAlert () {
       var that = this
       setInterval(function () {
-        that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
+        // 实际API
+        // that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
+        // kong网关代理API
+        // that.$axios.get('http://localhost:8000/r/ruleAlert').then(resp => {
+        // 开发模式下代理API
+        that.$axios.get('/rules/ruleAlert').then(resp => {
           var flag = resp.data.alertFlag
           var msg = resp.data.alertMsg
           if (flag === true) {
@@ -286,20 +291,22 @@ export default {
       this.$confirm('确认删除？')
         .then(_ => {
           this.table.splice(idx, 1)
-          // 代理网关
-          this.$axios.post('http://localhost:8000/rc/ruleDelete',
-          // 实际地址
+          // kong网关代理API
+          // this.$axios.post('http://localhost:8000/rc/ruleDelete',
+          // 实际API
           // this.$axios.post('http://localhost:8083/api/ruleDelete',
-          // this.$axios.post('/rules/ruleDelete',
+          // 开发模式下代理API
+          this.$axios.post('/rules/ruleDelete',
             {
               'ruleName': row.ruleName
             }
           ).then(res => {
             console.log(res)
           })
-          // this.$axios.post('/rules/rule',
-          // 代理网关
-          this.$axios.post('http://localhost:8000/rc/rule',
+          // 开发模式下代理API
+          this.$axios.post('/rules/rule',
+          // kong网关代理API
+          // this.$axios.post('http://localhost:8000/rc/rule',
             // 实际地址
           // this.$axios.post('http://localhost:8083/api/rule',
             {
@@ -313,11 +320,12 @@ export default {
         })
     },
     post () {
-      // 代理网关
-      this.$axios.post('http://localhost:8000/rc/webdata',
-      // 实际地址
+      // kong网关代理API
+      // this.$axios.post('http://localhost:8000/rc/webdata',
+      // 实际API
       // this.$axios.post('http://localhost:8083/api/webdata',
-      // this.$axios.post('/rules/webdata',
+      // 开发模式下代理API
+      this.$axios.post('/rules/webdata',
         {
           'ruleName': this.form.ruleName,
           'rulePara': this.form.parameter,
@@ -334,11 +342,12 @@ export default {
       this.ruleCreate()
     },
     ruleCreate () {
-      // 代理网关
-      this.$axios.post('http://localhost:8000/rc/ruleCreate',
-      // 实际地址
+      // kong网关代理API
+      // this.$axios.post('http://localhost:8000/rc/ruleCreate',
+      // 实际API
       // this.$axios.post('http://localhost:8083/api/ruleCreate',
-      // this.$axios.post('/rules/ruleCreate',
+      // 开发模式下代理API
+      this.$axios.post('/rules/ruleCreate',
         {
           'ruleName': this.form.ruleName,
           'rulePara': this.form.parameter,
@@ -355,11 +364,12 @@ export default {
     },
     get () {
       var _this = this
-      // 代理网关
+      // kong网关代理API
       // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
-      // 实际地址
-      this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
-      // this.$axios.get('/rules/getRuleLists').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/rules/getRuleLists').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -386,8 +396,12 @@ export default {
       })
     },
     getFormDevices () {
-      this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
-      // this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -399,8 +413,12 @@ export default {
       })
     },
     getFormParas () {
-      this.$axios.get('http://localhost:8000/c/list').then(resp => {
-      // this.$axios.get('/commands/list').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/c/list').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/commands/list').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -412,8 +430,12 @@ export default {
       })
     },
     getFormScenario () {
-      this.$axios.get('http://localhost:8000/s').then(resp => {
-      // this.$axios.get('/scenarios/').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/s').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8092/api/scenario').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/scenarios').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}
@@ -425,8 +447,12 @@ export default {
       })
     },
     getFormService () {
-      this.$axios.get('http://localhost:8000/c').then(resp => {
-      // this.$axios.get('/commands/').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/c').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8082/api/command').then(resp => {
+      // 开发模式下代理API
+      this.$axios.get('/commands/').then(resp => {
         var data = []
         for (var x = 0; x < resp.data.length; x++) {
           var obj = {}

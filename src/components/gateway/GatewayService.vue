@@ -2,7 +2,7 @@
     <div>
       <el-row>
         <el-breadcrumb separator="/">
-          <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>网关服务</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
@@ -12,6 +12,8 @@
         <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="uploadDialog = true">新增
         </el-button>
         <div>
+<!--          kong网关代理API为：-->
+<!--          action="http://localhost:8000/gi/service"-->
           <el-dialog
             title="添加服务"
             :visible.sync="uploadDialog"
@@ -36,10 +38,17 @@
           <el-dialog
             title="关闭微服务"
             width="30%"
-            :visible.sync="dialogVisible">
+            :visible.sync="dialogVisible"
+            @close="clearServiceStop">
             <el-form v-model="servicePort" label-width="120px" style="text-align: left">
               <el-form-item label="服务名称">
-                <el-input style="width: 240px" v-model="servicePort" placeholder="请输入服务运行端口号"></el-input>
+                <el-select v-model="servicePort" multiple collapse-tags placeholder="请选择需关闭的微服务">
+                  <el-option v-for="(item, i) in servicePortList" :key="i" :label="item.name" :value="i">
+                    <span style="float: left">微服务：{{ item.name }}</span>
+                    <span style="float: right;color: #551513;font-size: 13px">端口：{{ item.port }}</span>
+                  </el-option>
+                </el-select>
+<!--                <el-input style="width: 240px" v-model="servicePort" placeholder="请输入服务运行端口号"></el-input>-->
               </el-form-item>
             </el-form>
             <div slot="footer" class="dialog-footer">
@@ -110,7 +119,21 @@ export default {
       table: [],
       uploadDialog: false,
       dialogVisible: false,
-      servicePort: '',
+      servicePort: [],
+      servicePortList: [
+        {name: 'Device', port: 8081},
+        {name: 'Command', port: 8082},
+        {name: 'Rule', port: 8083},
+        {name: 'MQ Router', port: 8084},
+        {name: 'Serv Mgmt', port: 8085},
+        {name: 'OAM', port: 8086},
+        {name: 'Monitor', port: 8087},
+        {name: 'Notice', port: 8088},
+        {name: 'GW Config', port: 8089},
+        {name: 'GW Inst', port: 8090},
+        {name: 'Profile', port: 8091},
+        {name: 'Scenario', port: 8092}
+      ],
       loading: true
     }
   },
@@ -128,13 +151,18 @@ export default {
       this.loadService()
     },
     loadService () {
+      // 实际API
+      // this.$axios.get('http://localhost:8090/api/instance/service').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gi/service').then(resp => {
+      // 开发模式下代理API
       this.$axios.get('/instances/instance/service').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false
         }
       }).catch(() => {
-        this.$message('获取服务列表失败！')
+        this.$message.error('获取服务列表失败！')
       })
     },
     handleCurrentChange: function (currentPage) {
@@ -142,26 +170,40 @@ export default {
     },
     clearServiceStop () {
       this.dialogVisible = false
-      this.servicePort = ''
+      this.servicePort = []
     },
     handleServiceStop () {
-      this.$axios.delete('/instances/instance/service?port=' + this.servicePort).then(resp => {
-        if (resp && resp.status === 200) {
-          this.$message('已发送关闭指令，请在终端确认！')
-          this.dialogVisible = false
-        }
-      }).catch(() => {
-        this.$message('服务关闭失败！')
-      })
+      let stopName = this.servicePortList
+      let stopPort = this.servicePort
+      for (let x in this.servicePort) {
+        // 实际API
+        // this.$axios.delete('http://localhost:8090/api/instance/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
+        // kong网关代理API
+        // this.$axios.delete('http://localhost:8000/gi/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
+        // 开发模式下代理API
+        this.$axios.delete('/instances/instance/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
+          if (resp && resp.status === 200) {
+            this.$message.warning('已向' + stopName[stopPort[x]].name + '服务发送关闭指令，请在终端确认！')
+          }
+        }).catch(() => {
+          this.$message.error(stopName[stopPort[x]].name + '服务关闭失败！')
+        })
+      }
+      this.clearServiceStop()
     },
     handleServiceStart (index, row) {
+      // 实际API
+      // this.$axios.put('http://localhost:8090/api/instance/service?jarName=' + row.name).then(resp => {
+      // kong网关代理API
+      // this.$axios.put('http://localhost:8000/gi/service?jarName=' + row.name).then(resp => {
+      // 开发模式下代理API
       this.$axios.put('/instances/instance/service?jarName=' + row.name).then(resp => {
         if (resp.status === 200) {
-          this.$message('服务已成功启动')
+          this.$message.success('服务已成功启动')
           this.loadService()
         }
       }).catch(() => {
-        this.$message('服务启动失败！')
+        this.$message.error('服务启动失败！')
       })
     }
   }

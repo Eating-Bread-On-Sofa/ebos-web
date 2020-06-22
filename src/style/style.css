@@ -16,4 +16,7 @@ body{
   border-color: #ff4d51;
   color: white;
 }
+.el-input {
+  width: 200px;
+}
 

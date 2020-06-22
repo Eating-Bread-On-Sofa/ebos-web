@@ -7,7 +7,7 @@
         :visible.sync="selectDialog">
         <el-form v-model="gwip" label-width="120px" style="text-align: left">
           <el-form-item label="选择网关">
-            <el-select style="width: 240px" v-model="gwip" placeholder="请选择模板下发网关">
+            <el-select style="width: 240px" v-model="gwip" placeholder="请选择网关查看设备模板">
               <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
                 <span style="float: left">网关名称：{{ item.name }}</span>
                 <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
@@ -22,19 +22,39 @@
       </el-dialog>
     </div>
     <el-row>
-      <el-breadcrumb separator="/">
-        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>模板管理</el-breadcrumb-item>
-      </el-breadcrumb>
+      <el-col :span="12">
+        <el-breadcrumb separator="/">
+          <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
+          <el-breadcrumb-item>设备模板</el-breadcrumb-item>
+          <el-breadcrumb-item>ip: {{gwip}}</el-breadcrumb-item>
+        </el-breadcrumb>
+      </el-col>
+      <el-col :span="12">
+        <el-button type="text" icon="el-icon-refresh" @click="loadProfiles" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right">刷新</el-button>
+      </el-col>
     </el-row>
     <el-row>
-      <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
-      <br>
+      <el-col :span="12">
+        <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
+      </el-col>
+      <el-col :span="12">
+        <div  style="margin-top: 20px;margin-bottom: 30px;float: right">
+          <el-button type="success" icon="el-icon-guide">网关选择：</el-button>
+          <el-select v-model="gwip" placeholder="请选择网关查看设备模板" @change="loadProfiles">
+            <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+              <span style="float: left">网关名称：{{ item.name }}</span>
+              <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+            </el-option>
+          </el-select>
+        </div>
+      </el-col>
+    </el-row>
       <!--新增按钮-->
 <!--      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createProfile()">新增-->
 <!--      </el-button>-->
 <!--      <br>-->
 <!--      <profile-edit-form @onSubmit="loadProfiles" ref="profileEditForm"></profile-edit-form>-->
+    <el-row>
       <el-table
         ref="multipleTable"
         v-loading="loading"
@@ -158,7 +178,7 @@
 </template>
 
 <script>
-import SearchBar from './SearchBar'
+import SearchBar from '../common/SearchBar'
 // import ProfileEditForm from './ProfileEditForm'
 export default {
   name: 'DeviceProfile',
@@ -181,7 +201,12 @@ export default {
   },
   methods: {
     selectGw () {
-      this.$axios.get('/gateways/gateway').then(resp => {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
+      // kong网关代理API
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // 开发模式代理API
+      this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.selectDialog = true
@@ -194,14 +219,18 @@ export default {
       this.selectDialog = false
       var _this = this
       this.$axios
-        // .get('http://localhost:8000/p/ip/127.0.0.1').then(resp => {
+        // 实际API
+        // .get('http://localhost:8091/api/profile/gateway/' + this.gwip).then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
+        // 开发模式下代理API
         .get('/profiles/gateway/' + this.gwip).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
           }
         }).catch(() => {
-          this.$message('获取该网关设备模板失败！')
+          this.$message.error('获取该网关设备模板失败！')
         })
     },
     handleSelectionChange (val) {
@@ -210,9 +239,9 @@ export default {
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
-    createProfile () {
-      this.$refs.profileEditForm.dialogFormVisible = true
-    },
+    // createProfile () {
+    //   this.$refs.profileEditForm.dialogFormVisible = true
+    // },
     // handleExport (index, tablerow) {
     //   var filecontent
     //   this.$axios
@@ -249,25 +278,33 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-          // .delete('http://localhost:8000/p/ip/' + tablerow.ip + '/id/' + tablerow.id).then(resp => {
-          .delete('/profiles/gateway/' + this.gwip, {data: tablerow.name}).then(resp => {
+          // 实际API
+          // .delete('http://localhost:8091/api/profile/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
+          // kong网关代理API
+          // .delete('http://localhost:8000/p/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
+          // 开发模式代理API
+          .delete('/profiles/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
-              this.$message(resp.data)
+              this.$message.success(resp.data)
               _this.loadProfiles()
             }
           })
       }).catch(() => {
         this.message({
-          type: 'info',
+          type: 'error',
           message: '已取消删除'
         })
       })
     },
-    searchResult () {
+    searchResult (e) {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/p/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/p/search?keywords=' + this.$refs.searchBar.keywords, {
+        // 实际API
+        // .get('http://localhost:8091/api/profile/search?keywords=' + e, {
+        // kong网关代理API
+        // .get('http://localhost:8000/p/search?keywords=' + e, {
+        // 开发模式下代理API
+        .get('/profiles/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

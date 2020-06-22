@@ -3,12 +3,15 @@
     <el-dialog
       title="新增设备信息"
       width="30%"
-      :visible.sync="dialogFormVisible"
+      :visible.sync="editDialog"
       @close="clear">
       <el-form v-model="deviceEditForm" label-width="120px" style="text-align: left">
         <el-form-item label="选择网关" prop="gwip">
           <el-select v-model="deviceEditForm.gwip" placeholer="请选择网关IP" @change="handleGWIP">
-            <el-option v-for="item in gwList" :key="item.ip" :label="item.name" :value="item.ip"></el-option>
+            <el-option v-for="item in gwList" :key="item.ip" :label="item.name" :value="item.ip">
+              <span style="float: left">网关名称：{{ item.name }}</span>
+              <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+            </el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="设备名称" prop="name">
@@ -59,7 +62,7 @@
 <!--        </el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button @click="clear">取消</el-button>
         <el-button type="primary" @click="onSubmit">确定</el-button>
       </div>
     </el-dialog>
@@ -71,8 +74,6 @@ export default {
   name: 'DeviceEditForm',
   data () {
     return {
-      dialogFormVisible: false,
-      gwList: [],
       profileList: [],
       protocolList: [],
       protocolItem: {},
@@ -99,25 +100,43 @@ export default {
       }
     }
   },
-  mounted () {
-    this.getGWList()
-    this.getProtocolList()
-  },
-  methods: {
-    getGWList () {
-      this.$axios
-        .get('http://localhost:8000/gc').then(resp => {
-        // .get('/gc').then(resp => {
-          if (resp && resp.status === 200) {
-            this.gwList = resp.data
-          }
-        })
+  props: {
+    editDialog: {
+      type: Boolean,
+      required: true,
+      default: false
     },
+    gwList: {
+      type: Array,
+      required: true
+    }
+  },
+  // mounted () {
+  //   this.getGWList()
+  //   this.getProtocolList()
+  // },
+  methods: {
+    // getGWList () {
+    //   // 实际API
+    //   // .post('http://localhost:8089/api/gateway', {
+    //   // kong网关代理API
+    //   // .post('http://localhost:8000/gc', {
+    //   // 开发模式下代理API
+    //   this.$axios.get('/gateways').then(resp => {
+    //     if (resp && resp.status === 200) {
+    //       this.gwList = resp.data
+    //     }
+    //   })
+    // },
     getProtocolList () {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/d/protocol').then(resp => {
-        // .get('/d/protocol').then(resp => {
+        // 实际API
+        // .get('http://localhost:8081/api/device/protocol').then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/d/protocol').then(resp => {
+        // 开发模式代理API
+        .get('/devices/protocol').then(resp => {
           if (resp && resp.status === 200) {
             _this.protocolList = resp.data
           }
@@ -131,8 +150,12 @@ export default {
     },
     handleProtocol () {
       this.$axios
-        .get('http://localhost:8000/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
-        // .get('/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+        // 实际API
+        // .get('http://localhost:8081/api/device/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+        // 开发模式下代理API
+        .get('/devices/protocol/' + this.deviceEditForm.protocolName).then(resp => {
           if (resp && resp.status === 200) {
             this.deviceEditForm.deviceForm.protocols = resp.data
           }
@@ -145,19 +168,27 @@ export default {
     },
     getProfileList () {
       this.$axios
+        // 实际API
+      // .get('http://localhost:8091/api/profile/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
+        // kong网关代理API
+      // .get('http://localhost:8000/p/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
+        // 开发模式下代理API
         .get('/profiles/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
-        // .get('http://localhost:8000/p/ip/' + this.deviceEditForm.gwip).then(resp => {
           if (resp && resp.status === 200) {
             this.profileList = resp.data
           }
         }).catch(() => {
-          this.$message('请先选择网关!')
+          this.$message.warning('请先选择网关!')
         })
     },
     getDeviceServiceList () {
       this.$axios
-        .get('http://localhost:8000/d/service/' + this.deviceEditForm.gwip).then(resp => {
-        // .get('/d/service/' + this.deviceEditForm.gwip).then(resp => {
+        // 实际API
+        // .get('http://localhost:8081/device/service/' + this.deviceEditForm.gwip).then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/d/service/' + this.deviceEditForm.gwip).then(resp => {
+        // 开发模式下代理API
+        .get('/devices/service/' + this.deviceEditForm.gwip).then(resp => {
           if (resp && resp.status === 200) {
             this.deviceServiceList = resp.data
           }
@@ -184,20 +215,31 @@ export default {
           }
         }
       }
+      this.$emit('hideDialog')
     },
     onSubmit () {
       var _this = this
       this.$axios
+        // 实际API
         // .post('http://localhost:8081/api/device/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
-        .post('http://localhost:8000/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
-        // .post('/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        // kong网关代理API
+        // .post('http://localhost:8000/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        // 开发模式下代理API
+        .post('/devices/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
           if (resp && resp.status === 200) {
-            _this.dialogFormVisible = false
+            _this.editDialog = false
             _this.$emit('onSubmit')
           }
         }).catch(() => {
           _this.$message('添加设备失败！请重试！')
         })
+    }
+  },
+  watch: {
+    editDialog: function (newValue, oldValue) {
+      if (newValue) {
+        this.getProtocolList()
+      }
     }
   }
 }

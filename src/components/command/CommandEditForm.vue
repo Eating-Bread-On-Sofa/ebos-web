@@ -3,41 +3,41 @@
     <el-dialog
       title="增加指令"
       width="30%"
-      :visible.sync="dialogFormVisible"
+      :visible.sync="createDialog"
       @close="clear">
       <el-form v-model="commandForm" label-width="120px" style="text-align: left">
         <el-form-item label="名称">
           <el-input v-model="commandForm.commandEdit.name" autocomplete="off" placeholder=""></el-input>
         </el-form-item>
-                <el-form-item label="描述" prop="description">
-                  <el-input v-model="commandForm.commandEdit.description" autocomplete="off" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="指令类型">
-                  <el-select v-model="commandForm.commandEdit.commandType" placeholder="">
-                    <el-option label="put" value="put"></el-option>
-                    <el-option label="get" value="get"></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="等级">
-                  <el-select v-model="commandForm.commandEdit.level" placeholder="">
-                    <el-option label="command" value=1></el-option>
-                    <el-option label="scenario" value=2></el-option>
-                  </el-select>
-                </el-form-item>
-                <el-form-item label="jsonObject" placeholder="">
-                  <el-input type="textarea" v-model="commandForm.commandEdit.jsonObject" autocomplete="off" placeholder=""></el-input>
-                </el-form-item>
-                <el-form-item label="指令选择" prop="list">
-                  <el-select v-model="commandForm.command" placeholder="" @change="handleCommand">
-                    <el-option v-for="(item, i) in commandList" :key="i" :label="item.commandName" :value="i">
-                      <span style="float: left">指令：{{ item.commandName }}</span>
-                      <span style="float: right; color: #8492a6; font-size: 13px">设备：{{ item.deviceName }}</span>
-                    </el-option>
-                  </el-select>
-                </el-form-item>
+        <el-form-item label="描述" prop="description">
+          <el-input v-model="commandForm.commandEdit.description" autocomplete="off" placeholder=""></el-input>
+        </el-form-item>
+        <el-form-item label="指令类型">
+          <el-select v-model="commandForm.commandEdit.commandType" placeholder="">
+            <el-option label="put" value="put"></el-option>
+            <el-option label="get" value="get"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="等级">
+          <el-select v-model="commandForm.commandEdit.level" placeholder="">
+            <el-option label="command" value=1></el-option>
+            <el-option label="scenario" value=2></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="jsonObject" placeholder="">
+          <el-input type="textarea" v-model="commandForm.commandEdit.jsonObject" style="width: 200px" autocomplete="off" placeholder="请输入json格式命令信息"></el-input>
+        </el-form-item>
+        <el-form-item label="指令选择" prop="list">
+          <el-select v-model="commandForm.command" placeholder="" @change="handleCommand">
+            <el-option v-for="(item, i) in commandList" :key="i" :label="item.commandName" :value="i">
+              <span style="float: left">指令：{{ item.commandName }}</span>
+              <span style="float: right; color: #8492a6; font-size: 13px">设备：{{ item.deviceName }}</span>
+            </el-option>
+          </el-select>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取消</el-button>
+        <el-button @click="clear">取消</el-button>
         <el-button type="primary" @click="onSubmit">确定</el-button>
       </div>
     </el-dialog>
@@ -49,7 +49,6 @@ export default {
   name: 'CommandEditForm',
   data () {
     return {
-      dialogFormVisible: false,
       commandList: [],
       commandForm: {
         command: '',
@@ -68,17 +67,28 @@ export default {
       }
     }
   },
-  mounted () {
-    this.getCommandList()
+  props: {
+    createDialog: {
+      type: Boolean,
+      required: true,
+      default: false
+    }
   },
   methods: {
     getCommandList () {
       this.$axios
-        .get('http://localhost:8000/c/list').then(resp => {
+        // 实际API
+        // .get('http://localhost:8082/api/command/list').then(resp => {
+        // kong网关代理API
+        // .get('http://localhost:8000/c/list').then(resp => {
+        // 开发模式代理API
+        .get('/commands/list').then(resp => {
         // .get('/c/list').then(resp => {
           if (resp && resp.status === 200) {
             this.commandList = resp.data
           }
+        }).catch(() => {
+          this.$message.error('获取设备指令失败！')
         })
     },
     handleCommand () {
@@ -99,6 +109,7 @@ export default {
           commandId: ''
         }
       }
+      this.$emit('hideDialog')
     },
     onSubmit () {
       var _this = this
@@ -107,13 +118,26 @@ export default {
       this.commandForm.commandEdit.deviceId = this.commandForm.list.deviceId
       this.commandForm.commandEdit.deviceName = this.commandForm.list.deviceName
       this.$axios
-        .post('http://localhost:8000/c', _this.commandForm.commandEdit).then(resp => {
-        // .post('/c', _this.commandForm.commandEdit).then(resp => {
+        // 实际API
+        // .post('http://localhost:8082/api/commmand', _this.commandForm.commandEdit).then(resp => {
+        // kong网关道理API
+        // .post('http://localhost:8000/c', _this.commandForm.commandEdit).then(resp => {
+        // 开发模式下代理API
+        .post('/commands', _this.commandForm.commandEdit).then(resp => {
           if (resp && resp.status === 200) {
-            _this.dialogFormVisible = false
             _this.$emit('onSubmit')
+            _this.clear()
           }
+        }).catch(() => {
+          this.$message.error('添加指令失败！')
         })
+    }
+  },
+  watch: {
+    createDialog: function (newValue, oldValue) {
+      if (newValue) {
+        this.getCommandList()
+      }
     }
   }
 }

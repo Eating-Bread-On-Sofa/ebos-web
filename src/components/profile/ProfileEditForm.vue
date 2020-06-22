@@ -12,12 +12,12 @@
 
 <!--        <el-input v-model="gwip" autocomplete="off" placeholder="请输入网关的IP地址"></el-input>-->
         <el-form v-model="profileForm" style="text-align: left">
-          <el-form-item label="模板名称" prop="name">
-            <el-input v-model="profileForm.name" autocomplete="off" placeholder="请输入模板名称"></el-input>
-          </el-form-item>
-          <el-form-item label="yml描述" prop="text">
-            <el-input type="textarea" row="10" v-model="profileForm.text" placeholder="请检查上传yml文件内容，或输入yml格式文本"></el-input>
-            <file-reader @load="profileForm.text = $event"></file-reader>
+<!--          <el-form-item label="模板名称" prop="name">-->
+<!--            <el-input v-model="profileForm.name" autocomplete="off" placeholder="请输入模板名称"></el-input>-->
+<!--          </el-form-item>-->
+          <el-form-item label="yml描述">
+            <el-input type="textarea" row="15" v-model="profileForm.ymlStr" placeholder="请检查上传yml文件内容，或输入yml格式文本"></el-input>
+            <file-reader @load="profileForm.ymlStr = $event"></file-reader>
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer">
@@ -36,8 +36,7 @@ export default {
   data () {
     return {
       profileForm: {
-        name: '',
-        text: ''
+        ymlStr: ''
       }
     }
   },
@@ -50,7 +49,9 @@ export default {
   },
   methods: {
     hideDialog () {
-      this.profileForm = {}
+      this.profileForm = {
+        ymlStr: ''
+      }
       this.$emit('hideDialog')
     },
     onSubmit () {
@@ -59,9 +60,12 @@ export default {
       var instance = axios.create({
         headers: {'content-type': 'text/plain'}
       })
-      // instance.post('http://localhost:8091/profile/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
-      // instance.post('http://localhost:8000/p/ip/' + _this.profileForm.gwip + '/yml', _this.profileForm.text
-      instance.post('/profiles/name/' + _this.profileForm.name, _this.profileForm.text
+      // 实际API
+      // instance.post('http://localhost:8091/api/profile', _this.profileForm.ymlStr
+      // kong网关代理API
+      // instance.post('http://localhost:8000/p', _this.profileForm.ymlStr
+      // 开发模式下代理API
+      instance.post('/profiles', _this.profileForm.ymlStr
       ).then(resp => {
         if (resp && resp.status === 200) {
           // _this.dialogFormVisible = false
