@@ -104,34 +104,12 @@ export default {
           itemHeight: 28,
           itemWidth: 70
         },
-        series: [
-          {
-            name: '',
-            type: 'line',
-            data: [],
-            symbol: 'emptyTriangle',
-            symbolSize: 6,
-            lineStyle: {
-              width: 2
-            }
-          },
-          {
-            name: '',
-            type: 'line',
-            data: [],
-            symbol: 'emptyCircle',
-            symbolSize: 6,
-            lineStyle: {
-              width: 2
-            }
-          }
-        ]
+        series: []
       },
       dataForm: {
-        type: [],
-        data1: [],
-        data2: []
-      }
+        type: []
+      },
+      len: 0
     }
   },
   mounted () {
@@ -170,8 +148,10 @@ export default {
     handleDeviceId () {
       let id = this.deviceList[this.deviceId].id
       this.dataForm.type = []
-      this.dataForm.data1 = []
-      this.dataForm.data2 = []
+      for (let i = 0; i < this.len; i++) {
+        let item = 'data' + (i + 1)
+        this.dataForm[item] = []
+      }
       this.drawCharts(id)
     },
     getDeviceName () {
@@ -179,27 +159,44 @@ export default {
     },
     drawCharts (id) {
       var date = new Date()
-      // this.dataForm.type = []
-      // this.dataForm.data1 = []
-      // this.dataForm.data2 = []
       // 实际API
       // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
       // kong网关代理API
       // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
       // 开发模式下代理API
-      this.$axios.get('/d/details/' + this.gwip + '/' + id).then(resp => {
+      this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
+        this.len = Object.keys(resp.data).length
+        for (let i = 0; i < this.len; i++) {
+          let item = 'data' + (i + 1)
+          this.dataForm[item] = []
+          this.option.series.push({
+            name: '',
+            type: 'line',
+            data: [],
+            symbol: 'emptyTriangle',
+            symbolSize: 6,
+            lineStyle: {
+              width: 2
+            }
+          })
+        }
         if (resp && resp.status === 200) {
           this.dataForm.type = Object.keys(resp.data)
-          this.dataForm.data1.push([date, resp.data[this.dataForm.type[0]]])
-          this.dataForm.data2.push([date, resp.data[this.dataForm.type[1]]])
-          if (this.dataForm.data1.length > 60) {
-            this.dataForm.data1.shift()
-            this.dataForm.data2.shift()
+          for (let i = 0; i < this.len; i++) {
+            let item = 'data' + (i + 1)
+            this.dataForm[item].push([date, resp.data[this.dataForm.type[i]]])
           }
-          this.option.series[0].name = this.dataForm.type[0]
-          this.option.series[0].data = this.dataForm.data1
-          this.option.series[1].name = this.dataForm.type[1]
-          this.option.series[1].data = this.dataForm.data2
+          if (this.dataForm.data1.length > 60) {
+            for (let i = 0; i < this.len; i++) {
+              let item = 'data' + (i + 1)
+              this.dataForm[item].shift()
+            }
+          }
+          for (let i = 0; i < this.len; i++) {
+            let item = 'data' + (i + 1)
+            this.option.series[i].name = this.dataForm.type[i]
+            this.option.series[i].data = this.dataForm[item]
+          }
         }
         this.myChart = echarts.init(document.getElementById('detailchart'))
         this.myChart.setOption(this.option)
@@ -211,16 +208,22 @@ export default {
         // kong网关代理API
         // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
         // 开发模式下代理API
-        this.$axios.get('/d/details/' + this.gwip + '/' + id).then(resp => {
+        this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
           if (resp && resp.status === 200) {
-            this.dataForm.data1.push([date, resp.data[this.dataForm.type[0]]])
-            this.dataForm.data2.push([date, resp.data[this.dataForm.type[1]]])
-            if (this.dataForm.data1.length > 60) {
-              this.dataForm.data1.shift()
-              this.dataForm.data2.shift()
+            for (let i = 0; i < this.len; i++) {
+              let item = 'data' + (i + 1)
+              this.dataForm[item].push([date, resp.data[this.dataForm.type[i]]])
             }
-            this.option.series[0].data = this.dataForm.data1
-            this.option.series[1].data = this.dataForm.data2
+            if (this.dataForm.data1.length > 60) {
+              for (let i = 0; i < this.len; i++) {
+                let item = 'data' + (i + 1)
+                this.dataForm[item].shift()
+              }
+            }
+            for (let i = 0; i < this.len; i++) {
+              let item = 'data' + (i + 1)
+              this.option.series[i].data = this.dataForm[item]
+            }
             this.myChart.setOption(this.option)
           }
         })
