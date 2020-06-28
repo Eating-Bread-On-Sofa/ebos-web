@@ -31,29 +31,6 @@
           </div>
         </el-main>
       </el-container>
-      <el-container>
-        <el-header>
-          <el-form style="float: left;text-align: left">
-            <el-form-item label="场景选择：">
-              <el-select v-model="scenarioSelect" @change="handleScenario">
-                <el-option v-for="item in scenarioList" :key="item.name" :label="item.name" :value="item.name"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-        </el-header>
-        <el-main>
-          <div class="dashboard-editor-container">
-            <scenario-panel ref="scenarioPanel" />
-            <el-row :gutter="32">
-              <el-col :xs="24" :sm="24" :lg="24">
-                <div class="chart-wrapper">
-                  <scenario-alert ref="scenarioAlert" />
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-main>
-      </el-container>
     </el-row>
   </div>
 </template>

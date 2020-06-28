@@ -12,16 +12,15 @@ export default {
         title: {
           text: '近30天网关及设备注册信息统计',
           left: 'center',
-          top: 20,
           textStyle: {
-            color: '#ffcf3d',
-            fontStyle: 'italic'
+            color: '#551513'
           }
         },
         tooltip: {
           trigger: 'axis'
         },
         legend: {
+          top: 30,
           data: ['新增设备数量', '新增网关数量']
         },
         toolbox: {

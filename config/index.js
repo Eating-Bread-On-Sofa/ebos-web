@@ -102,6 +102,13 @@ module.exports = {
       //     '^/gateways': ''
       //   }
       // },
+      '/users': {
+        target: 'http://localhost:8093/api/user/',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/users': ''
+        }
+      },
       '/services': {
         target: 'http://localhost:8085/api/service/',
         changeOrigin: true,

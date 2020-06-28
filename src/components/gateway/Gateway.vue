@@ -236,6 +236,8 @@ export default {
                 if (state && state.status === 200) {
                   data[item].state = state.data.state
                 }
+              }).catch(() => {
+                this.$message.error('获取网关微服务状态信息失败！')
               })
             }
             this.tableData = data

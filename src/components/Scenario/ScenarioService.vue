@@ -69,32 +69,26 @@
           label="服务名称">
         </el-table-column>
         <el-table-column
-          label="网关名称">
+          label="网关名称及IP">
           <template slot-scope="scope">
-            <table width="100%">
-              <tr v-for="item in scope.row.content[0]" :key="item.index">{{ item.gatewayName }}</tr>
-            </table>
+              <li v-for="item in scope.row.content" :key="item.index">{{ item.gatewayName }} : {{ item.gatewayIP }}</li>
           </template>
         </el-table-column>
         <el-table-column
-          label="网关IP">
+          label="设备及指令"
+          width="250%">
           <template slot-scope="scope">
-            <table width="100%">
-              <tr v-for="item in scope.row.content[0]" :key="item.index">{{ item.gatewayIP }}</tr>
-            </table>
+            <ul v-for="(item, i) in scope.row.content" :key="i">
+              <li v-for="(subItem, j) in item.commands" :key="j">
+                <span>device: {{ subItem.deviceName }}</span><br />
+                <span>command: {{ subItem.commandName }}</span>
+              </li>
+            </ul>
           </template>
         </el-table-column>
-        <el-table-column
-          label="设备及指令">
+        <el-table-column label="规则" width="100px">
           <template slot-scope="scope">
-            <li v-for="i in scope.row.content[0].commands" :key="i">
-              <span>device: {{ scope.row.content[0].command[i].deviceName }} , command: {{ scope.row.content[0].command[i].commandName }}</span>
-            </li>
-          </template>
-        </el-table-column>
-        <el-table-column label="规则">
-          <template slot-scope="scope">
-            <li v-for= " i in scope.row.rules" :key="i">{{ scope.row.rules[i] }}</li>
+            <li v-for= "(item, i) in scope.row.rules" :key="i">{{ item }}</li>
           </template>
         </el-table-column>
         <el-table-column
@@ -103,7 +97,7 @@
         </el-table-column>
         <el-table-column
           label="操作"
-          width="350">
+          width="250px">
           <template slot-scope="scope">
             <el-button
               size="mini"
@@ -133,12 +127,11 @@
 
 <script>
 import SearchBar from '../common/SearchBar'
-import ScenarioEditForm from './ScenarioEditForm'
 import ScenarioDeviceState from './ScenarioDeviceState'
 import ScenarioShow from './ScenarioShow'
 export default {
   name: 'ScenarioServcie',
-  components: {ScenarioShow, ScenarioDeviceState, ScenarioEditForm, SearchBar},
+  components: {ScenarioShow, ScenarioDeviceState, SearchBar},
   data () {
     return {
       currentPage: 1,
@@ -158,7 +151,7 @@ export default {
       },
       scenarioEdit: {
         name: '',
-        rules: [],
+        rules: ['rule'],
         content: []
       }
     }
@@ -199,7 +192,7 @@ export default {
           this.$refs.scenarioDeviceState.dialogFormVisible = true
         }
       }).catch(() => {
-        this.$message('获取状态信息失败！')
+        this.$message.error('获取状态信息失败！')
       })
     },
     handleDelete (index, tablerow) {
@@ -217,7 +210,7 @@ export default {
           .delete('/scenarios/name/' + tablerow.name, {
           }).then(resp => {
             if (resp && resp.status === 200) {
-              this.$message.success('已删除场景服务：' + tablerow)
+              this.$message.success('已删除场景服务：' + tablerow.name)
               this.loadScenarios()
             }
           })
@@ -256,7 +249,7 @@ export default {
           this.commandList = resp.data
         }
       }).catch(() => {
-        this.$message('获取指令列表失败！')
+        this.$message.error('获取指令列表失败！')
       })
     },
     getRuleList () {
@@ -291,19 +284,19 @@ export default {
     onSubmit () {
       let item = {}
       for (let x in this.command) {
-        item.commandName = this.commandList[this.command[x]].commandName
-        item.deviceName = this.commandList[this.command[x]].deviceName
+        item.commandName = this.commandList[x].commandName
+        item.deviceName = this.commandList[x].deviceName
         this.gwAndDevice.commands.push(item)
         item = {}
       }
       this.scenarioEdit.content.push(this.gwAndDevice)
       this.$axios
         // 实际API
-        // .post('http://localhost:8092/api/scenario', this.scenarioEdit.form).then(resp => {
+        // .post('http://localhost:8092/api/scenario', this.scenarioEdit).then(resp => {
         // kong网关代理API
-        // .post('http://localhost:8000/s', this.scenarioEdit.form).then(resp => {
+        // .post('http://localhost:8000/s', this.scenarioEdit).then(resp => {
         // 开发模式下代理API
-        .post('/scenarios', this.scenarioEdit.form).then(resp => {
+        .post('/scenarios', this.scenarioEdit).then(resp => {
           if (resp && resp.status === 200) {
             this.createDialog = false
             this.loadScenarios()

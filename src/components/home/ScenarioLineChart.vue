@@ -16,14 +16,13 @@ export default {
         title: {
           text: '近30天场景服务接入信息统计',
           left: 'center',
-          top: 20,
           textStyle: {
-            color: '#ffcf3d',
-            fontStyle: 'italic'
+            color: '#551513'
           }
         },
         tooltip: {},
         legend: {
+          top: 30,
           data: ['场景服务接入数量']
         },
         toolbox: {

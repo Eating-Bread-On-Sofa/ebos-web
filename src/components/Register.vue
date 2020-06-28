@@ -1,113 +1,110 @@
 <template>
-  <div id="Login" class="img1">
-    <el-container style="margin-top: 5px;margin-right: 5px;margin-left: 5px">
-      <el-main>
-        <el-row>
-          <el-col :span="12" :offset="6" :xs="24">
-            <el-card class="box-card">
-              <div slot="header" class="clearfix" style="text-align: center">
-                <a class="icon iconfont el-icon-icon" @click="login">用户登录</a>
-                /
-                <a class="icon iconfont el-icon-zhuce" @click="register">用户注册</a>
-              </div>
-              <el-form label-width="80px">
-                <el-form-item label="用户名">
-                  <el-input v-model="form.name" label-width="20px"></el-input>
-                </el-form-item>
-                <el-form-item label="密码">
-                  <el-input v-model="form.password" type="password" label-width="80px"></el-input>
-                </el-form-item>
-                <el-form-item label="手机号">
-                  <el-input v-model="form.phone"></el-input>
-                </el-form-item>
-                <el-form-item>
-                  <el-button type="primary" @click="registerTrue({name:form.name,password:form.password,phone:form.phone})">注册</el-button>
-                </el-form-item>
-              </el-form>
-              <el-row>
-                <el-col :span="12" :offset="6">
-                  <router-view></router-view>
-                </el-col>
-              </el-row>
-            </el-card>
-          </el-col>
-        </el-row>
-      </el-main>
-    </el-container>
+  <body id="paper">
+  <div class="login-container">
+    <el-form :model="loginForm" :rules="rules" label-position="right"
+             label-width="80px" v-loading="loading">
+      <h3 class="login_title">用户注册</h3>
+      <el-form-item prop="username" label="用户名">
+        <el-input type="text" v-model="loginForm.username"
+                  auto-complete="off" placeholder="账号"></el-input>
+      </el-form-item>
+      <el-form-item prop="password" label="密码">
+        <el-input type="password" v-model="loginForm.password"
+                  auto-complete="off" placeholder="密码"></el-input>
+      </el-form-item>
+      <el-form-item label="真实姓名">
+        <el-input type="text" v-model="loginForm.name"
+                  auto-complete="off" placeholder="真实姓名"></el-input>
+      </el-form-item>
+      <el-form-item label="电话号码">
+        <el-input type="text" v-model="loginForm.phone"
+                  auto-complete="off" placeholder="电话号码"></el-input>
+      </el-form-item>
+      <el-form-item label="邮箱">
+        <el-input type="text" v-model="loginForm.email"
+                  auto-complete="off" placeholder="E-Mail"></el-input>
+      </el-form-item>
+    </el-form>
+    <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="register">注册</el-button>
   </div>
+  </body>
 </template>
 <script>
-import {mapState, mapActions} from 'vuex'
-
-export default {
+export default{
   name: 'Register',
-  methods: {
-    login () {
-      this.$router.push({path: '/login'})
-    },
-    register () {
-      this.$router.push({path: '/register'})
+  data () {
+    return {
+      rules: {
+        username: [{required: true, message: '用户名不能为空', trigger: 'blur'}],
+        password: [{required: true, message: '密码不能为空', trigger: 'blur'}]
+      },
+      checked: true,
+      loginForm: {
+        username: '',
+        password: '',
+        name: '',
+        phone: '',
+        email: ''
+      },
+      loading: false
     }
   },
-  computed: {
-    // 使用对象展开运算符将此对象混入到外部对象中
-    ...mapState([
-      'form',
-      'status'
-    ])
-  },
-  methods1: {
-    ...mapActions([
-      'registerTrue'
-    ])
-  },
-  watch: {
-    status: function () {
-      if (this.status === 1) {
-        console.log(4545)
-        this.$axios.post('/api/register', {data: this.form})
-          .then((data) => {
-            console.log(data)
-          })
-          .catch((err) => {
-            console.log(err)
-          })
-      }
+  methods: {
+    register () {
+      var _this = this
+      this.$axios
+        .post('/register', {
+          username: this.loginForm.username,
+          password: this.loginForm.password,
+          name: this.loginForm.name,
+          phone: this.loginForm.phone,
+          email: this.loginForm.email
+        })
+        .then(resp => {
+          if (resp.data.code === 200) {
+            this.$alert('注册成功', '提示', {
+              confirmButtonText: '确定'
+            })
+            _this.$router.replace('/login')
+          } else {
+            this.$alert(resp.data.message, '提示', {
+              confirmButtonText: '确定'
+            })
+          }
+        }).catch(() => {})
     }
   }
-  /* data () {
-    return {
-      note: {
-        backgroundImage: 'url(' + require('../../static/background.jpg') + ')',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: '100% 100%'
-      }
-    }
-  } */
 }
 </script>
-
 <style>
-  img1{
-    background: url('../../static/background.jpg') center center no-repeat;
+  #paper {
+    background:url("../assets/edge.jpeg") no-repeat;
+    background-position: center;
     height: 100%;
-    position: fixed;
     width: 100%;
-    background-size: 100% 100%
+    background-size: cover;
+    position: fixed;
   }
-  .el-container{
-    margin-top: 120px;
-    margin-right: 450px;
-    margin-left: 450px;
+  body{
+    margin: -5px 0px;
   }
-  .el-card{
-    background:
-      -webkit-linear-gradient(
-        top,
-        rgb(235, 241, 246) 0%,
-        rgb(171, 211, 238) 23%,
-        rgb(137, 195, 235) 66%,
-        rgb(213, 235, 251) 100%);
-    /* Chrome10-25,Safari5.1-6 */
+  .login-container {
+    border-radius: 15px;
+    background-clip: padding-box;
+    margin: 90px auto;
+    width: 350px;
+    padding: 35px 35px 15px 35px;
+    background: #fff;
+    border: 1px solid #eaeaea;
+    box-shadow: 0 0 25px #cac6c6;
+  }
+  .login_title {
+    margin: 0px auto 40px auto;
+    text-align: center;
+    color: #505458;
+  }
+  .login_remember {
+    margin: 0px 0px 35px 0px;
+    text-align: left;
   }
 </style>

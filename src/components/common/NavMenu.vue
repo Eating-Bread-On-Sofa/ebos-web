@@ -26,13 +26,13 @@ export default {
       navList: [
         {name: '/index',
           navItem: '首页',
-          subList: [{name: '/index', subItem: '系统首页'}, {name: '/index2', subItem: '账户设置'}, {name: '/index3', subItem: '系统信息'}],
+          subList: [{name: '/index', subItem: '系统首页'}, {name: '/index2', subItem: '账户设置'}, {name: '/systemSetting', subItem: '系统信息'}],
           icon: 'el-icon-s-order'
         },
-        {name: '/gatewayIndex',
-          navItem: '网关管理',
-          subList: [{name: '/gateway', subItem: '网关列表'}, {name: '/gatewayService', subItem: '网关服务'}, {name: '/serviceManage', subItem: '服务管理'}],
-          icon: 'el-icon-monitor'
+        {name: '/commandIndex',
+          navItem: '指令管理',
+          subList: [{name: '/command', subItem: '指令列表'}],
+          icon: 'el-icon-set-up'
         },
         {name: '/messageRoutingIndex',
           navItem: '消息路由',
@@ -59,10 +59,10 @@ export default {
           subList: [{name: '/scenario', subItem: '场景服务'}, {name: '/scenarioShow', subItem: '场景展示'}],
           icon: 'el-icon-data-analysis'
         },
-        {name: '/commandIndex',
-          navItem: '指令管理',
-          subList: [{name: '/command', subItem: '指令列表'}],
-          icon: 'el-icon-set-up'
+        {name: '/gatewayIndex',
+          navItem: '网关管理',
+          subList: [{name: '/gateway', subItem: '网关列表'}, {name: '/gatewayService', subItem: '网关服务'}, {name: '/serviceManage', subItem: '服务管理'}],
+          icon: 'el-icon-monitor'
         },
         {name: '/user',
           navItem: '用户管理',
