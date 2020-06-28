@@ -4,7 +4,7 @@
       default-active="/index"
       router
       unique-opened
-      background-color="#881401"
+      background-color="#333"
       text-color="white"
       active-text-color="#F59044">
       <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
@@ -94,6 +94,6 @@ export default {
 
 <style scoped>
   .subMenu {
-    background-color: #551513 !important;
+    background-color: #333 !important;
   }
 </style>

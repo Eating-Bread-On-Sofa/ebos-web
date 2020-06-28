@@ -39,12 +39,17 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home,
-      redirect: '/index',
+      meta: {
+        requireAuth: true
+      },
       children: [
         {
           path: '/index',
           name: 'AppIndex',
-          component: AppIndex
+          component: AppIndex,
+          meta: {
+            requireAuth: true
+          }
         },
         {
           path: '/ruleIndex',
@@ -55,7 +60,10 @@ export default new Router({
             {
               path: '/rule',
               name: 'Rule',
-              component: Rule
+              component: Rule,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -68,17 +76,26 @@ export default new Router({
             {
               path: '/gateway',
               name: 'Gateway',
-              component: Gateway
+              component: Gateway,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/gatewayService',
               name: 'GatewayServcie',
-              component: GatewayService
+              component: GatewayService,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/serviceManage',
               name: 'ServiceManage',
-              component: ServiceManage
+              component: ServiceManage,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -91,12 +108,18 @@ export default new Router({
             {
               path: '/device',
               name: 'Device',
-              component: Device
+              component: Device,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/monitor',
               name: 'DeviceMonitor',
-              component: DeviceMonitor
+              component: DeviceMonitor,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -109,7 +132,10 @@ export default new Router({
             {
               path: '/messageRouting',
               name: 'MessageRouting',
-              component: MessageRouting
+              component: MessageRouting,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -122,12 +148,18 @@ export default new Router({
             {
               path: '/deviceProfile',
               name: 'DeviceProfile',
-              component: DeviceProfile
+              component: DeviceProfile,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/profileLib',
               name: 'ProfileLib',
-              component: ProfileLib
+              component: ProfileLib,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -140,12 +172,18 @@ export default new Router({
             {
               path: '/scenario',
               name: 'ScenarioService',
-              component: ScenarioService
+              component: ScenarioService,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/scenarioShow',
               name: 'ScenarioShow',
-              component: ScenarioShow
+              component: ScenarioShow,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -158,7 +196,10 @@ export default new Router({
             {
               path: '/command',
               name: 'Command',
-              component: Command
+              component: Command,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         },
@@ -171,17 +212,26 @@ export default new Router({
             {
               path: '/log',
               name: 'Log',
-              component: Log
+              component: Log,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/deviceLog',
               name: 'DeviceException',
-              component: DeviceException
+              component: DeviceException,
+              meta: {
+                requireAuth: true
+              }
             },
             {
               path: '/gatewayLog',
               name: 'GatewayException',
-              component: GatewayException
+              component: GatewayException,
+              meta: {
+                requireAuth: true
+              }
             }
           ]
         }

@@ -12,6 +12,21 @@ import './style/style.css'
 // Vue.use(Loading.directive)
 Vue.use(ElementUI, {size: 'small'})
 
+router.beforeEach((to, from, next) => {
+  if (to.meta.requireAuth) {
+    if (store.state.user.username) {
+      next()
+    } else {
+      next({
+        path: 'login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
+})
+
 // Vue.prototype.$loading = Loading.service
 // Vue.prototype.$msgbox = MessageBox
 // Vue.prototype.$alert = MessageBox.alert
