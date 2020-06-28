@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="rulePage">
     <el-row>
       <el-breadcrumb separator="/">
         <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
@@ -74,14 +74,14 @@
     <el-dialog
       title="新建规则"
       :visible.sync="dialogCreateVisible"
-      width="60%"
+      width="85%"
       :before-close="handleClose">
       <div>
-        <el-form ref="form" :model="form" label-width="70px">
+        <el-form ref="form" :model="form" label-width="70px" class="ruleForm">
           <el-row>
             <el-col :span="24">
               <el-form-item label="规则名称">
-                <el-input v-model="form.ruleName"  placeholder="请输入内容"></el-input>
+                <el-input v-model="form.ruleName"  placeholder="请输入内容" style="width: 100%;"></el-input>
               </el-form-item>
               <el-row>
                 <el-col :span="3">
@@ -167,14 +167,14 @@
                 </div>
               </el-row>
               <el-form-item label="执行功能">
-                <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%">
+                <el-select v-model="form.ruleExecute" placeholder="请选择功能" style="width:100%" class="line">
                   <el-option label="告警" value="告警"></el-option>
                   <el-option label="告警且操作设备" value="告警且操作设备"></el-option>
                   <el-option label="操作设备" value="操作设备"></el-option>
                 </el-select>
               </el-form-item>
               <el-form-item label="服务名称">
-                <el-select v-model="form.service" placeholder="请选择服务" style="width:100%">
+                <el-select v-model="form.service" placeholder="请选择服务" style="width:100%" class="line">
                   <el-option v-for="item in services" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -511,3 +511,18 @@ export default {
   }
 }
 </script>
+
+<style>
+  .el-input__inner{
+    width: 50%;
+  }
+  .el-input {
+    width: 150px;
+  }
+  el-select-dropdown__item{
+    width: 50%
+  }
+  .line .el-input {
+    width: 100%;
+  }
+</style>
