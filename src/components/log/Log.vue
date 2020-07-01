@@ -145,9 +145,9 @@ export default {
         // 实际API
         // .get('http://localhost:8090/api/logtest').then(resp => {
         // kong网关代理API
-        // .get('http://localhost:8000/gc/log').then(resp => {
+        .get('http://localhost:8000/gi/logtest').then(resp => {
         // 开发模式下代理API
-        .get('/logs/logtest').then(resp => {
+        // .get('/logs/logtest').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -160,7 +160,12 @@ export default {
       var first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth()}/${this.firstDate.getDate()}`
       var last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth()}/${this.lastDate.getDate()}`
       var tableData = []
-      this.$axios.get(`http://localhost:8090/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      // 实际API
+      // this.$axios.get(`http://localhost:8090/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      // kong网关代理API
+      this.$axios.get(`http://localhost:8000/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      // 开发模式下代理API
+      // this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
         var data = resp.data
         for (var i = 0; i < data.length; i++) {
           console.log(data[i])

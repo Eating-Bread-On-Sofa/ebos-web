@@ -12,18 +12,18 @@
         <el-input type="password" v-model="loginForm.password"
                   auto-complete="off" placeholder="密码"></el-input>
       </el-form-item>
-      <el-form-item label="真实姓名">
-        <el-input type="text" v-model="loginForm.name"
-                  auto-complete="off" placeholder="真实姓名"></el-input>
-      </el-form-item>
-      <el-form-item label="电话号码">
-        <el-input type="text" v-model="loginForm.phone"
-                  auto-complete="off" placeholder="电话号码"></el-input>
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input type="text" v-model="loginForm.email"
-                  auto-complete="off" placeholder="E-Mail"></el-input>
-      </el-form-item>
+<!--      <el-form-item label="真实姓名">-->
+<!--        <el-input type="text" v-model="loginForm.name"-->
+<!--                  auto-complete="off" placeholder="真实姓名"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="电话号码">-->
+<!--        <el-input type="text" v-model="loginForm.phone"-->
+<!--                  auto-complete="off" placeholder="电话号码"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="邮箱">-->
+<!--        <el-input type="text" v-model="loginForm.email"-->
+<!--                  auto-complete="off" placeholder="E-Mail"></el-input>-->
+<!--      </el-form-item>-->
     </el-form>
     <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="register">注册</el-button>
   </div>
@@ -41,10 +41,7 @@ export default{
       checked: true,
       loginForm: {
         username: '',
-        password: '',
-        name: '',
-        phone: '',
-        email: ''
+        password: ''
       },
       loading: false
     }
@@ -53,12 +50,9 @@ export default{
     register () {
       var _this = this
       this.$axios
-        .post('/register', {
+        .post('/users/register', {
           username: this.loginForm.username,
-          password: this.loginForm.password,
-          name: this.loginForm.name,
-          phone: this.loginForm.phone,
-          email: this.loginForm.email
+          password: this.loginForm.password
         })
         .then(resp => {
           if (resp.data.code === 200) {

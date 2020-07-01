@@ -59,9 +59,9 @@ export default {
       dialogFormVisible: false
     }
   },
-  mounted () {
-    this.loadState()
-  },
+  // mounted () {
+  //   this.loadState()
+  // },
   methods: {
     loadState () {
       var _this = this

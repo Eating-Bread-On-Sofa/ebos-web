@@ -36,20 +36,20 @@ export default new Router({
   // base: '/bjtu/', // 配置路由的根目录
   routes: [
     {
-      path: '/home',
+      path: '/',
       name: 'Home',
       component: Home,
-      meta: {
-        requireAuth: true
-      },
+      // meta: {
+      //   requireAuth: true
+      // },
       children: [
         {
           path: '/index',
           name: 'AppIndex',
-          component: AppIndex,
-          meta: {
-            requireAuth: true
-          }
+          component: AppIndex
+          // meta: {
+          //   requireAuth: true
+          // }
         },
         {
           path: '/ruleIndex',
@@ -60,10 +60,10 @@ export default new Router({
             {
               path: '/rule',
               name: 'Rule',
-              component: Rule,
-              meta: {
-                requireAuth: true
-              }
+              component: Rule
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -76,26 +76,26 @@ export default new Router({
             {
               path: '/gateway',
               name: 'Gateway',
-              component: Gateway,
-              meta: {
-                requireAuth: true
-              }
+              component: Gateway
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/gatewayService',
               name: 'GatewayServcie',
-              component: GatewayService,
-              meta: {
-                requireAuth: true
-              }
+              component: GatewayService
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/serviceManage',
               name: 'ServiceManage',
-              component: ServiceManage,
-              meta: {
-                requireAuth: true
-              }
+              component: ServiceManage
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -108,18 +108,18 @@ export default new Router({
             {
               path: '/device',
               name: 'Device',
-              component: Device,
-              meta: {
-                requireAuth: true
-              }
+              component: Device
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/monitor',
               name: 'DeviceMonitor',
-              component: DeviceMonitor,
-              meta: {
-                requireAuth: true
-              }
+              component: DeviceMonitor
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -132,10 +132,10 @@ export default new Router({
             {
               path: '/messageRouting',
               name: 'MessageRouting',
-              component: MessageRouting,
-              meta: {
-                requireAuth: true
-              }
+              component: MessageRouting
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -148,18 +148,18 @@ export default new Router({
             {
               path: '/deviceProfile',
               name: 'DeviceProfile',
-              component: DeviceProfile,
-              meta: {
-                requireAuth: true
-              }
+              component: DeviceProfile
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/profileLib',
               name: 'ProfileLib',
-              component: ProfileLib,
-              meta: {
-                requireAuth: true
-              }
+              component: ProfileLib
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -172,18 +172,18 @@ export default new Router({
             {
               path: '/scenario',
               name: 'ScenarioService',
-              component: ScenarioService,
-              meta: {
-                requireAuth: true
-              }
+              component: ScenarioService
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/scenarioShow',
               name: 'ScenarioShow',
-              component: ScenarioShow,
-              meta: {
-                requireAuth: true
-              }
+              component: ScenarioShow
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -196,10 +196,10 @@ export default new Router({
             {
               path: '/command',
               name: 'Command',
-              component: Command,
-              meta: {
-                requireAuth: true
-              }
+              component: Command
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -212,26 +212,26 @@ export default new Router({
             {
               path: '/log',
               name: 'Log',
-              component: Log,
-              meta: {
-                requireAuth: true
-              }
+              component: Log
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/deviceLog',
               name: 'DeviceException',
-              component: DeviceException,
-              meta: {
-                requireAuth: true
-              }
+              component: DeviceException
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/gatewayLog',
               name: 'GatewayException',
-              component: GatewayException,
-              meta: {
-                requireAuth: true
-              }
+              component: GatewayException
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         }
@@ -246,10 +246,6 @@ export default new Router({
       path: '/register',
       name: 'register',
       component: Register
-    },
-    {
-      path: '/',
-      redirect: '/login'
     }
   ]
 })

@@ -63,9 +63,9 @@ export default {
       // 实际API
       // instance.post('http://localhost:8091/api/profile', _this.profileForm.ymlStr
       // kong网关代理API
-      // instance.post('http://localhost:8000/p', _this.profileForm.ymlStr
+      instance.post('http://localhost:8000/p', _this.profileForm.ymlStr
       // 开发模式下代理API
-      instance.post('/profiles', _this.profileForm.ymlStr
+      // instance.post('/profiles', _this.profileForm.ymlStr
       ).then(resp => {
         if (resp && resp.status === 200) {
           // _this.dialogFormVisible = false

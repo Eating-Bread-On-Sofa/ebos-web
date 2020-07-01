@@ -75,9 +75,9 @@ export default {
         // 实际API
         // .get('http://localhost:8084/api/router').then(resp => {
         // kong网关代理API
-        // .get('http://localhost:8000/mqr').then(resp => {
+        .get('http://localhost:8000/mqr').then(resp => {
         // 开发模式下代理API
-        .get('/mqr').then(resp => {
+        // .get('/mqr').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -99,8 +99,9 @@ export default {
           // 实际API
           // .delete('http://localhost:8084/api/router/name/' + row.name).then(resp => {
           // kong网关代理API
-          // .delete('http://localhost:8000/mqr/name/' + row.name).then(resp => {
-          .delete('/mqr/name/' + row.name).then(resp => {
+          .delete('http://localhost:8000/mqr/name/' + row.name).then(resp => {
+          // 开发模式下代理API
+          // .delete('/mqr/name/' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               this.loadMessageRouting()
             }

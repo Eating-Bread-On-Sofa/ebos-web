@@ -60,9 +60,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8092/api/scenario/days?days=30').then(resp => {
       // kong网关代理API
-      // this.$axios.get('http://localhost:8000/s/days?days=30').then(resp => {
+      this.$axios.get('http://localhost:8000/s/days?days=30').then(resp => {
       // 开发模式下代理API
-      this.$axios.get('/scenarios/days?days=30').then(resp => {
+      // this.$axios.get('/scenarios/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           this.scenarioAddition = resp.data
           this.drawLine(this.scenarioAddition)

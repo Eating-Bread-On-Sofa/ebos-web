@@ -24,9 +24,9 @@ export default {
   methods: {
     logout () {
       var _this = this
-      this.$axios.get('/logout').then(resp => {
+      this.$axios.get('/users/logout').then(resp => {
         if (resp.data.code === 200) {
-          // _this.$store.commit('logout')
+          _this.$store.commit('logout')
           _this.$router.replace('/login')
         }
       })

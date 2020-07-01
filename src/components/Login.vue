@@ -48,8 +48,9 @@ export default{
           if (resp.data.code === 200) {
             // var data = resp.data.result
             _this.$store.commit('login', _this.loginForm)
-            var path = this.$router.query.redirect
-            _this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+            var path = this.$route.query.redirect
+            this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+            // this.$router.replace({path: '/index'})
           } else {
             this.$alert(resp.data.message, '提示', {
               confirmButtonText: '确定'
