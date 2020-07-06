@@ -2,7 +2,7 @@
   <el-container>
     <el-header style="width: 100%;height: 50px;padding: 0px;background-color: #333">
       <img src="../img/logo.jpg" alt="" style="float: left;height: 50px; width: 200px;min-width: 120px">
-      <span style="position: absolute;right: 100px;font-size: 20px;font-weight: bold;line-height:50px; color: #881401; font-family: 楷体">BJTU边缘计算平台</span>
+      <span style="position: absolute;left: 250px;font-size: 20px;font-weight: bold;line-height:50px; color: #881401; font-family: 楷体">BJTU边缘计算平台</span>
       <i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: #881401"></i>
     </el-header>
     <el-container>
