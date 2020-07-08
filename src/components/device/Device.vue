@@ -23,21 +23,21 @@
     </div>
     <el-row>
       <el-col :span="12">
-        <el-breadcrumb separator="/">
+        <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>设备管理</el-breadcrumb-item>
           <el-breadcrumb-item>ip: {{gwip}}</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="12">
-          <el-button type="text" icon="el-icon-refresh" @click="loadDevices" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right">刷新</el-button>
+          <el-button type="text" icon="el-icon-refresh" @click="loadDevices" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right;margin-right: 20px;margin-top:5px;font-size: 16px">刷新</el-button>
       </el-col>
     </el-row>
     <el-row>
-      <el-col :span="12">
+      <el-col :span="11" style="margin-left: 15px">
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="11" style="margin-left: 105px">
         <div  style="margin-top: 20px;margin-bottom: 30px;float: right">
           <el-button type="success" icon="el-icon-guide">网关选择：</el-button>
           <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
@@ -51,7 +51,7 @@
     </el-row>
     <el-row>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="editDialog = true">新增
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="editDialog = true">新增
       </el-button>
       <br>
       <device-edit-form :gwList="gwList" :editDialog="editDialog" @onSubmit="loadDevices" @hideDialog="editDialog = false" ref="deviceEdit"></device-edit-form>

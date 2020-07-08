@@ -1,7 +1,7 @@
 <template>
     <div>
       <el-row>
-        <el-breadcrumb separator="/">
+        <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>指令管理</el-breadcrumb-item>
         </el-breadcrumb>
@@ -10,7 +10,7 @@
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
         <br>
         <!--新增按钮-->
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-bottom: 5px;margin-right: 20px" @click="createDialog = true">新增
         </el-button>
         <br>
         <command-edit-form ref="CommandEditForm" :createDialog="createDialog" @hideDialog="createDialog = false" @onSubmit="loadCommands()"></command-edit-form>
@@ -80,9 +80,9 @@ export default {
         // 实际API
         // .get('http://localhost:8082/api/command').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/c').then(resp => {
+        // .get('http://localhost:8000/c').then(resp => {
         // 开发模式下代理API
-        // .get('/commands').then(resp => {
+        .get('/commands').then(resp => {
           if (resp && resp.status === 200) {
             this.tableData = resp.data
             this.loading = false

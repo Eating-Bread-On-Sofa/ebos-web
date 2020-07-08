@@ -1,14 +1,14 @@
 <template>
     <div>
       <el-row>
-        <el-breadcrumb separator="/">
+        <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>模板库</el-breadcrumb-item>
         </el-breadcrumb>
       </el-row>
       <el-row>
         <br>
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" style="float: right;margin-bottom: 5px;margin-right: 20px;" @click="createDialog = true">新增
         </el-button>
         <profile-edit-form :dialogFormVisible="createDialog" @hideDialog="createDialog = false" @onSubmit="loadProfileLib"></profile-edit-form>
         <el-dialog

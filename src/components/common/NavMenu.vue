@@ -4,9 +4,9 @@
       default-active="/index"
       router
       unique-opened
-      background-color="#333"
-      text-color="white"
-      active-text-color="#F59044">
+      background-color="transparent"
+      text-color="#999"
+      active-text-color="#36bed6">
       <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
         <template slot="title">
           <i :class=item.icon></i>
@@ -25,7 +25,7 @@ export default {
     return {
       navList: [
         {name: '/index',
-          navItem: '首页',
+          navItem: '首　　页',
           subList: [{name: '/index', subItem: '系统首页'}, {name: '/index2', subItem: '账户设置'}, {name: '/systemSetting', subItem: '系统信息'}],
           icon: 'el-icon-s-order'
         },

@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-row>
-      <el-breadcrumb separator="/">
+      <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
         <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
         <el-breadcrumb-item>场景展示</el-breadcrumb-item>
         <el-breadcrumb-item>{{ scenarioSelect }}</el-breadcrumb-item>

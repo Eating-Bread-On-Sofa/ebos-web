@@ -2,17 +2,17 @@
   <div id="app">
     <el-row>
       <el-col :span="12">
-        <el-breadcrumb separator="/">
+        <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>日志管理</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="12">
-        <el-button type="text" icon="el-icon-refresh" @click="loadLogs" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right">刷新</el-button>
+        <el-button type="text" icon="el-icon-refresh" @click="loadLogs" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right;margin-right: 20px;margin-top:5px;font-size: 16px">刷新</el-button>
       </el-col>
     </el-row>
     <el-row>
-      <div style="margin-top: 20px;margin-bottom: 30px;float: left">
+      <div style="margin-top: 20px;margin-bottom: 30px;float: left; margin-left: 15px;">
         <el-date-picker v-model="firstDate" type="date" placeholder="请选择开始日期" style="width: 160px"></el-date-picker>
         <el-date-picker v-model="lastDate" type="date" placeholder="请选择结束日期" style="width: 160px; margin-left: 10px"></el-date-picker>
         <el-select v-model="source" placeholder="请选择日志来源" style="margin-left: 10px">
@@ -28,17 +28,18 @@
       </div>
     </el-row>
       <log-echart ref="LogEchartDialog" :logs="table" v-bind:dialogVisible="chartDialog" @hideDialog="chartDialog = false" ></log-echart>
-      <el-button type="success" @click="chartDialog = true" style="float: right">日志统计图</el-button>
+      <el-button type="success" @click="chartDialog = true" style="float: right;margin-right: 20px;margin-bottom: 5px;">日志统计图</el-button>
     <el-row>
       <!--表格数据及操作-->
-      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%;"
+      <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%; "
                 :row-class-name="tableRowClassName"
+                :header-cell-style="{background:'#999',color:'white'}"
                 v-loading="loading"
                 element-loading-text="拼命加载中"
                 element-loading-spinner="el-icon-loading"
                 element-loading-background="rgba(0, 0, 0, 0.3)"
                 ref="multipleTable" tooltip-effect="dark">
-        <el-table-column prop="date" label="时间" sortable>
+        <el-table-column prop="date" label="时间" sortable >
         </el-table-column>
         <el-table-column
           prop="source"

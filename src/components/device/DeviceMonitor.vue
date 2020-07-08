@@ -27,7 +27,7 @@
         </el-dialog>
       </div>
       <el-row>
-        <el-breadcrumb separator="/">
+        <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
           <el-breadcrumb-item :to="{ path: '/deviceIndex' }">设备管理</el-breadcrumb-item>
           <el-breadcrumb-item>设备监控</el-breadcrumb-item>
@@ -36,7 +36,7 @@
         </el-breadcrumb>
       </el-row>
       <el-row  style="margin-top: 20px;margin-bottom: 30px;">
-        <el-col :span="12">
+        <el-col :span="11"  style="margin-left: 15px">
           <div style="float: left">
             <el-button type="success" icon="el-icon-guide" @change="handleDeviceId">在线设备</el-button>
             <el-select v-model="deviceId" placeholder="请选择设备" @change="getDeviceName">
@@ -44,7 +44,7 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="11" style="margin-left: 105px">
           <div style="float: right">
             <el-button type="success" icon="el-icon-guide">更新周期</el-button>
             <el-select v-model="interval" placeholder="请选择更新周期" @change="handleDeviceId">
