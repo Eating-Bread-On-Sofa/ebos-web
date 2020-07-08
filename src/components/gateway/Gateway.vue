@@ -18,7 +18,7 @@
             :visible.sync="createDialog"
             width="30%"
             @close="clear">
-            <el-form v-model="gwForm" label-width="120px" style="text-align: left">
+            <el-form v-model="gwForm" label-width="40%" style="text-align: left">
               <el-form-item label="网关名称" prop="name">
                 <el-input v-model="gwForm.name" autocomplete="off" placeholder="请输入网关名称"></el-input>
               </el-form-item>
@@ -26,7 +26,7 @@
                 <el-input v-model="gwForm.ip" autocomplete="off" placeholder="请输入网关IP地址"></el-input>
               </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <div slot="footer" class="dialog-footer" style="text-align: center;">
               <el-button @click="clear">取消</el-button>
               <el-button type="primary" @click="createOnSubmit">确定</el-button>
             </div>

@@ -52,7 +52,7 @@
               <div slot="tip" class="el-upload__tip">单个文件大小限制100M以内，总文件大小限制1000M</div>
               <!--              <el-button style="position: absolute; bottom: 0px;"  size="small" type="success" @click="submitUpload">上传到服务器</el-button>>-->
             </el-upload>
-            <el-button size="small" type="success" @click="submitUpload">上传到网关</el-button>
+            <el-button size="small" type="success" @click="submitUpload" style="margin-top: 10px">上传到网关</el-button>
           </el-dialog>
         </div>
         <div>

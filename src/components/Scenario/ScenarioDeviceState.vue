@@ -14,7 +14,7 @@
           <el-table-column label="起始" prop="origin"></el-table-column>
           <el-table-column label="值" prop="value"></el-table-column>
         </el-table>
-    <div slot="footer" class="dialog-footer">
+    <div slot="footer" class="dialog-footer" style="text-align: center">
       <el-button @click="dialogFormVisible = false">关闭</el-button>
     </div>
   </el-dialog>

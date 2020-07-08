@@ -5,7 +5,7 @@
       width="30%"
       :visible.sync="editDialog"
       @close="clear">
-      <el-form v-model="deviceEditForm" label-width="120px" style="text-align: left">
+      <el-form v-model="deviceEditForm" label-width="40%" style="text-align: left">
         <el-form-item label="选择网关" prop="gwip">
           <el-select v-model="deviceEditForm.gwip" placeholer="请选择网关IP" @change="handleGWIP">
             <el-option v-for="item in gwList" :key="item.ip" :label="item.name" :value="item.ip">
@@ -61,7 +61,7 @@
 <!--          </el-select>-->
 <!--        </el-form-item>-->
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button @click="clear">取消</el-button>
         <el-button type="primary" @click="onSubmit">确定</el-button>
       </div>

@@ -32,7 +32,7 @@
               <el-input v-model="serviceOffline" :disabled="true"></el-input>
             </el-form-item>
           </el-form>
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="dialogFormVisible = false">关闭</el-button>
         </div>
       </el-dialog>

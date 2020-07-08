@@ -5,7 +5,7 @@
           title="请先选择网关"
           width="30%"
           :visible.sync="selectDialog">
-          <el-form v-model="gwip" label-width="120px" style="text-align: left">
+          <el-form v-model="gwip" label-width="40%" style="text-align: left">
             <el-form-item label="选择网关">
               <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
                 <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.ip">
@@ -20,7 +20,7 @@
               </el-select>
             </el-form-item>
           </el-form>
-          <div slot="footer" class="dialog-footer">
+          <div slot="footer" class="dialog-footer" style="text-align: center">
             <el-button @click="selectDialog = false">取消</el-button>
             <el-button type="primary" @click="handleDeviceId">确定</el-button>
           </div>

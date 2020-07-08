@@ -17,7 +17,7 @@
           :visible.sync="createDialog"
           width="30%"
           @close="clear">
-          <el-form label-width="120px" style="text-align: left" ref="dataForm">
+          <el-form label-width="40%" style="text-align: left" ref="dataForm">
             <el-form-item label="场景服务名称">
               <el-input v-model="scenarioEdit.name" autocomplete="off" placeholder="请输入场景服务名称"></el-input>
             </el-form-item>
@@ -46,7 +46,7 @@
             <!--            <el-input type="textarea" :row="10" v-model="form.command" autocomplete="off" placeholder="请输入要执行的命令名称JSON数组，如: [{'name':'1'},{'name':'2'}]"></el-input>-->
             <!--          </el-form-item>-->
           </el-form>
-          <div slot="footer" class="dialog-footer">
+          <div slot="footer" class="dialog-footer" style="text-align: center">
             <el-button @click=clear>取消</el-button>
             <el-button type="primary" @click="onSubmit">确定</el-button>
           </div>

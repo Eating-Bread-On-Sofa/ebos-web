@@ -11,16 +11,18 @@
 <!--        </el-form>-->
 
 <!--        <el-input v-model="gwip" autocomplete="off" placeholder="请输入网关的IP地址"></el-input>-->
-        <el-form v-model="profileForm" style="text-align: left">
+        <el-form v-model="profileForm" label-width="40%" style="text-align: left">
 <!--          <el-form-item label="模板名称" prop="name">-->
 <!--            <el-input v-model="profileForm.name" autocomplete="off" placeholder="请输入模板名称"></el-input>-->
 <!--          </el-form-item>-->
-          <el-form-item label="yml描述">
-            <el-input type="textarea" row="15" v-model="profileForm.ymlStr" placeholder="请检查上传yml文件内容，或输入yml格式文本"></el-input>
-            <file-reader @load="profileForm.ymlStr = $event"></file-reader>
+          <el-form-item label="YML描述">
+            <el-input type="textarea"  v-model="profileForm.ymlStr" placeholder="请检查上传yml文件内容，或输入yml格式文本" style="width: 250px;height: 60px"  ></el-input>
+          </el-form-item>
+          <el-form-item label="" >
+            <file-reader @load="profileForm.ymlStr = $event" style="height: 30px;text-align: center;width: 220px;"></file-reader>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="hideDialog">取消</el-button>
           <el-button type="primary" @click="onSubmit">确定</el-button>
         </div>

@@ -5,7 +5,7 @@
         width="30%"
         :visible.sync="createDialog"
         @close="clear">
-        <el-form v-model="FormData" label-width="120px" style="text-align: left">
+        <el-form v-model="FormData" label-width="40%" style="text-align: left">
           <el-form-item label="消息路由名称">
             <el-input v-model="FormData.name" placeholder="请输入消息路由名称"></el-input>
           </el-form-item>
@@ -16,7 +16,7 @@
             <el-input v-model="FormData.outgoingQueue" placeholder="请输入传出队列名称"></el-input>
           </el-form-item>
         </el-form>
-        <div slot="footer" class="dialog-footer">
+        <div slot="footer" class="dialog-footer" style="text-align: center">
           <el-button @click="clear">取消</el-button>
           <el-button type="primary" @click="onSubmit">确定</el-button>
         </div>

@@ -1,6 +1,6 @@
 <template>
     <label class="file-reader">
-      导入yml文件
+      导入YML文件
       <input type="file" @change="loadTextFormFile" />
     </label>
 </template>

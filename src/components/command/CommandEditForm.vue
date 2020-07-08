@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div >
     <el-dialog
       title="增加指令"
       width="30%"
       :visible.sync="createDialog"
-      @close="clear">
-      <el-form v-model="commandForm" label-width="120px" style="text-align: left">
-        <el-form-item label="名称">
+      @close="clear" >
+      <el-form v-model="commandForm" label-width="40%" style="text-align: left;">
+        <el-form-item label="名称" >
           <el-input v-model="commandForm.commandEdit.name" autocomplete="off" placeholder=""></el-input>
         </el-form-item>
         <el-form-item label="描述" prop="description">
@@ -36,7 +36,7 @@
           </el-select>
         </el-form-item>
       </el-form>
-      <div slot="footer" class="dialog-footer">
+      <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button @click="clear">取消</el-button>
         <el-button type="primary" @click="onSubmit">确定</el-button>
       </div>
