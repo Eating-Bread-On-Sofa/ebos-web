@@ -67,13 +67,13 @@ module.exports = {
       //     '^/rules': ''
       //   }
       // },
-      '/logs': {
-        target: 'http://localhost:8090/api/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/logs': ''
-        }
-      },
+      // '/logs': {
+      //   target: 'http://localhost:8090/api/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/logs': ''
+      //   }
+      // },
       '/instances': {
         target: 'http://localhost:8090/api/',
         changeOrigin: true,
