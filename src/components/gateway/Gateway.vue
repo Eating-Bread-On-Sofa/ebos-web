@@ -10,7 +10,7 @@
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
         <br>
         <!--新增按钮-->
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="createDialog = true">新增
+        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="createDialog = true">新增
         </el-button>
         <div>
           <el-dialog

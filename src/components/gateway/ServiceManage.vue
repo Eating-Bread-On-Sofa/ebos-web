@@ -9,7 +9,7 @@
     <el-row>
       <br>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" round style="float: right" @click="uploadDialog = true">新增
+      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="uploadDialog = true">新增
       </el-button>
 <!--      <div>-->
 <!--        <el-dialog-->
