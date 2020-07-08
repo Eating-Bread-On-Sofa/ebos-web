@@ -5,6 +5,7 @@
         <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
           <el-breadcrumb-item>日志管理</el-breadcrumb-item>
+          <el-breadcrumb-item>{{ come }}</el-breadcrumb-item>
         </el-breadcrumb>
       </el-col>
       <el-col :span="12">
@@ -27,8 +28,14 @@
         <el-button @click="searchPost" style="margin-left: 10px">查询</el-button>
       </div>
     </el-row>
+    <el-row>
       <log-echart ref="LogEchartDialog" :logs="table" v-bind:dialogVisible="chartDialog" @hideDialog="chartDialog = false" ></log-echart>
+<<<<<<< HEAD
       <el-button type="success" @click="chartDialog = true" style="float: right;margin-right: 20px;margin-bottom: 5px;">日志统计图</el-button>
+=======
+      <el-button style="float: right;" @click="chartDialog = true">日志统计图</el-button>
+    </el-row>
+>>>>>>> 0b89e93df0d1ffae021a37e5b9ce2bc9fdd83621
     <el-row>
       <!--表格数据及操作-->
       <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%; "
@@ -100,6 +107,23 @@ import LogEchart from './LogEchart'
 export default {
   name: 'Log',
   components: {LogEchart},
+  props: {
+    come: {
+      type: String,
+      default: '',
+      required: true
+    },
+    ip: {
+      type: String,
+      default: 'localhost',
+      required: true
+    },
+    port: {
+      type: String,
+      default: '8086',
+      required: true
+    }
+  },
   data () {
     return {
       table: [],
@@ -137,16 +161,13 @@ export default {
         {value: 'null', label: 'null'}]
     }
   },
-  mounted: function () {
-    this.loadLogs()
-  },
   methods: {
     loadLogs () {
       this.$axios
         // 实际API
-        // .get('http://localhost:8090/api/logtest').then(resp => {
+        .get('http://' + this.ip + ':' + this.port + '/api/log').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/gi/logtest').then(resp => {
+        // .get('http://localhost:8000/gi/logtest').then(resp => {
         // 开发模式下代理API
         // .get('/logs/logtest').then(resp => {
           if (resp && resp.status === 200) {
@@ -162,14 +183,13 @@ export default {
       var last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth()}/${this.lastDate.getDate()}`
       var tableData = []
       // 实际API
-      // this.$axios.get(`http://localhost:8090/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      this.$axios.get(`http://${this.ip}:${this.port}/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // kong网关代理API
-      this.$axios.get(`http://localhost:8000/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      // this.$axios.get(`http://localhost:8000/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // 开发模式下代理API
       // this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
         var data = resp.data
         for (var i = 0; i < data.length; i++) {
-          console.log(data[i])
           var obj = {}
           obj.date = data[i].date
           obj.category = data[i].category
@@ -201,6 +221,13 @@ export default {
     },
     filterSource (value, row) {
       return row.source === value
+    }
+  },
+  watch: {
+    come: function (newValue, oldValue) {
+      if (newValue !== oldValue) {
+        this.loadLogs()
+      }
     }
   }
 }

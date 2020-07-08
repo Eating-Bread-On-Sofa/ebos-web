@@ -9,9 +9,8 @@ import AppIndex from '../components/home/AppIndex'
 import ProfileIndex from '../components/profile/ProfileIndex'
 import DeviceProfile from '../components/profile/DeviceProfile'
 import LogIndex from '../components/log/LogIndex'
-import Log from '../components/log/Log'
-import DeviceException from '../components/log/DeviceException'
-import GatewayException from '../components/log/GatewayException'
+import GwinstLog from '../components/log/GwinstLog'
+import OamLog from '../components/log/OamLog'
 import ScenarioIndex from '../components/Scenario/ScenarioIndex'
 import ScenarioService from '../components/Scenario/ScenarioService'
 import MessageRoutingIndex from '../components/messagerouting/MessageRoutingIndex'
@@ -210,25 +209,17 @@ export default new Router({
           redirect: '/log',
           children: [
             {
-              path: '/log',
-              name: 'Log',
-              component: Log
+              path: '/gwinstlog',
+              name: 'GwinstLog',
+              component: GwinstLog
               // meta: {
               //   requireAuth: true
               // }
             },
             {
-              path: '/deviceLog',
-              name: 'DeviceException',
-              component: DeviceException
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/gatewayLog',
-              name: 'GatewayException',
-              component: GatewayException
+              path: '/oamlog',
+              name: 'OamLog',
+              component: OamLog
               // meta: {
               //   requireAuth: true
               // }
