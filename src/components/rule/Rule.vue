@@ -7,11 +7,7 @@
       </el-breadcrumb>
     </el-row>
     <el-row style="height: 800px;">
-      <div style="margin-bottom: 30px;display: flex;justify-content: center;align-items: center;">
-        <el-input v-model="keywords" prefix-icon="el-icon-search" size="small" style="width: 400px;margin-right: 10px"
-                  placeholder="请输入搜索内容"></el-input>
-        <el-button size="small" type="primary" icon="el-icon-search" @click="search">搜索</el-button>
-      </div>
+      <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       <br>
       <!--新增按钮-->
       <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="dialogCreateVisible = true">新增
@@ -196,7 +192,9 @@
 </template>
 
 <script>
+import SearchBar from '../common/SearchBar'
 export default {
+  components: {SearchBar},
   data () {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
@@ -218,7 +216,6 @@ export default {
       dialogCreateVisible: false,
       table: [],
       dialogVisible: false,
-      keywords: '',
       activeIndex: '1',
       activeIndex2: '1',
       userIndex: 0,
@@ -475,20 +472,19 @@ export default {
     deleteNewRule (item, index) {
       this.form.dynamicItem.splice(index, 1)
     },
-    search () {
-      var key = this.keywords
+    searchResult (e) {
       var searchTable = []
       for (var x = 0; x < this.table.length; x++) {
-        if (this.table[x].ruleName.indexOf(key) !== -1 ||
-          this.table[x].ruleParaThreshold.toString().indexOf(key) !== -1 ||
-          this.table[x].parameter.indexOf(key) !== -1 ||
-          this.table[x].rule2.indexOf(key) !== -1 ||
-          this.table[x].rule3.indexOf(key) !== -1 ||
-          this.table[x].rule4.indexOf(key) !== -1 ||
-          this.table[x].rule5.indexOf(key) !== -1 ||
-          this.table[x].service.indexOf(key) !== -1 ||
-          this.table[x].ruleExecute.indexOf(key) !== -1 ||
-          this.table[x].device.indexOf(key) !== -1) {
+        if (this.table[x].ruleName.indexOf(e) !== -1 ||
+          this.table[x].ruleParaThreshold.toString().indexOf(e) !== -1 ||
+          this.table[x].parameter.indexOf(e) !== -1 ||
+          this.table[x].rule2.indexOf(e) !== -1 ||
+          this.table[x].rule3.indexOf(e) !== -1 ||
+          this.table[x].rule4.indexOf(e) !== -1 ||
+          this.table[x].rule5.indexOf(e) !== -1 ||
+          this.table[x].service.indexOf(e) !== -1 ||
+          this.table[x].ruleExecute.indexOf(e) !== -1 ||
+          this.table[x].device.indexOf(e) !== -1) {
           var obj = {}
           obj.ruleName = this.table[x].ruleName
           obj.ruleParaThreshold = this.table[x].ruleParaThreshold

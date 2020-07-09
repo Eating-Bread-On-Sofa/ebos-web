@@ -303,15 +303,17 @@ export default {
           }
         })
     },
-    searchResult () {
+    searchResult (e) {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/s/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/s/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8000/s/search?keywords=' + e, {
+        // .get('/s/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
+        }).catch(() => {
+          this.$message.error('搜索失败！')
         })
     }
   },

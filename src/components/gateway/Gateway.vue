@@ -175,7 +175,7 @@
 </template>
 
 <script>
-import SearchBar from './SearchBar'
+import SearchBar from '../common/SearchBar'
 // import GatewayState from './GatewayState'
 export default {
   name: 'Gateway',
@@ -444,15 +444,17 @@ export default {
         })
       })
     },
-    searchResult () {
-      const _this = this
+    searchResult (e) {
+      let _this = this
       this.$axios
-        .get('http://localhost:8000/gc/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/gateways/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8000/gc/search?keywords=' + e, {
+        // .get('/gateways/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
+        }).catch(() => {
+          this.$message.error('搜索失败!')
         })
     }
   }

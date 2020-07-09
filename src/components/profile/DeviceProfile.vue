@@ -309,6 +309,8 @@ export default {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
+        }).catch(() => {
+          this.$message.error('搜索失败!')
         })
     }
   }

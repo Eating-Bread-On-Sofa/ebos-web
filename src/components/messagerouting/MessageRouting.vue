@@ -53,7 +53,7 @@
 
 <script>
 import MessageRoutingEditForm from './MessageRoutingEditForm'
-import SearchBar from './SearchBar'
+import SearchBar from '../common/SearchBar'
 export default {
   name: 'MessageRouting',
   components: {SearchBar, MessageRoutingEditForm},
@@ -113,14 +113,16 @@ export default {
         })
       })
     },
-    searchResult () {
+    searchResult (e) {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/mqr/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
-        // .get('/mqr/search?keywords=' + this.$refs.searchBar.keywords).then(resp => {
+        .get('http://localhost:8000/mqr/search?keywords=' + e).then(resp => {
+        // .get('/mqr/search?keywords=' + e).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
           }
+        }).catch(() => {
+          this.$message.error('搜索失败!')
         })
     }
   }

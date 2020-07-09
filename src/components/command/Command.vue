@@ -57,7 +57,7 @@
 </template>
 
 <script>
-import SearchBar from './SearchBar'
+import SearchBar from '../common/SearchBar'
 import CommandEditForm from './CommandEditForm'
 export default {
   name: 'Command',
@@ -119,15 +119,17 @@ export default {
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
     },
-    searchResult () {
-      var _this = this
+    searchResult (e) {
+      let _this = this
       this.$axios
-        .get('http://localhost:8000/c/search?keywords=' + this.$refs.searchBar.keywords, {
-        // .get('/commands/search?keywords=' + this.$refs.searchBar.keywords, {
+        .get('http://localhost:8000/c/search?keywords=' + e, {
+        // .get('/commands/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
           }
+        }).catch(() => {
+          this.$message.error('搜索失败！')
         })
     }
   }
