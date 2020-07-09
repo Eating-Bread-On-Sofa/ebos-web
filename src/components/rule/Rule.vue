@@ -7,7 +7,7 @@
       </el-breadcrumb>
     </el-row>
     <el-row style="height: 800px;">
-      <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
+      <search-bar @onSearch="searchResult" ref="searchBar" style="margin-left: 15px"></search-bar>
       <br>
       <!--新增按钮-->
       <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="dialogCreateVisible = true">新增
@@ -76,7 +76,7 @@
         <el-form ref="form" :model="form" label-width="70px" class="ruleForm">
           <el-row>
             <el-col :span="24">
-              <el-form-item label="规则名称">
+              <el-form-item label="规则名称" >
                 <el-input v-model="form.ruleName"  placeholder="请输入内容" style="width: 100%;"></el-input>
               </el-form-item>
               <el-row>
@@ -84,8 +84,8 @@
                   <el-form-item label="规则配置">
                   </el-form-item>
                 </el-col>
-                <el-col :span="5">
-                  <el-form-item label="设备选择">
+                <el-col :span="4">
+                  <el-form-item label="设备选择" style="margin-left: 2%">
                     <el-select v-model="form.device" placeholder="请选择设备" style="width:100%">
                       <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
@@ -118,16 +118,16 @@
                   </el-form-item>
                 </el-col>
                 <div v-for="(item, index) in form.dynamicItem" :key="index">
-                  <el-col :span="3">
-                    <el-form-item label="逻辑" :prop="'dynamicItem.' + index"  label-width="40px">
-                      <el-select v-model="item.logic" placeholder="请选择逻辑" style="width:100%">
+                  <el-col :span="3" >
+                    <el-form-item label="逻辑" :prop="'dynamicItem.' + index"  label-width="40px" style="margin-left: 30px">
+                      <el-select v-model="item.logic" placeholder="请选择逻辑" style="width:100%" >
                         <el-option label="且" value="且"></el-option>
                         <el-option label="或" value="或"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="5">
-                    <el-form-item label="设备选择" :prop="'dynamicItem.' + index">
+                  <el-col :span="4">
+                    <el-form-item label="设备选择" :prop="'dynamicItem.' + index" style="margin-left: 2%">
                       <el-select v-model="item.device" placeholder="请选择设备" style="width:100%">
                         <el-option v-for="item1 in devices" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
                       </el-select>
@@ -183,10 +183,13 @@
           </el-row>
         </el-form>
       </div>
-      <span slot="footer" class="dialog-footer" style="text-align: center">
+      <div style="text-align: center">
+        <span slot="footer" class="dialog-footer" >
         <el-button @click="dialogCreateVisible = false">取 消</el-button>
         <el-button type="primary" @click="onSubmit">确 定</el-button>
       </span>
+      </div>
+
     </el-dialog>
   </div>
 </template>
@@ -509,16 +512,10 @@ export default {
 </script>
 
 <style>
-  .el-input__inner{
-    width: 50%;
-  }
-  .el-input {
-    width: 150px;
-  }
   el-select-dropdown__item{
     width: 50%
   }
-  .line .el-input {
+  .line  {
     width: 100%;
   }
 </style>

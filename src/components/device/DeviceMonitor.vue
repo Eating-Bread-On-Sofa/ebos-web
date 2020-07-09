@@ -44,7 +44,7 @@
             </el-select>
           </div>
         </el-col>
-        <el-col :span="11" style="margin-left: 105px">
+        <el-col :span="11" style="margin-left: 5%">
           <div style="float: right">
             <el-button type="success" icon="el-icon-guide">更新周期</el-button>
             <el-select v-model="interval" placeholder="请选择更新周期" @change="handleDeviceId">

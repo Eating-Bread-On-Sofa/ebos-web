@@ -37,7 +37,7 @@
       <el-col :span="11" style="margin-left: 15px">
         <search-bar @onSearch="searchResult" ref="searchBar"></search-bar>
       </el-col>
-      <el-col :span="11" style="margin-left: 105px">
+      <el-col :span="11" style="margin-left: 5%">
         <div  style="margin-top: 20px;margin-bottom: 30px;float: right">
           <el-button type="success" icon="el-icon-guide">网关选择：</el-button>
           <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
