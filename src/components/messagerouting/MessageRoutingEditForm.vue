@@ -58,9 +58,9 @@ export default {
         // 实际API
         // .post('http://localhost:8084/api/router', _this.FormData).then(resp => {
         // kong网关代理API
-        .post('http://localhost:8000/mqr', _this.FormData).then(resp => {
+        // .post('http://localhost:8000/mqr', _this.FormData).then(resp => {
         // 开发模式下代理API
-        // .post('/mqr', _this.FormData).then(resp => {
+         .post('/mqr', _this.FormData).then(resp => {
           if (resp && resp.status === 200) {
             _this.$emit('onSubmit')
             _this.clear()
