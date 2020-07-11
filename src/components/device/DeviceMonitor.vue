@@ -206,9 +206,9 @@ export default {
         // 实际API
         // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
         // kong网关代理API
-        this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+        // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
         // 开发模式下代理API
-        // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
+        this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
           if (resp && resp.status === 200) {
             for (let i = 0; i < this.len; i++) {
               let item = 'data' + (i + 1)

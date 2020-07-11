@@ -70,15 +70,15 @@ export default {
       // kong网关代理API
       // this.$axios.get('http://localhost:8000/gc/days?days=30').then(resp => {
       // 开发模式下代理API
-        this.$axios.get('/gateways/days?days=30').then(resp => {
+      this.$axios.get('/gateways/days?days=30').then(resp => {
         if (resp && resp.status === 200) {
           gatewayAddition = resp.data
           // 实际API
           // this.$axios.get('http://localhost:8081/api/device/days?days=30').then(resp => {
           // kong网关代理API
-          this.$axios.get('http://localhost:8000/d/days?days=30').then(resp => {
+          // this.$axios.get('http://localhost:8000/d/days?days=30').then(resp => {
           // 开发模式下代理API
-          // this.$axios.get('/devices/days?days=30').then(resp => {
+          this.$axios.get('/devices/days?days=30').then(resp => {
             if (resp && resp.status === 200) {
               deviceAddition = resp.data
               this.drawLine(gatewayAddition, deviceAddition)

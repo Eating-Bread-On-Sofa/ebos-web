@@ -77,7 +77,7 @@ export default {
         // kong网关代理API
         // .get('http://localhost:8000/mqr').then(resp => {
         // 开发模式下代理API
-          .get('/mqr').then(resp => {
+        .get('/mqr').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false

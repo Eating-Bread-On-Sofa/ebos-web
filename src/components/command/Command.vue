@@ -102,9 +102,9 @@ export default {
           // 实际API
           // .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
           // kong网关代理API
-          .delete('/c?name=' + row.name).then(resp => {
+          // .delete('/c?name=' + row.name).then(resp => {
           // 开发模式下代理API
-          // .delete('/commands?name=' + row.name).then(resp => {
+          .delete('/commands?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadCommands()
             }

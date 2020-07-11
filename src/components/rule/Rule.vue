@@ -304,11 +304,11 @@ export default {
             console.log(res)
           })
           // 开发模式下代理API
-          // this.$axios.post('/rules/rule',
+          this.$axios.post('/rules/rule',
           // kong网关代理API
           // this.$axios.post('http://localhost:8000/rc/rule',
-            // 实际地址
-          this.$axios.post('http://localhost:8083/api/rule',
+          // 实际地址
+          // this.$axios.post('http://localhost:8083/api/rule',
             {
               'ruleId': row.ruleId
             }
