@@ -80,9 +80,9 @@ export default {
         // 实际API
         // .get('http://localhost:8082/api/command/list').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/c/list').then(resp => {
+        // .get('http://localhost:8000/c/list').then(resp => {
         // 开发模式代理API
-        // .get('/commands/list').then(resp => {
+        .get('/commands/list').then(resp => {
         // .get('/c/list').then(resp => {
           if (resp && resp.status === 200) {
             this.commandList = resp.data

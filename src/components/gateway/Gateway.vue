@@ -226,18 +226,18 @@ export default {
         // 实际API
         // .get('http://localhost:8089/api/gateway').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/gc').then(resp => {
+        // .get('http://localhost:8000/gc').then(resp => {
         // 开发模式下代理API
-        // .get('/gateways').then(resp => {
+        .get('/gateways').then(resp => {
           if (resp && resp.status === 200) {
             data = resp.data
             for (let item in data) {
               // 实际API
               // this.$axios.get('http://localhost:8089/api/gateway/state/' + data[item].name).then(state => {
               // kong网关代理API
-              this.$axios.get('http://localhost:8000/gc/state/' + data[item].name).then(state => {
+              // this.$axios.get('http://localhost:8000/gc/state/' + data[item].name).then(state => {
               // 开发模式下代理API
-              // this.$axios.get('/gateways/state/' + data[item].name).then(state => {
+              this.$axios.get('/gateways/state/' + data[item].name).then(state => {
                 if (state && state.status === 200) {
                   data[item].state = state.data.state
                 }
@@ -278,9 +278,9 @@ export default {
         // 实际API
       // .post('http://localhost:8089/api/gateway', {
         // kong网关代理API
-        .post('http://localhost:8000/gc', {
+        // .post('http://localhost:8000/gc', {
         // 开发模式下代理API
-        // .post('/gateways', {
+        .post('/gateways', {
           name: _this.gwForm.name,
           ip: _this.gwForm.ip
         }).then(resp => {
@@ -299,9 +299,9 @@ export default {
         // 实际API
       // .put('http://localhost:8089/api/gateway', {
         // kong网关代理API
-        .put('http://localhost:8000/gc', {
+        // .put('http://localhost:8000/gc', {
         // 开发模式下代理API
-        // .put('/gateways', {
+        .put('/gateways', {
           name: _this.gwEdit.name,
           ip: _this.gwEdit.ip,
           created: _this.gwEdit.created
@@ -336,9 +336,9 @@ export default {
         // 实际API
         // .get('http://localhost:8089/api/gateway/copy/' + tablerow.ip).then(resp => {
         // kong 网关代理API
-        .get('http://localhost:8000/gc/copy/' + tablerow.ip).then(resp => {
+        // .get('http://localhost:8000/gc/copy/' + tablerow.ip).then(resp => {
         // 开发模式下代理API
-        // .get('/gateways/copy/' + tablerow.ip).then(resp => {
+        .get('/gateways/copy/' + tablerow.ip).then(resp => {
           if (resp && resp.status === 200) {
             this.$message({
               showClose: true,
@@ -355,9 +355,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway/version/' + row.ip).then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
+      // this.$axios.get('http://localhost:8000/gc/version/' + row.ip).then(resp => {
       // 开发模式下代理API
-      // this.$axios.get('/gateways/version/' + row.ip).then(resp => {
+      this.$axios.get('/gateways/version/' + row.ip).then(resp => {
         if (resp && resp.status === 200) {
           this.versionList = resp.data
           this.recoverDialog = true
@@ -374,9 +374,9 @@ export default {
         // 实际API
       // .post('http://localhost:8089/api/gateway/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version).then(resp => {
         // kong网关代理API
-        .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version).then(resp => {
+        // .post('http://localhost:8000/gc/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version).then(resp => {
         // 开发模式代理API
-        // .post('/gateways/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version).then(resp => {
+        .post('/gateways/recover/ip/' + _this.gwRecoverForm.ip + '/version/' + _this.gwRecoverForm.version).then(resp => {
           if (resp && resp.status === 200) {
             let command = ''
             let edgeXDevice = ''
@@ -430,9 +430,9 @@ export default {
           // 实际API
           // .delete('http://localhost:8089/api/gateway/' + tablerow.name).then(resp => {
           // kong网关代理API
-          .delete('http://localhost:8000/gc' + tablerow.name).then(resp => {
+          // .delete('http://localhost:8000/gc' + tablerow.name).then(resp => {
           // 开发模式代理API
-          // .delete('/gateways/' + tablerow.name).then(resp => {
+          .delete('/gateways/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadGateways()
             }
@@ -447,8 +447,8 @@ export default {
     searchResult (e) {
       let _this = this
       this.$axios
-        .get('http://localhost:8000/gc/search?keywords=' + e, {
-        // .get('/gateways/search?keywords=' + e, {
+        // .get('http://localhost:8000/gc/search?keywords=' + e, {
+        .get('/gateways/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

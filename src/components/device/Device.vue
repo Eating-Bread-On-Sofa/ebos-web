@@ -143,9 +143,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式下代理API
-      // this.$axios.get('/gateways').then(resp => {
+      this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.selectDialog = true
