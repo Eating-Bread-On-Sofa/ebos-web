@@ -42,7 +42,7 @@ export default new Router({
     },
     {
       // home页面不需要被访问，只是作为其他组件的父组件
-      path: "/home",
+      path: '/home',
       name: 'Home',
       component: Home,
       redirect: '/index',
@@ -61,10 +61,10 @@ export default new Router({
             {
               path: '/rule',
               name: 'Rule',
-              component: () => import('../components/rule/Rule'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/rule/Rule')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -77,26 +77,26 @@ export default new Router({
             {
               path: '/gateway',
               name: 'Gateway',
-              component: () => import('../components/gateway/Gateway'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/gateway/Gateway')
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/gatewayService',
               name: 'GatewayServcie',
-              component: () => import('../components/gateway/GatewayService'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/gateway/GatewayService')
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/serviceManage',
               name: 'ServiceManage',
-              component: () => import('../components/gateway/ServiceManage'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/gateway/ServiceManage')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -109,18 +109,18 @@ export default new Router({
             {
               path: '/device',
               name: 'Device',
-              component: () => import('../components/device/Device'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/device/Device')
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/monitor',
               name: 'DeviceMonitor',
-              component: () => import('../components/device/DeviceMonitor'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/device/DeviceMonitor')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -133,10 +133,10 @@ export default new Router({
             {
               path: '/messageRouting',
               name: 'MessageRouting',
-              component: () => import('../components/messagerouting/MessageRouting'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/messagerouting/MessageRouting')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -149,42 +149,42 @@ export default new Router({
             {
               path: '/deviceProfile',
               name: 'DeviceProfile',
-              component: () => import('../components/profile/DeviceProfile'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/profile/DeviceProfile')
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/profileLib',
               name: 'ProfileLib',
-              component: () => import('../components/profile/ProfileLib'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/profile/ProfileLib')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
         {
           path: '/scenarioIndex',
           name: 'ScenarioIndex',
-          component: () => import('../components/scenario/ScenarioIndex'),
+          component: () => import('../components/Scenario/ScenarioIndex'),
           redirect: '/scenario',
           children: [
             {
               path: '/scenario',
               name: 'ScenarioService',
-              component: () => import('../components/scenario/ScenarioService'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/Scenario/ScenarioService')
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/scenarioShow',
               name: 'ScenarioShow',
-              component: () => import('../components/scenario/ScenarioShow'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/Scenario/ScenarioShow')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -197,10 +197,10 @@ export default new Router({
             {
               path: '/command',
               name: 'Command',
-              component: () => import('../components/command/Command'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/command/Command')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         },
@@ -213,18 +213,18 @@ export default new Router({
             {
               path: '/oamlog',
               name: 'OamLog',
-              component: () => import('../components/log/OamLog'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/log/OamLog')
+              // meta: {
+              //   requireAuth: true
+              // }
             },
             {
               path: '/gwinstLog',
               name: 'GwinstLog',
-              component: () => import('../components/log/GwinstLog'),
-              meta: {
-                requireAuth: true
-              }
+              component: () => import('../components/log/GwinstLog')
+              // meta: {
+              //   requireAuth: true
+              // }
             }
           ]
         }
@@ -240,24 +240,24 @@ export default new Router({
       name: 'Register',
       component: () => import('../components/Register')
     },
-    {
-      path: 'admin',
-      name: 'Admin',
-      component: () => import('../components/admin/AdminIndex'),
-      meta: {
-        requireAuth: true
-      },
-      children: [
-        {
-          path: '/admin/dashboard',
-          name: 'Dashboard',
-          component: () => import('../components/admin/dashboard/admin/index'),
-          meta: {
-            requireAuth: true
-          }
-        }
-      ]
-    },
+    // {
+    //   path: 'admin',
+    //   name: 'Admin',
+    //   component: () => import('../components/admin/AdminIndex'),
+    //   meta: {
+    //     requireAuth: true
+    //   },
+    //   children: [
+    //     {
+    //       path: '/admin/dashboard',
+    //       name: 'Dashboard',
+    //       component: () => import('../components/admin/dashboard/admin/index')
+    //       // meta: {
+    //       //   requireAuth: true
+    //       // }
+    //     }
+    //   ]
+    // },
     {
       path: '*',
       component: () => import('../components/pages/Error404')
@@ -483,7 +483,7 @@ export const createRouter = routes => new Router({
     },
     {
       // home页面不需要被访问，只是作为其他组件的父组件
-      path: "/home",
+      path: '/home',
       name: 'Home',
       component: Home,
       redirect: '/index',
@@ -608,13 +608,13 @@ export const createRouter = routes => new Router({
         {
           path: '/scenarioIndex',
           name: 'ScenarioIndex',
-          component: () => import('../components/scenario/ScenarioIndex'),
+          component: () => import('../components/Scenario/ScenarioIndex'),
           redirect: '/scenario',
           children: [
             {
               path: '/scenario',
               name: 'ScenarioService',
-              component: () => import('../components/scenario/ScenarioService'),
+              component: () => import('../components/Scenario/ScenarioService'),
               meta: {
                 requireAuth: true
               }
@@ -622,7 +622,7 @@ export const createRouter = routes => new Router({
             {
               path: '/scenarioShow',
               name: 'ScenarioShow',
-              component: () => import('../components/scenario/ScenarioShow'),
+              component: () => import('../components/Scenario/ScenarioShow'),
               meta: {
                 requireAuth: true
               }
@@ -681,24 +681,24 @@ export const createRouter = routes => new Router({
       name: 'Register',
       component: () => import('../components/Register')
     },
-    {
-      path: 'admin',
-      name: 'Admin',
-      component: () => import('../components/admin/AdminIndex'),
-      meta: {
-        requireAuth: true
-      },
-      children: [
-        {
-          path: '/admin/dashboard',
-          name: 'Dashboard',
-          component: () => import('../components/admin/dashboard/admin/index'),
-          meta: {
-            requireAuth: true
-          }
-        }
-      ]
-    },
+    // {
+    //   path: 'admin',
+    //   name: 'Admin',
+    //   component: () => import('../components/admin/AdminIndex'),
+    //   meta: {
+    //     requireAuth: true
+    //   },
+    //   children: [
+    //     {
+    //       path: '/admin/dashboard',
+    //       name: 'Dashboard',
+    //       component: () => import('../components/admin/dashboard/admin/index'),
+    //       meta: {
+    //         requireAuth: true
+    //       }
+    //     }
+    //   ]
+    // },
     {
       path: '*',
       component: () => import('../components/pages/Error404')
