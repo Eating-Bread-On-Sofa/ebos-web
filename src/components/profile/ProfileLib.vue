@@ -195,9 +195,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8091/api/profile').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/p').then(resp => {
+      // this.$axios.get('http://localhost:8000/p').then(resp => {
       // 开发模式代理API
-      // this.$axios.get('/profiles').then(resp => {
+      this.$axios.get('/profiles').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false
@@ -214,9 +214,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式代理API
-      // this.$axios.get('/gateways').then(resp => {
+      this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.profileForm.name = tablerow.name
@@ -233,9 +233,9 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
+        // .get('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
         // 开发模式下代理API
-        // .get('/profiles/name/' + tablerow.name).then(resp => {
+        .get('/profiles/name/' + tablerow.name).then(resp => {
           if (resp && resp.status === 200) {
             filecontent = resp.data
             if ('download' in document.createElement('a')) {
@@ -270,9 +270,9 @@ export default {
           // 实际API
           // .delete('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
           // kong网关代理API
-          .delete('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
+          // .delete('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
           // 开发模式代理API
-          // .delete('/profiles/name/' + tablerow.name).then(resp => {
+          .delete('/profiles/name/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               _this.loadProfileLib()
             }
@@ -291,9 +291,9 @@ export default {
         // 实际API
         // this.$axios.post('http://localhost:8091/api/profile/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
         // kong网关代理API
-        this.$axios.post('http://localhost:8000/p/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
+        // this.$axios.post('http://localhost:8000/p/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
         // 开发模式下代理API
-        // this.$axios.post('/profiles/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
+        this.$axios.post('/profiles/gateway/' + this.profileForm.gwip[x] + '/' + this.profileForm.name
         ).then(resp => {
           if (resp && resp.status === 200) {
             this.$message.success(profileName + '模板下发至' + ip[x] + '网关成功！')

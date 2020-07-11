@@ -204,9 +204,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式代理API
-      // this.$axios.get('/gateways').then(resp => {
+      this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.selectDialog = true
@@ -222,9 +222,9 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/gateway/' + this.gwip).then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
+        // .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
         // 开发模式下代理API
-        // .get('/profiles/gateway/' + this.gwip).then(resp => {
+        .get('/profiles/gateway/' + this.gwip).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -281,9 +281,9 @@ export default {
           // 实际API
           // .delete('http://localhost:8091/api/profile/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
           // kong网关代理API
-          .delete('http://localhost:8000/p/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
+          // .delete('http://localhost:8000/p/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
           // 开发模式代理API
-          // .delete('/profiles/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
+          .delete('/profiles/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
               this.$message.success(resp.data)
               _this.loadProfiles()
@@ -302,9 +302,9 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/search?keywords=' + e, {
         // kong网关代理API
-        .get('http://localhost:8000/p/search?keywords=' + e, {
+        // .get('http://localhost:8000/p/search?keywords=' + e, {
         // 开发模式下代理API
-        // .get('/profiles/search?keywords=' + e, {
+        .get('/profiles/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
