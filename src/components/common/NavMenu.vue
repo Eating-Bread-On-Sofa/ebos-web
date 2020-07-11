@@ -1,12 +1,17 @@
 <template>
   <div>
+    <el-header>
+      <i class="el-icon-s-fold" style="float: left;margin-top: 10px;font-size: 20px; padding: 5px;color: white" @click="isC" ></i>
+    </el-header>
     <el-menu
       default-active="/index"
       router
       unique-opened
       background-color="transparent"
       text-color="#999"
-      active-text-color="#36bed6">
+      active-text-color="#36bed6"
+      class="el-menu-vertical"
+      :collapse="isCollapse">
       <el-submenu v-for="(item,i) in navList" :key="i" :index="item.name">
         <template slot="title">
           <i :class=item.icon></i>
@@ -23,6 +28,7 @@ export default {
   name: 'NavMenu',
   data () {
     return {
+      isCollapse: true,
       navList: [
         {name: '/index',
           navItem: '首　　页',
@@ -77,6 +83,11 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    isC () {
+      this.isCollapse = !this.isCollapse
+    }
   }
   // methods: {
   //   logout () {
@@ -95,5 +106,9 @@ export default {
 <style scoped>
   .subMenu {
     background-color: #333 !important;
+  }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 1000px;
   }
 </style>

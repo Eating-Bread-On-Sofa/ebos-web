@@ -6,9 +6,7 @@
       <span style="position: absolute;right: 20px;"><i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: white"></i></span>
     </el-header>
     <el-container>
-      <el-aside style="background-color: #333 !important;width: 200px;height: 1000px">
-        <nav-menu></nav-menu>
-      </el-aside>
+      <nav-menu style="background-color: #333 !important"></nav-menu>
       <el-main style="padding: 0px;">
         <router-view />
       </el-main>
