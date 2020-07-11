@@ -46,8 +46,8 @@ export default{
         })
         .then(resp => {
           if (resp.data.code === 200) {
-            // var data = resp.data.result
-            _this.$store.commit('login', _this.loginForm)
+            var data = resp.data.result
+            _this.$store.commit('login', data)
             var path = this.$route.query.redirect
             this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
             // this.$router.replace({path: '/index'})
@@ -63,7 +63,7 @@ export default{
 </script>
 <style>
   #paper {
-    background:url("../assets/edge.jpeg") no-repeat;
+    background:url("../assets/img/edge.jpeg") no-repeat;
     background-position: center;
     height: 100%;
     width: 100%;

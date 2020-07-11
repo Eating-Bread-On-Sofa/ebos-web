@@ -72,7 +72,7 @@ export default{
 </script>
 <style>
   #paper {
-    background:url("../assets/edge.jpeg") no-repeat;
+    background:url("../assets/img/edge.jpeg") no-repeat;
     background-position: center;
     height: 100%;
     width: 100%;
