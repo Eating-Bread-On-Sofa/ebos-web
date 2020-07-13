@@ -36,7 +36,6 @@
       <!--表格数据及操作-->
       <el-table :data="table.slice((currentPage-1)*pagesize,currentPage*pagesize)" style="width: 100%; "
                 :row-class-name="tableRowClassName"
-                :header-cell-style="{background:'#999',color:'white'}"
                 v-loading="loading"
                 element-loading-text="拼命加载中"
                 element-loading-spinner="el-icon-loading"
