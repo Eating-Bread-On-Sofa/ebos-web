@@ -28,7 +28,7 @@ export default {
   name: 'NavMenu',
   data () {
     return {
-      isCollapse: true,
+      isCollapse: false,
       navList: [
         {name: '/index',
           navItem: '首　　页',
