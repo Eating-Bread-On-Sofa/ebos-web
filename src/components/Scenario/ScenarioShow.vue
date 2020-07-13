@@ -10,9 +10,9 @@
     <el-row>
       <el-container>
         <el-header>
-          <el-form style="float: left;text-align: left">
-            <el-form-item label="场景选择：">
-              <el-select v-model="scenarioSelect" @change="handleScenario">
+          <el-form label-width="50%" style="float: left;text-align: left;margin-top: 10px;margin-left: 0px">
+            <el-form-item label="场景选择：" >
+              <el-select v-model="scenarioSelect" @change="handleScenario" >
                 <el-option v-for="item in scenarioList" :key="item.name" :label="item.name" :value="item.name"></el-option>
               </el-select>
             </el-form-item>
@@ -23,7 +23,7 @@
             <scenario-panel ref="scenarioPanel" />
             <el-row :gutter="32">
               <el-col :xs="24" :sm="24" :lg="24">
-                <div class="chart-wrapper">
+                <div class="chart-wrapper" style="margin-top: 50px">
                   <scenario-alert ref="scenarioAlert" />
                 </div>
               </el-col>
