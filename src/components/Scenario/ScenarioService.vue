@@ -76,7 +76,7 @@
         </el-table-column>
         <el-table-column
           label="设备及指令"
-          width="250%">
+          width="500px">
           <template slot-scope="scope">
             <ul v-for="(item, i) in scope.row.content" :key="i">
               <li v-for="(subItem, j) in item.commands" :key="j">
