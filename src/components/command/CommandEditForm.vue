@@ -56,7 +56,7 @@ export default {
         commandEdit: {
           commandType: '',
           commandName: '',
-          level: 1,
+          level: '',
           name: '',
           description: '',
           jsonObject: null,

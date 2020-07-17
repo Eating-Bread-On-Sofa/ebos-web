@@ -99,7 +99,7 @@
             </div>
             <div class="card-panel-description">
               <div class="card-panel-text">
-                未运行为微服务数：
+                未运行微服务数：
               </div>
               <count-to :start-val="0" :end-val="offlineCount" :duration="3200" class="card-panel-num" />
             </div>
