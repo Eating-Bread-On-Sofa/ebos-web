@@ -4,6 +4,7 @@
 </template>
 <script>
 import echarts from 'echarts'
+require('echarts/theme/macarons')
 export default {
   name: 'DeviceLineChart',
   data () {
@@ -113,7 +114,7 @@ export default {
       this.option.series[0].data = deviceCount
       this.option.series[1].data = gwCount
       let chart = this.$refs.deviceLine
-      let deviceCharts = echarts.init(chart)
+      let deviceCharts = echarts.init(chart, 'macarons')
       deviceCharts.setOption(this.option)
     }
   }

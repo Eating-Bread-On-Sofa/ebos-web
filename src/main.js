@@ -11,15 +11,6 @@ import './style/style.css'
 
 // Vue.use(Loading.directive)
 Vue.use(ElementUI, {size: 'small'})
-
-// Vue.prototype.$loading = Loading.service
-// Vue.prototype.$msgbox = MessageBox
-// Vue.prototype.$alert = MessageBox.alert
-// Vue.prototype.$confirm = MessageBox.confirm
-// Vue.prototype.$prompt = MessageBox.prompt
-// Vue.prototype.$notify = Notification
-// Vue.prototype.$message = Message
-
 // var axios1 = require('axios')
 // var axios = axios1.create({
 //   withCredentials: true,
@@ -37,84 +28,81 @@ axios.defaults.withCredentials = true
 Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
-// router.beforeEach((to, from, next) => {
-//   if (store.state.username && to.path.startsWith('/admin')) {
-//     initAdminMenu(router, store)
-//   }
-//   if (store.state.username && to.path.startsWith('/login')) {
-//     next({
-//       name: 'Dashboard'
-//     })
-//   }
-//   // 如果前端没有登录信息则直接拦截，如果有则判断后端是否正常登录（防止构造参数绕过）
-//   if (to.meta.requireAuth) {
-//     if (store.state.username) {
-//       axios.get('/users/authentication').then(resp => {
-//         if (resp) next()
-//       })
-//     } else {
-//       next({
-//         path: 'login',
-//         query: {redirect: to.fullPath}
-//       })
-//     }
-//   } else {
-//     next()
-//   }
-// })
-//
-// // http response拦截器
-// axios.interceptors.response.use(
-//   response => {
-//     return response
-//   },
-//   error => {
-//     if (error) {
-//       store.commit('logout')
-//       router.replace('login')
-//     }
-//     // 返回接口返回的错误信息
-//     return Promise.reject(error)
-//   }
-// )
-//
-// const initAdminMenu = (router, store) => {
-//   // 防止重复出发加载菜单操作
-//   if (store.state.adminMenus.length > 0) {
-//     return
-//   }
-//   axios.get('/menu').then(resp => {
-//     if (resp && resp.status === 200) {
-//       var fmtRoutes = formatRoutes(resp.data.result)
-//       router.addRoutes(fmtRoutes)
-//       store.commit('initAdminMenu', fmtRoutes)
-//     }
-//   })
-// }
-//
-// const formatRoutes = (routes) => {
-//   let fmtRoutes = []
-//   routes.forEach(route => {
-//     if (route.children) {
-//       route.children = formatRoutes(route.children)
-//     }
-//     let fmtRoute = {
-//       path: route.path,
-//       component: resolve => {
-//         require(['./components/admin/' + route.component + '.vue'], resolve)
-//       },
-//       name: route.name,
-//       nameZh: route.nameZh,
-//       iconCls: route.iconCls,
-//       meta: {
-//         requireAuth: true
-//       },
-//       children: route.children
-//     }
-//     fmtRoutes.push(fmtRoute)
-//   })
-//   return fmtRoutes
-// }
+router.beforeEach((to, from, next) => {
+  if (store.state.username) {
+    initMenu(router, store)
+  }
+  // if (store.state.username && to.path.startsWith('/login')) {
+  //   next({
+  //     name: 'index'
+  //   })
+  // }
+  // 如果前端没有登录信息则直接拦截，如果有，则判断后端是否正常登录（防止构造参数绕过）
+  if (to.meta.requireAuth) {
+    if (store.state.username) {
+      axios.get('/users/authentication').then(resp => {
+        if (resp && resp.status === 200) {
+          next()
+        }
+      })
+    } else {
+      next({
+        path: 'login',
+        query: {redirect: to.fullPath}
+      })
+    }
+  } else {
+    next()
+  }
+})
+const initMenu = (router, store) => {
+  // 防止重复触发加载菜单操作
+  if (store.state.adminMenus.length > 0 && store.state.commonMenus.length > 0) {
+    return
+  }
+  // 实际API
+  // axios.get('http://localhost:8093/api/admin/menu').then(resp => {
+  // kong网关代理API
+  axios.get('http://localhost:8000/u/menu').then(resp => {
+    // 开发代理API
+    // axios.get('/admins/menu').then(resp => {
+    if (resp && resp.status === 200) {
+      let adminRoutes = formatRoutes(resp.data.result.admin)
+      let commonRoutes = formatRoutes(resp.data.result.common)
+      console.log('1-1')
+      router.addRoutes(adminRoutes)
+      store.commit('initAdminMenu', adminRoutes)
+      router.addRoutes(commonRoutes)
+      store.commit('initCommonMenu', commonRoutes)
+      console.log(store.state.adminMenus)
+      console.log(store.state.commonMenus)
+    }
+  })
+}
+
+const formatRoutes = (routes) => {
+  let fmtRoutes = []
+  routes.forEach(route => {
+    if (route.children) {
+      route.children = formatRoutes(route.children)
+    }
+    let fmtRoute = {
+      path: route.path,
+      component: resolve => {
+        require(['./components/' + route.component + '.vue'], resolve)
+      },
+      name: route.name,
+      nameZh: route.nameZh,
+      iconCls: route.iconCls,
+      meta: {
+        requireAuth: true
+      },
+      children: route.children
+    }
+    fmtRoutes.push(fmtRoute)
+  })
+  return fmtRoutes
+}
 
 /* eslint-disable no-new */
 new Vue({

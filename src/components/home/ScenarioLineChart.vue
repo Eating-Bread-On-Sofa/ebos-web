@@ -4,6 +4,7 @@
 </template>
 <script>
 import echarts from 'echarts'
+require('echarts/theme/macarons')
 export default {
   name: 'ScenarioLineChart',
   data () {
@@ -76,7 +77,7 @@ export default {
       }
       this.option.xAxis.data = this.xdata
       this.option.series[0].data = this.ydata
-      this.charts = echarts.init(document.getElementById('lineChart'))
+      this.charts = echarts.init(document.getElementById('lineChart'), 'macarons')
       this.charts.setOption(this.option)
     }
   }

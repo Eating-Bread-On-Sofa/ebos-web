@@ -197,7 +197,8 @@ export default {
       // this.$axios.get('http://' + this.gwip + ':8000/gi/service').then(resp => {
       // this.$axios.get('http://localhost:8000/gi/service').then(resp => {
       // 开发模式下代理API
-      this.$axios.get('http://' + this.gwip + ':8090/api/instance/service').then(resp => {
+      // this.$axios.get('http://' + this.gwip + ':8090/api/instance/service').then(resp => {
+      this.$axios.get('/instances/service').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false
@@ -222,7 +223,8 @@ export default {
         // kong网关代理API
         // this.$axios.delete('http://' + this.gwip + ':8000/gi/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
         // 开发模式下代理API
-        this.$axios.delete('http://' + this.gwip + ':8090/api/instance/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
+        // this.$axios.delete('http://' + this.gwip + ':8090/api/instance/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
+        this.$axios.delete('/instances/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
           if (resp && resp.status === 200) {
             this.$message.warning('已向' + stopName[stopPort[x]].name + '服务发送关闭指令，请在终端确认！')
           }
@@ -238,7 +240,8 @@ export default {
       // kong网关代理API
       // this.$axios.put('http://' + this.gwip + ':8000/gi/service?jarName=' + row.name).then(resp => {
       // 开发模式下代理API
-      this.$axios.put('http://' + this.gwip + ':8090/api/instance/service?jarName=' + row.name).then(resp => {
+      // this.$axios.put('http://' + this.gwip + ':8090/api/instance/service?jarName=' + row.name).then(resp => {
+      this.$axios.put('/instances/service?jarName=' + row.name).then(resp => {
         if (resp.status === 200) {
           this.$message.success('服务已成功启动')
           this.loadService()

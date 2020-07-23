@@ -15,7 +15,7 @@
                    label-position="left"><span style="color: #505458">记住密码</span></el-checkbox>
     </el-form>
     <el-button type="primary" style="width: 40%;background: #505458;border: none" v-on:click="login">登录</el-button>
-    <router-link to="register"><el-button type="primary" style="width: 40%;background: #505458;border: none">注册</el-button></router-link>
+<!--    <router-link to="register"><el-button type="primary" style="width: 40%;background: #505458;border: none">注册</el-button></router-link>-->
   </div>
   </body>
 </template>
@@ -40,16 +40,21 @@ export default{
     login () {
       var _this = this
       this.$axios
-        .post('/users/login', {
+        // 实际API
+        // .post('http://localhost:8093/api/login', {
+        // kong网关代理API
+        .post('http://localhost:8000/u/login', {
+        // 开发代理API
+        // .post('/users/login', {
           username: this.loginForm.username,
           password: this.loginForm.password
         })
         .then(resp => {
           if (resp.data.code === 200) {
-            var data = resp.data.result
+            let data = resp.data.result
             _this.$store.commit('login', data)
-            var path = this.$route.query.redirect
-            this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
+            let path = _this.$route.query.redirect
+            _this.$router.replace({path: path === '/' || path === undefined ? '/index' : path})
             // this.$router.replace({path: '/index'})
           } else {
             this.$alert(resp.data.message, '提示', {

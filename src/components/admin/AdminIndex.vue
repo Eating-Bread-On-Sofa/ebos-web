@@ -1,18 +1,14 @@
 <template>
   <el-container>
     <el-header style="width: 100%;height: 50px;padding: 0px;background-color: #333">
-      <el-card class="admin-header">
-        <a href="/index">
-          <img src="../img/logo.jpg" alt="" style="float: left;height: 50px; width: 200px;min-width: 120px">
-        </a>
-        <span style="position: absolute;left: 220px;font-size: 20px;font-weight: bold;line-height:50px; color: white; font-family: 楷体">BJTU边缘计算平台后台管理系统</span>
-        <span style="position: absolute;right: 20px;"><i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: white"></i></span>
-      </el-card>
+      <a href="/index">
+        <img :src="info.logoUrl" alt="" style="float: left;height: 50px; width: 200px;min-width: 120px">
+      </a>
+      <span style="position: absolute;left: 220px;font-size: 20px;font-weight: bold;line-height:50px; color: white; font-family: 楷体">{{ info.nameAdmin }}</span>
+      <span style="position: absolute;right: 20px;"><i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: white"></i></span>
     </el-header>
     <el-container>
-      <el-aside style="background-color: #333 !important;width: 200px;height: 1000px">
-        <admin-menu></admin-menu>
-      </el-aside>
+        <admin-menu style="background-color: #333 !important"></admin-menu>
       <el-main style="padding: 0px;">
         <router-view />
       </el-main>
@@ -22,27 +18,57 @@
 
 <script>
 import AdminMenu from './AdminMenu'
-import createRouter from '../../router'
+import {createRouter} from '../../router'
 export default {
   name: 'AdminIndex',
   components: {AdminMenu},
-  logout () {
-    this.$axios.get('/users/logout').then(resp => {
-      if (resp && resp.status === 200) {
-        this.$store.commit('logout')
-        this.$router.replace('/index')
-        // 清空路由，防止路由重复加载
-        const newRouter = createRouter()
-        this.$router.matcher = newRouter.matcher
+  data () {
+    return {
+      info: {
+        name: '',
+        logoUrl: '',
+        nameAdmin: ''
       }
-    }).catch(() => {})
+    }
+  },
+  mounted () {
+    this.loadSysInfo()
+  },
+  methods: {
+    loadSysInfo () {
+      // 实际API
+      // this.$axios.get('http://localhost:8093/api/system/info').then(resp => {
+      // kong网关代理API
+      this.$axios.get('http://localhost:8000/u/system/info').then(resp => {
+      // 开发代理API
+      // this.$axios.get('/users/system/info').then(resp => {
+        if (resp && resp.data.code === 200) {
+          this.info = resp.data.result[0]
+        }
+      }).catch(() => {
+        this.$message.error('获取系统信息失败')
+      })
+    },
+    logout () {
+      var _this = this
+      // 实际API
+      // this.$axios.get('http://localhost:8093/api/logout').then(resp => {
+      // kong网关代理API
+      this.$axios.get('http://localhost:8000/u/logout').then(resp => {
+      // 开发代理API
+      // this.$axios.get('/users/logout').then(resp => {
+        if (resp && resp.status === 200) {
+          _this.$store.commit('logout')
+          _this.$router.replace('/login')
+          // 清空路由，防止路由重复加载
+          const newRouter = createRouter()
+          _this.$router.matcher = newRouter.matcher
+        }
+      }).catch(() => {})
+    }
   }
 }
 </script>
 
 <style scoped>
-  .admin-header {
-    opacity: 0.85;
-  }
-
 </style>

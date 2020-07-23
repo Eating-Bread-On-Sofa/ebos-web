@@ -68,14 +68,14 @@ module.exports = {
       //   }
       // },
       '/logs': {
-        target: 'http://localhost:8090/api/',
+        target: 'http://localhost:8090/api/log',
         changeOrigin: true,
         pathRewrite: {
           '^/logs': ''
         }
       },
       '/instances': {
-        target: 'http://localhost:8090/api/',
+        target: 'http://localhost:8090/api/instance',
         changeOrigin: true,
         pathRewrite: {
           '^/instances': ''
@@ -103,10 +103,17 @@ module.exports = {
       //   }
       // },
       '/users': {
-        target: 'http://localhost:8093/api/user/',
+        target: 'http://localhost:8093/api/',
         changeOrigin: true,
         pathRewrite: {
           '^/users': ''
+        }
+      },
+      '/admins': {
+        target: 'http://localhost:8093/api/admin',
+        changeOrigin: true,
+        pathRewrite: {
+          '^/admins': ''
         }
       },
       '/services': {

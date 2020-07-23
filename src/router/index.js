@@ -45,189 +45,199 @@ export default new Router({
       path: '/home',
       name: 'Home',
       component: Home,
-      redirect: '/index',
       children: [
-        {
-          path: '/index',
-          name: 'AppIndex',
-          component: () => import('../components/home/AppIndex')
-        },
-        {
-          path: '/ruleIndex',
-          name: 'RuleIndex',
-          component: () => import('../components/rule/RuleIndex'),
-          redirect: '/rule',
-          children: [
-            {
-              path: '/rule',
-              name: 'Rule',
-              component: () => import('../components/rule/Rule')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/gatewayIndex',
-          name: 'GatewayIndex',
-          component: () => import('../components/gateway/GatewayIndex'),
-          redirect: '/gateway',
-          children: [
-            {
-              path: '/gateway',
-              name: 'Gateway',
-              component: () => import('../components/gateway/Gateway')
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/gatewayService',
-              name: 'GatewayServcie',
-              component: () => import('../components/gateway/GatewayService')
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/serviceManage',
-              name: 'ServiceManage',
-              component: () => import('../components/gateway/ServiceManage')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/deviceIndex',
-          name: 'DeviceIndex',
-          component: () => import('../components/device/DeviceIndex'),
-          redirect: '/device',
-          children: [
-            {
-              path: '/device',
-              name: 'Device',
-              component: () => import('../components/device/Device')
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/monitor',
-              name: 'DeviceMonitor',
-              component: () => import('../components/device/DeviceMonitor')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/messageRoutingIndex',
-          name: 'MessageRoutingIndex',
-          component: () => import('../components/messagerouting/MessageRoutingIndex'),
-          redirect: '/messageRouting',
-          children: [
-            {
-              path: '/messageRouting',
-              name: 'MessageRouting',
-              component: () => import('../components/messagerouting/MessageRouting')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/profileIndex',
-          name: 'ProfileIndex',
-          component: () => import('../components/profile/ProfileIndex'),
-          redirect: '/deviceProfile',
-          children: [
-            {
-              path: '/deviceProfile',
-              name: 'DeviceProfile',
-              component: () => import('../components/profile/DeviceProfile')
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/profileLib',
-              name: 'ProfileLib',
-              component: () => import('../components/profile/ProfileLib')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/scenarioIndex',
-          name: 'ScenarioIndex',
-          component: () => import('../components/Scenario/ScenarioIndex'),
-          redirect: '/scenario',
-          children: [
-            {
-              path: '/scenario',
-              name: 'ScenarioService',
-              component: () => import('../components/Scenario/ScenarioService')
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/scenarioShow',
-              name: 'ScenarioShow',
-              component: () => import('../components/Scenario/ScenarioShow')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/commandIndex',
-          name: 'CommandIndex',
-          component: () => import('../components/command/CommandIndex'),
-          redirect: '/command',
-          children: [
-            {
-              path: '/command',
-              name: 'Command',
-              component: () => import('../components/command/Command')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        },
-        {
-          path: '/logIndex',
-          name: 'LogIndex',
-          component: () => import('../components/log/LogIndex'),
-          redirect: '/oamlog',
-          children: [
-            {
-              path: '/oamlog',
-              name: 'OamLog',
-              component: () => import('../components/log/OamLog')
-              // meta: {
-              //   requireAuth: true
-              // }
-            },
-            {
-              path: '/gwinstLog',
-              name: 'GwinstLog',
-              component: () => import('../components/log/GwinstLog')
-              // meta: {
-              //   requireAuth: true
-              // }
-            }
-          ]
-        }
+        // {
+        //   path: '/index',
+        //   name: 'AppIndex',
+        //   component: () => import('../components/home/AppIndex'),
+        //   meta: {
+        //     requireAuth: true
+        //   }
+        // },
+        // {
+        //   path: '/userInfo',
+        //   name: 'Person',
+        //   component: () => import('../components/home/userSetting/Person'),
+        //   meta: {
+        //     requireAuth: true
+        //   }
+        // },
+        // {
+        //   path: '/ruleIndex',
+        //   name: 'RuleIndex',
+        //   component: () => import('../components/rule/RuleIndex'),
+        //   redirect: '/rule',
+        //   children: [
+        //     {
+        //       path: '/rule',
+        //       name: 'Rule',
+        //       component: () => import('../components/rule/Rule'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/gatewayIndex',
+        //   name: 'GatewayIndex',
+        //   component: () => import('../components/gateway/GatewayIndex'),
+        //   redirect: '/gateway',
+        //   children: [
+        //     {
+        //       path: '/gateway',
+        //       name: 'Gateway',
+        //       component: () => import('../components/gateway/Gateway'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/gatewayService',
+        //       name: 'GatewayServcie',
+        //       component: () => import('../components/gateway/GatewayService'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/serviceManage',
+        //       name: 'ServiceManage',
+        //       component: () => import('../components/gateway/ServiceManage'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/deviceIndex',
+        //   name: 'DeviceIndex',
+        //   component: () => import('../components/device/DeviceIndex'),
+        //   redirect: '/device',
+        //   children: [
+        //     {
+        //       path: '/device',
+        //       name: 'Device',
+        //       component: () => import('../components/device/Device'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/monitor',
+        //       name: 'DeviceMonitor',
+        //       component: () => import('../components/device/DeviceMonitor'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/messageRoutingIndex',
+        //   name: 'MessageRoutingIndex',
+        //   component: () => import('../components/messagerouting/MessageRoutingIndex'),
+        //   redirect: '/messageRouting',
+        //   children: [
+        //     {
+        //       path: '/messageRouting',
+        //       name: 'MessageRouting',
+        //       component: () => import('../components/messagerouting/MessageRouting'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/profileIndex',
+        //   name: 'ProfileIndex',
+        //   component: () => import('../components/profile/ProfileIndex'),
+        //   redirect: '/deviceProfile',
+        //   children: [
+        //     {
+        //       path: '/deviceProfile',
+        //       name: 'DeviceProfile',
+        //       component: () => import('../components/profile/DeviceProfile'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/profileLib',
+        //       name: 'ProfileLib',
+        //       component: () => import('../components/profile/ProfileLib'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/scenarioIndex',
+        //   name: 'ScenarioIndex',
+        //   component: () => import('../components/Scenario/ScenarioIndex'),
+        //   redirect: '/scenario',
+        //   children: [
+        //     {
+        //       path: '/scenario',
+        //       name: 'ScenarioService',
+        //       component: () => import('../components/Scenario/ScenarioService'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/scenarioShow',
+        //       name: 'ScenarioShow',
+        //       component: () => import('../components/Scenario/ScenarioShow'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/commandIndex',
+        //   name: 'CommandIndex',
+        //   component: () => import('../components/command/CommandIndex'),
+        //   redirect: '/command',
+        //   children: [
+        //     {
+        //       path: '/command',
+        //       name: 'Command',
+        //       component: () => import('../components/command/Command'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/logIndex',
+        //   name: 'LogIndex',
+        //   component: () => import('../components/log/LogIndex'),
+        //   redirect: '/oamlog',
+        //   children: [
+        //     {
+        //       path: '/oamlog',
+        //       name: 'OamLog',
+        //       component: () => import('../components/log/OamLog'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/gwinstLog',
+        //       name: 'GwinstLog',
+        //       component: () => import('../components/log/GwinstLog'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // }
       ]
     },
     {
@@ -240,28 +250,28 @@ export default new Router({
       name: 'Register',
       component: () => import('../components/Register')
     },
-    // {
-    //   path: 'admin',
-    //   name: 'Admin',
-    //   component: () => import('../components/admin/AdminIndex'),
-    //   meta: {
-    //     requireAuth: true
-    //   },
-    //   children: [
-    //     {
-    //       path: '/admin/dashboard',
-    //       name: 'Dashboard',
-    //       component: () => import('../components/admin/dashboard/admin/index')
-    //       // meta: {
-    //       //   requireAuth: true
-    //       // }
-    //     }
-    //   ]
-    // },
     {
-      path: '*',
-      component: () => import('../components/pages/Error404')
+      path: '/admin',
+      name: 'Admin',
+      component: () => import('../components/admin/AdminIndex'),
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: '/admin/dashboard',
+          name: 'Dashboard',
+          component: () => import('../components/admin/dashboard/admin/index'),
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
     }
+    // {
+    //   path: '*',
+    //   component: () => import('../components/pages/Error404')
+    // }
   ]
   // routes: [
   //   {
@@ -486,189 +496,203 @@ export const createRouter = routes => new Router({
       path: '/home',
       name: 'Home',
       component: Home,
-      redirect: '/index',
+      // redirect: '/index',
+      meta: {
+        requireAuth: true
+      },
       children: [
-        {
-          path: '/index',
-          name: 'AppIndex',
-          component: () => import('../components/home/AppIndex')
-        },
-        {
-          path: '/ruleIndex',
-          name: 'RuleIndex',
-          component: () => import('../components/rule/RuleIndex'),
-          redirect: '/rule',
-          children: [
-            {
-              path: '/rule',
-              name: 'Rule',
-              component: () => import('../components/rule/Rule'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/gatewayIndex',
-          name: 'GatewayIndex',
-          component: () => import('../components/gateway/GatewayIndex'),
-          redirect: '/gateway',
-          children: [
-            {
-              path: '/gateway',
-              name: 'Gateway',
-              component: () => import('../components/gateway/Gateway'),
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/gatewayService',
-              name: 'GatewayServcie',
-              component: () => import('../components/gateway/GatewayService'),
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/serviceManage',
-              name: 'ServiceManage',
-              component: () => import('../components/gateway/ServiceManage'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/deviceIndex',
-          name: 'DeviceIndex',
-          component: () => import('../components/device/DeviceIndex'),
-          redirect: '/device',
-          children: [
-            {
-              path: '/device',
-              name: 'Device',
-              component: () => import('../components/device/Device'),
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/monitor',
-              name: 'DeviceMonitor',
-              component: () => import('../components/device/DeviceMonitor'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/messageRoutingIndex',
-          name: 'MessageRoutingIndex',
-          component: () => import('../components/messagerouting/MessageRoutingIndex'),
-          redirect: '/messageRouting',
-          children: [
-            {
-              path: '/messageRouting',
-              name: 'MessageRouting',
-              component: () => import('../components/messagerouting/MessageRouting'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/profileIndex',
-          name: 'ProfileIndex',
-          component: () => import('../components/profile/ProfileIndex'),
-          redirect: '/deviceProfile',
-          children: [
-            {
-              path: '/deviceProfile',
-              name: 'DeviceProfile',
-              component: () => import('../components/profile/DeviceProfile'),
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/profileLib',
-              name: 'ProfileLib',
-              component: () => import('../components/profile/ProfileLib'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/scenarioIndex',
-          name: 'ScenarioIndex',
-          component: () => import('../components/Scenario/ScenarioIndex'),
-          redirect: '/scenario',
-          children: [
-            {
-              path: '/scenario',
-              name: 'ScenarioService',
-              component: () => import('../components/Scenario/ScenarioService'),
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/scenarioShow',
-              name: 'ScenarioShow',
-              component: () => import('../components/Scenario/ScenarioShow'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/commandIndex',
-          name: 'CommandIndex',
-          component: () => import('../components/command/CommandIndex'),
-          redirect: '/command',
-          children: [
-            {
-              path: '/command',
-              name: 'Command',
-              component: () => import('../components/command/Command'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        },
-        {
-          path: '/logIndex',
-          name: 'LogIndex',
-          component: () => import('../components/log/LogIndex'),
-          redirect: '/oamlog',
-          children: [
-            {
-              path: '/oamlog',
-              name: 'OamLog',
-              component: () => import('../components/log/OamLog'),
-              meta: {
-                requireAuth: true
-              }
-            },
-            {
-              path: '/gwinstLog',
-              name: 'GwinstLog',
-              component: () => import('../components/log/GwinstLog'),
-              meta: {
-                requireAuth: true
-              }
-            }
-          ]
-        }
+        // {
+        //   path: '/index',
+        //   name: 'AppIndex',
+        //   component: () => import('../components/home/AppIndex'),
+        //   meta: {
+        //     requireAuth: true
+        //   }
+        // },
+        // {
+        //   path: '/user',
+        //   name: 'Person',
+        //   component: () => import('../components/home/userSetting/Person'),
+        //   meta: {
+        //     requireAuth: true
+        //   }
+        // },
+        // {
+        //   path: '/ruleIndex',
+        //   name: 'RuleIndex',
+        //   component: () => import('../components/rule/RuleIndex'),
+        //   redirect: '/rule',
+        //   children: [
+        //     {
+        //       path: '/rule',
+        //       name: 'Rule',
+        //       component: () => import('../components/rule/Rule'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/gatewayIndex',
+        //   name: 'GatewayIndex',
+        //   component: () => import('../components/gateway/GatewayIndex'),
+        //   redirect: '/gateway',
+        //   children: [
+        //     {
+        //       path: '/gateway',
+        //       name: 'Gateway',
+        //       component: () => import('../components/gateway/Gateway'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/gatewayService',
+        //       name: 'GatewayServcie',
+        //       component: () => import('../components/gateway/GatewayService'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/serviceManage',
+        //       name: 'ServiceManage',
+        //       component: () => import('../components/gateway/ServiceManage'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/deviceIndex',
+        //   name: 'DeviceIndex',
+        //   component: () => import('../components/device/DeviceIndex'),
+        //   redirect: '/device',
+        //   children: [
+        //     {
+        //       path: '/device',
+        //       name: 'Device',
+        //       component: () => import('../components/device/Device'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/monitor',
+        //       name: 'DeviceMonitor',
+        //       component: () => import('../components/device/DeviceMonitor'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/messageRoutingIndex',
+        //   name: 'MessageRoutingIndex',
+        //   component: () => import('../components/messagerouting/MessageRoutingIndex'),
+        //   redirect: '/messageRouting',
+        //   children: [
+        //     {
+        //       path: '/messageRouting',
+        //       name: 'MessageRouting',
+        //       component: () => import('../components/messagerouting/MessageRouting'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/profileIndex',
+        //   name: 'ProfileIndex',
+        //   component: () => import('../components/profile/ProfileIndex'),
+        //   redirect: '/deviceProfile',
+        //   children: [
+        //     {
+        //       path: '/deviceProfile',
+        //       name: 'DeviceProfile',
+        //       component: () => import('../components/profile/DeviceProfile'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/profileLib',
+        //       name: 'ProfileLib',
+        //       component: () => import('../components/profile/ProfileLib'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/scenarioIndex',
+        //   name: 'ScenarioIndex',
+        //   component: () => import('../components/Scenario/ScenarioIndex'),
+        //   redirect: '/scenario',
+        //   children: [
+        //     {
+        //       path: '/scenario',
+        //       name: 'ScenarioService',
+        //       component: () => import('../components/Scenario/ScenarioService'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/scenarioShow',
+        //       name: 'ScenarioShow',
+        //       component: () => import('../components/Scenario/ScenarioShow'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/commandIndex',
+        //   name: 'CommandIndex',
+        //   component: () => import('../components/command/CommandIndex'),
+        //   redirect: '/command',
+        //   children: [
+        //     {
+        //       path: '/command',
+        //       name: 'Command',
+        //       component: () => import('../components/command/Command'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // },
+        // {
+        //   path: '/logIndex',
+        //   name: 'LogIndex',
+        //   component: () => import('../components/log/LogIndex'),
+        //   redirect: '/oamlog',
+        //   children: [
+        //     {
+        //       path: '/oamlog',
+        //       name: 'OamLog',
+        //       component: () => import('../components/log/OamLog'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     },
+        //     {
+        //       path: '/gwinstLog',
+        //       name: 'GwinstLog',
+        //       component: () => import('../components/log/GwinstLog'),
+        //       meta: {
+        //         requireAuth: true
+        //       }
+        //     }
+        //   ]
+        // }
       ]
     },
     {
@@ -681,27 +705,27 @@ export const createRouter = routes => new Router({
       name: 'Register',
       component: () => import('../components/Register')
     },
-    // {
-    //   path: 'admin',
-    //   name: 'Admin',
-    //   component: () => import('../components/admin/AdminIndex'),
-    //   meta: {
-    //     requireAuth: true
-    //   },
-    //   children: [
-    //     {
-    //       path: '/admin/dashboard',
-    //       name: 'Dashboard',
-    //       component: () => import('../components/admin/dashboard/admin/index'),
-    //       meta: {
-    //         requireAuth: true
-    //       }
-    //     }
-    //   ]
-    // },
     {
-      path: '*',
-      component: () => import('../components/pages/Error404')
+      path: '/admin',
+      name: 'Admin',
+      component: () => import('../components/admin/AdminIndex'),
+      meta: {
+        requireAuth: true
+      },
+      children: [
+        {
+          path: '/admin/dashboard',
+          name: 'Dashboard',
+          component: () => import('../components/admin/dashboard/admin/index'),
+          meta: {
+            requireAuth: true
+          }
+        }
+      ]
     }
+    // {
+    //   path: '*',
+    //   component: () => import('../components/pages/Error404')
+    // }
   ]
 })

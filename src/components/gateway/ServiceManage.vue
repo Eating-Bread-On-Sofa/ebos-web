@@ -9,8 +9,8 @@
     <el-row>
       <br>
       <!--新增按钮-->
-      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="uploadDialog = true">新增
-      </el-button>
+<!--      <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="uploadDialog = true">新增-->
+<!--      </el-button>-->
 <!--      <div>-->
 <!--        <el-dialog-->
 <!--          title="添加服务"-->
@@ -31,27 +31,27 @@
 <!--          </div>-->
 <!--        </el-dialog>-->
 <!--      </div>-->
-      <div>
-        <el-dialog
-          title="添加服务"
-          :visible.sync="uploadDialog"
-          @close="hideUpload">
-          <el-upload
-            ref="upload"
-            class="upload-demo"
-            drag
-            action="http://localhost:8000/sev"
-            multiple
-            :file-list="fileList"
-            :auto-upload="false">
-              <i class="el-icon-upload"></i>
-              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-              <div slot="tip" class="el-upload__tip">单个文件大小限制100M以内，总文件大小限制1000M</div>
-<!--              <el-button style="position: absolute; bottom: 0px;"  size="small" type="success" @click="submitUpload">上传到服务器</el-button>>-->
-          </el-upload>
-          <el-button size="small" type="success" @click="submitUpload" style="margin-top: 10px">上传到服务器</el-button>
-        </el-dialog>
-      </div>
+<!--      <div>-->
+<!--        <el-dialog-->
+<!--          title="添加服务"-->
+<!--          :visible.sync="uploadDialog"-->
+<!--          @close="hideUpload">-->
+<!--          <el-upload-->
+<!--            ref="upload"-->
+<!--            class="upload-demo"-->
+<!--            drag-->
+<!--            action="http://localhost:8000/sev"-->
+<!--            multiple-->
+<!--            :file-list="fileList"-->
+<!--            :auto-upload="false">-->
+<!--              <i class="el-icon-upload"></i>-->
+<!--              <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>-->
+<!--              <div slot="tip" class="el-upload__tip">单个文件大小限制100M以内，总文件大小限制1000M</div>-->
+<!--&lt;!&ndash;              <el-button style="position: absolute; bottom: 0px;"  size="small" type="success" @click="submitUpload">上传到服务器</el-button>>&ndash;&gt;-->
+<!--          </el-upload>-->
+<!--          <el-button size="small" type="success" @click="submitUpload" style="margin-top: 10px">上传到服务器</el-button>-->
+<!--        </el-dialog>-->
+<!--      </div>-->
       <div>
         <el-dialog
           title="模板分发至网关"
@@ -147,15 +147,15 @@ export default {
     this.loadService()
   },
   methods: {
-    submitUpload () {
-      this.$refs.upload.submit()
-      this.hideUpload()
-    },
-    hideUpload () {
-      this.fileList = []
-      this.uploadDialog = false
-      this.loadService()
-    },
+    // submitUpload () {
+    //   this.$refs.upload.submit()
+    //   this.hideUpload()
+    // },
+    // hideUpload () {
+    //   this.fileList = []
+    //   this.uploadDialog = false
+    //   this.loadService()
+    // },
     clear () {
       this.dialogVisible = false
       this.serviceForm = {

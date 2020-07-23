@@ -8,9 +8,9 @@
       </el-row>
       <el-row>
         <br>
-        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" style="float: right;margin-bottom: 5px;margin-right: 20px;" @click="createDialog = true">新增
-        </el-button>
-        <profile-edit-form :dialogFormVisible="createDialog" @hideDialog="createDialog = false" @onSubmit="loadProfileLib"></profile-edit-form>
+<!--        <el-button type="success" icon="el-icon-circle-plus-outline" size="mini" style="float: right;margin-bottom: 5px;margin-right: 20px;" @click="createDialog = true">新增-->
+<!--        </el-button>-->
+<!--        <profile-edit-form :dialogFormVisible="createDialog" @hideDialog="createDialog = false" @onSubmit="loadProfileLib"></profile-edit-form>-->
         <el-dialog
           title="模板分发至网关"
           width="30%"
@@ -135,10 +135,10 @@
                 size="mini"
                 type="success"
                 @click="handleExport(scope.$index, scope.row)">导出模板</el-button>
-              <el-button
-                size="mini"
-                type="danger"
-                @click="handleDelete(scope.$index, scope.row)">废除</el-button>
+<!--              <el-button-->
+<!--                size="mini"-->
+<!--                type="danger"-->
+<!--                @click="handleDelete(scope.$index, scope.row)">废除</el-button>-->
             </template>
           </el-table-column>
         </el-table>
@@ -259,31 +259,31 @@ export default {
       link.click()
       document.body.removeChild(link)
     },
-    handleDelete (index, tablerow) {
-      var _this = this
-      this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'waring'
-      }).then(() => {
-        this.$axios
-          // 实际API
-          // .delete('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
-          // kong网关代理API
-          // .delete('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
-          // 开发模式代理API
-          .delete('/profiles/name/' + tablerow.name).then(resp => {
-            if (resp && resp.status === 200) {
-              _this.loadProfileLib()
-            }
-          })
-      }).catch(() => {
-        this.message({
-          type: 'error',
-          message: '已取消删除'
-        })
-      })
-    },
+    // handleDelete (index, tablerow) {
+    //   var _this = this
+    //   this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
+    //     confirmButtonText: '确定',
+    //     cancelButtonText: '取消',
+    //     type: 'waring'
+    //   }).then(() => {
+    //     this.$axios
+    //       // 实际API
+    //       // .delete('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
+    //       // kong网关代理API
+    //       // .delete('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
+    //       // 开发模式代理API
+    //       .delete('/profiles/name/' + tablerow.name).then(resp => {
+    //         if (resp && resp.status === 200) {
+    //           _this.loadProfileLib()
+    //         }
+    //       })
+    //   }).catch(() => {
+    //     this.$message({
+    //       type: 'error',
+    //       message: '已取消删除'
+    //     })
+    //   })
+    // },
     onSubmit () {
       let ip = this.profileForm.gwip
       let profileName = this.profileForm.name

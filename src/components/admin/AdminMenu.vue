@@ -1,24 +1,46 @@
 <template>
+<!--    <el-menu-->
+<!--      :default-active="currentPath"-->
+<!--      class="el-menu-admin"-->
+<!--      router-->
+<!--      mode="vertical"-->
+<!--      background-color="#545c64"-->
+<!--      text-color="#fff"-->
+<!--      active-text-color="#ffd04b"-->
+<!--      :collapse="isCollapse">-->
+<!--        <el-submenu v-for="(item,i) in adminMenus" :key="i" :index="(i).toString()" style="text-align: left;">-->
+<!--          <template solt="title" style="font-size: 17px;">-->
+<!--            <i :class="item.iconCls"></i>-->
+<!--            {{ item.nameZh }}-->
+<!--          </template>-->
+<!--          <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">-->
+<!--            <i :class="child.icon"></i>-->
+<!--            {{ child.nameZh }}-->
+<!--          </el-menu-item>-->
+<!--        </el-submenu>-->
+<!--    </el-menu>-->
+  <div>
+    <el-header>
+      <i class="el-icon-s-fold" style="float: left;margin-top: 10px;font-size: 20px; padding: 5px;color: white" @click="isC" ></i>
+    </el-header>
     <el-menu
-      :default-active="currentPath"
-      class="el-menu-admin"
+      default-active="currentPath"
       router
-      mode="vertical"
-      background-color="#545c64"
-      text-color="#36bed6"
+      unique-opened
+      background-color="transparent"
+      text-color="#999"
+      active-text-color="#36bed6"
+      class="el-menu-vertical"
       :collapse="isCollapse">
-      <div style="height: 80px;"></div>
-      <el-submenu v-for="(item,i) in adminMenus" :key="i" :index="(i).toString()" style="text-align: left;">
-        <span solt="title" style="font-size: 17px;">
-          <i :class="item.iconCls"></i>
-          {{ item.nameZh }}
-        </span>
-        <el-menu-item v-for="child in item.children" :key="child.path" :index="child.path">
-          <i :class="child.icon"></i>
-          {{ child.nameZh }}
-        </el-menu-item>
+      <el-submenu v-for="(item,i) in adminMenus" :key="i" :index="item.path">
+        <template slot="title">
+          <i :class=item.iconCls></i>
+          <span>{{ item.nameZh}}</span>
+        </template>
+        <el-menu-item class="subMenu" v-for="children in item.children" :key="children.path" :index="children.path">{{children.nameZh}}</el-menu-item>
       </el-submenu>
     </el-menu>
+  </div>
 </template>
 
 <script>
@@ -36,10 +58,27 @@ export default {
     currentPath () {
       return this.$route.path
     }
+  },
+  methods: {
+    isC () {
+      this.isCollapse = !this.isCollapse
+      console.log(this.$store.state.adminMenus)
+    }
   }
 }
 </script>
 
 <style scoped>
+  /*.el-menu-admin {*/
+  /*  border-radius: 5px;*/
+  /*  height: 100%;*/
+  /*}*/
+  .subMenu {
+    background-color: #333 !important;
+  }
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: 200px;
+    min-height: 1000px;
+  }
 
 </style>
