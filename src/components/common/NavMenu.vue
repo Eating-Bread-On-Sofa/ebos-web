@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-header>
-      <i class="el-icon-s-fold" style="float: left;margin-top: 10px;font-size: 20px; padding: 5px;color: white" @click="isC" ></i>
+      <i class="el-icon-s-fold" style="float: left;margin-top: 20px;font-size: 20px; padding: 5px;color:#999999" @click="isC" ></i>
     </el-header>
     <el-menu
       default-active="currentPath"

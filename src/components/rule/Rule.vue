@@ -6,7 +6,7 @@
         <el-breadcrumb-item>规则引擎</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
-    <el-row style="height: 800px;">
+    <el-row >
       <search-bar @onSearch="searchResult" ref="searchBar" style="margin-left: 15px"></search-bar>
       <br>
       <!--新增按钮-->
@@ -58,20 +58,21 @@
     </el-table>
     </el-row>
       <!--分页条-->
-      <el-row>
+    <el-row >
         <el-pagination
           @current-change="handleCurrentChange"
           :current-page="currentPage"
           :page-size="pagesize"
           :total="table.length">
         </el-pagination>
-      </el-row>
+    </el-row>
 
     <el-dialog
       title="新建规则"
       :visible.sync="dialogCreateVisible"
       width="85%"
-      :before-close="handleClose">
+      :before-close="handleClose"
+      >
       <div>
         <el-form ref="form" :model="form" label-width="70px" class="ruleForm">
           <el-row>
@@ -84,21 +85,21 @@
                   <el-form-item label="规则配置">
                   </el-form-item>
                 </el-col>
-                <el-col :span="4">
-                  <el-form-item label="设备选择" style="margin-left: 2%">
+                <el-col :span="4" style="margin-left: 5%">
+                  <el-form-item label="设备选择" >
                     <el-select v-model="form.device" placeholder="请选择设备" style="width:100%">
                       <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="4" style="margin-left: 0.5%">
                     <el-form-item label="设备参数">
                       <el-select v-model="form.parameter" placeholder="请选择参数" style="width:100%">
                         <el-option v-for="item in paras" :key="item.value" :label="item.label" :value="item.value"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                <el-col :span="4">
+                <el-col :span="4" style="margin-left: 0.5%">
                   <el-form-item label="规则条件">
                     <el-select v-model="form.ruleJudge" placeholder="请选择规则条件" style="width:100%">
                       <el-option label="大于" value=">"></el-option>
@@ -107,13 +108,13 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="4">
+                <el-col :span="4" style="margin-left: 0.5%">
                   <el-form-item label="参数门限">
                     <el-input v-model="form.ruleParaThreshold"  placeholder="请输入内容"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="3">
-                  <el-form-item  label-width="20px">
+                  <el-form-item  label-width="18%">
                     <el-button type="primary" @click="addNewRule" icon="el-icon-plus" circle size="small"></el-button>
                   </el-form-item>
                 </el-col>
@@ -126,21 +127,21 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="4">
-                    <el-form-item label="设备选择" :prop="'dynamicItem.' + index" style="margin-left: 2%">
+                  <el-col :span="4" style="margin-left: 5%">
+                    <el-form-item label="设备选择" :prop="'dynamicItem.' + index" >
                       <el-select v-model="item.device" placeholder="请选择设备" style="width:100%">
                         <el-option v-for="item1 in devices" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="4">
+                  <el-col :span="4" style="margin-left: 0.5%">
                     <el-form-item label="设备参数" :prop="'dynamicItem.' + index">
                       <el-select v-model="item.parameter" placeholder="请选择参数" style="width:100%">
                         <el-option v-for="item1 in paras" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="4">
+                  <el-col :span="4" style="margin-left: 0.5%">
                     <el-form-item label="规则条件" :prop="'dynamicItem.' + index">
                       <el-select v-model="item.ruleJudge" placeholder="请选择规则条件" style="width:100%">
                         <el-option label="大于" value=">"></el-option>
@@ -149,12 +150,12 @@
                       </el-select>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="4">
+                  <el-col :span="4" style="margin-left: 0.5%">
                     <el-form-item label="参数门限" :prop="'dynamicItem.' + index">
                       <el-input v-model="item.ruleParaThreshold"  placeholder="请输入内容"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="3">
+                  <el-col :span="3" style="margin-left: 0.5%">
                     <el-form-item  label-width="20px">
                       <el-button type="primary" @click="addNewRule" icon="el-icon-plus" circle size="small"></el-button>
                       <el-button type="primary" @click="deleteNewRule(item,index)" icon="el-icon-minus" circle size="small"></el-button>
@@ -183,8 +184,8 @@
           </el-row>
         </el-form>
       </div>
-      <div style="text-align: center">
-        <span slot="footer" class="dialog-footer" >
+      <div >
+        <span slot="footer" class="dialog-footer" style="text-align: center" >
         <el-button @click="dialogCreateVisible = false">取 消</el-button>
         <el-button type="primary" @click="onSubmit">确 定</el-button>
       </span>

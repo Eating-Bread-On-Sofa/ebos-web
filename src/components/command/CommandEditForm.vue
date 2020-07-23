@@ -5,7 +5,7 @@
       width="30%"
       :visible.sync="createDialog"
       @close="clear" >
-      <el-form v-model="commandForm" label-width="40%" style="text-align: left;">
+      <el-form v-model="commandForm" label-width="35%" style="text-align: left;">
         <el-form-item label="名称" >
           <el-input v-model="commandForm.commandEdit.name" autocomplete="off" placeholder=""></el-input>
         </el-form-item>
@@ -56,7 +56,7 @@ export default {
         commandEdit: {
           commandType: '',
           commandName: '',
-          level: 1,
+          level: '',
           name: '',
           description: '',
           jsonObject: null,

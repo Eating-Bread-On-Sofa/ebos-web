@@ -5,7 +5,7 @@
           title="请先选择网关"
           width="30%"
           :visible.sync="selectDialog">
-          <el-form v-model="gwip" label-width="120px" style="text-align: left">
+          <el-form v-model="gwip" label-width="40%" style="text-align: left">
             <el-form-item label="选择网关">
               <el-select style="width: 240px" v-model="gwip" placeholder="请选择网关查看设备">
                 <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
@@ -15,7 +15,7 @@
               </el-select>
             </el-form-item>
           </el-form>
-          <div slot="footer" class="dialog-footer">
+          <div slot="footer" class="dialog-footer" style="text-align: center;">
             <el-button @click="selectDialog = false">取消</el-button>
             <el-button type="primary" @click="loadService">确定</el-button>
           </div>
@@ -61,7 +61,7 @@
             width="30%"
             :visible.sync="dialogVisible"
             @close="clearServiceStop">
-            <el-form v-model="servicePort" label-width="120px" style="text-align: left">
+            <el-form v-model="servicePort" label-width="35%" style="text-align: left">
               <el-form-item label="服务名称">
                 <el-select v-model="servicePort" multiple collapse-tags placeholder="请选择需关闭的微服务">
                   <el-option v-for="(item, i) in servicePortList" :key="i" :label="item.name" :value="i">
@@ -72,7 +72,7 @@
 <!--                <el-input style="width: 240px" v-model="servicePort" placeholder="请输入服务运行端口号"></el-input>-->
               </el-form-item>
             </el-form>
-            <div slot="footer" class="dialog-footer">
+            <div slot="footer" class="dialog-footer" style="text-align: center">
               <el-button @click="clearServiceStop">取消</el-button>
               <el-button type="primary" @click="handleServiceStop">关闭服务</el-button>
             </div>

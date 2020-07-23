@@ -1,6 +1,11 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
+      <el-tooltip effect="dark" placement="bottom-start" transition>
+        <div slot="content">
+          网关详情：<br />
+          <span >网关：<span>&nbsp;&nbsp;</span>&nbsp;<span>&nbsp;&nbsp;</span>设备：<br /></span>
+        </div>
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-device">
           <i class="el-icon-s-platform" style="font-size: 50px"></i>
@@ -12,8 +17,14 @@
           <count-to :start-val="0" :end-val="gatewayNum" :duration="2600" class="card-panel-num" />
         </div>
       </div>
+        </el-tooltip>
     </el-col>
     <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
+      <el-tooltip effect="dark" placement="bottom-start" transition>
+        <div slot="content">
+          设备详情：<br />
+          <span >网关：<span>&nbsp;&nbsp;</span>&nbsp;<span>&nbsp;&nbsp;</span>设备：<br /></span>
+        </div>
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-gateway">
           <i class="el-icon-s-management" style="font-size: 50px"></i>
@@ -25,6 +36,7 @@
           <count-to :start-val="0" :end-val="deviceTotalNum" :duration="2600" class="card-panel-num" />
         </div>
       </div>
+      </el-tooltip>
     </el-col>
     <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
       <div class="card-panel">
@@ -40,6 +52,11 @@
       </div>
     </el-col>
     <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
+      <el-tooltip effect="dark" placement="bottom-start" transition>
+        <div slot="content">
+          已启动微服务详情：<br />
+          <span >网关：<span>&nbsp;&nbsp;</span>&nbsp;<span>&nbsp;&nbsp;</span>设备：<br /></span>
+        </div>
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-replace">
           <i class="el-icon-warning" style="font-size: 50px"></i>
@@ -51,6 +68,7 @@
           <count-to :start-val="0" :end-val="commandNum" :duration="3200" class="card-panel-num" />
         </div>
       </div>
+      </el-tooltip>
     </el-col>
   </el-row>
 </template>
