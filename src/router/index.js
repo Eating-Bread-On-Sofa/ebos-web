@@ -37,7 +37,7 @@ export default new Router({
     {
       path: '/',
       name: 'Default',
-      redirect: '/home',
+      redirect: '/login',
       component: Home
     },
     {
@@ -258,14 +258,14 @@ export default new Router({
         requireAuth: true
       },
       children: [
-        {
-          path: '/admin/dashboard',
-          name: 'Dashboard',
-          component: () => import('../components/admin/dashboard/admin/index'),
-          meta: {
-            requireAuth: true
-          }
-        }
+        // {
+        //   path: '/admin/dashboard',
+        //   name: 'Dashboard',
+        //   component: () => import('../components/admin/dashboard/admin/index'),
+        //   meta: {
+        //     requireAuth: true
+        //   }
+        // }
       ]
     }
     // {
@@ -488,7 +488,7 @@ export const createRouter = routes => new Router({
     {
       path: '/',
       name: 'Default',
-      redirect: '/home',
+      redirect: '/login',
       component: Home
     },
     {
@@ -713,14 +713,14 @@ export const createRouter = routes => new Router({
         requireAuth: true
       },
       children: [
-        {
-          path: '/admin/dashboard',
-          name: 'Dashboard',
-          component: () => import('../components/admin/dashboard/admin/index'),
-          meta: {
-            requireAuth: true
-          }
-        }
+        // {
+        //   path: '/admin/dashboard',
+        //   name: 'Dashboard',
+        //   component: () => import('../components/admin/dashboard/admin/index'),
+        //   meta: {
+        //     requireAuth: true
+        //   }
+        // }
       ]
     }
     // {

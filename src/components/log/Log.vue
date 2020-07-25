@@ -115,7 +115,7 @@ export default {
     },
     port: {
       type: String,
-      default: '8086',
+      default: 'o',
       required: true
     }
   },
@@ -128,9 +128,9 @@ export default {
       loading: false,
       firstDate: '',
       lastDate: '',
-      source: '',
-      category: '',
-      operation: '',
+      source: '全部',
+      category: 'all',
+      operation: 'all',
       sourceList: [{value: '全部', label: '全部'},
         {value: '网关实例', label: '网关实例'},
         {value: '规则引擎', label: '规则引擎'},
@@ -161,13 +161,18 @@ export default {
   },
   methods: {
     loadLogs () {
+      const date = new Date()
+      let first = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
+      let last = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       this.$axios
         // 实际API
         // .get(`http://${this.ip}:${this.port}/api/log`).then(resp => {
         // kong网关代理API
+        .get(`http://localhost:8000/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        // .get(`http://localhost:8000/${this.port}/log`).then(resp => {
         // .get('http://' + this.ip + ':' + this.port + '/gi/log').then(resp => {
         // 开发模式下代理API
-        .get('/logs').then(resp => {
+        // .get('/logs').then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -177,18 +182,19 @@ export default {
         })
     },
     searchPost () {
-      var first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth()}/${this.firstDate.getDate()}`
-      var last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth()}/${this.lastDate.getDate()}`
-      var tableData = []
+      let first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth() + 1}/${this.firstDate.getDate()}`
+      let last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth() + 1}/${this.lastDate.getDate()}`
+      let tableData = []
       // 实际API
       // this.$axios.get(`http://${this.ip}:${this.port}/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // kong网关代理API
-      // this.$axios.get(`http://${this.ip}:${this.port}/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      this.$axios.get(`http://localhost:8000/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        // this.$axios.get(`http://${this.ip}:${this.port}/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // 开发模式下代理API
-      this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
-        var data = resp.data
-        for (var i = 0; i < data.length; i++) {
-          var obj = {}
+      // this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        let data = resp.data
+        for (let i = 0; i < data.length; i++) {
+          let obj = {}
           obj.date = data[i].date
           obj.category = data[i].category
           obj.id = data[i].id

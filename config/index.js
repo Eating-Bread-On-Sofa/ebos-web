@@ -11,13 +11,13 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/profiles': {
-        target: 'http://localhost:8091/api/profile/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/profiles': ''
-        }
-      },
+      // '/profiles': {
+      //   target: 'http://localhost:8091/api/profile/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/profiles': ''
+      //   }
+      // },
       // '/profiles': {
       //   target: 'http://localhost:8000/p/',
       //   changeOrigin: true,
@@ -25,13 +25,13 @@ module.exports = {
       //     '^/profiles': ''
       //   }
       // },
-      '/mqr': {
-        target: 'http://localhost:8084/api/router/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/mqr': ''
-        }
-      },
+      // '/mqr': {
+      //   target: 'http://localhost:8084/api/router/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/mqr': ''
+      //   }
+      // },
       // '/mqrouters': {
       //   target: 'http://localhost:8000/mqr/',
       //   changeOrigin: true,
@@ -39,13 +39,13 @@ module.exports = {
       //     '^/mqrouters': ''
       //   }
       // },
-      '/devices': {
-        target: 'http://localhost:8081/api/device/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/devices': ''
-        }
-      },
+      // '/devices': {
+      //   target: 'http://localhost:8081/api/device/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/devices': ''
+      //   }
+      // },
       // '/devices': {
       //   target: 'http://localhost:8000/d/',
       //   changeOrigin: true,
@@ -53,13 +53,13 @@ module.exports = {
       //     '^/devices': ''
       //   }
       // },
-      '/rules': {
-        target: 'http://localhost:8083/api/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/rules': ''
-        }
-      },
+      // '/rules': {
+      //   target: 'http://localhost:8083/api/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/rules': ''
+      //   }
+      // },
       // '/rules': {
       //   target: 'http://localhost:8000/rc/',
       //   changeOrigin: true,
@@ -67,20 +67,20 @@ module.exports = {
       //     '^/rules': ''
       //   }
       // },
-      '/logs': {
-        target: 'http://localhost:8090/api/log',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/logs': ''
-        }
-      },
-      '/instances': {
-        target: 'http://localhost:8090/api/instance',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/instances': ''
-        }
-      },
+      // '/logs': {
+      //   target: 'http://localhost:8090/api/log',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/logs': ''
+      //   }
+      // },
+      // '/instances': {
+      //   target: 'http://localhost:8090/api/instance',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/instances': ''
+      //   }
+      // },
       // '/instances': {
       //   target: 'http://localhost:8000/gi/',
       //   changeOrigin: true,
@@ -88,13 +88,13 @@ module.exports = {
       //     '^/instances': ''
       //   }
       // },
-      '/gateways': {
-        target: 'http://localhost:8089/api/gateway/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/gateways': ''
-        }
-      },
+      // '/gateways': {
+      //   target: 'http://localhost:8089/api/gateway/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/gateways': ''
+      //   }
+      // },
       // '/gateways': {
       //   target: 'http://localhost:8000/gc/',
       //   changeOrigin: true,
@@ -102,34 +102,34 @@ module.exports = {
       //     '^/gateways': ''
       //   }
       // },
-      '/users': {
-        target: 'http://localhost:8093/api/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/users': ''
-        }
-      },
-      '/admins': {
-        target: 'http://localhost:8093/api/admin',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/admins': ''
-        }
-      },
-      '/services': {
-        target: 'http://localhost:8085/api/service/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/services': ''
-        }
-      },
-      '/scenarios': {
-        target: 'http://localhost:8092/api/scenario/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/scenarios': ''
-        }
-      },
+      // '/users': {
+      //   target: 'http://localhost:8093/api/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/users': ''
+      //   }
+      // },
+      // '/admins': {
+      //   target: 'http://localhost:8093/api/admin',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/admins': ''
+      //   }
+      // },
+      // '/services': {
+      //   target: 'http://localhost:8085/api/service/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/services': ''
+      //   }
+      // },
+      // '/scenarios': {
+      //   target: 'http://localhost:8092/api/scenario/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/scenarios': ''
+      //   }
+      // },
       // '/scenarios': {
       //   target: 'http://localhost:8000/s/',
       //   changeOrigin: true,
@@ -137,13 +137,13 @@ module.exports = {
       //     '^/scenarios': ''
       //   }
       // },
-      '/notices': {
-        target: 'http://localhost:8088/api/notice/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/notices': ''
-        }
-      },
+      // '/notices': {
+      //   target: 'http://localhost:8088/api/notice/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/notices': ''
+      //   }
+      // },
       // '/notices': {
       //   target: 'http://localhost:8000/n/',
       //   changeOrigin: true,
@@ -151,13 +151,13 @@ module.exports = {
       //     '^/notices': ''
       //   }
       // },
-      '/commands': {
-        target: 'http://localhost:8082/api/command/',
-        changeOrigin: true,
-        pathRewrite: {
-          '^/commands': ''
-        }
-      }
+      // '/commands': {
+      //   target: 'http://localhost:8082/api/command/',
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/commands': ''
+      //   }
+      // }
       // '/commands': {
       //   target: 'http://localhost:8000/c/',
       //   changeOrigin: true,

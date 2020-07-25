@@ -80,9 +80,9 @@ export default {
         // 实际API
         // .get('http://localhost:8082/api/command/list').then(resp => {
         // kong网关代理API
-        // .get('http://localhost:8000/c/list').then(resp => {
+        .get('http://localhost:8000/c/list').then(resp => {
         // 开发模式代理API
-        .get('/commands/list').then(resp => {
+        // .get('/commands/list').then(resp => {
         // .get('/c/list').then(resp => {
           if (resp && resp.status === 200) {
             this.commandList = resp.data
@@ -121,9 +121,9 @@ export default {
         // 实际API
         // .post('http://localhost:8082/api/commmand', _this.commandForm.commandEdit).then(resp => {
         // kong网关道理API
-        // .post('http://localhost:8000/c', _this.commandForm.commandEdit).then(resp => {
+        .post('http://localhost:8000/c', _this.commandForm.commandEdit).then(resp => {
         // 开发模式下代理API
-        .post('/commands', _this.commandForm.commandEdit).then(resp => {
+        // .post('/commands', _this.commandForm.commandEdit).then(resp => {
           if (resp && resp.status === 200) {
             _this.$emit('onSubmit')
             _this.clear()

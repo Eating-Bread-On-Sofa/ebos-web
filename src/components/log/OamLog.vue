@@ -13,7 +13,7 @@ export default {
     return {
       come: '运维日志',
       ip: 'localhost',
-      port: '8086'
+      port: 'o'
     }
   }
 }

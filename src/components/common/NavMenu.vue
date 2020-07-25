@@ -4,7 +4,7 @@
       <i class="el-icon-s-fold" style="float: left;margin-top: 20px;font-size: 20px; padding: 5px;color:#999999" @click="isC" ></i>
     </el-header>
     <el-menu
-      default-active="currentPath"
+      :default-active="currentPath"
       router
       unique-opened
       background-color="transparent"
@@ -24,7 +24,7 @@
           <i :class=item.iconCls></i>
           <span>{{ item.nameZh}}</span>
         </template>
-        <el-menu-item class="subMenu" v-for="children in item.children" :key="children.path" :index="children.path">{{children.nameZh}}</el-menu-item>
+        <el-menu-item class="subMenu" v-for="children in item.children" :key="children.path" :index="children.path"><span class="menuText">{{children.nameZh}}</span></el-menu-item>
       </el-submenu>
     </el-menu>
   </div>
@@ -98,7 +98,6 @@ export default {
   methods: {
     isC () {
       this.isCollapse = !this.isCollapse
-      console.log(this.$store.state.commonMenus)
     }
   }
   // methods: {
@@ -118,6 +117,12 @@ export default {
 <style scoped>
   .subMenu {
     background-color: #333 !important;
+  }
+  .menuText:hover {
+    color: #36bed6;
+  }
+  .menuText:focus {
+    color: #36bed6;
   }
   .el-menu-vertical:not(.el-menu--collapse) {
     width: 200px;

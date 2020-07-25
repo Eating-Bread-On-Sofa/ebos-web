@@ -33,6 +33,8 @@
         <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-right: 20px;margin-bottom: 5px;" @click="uploadDialog = true">新增
         </el-button>
         <div>
+<!--          实际API-->
+<!--          action="http://localhost:8090/api/instance/service"-->
 <!--          kong网关代理API为：-->
 <!--          action="http://localhost:8000/gi/service"-->
           <el-dialog
@@ -43,7 +45,7 @@
               ref="upload"
               class="upload-demo"
               drag
-              action="http://localhost:8090/api/instance/service"
+              action="http://localhost:8000/gi/service"
               multiple
               :file-list="fileList"
               :auto-upload="false">
@@ -169,9 +171,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式下代理API
-      this.$axios.get('/gateways').then(resp => {
+      // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.selectDialog = true
@@ -195,10 +197,10 @@ export default {
       // this.$axios.get('http://' + this.gwip + ':8090/api/instance/service').then(resp => {
       // kong网关代理API
       // this.$axios.get('http://' + this.gwip + ':8000/gi/service').then(resp => {
-      // this.$axios.get('http://localhost:8000/gi/service').then(resp => {
+      this.$axios.get('http://localhost:8000/gi/service').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('http://' + this.gwip + ':8090/api/instance/service').then(resp => {
-      this.$axios.get('/instances/service').then(resp => {
+      // this.$axios.get('/instances/service').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false
@@ -221,10 +223,11 @@ export default {
         // 实际API
         // this.$axios.delete('http://' + this.gwip + ':8090/api/instance/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
         // kong网关代理API
+        this.$axios.delete('http://localhost:8000/gi/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
         // this.$axios.delete('http://' + this.gwip + ':8000/gi/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
         // 开发模式下代理API
         // this.$axios.delete('http://' + this.gwip + ':8090/api/instance/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
-        this.$axios.delete('/instances/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
+        // this.$axios.delete('/instances/service?port=' + this.servicePortList[this.servicePort[x]].port).then(resp => {
           if (resp && resp.status === 200) {
             this.$message.warning('已向' + stopName[stopPort[x]].name + '服务发送关闭指令，请在终端确认！')
           }
@@ -238,10 +241,11 @@ export default {
       // 实际API
       // this.$axios.put('http://' + this.gwip + ':8090/api/instance/service?jarName=' + row.name).then(resp => {
       // kong网关代理API
+      this.$axios.put('http://localhost:8000/gi/service?jarName=' + row.name).then(resp => {
       // this.$axios.put('http://' + this.gwip + ':8000/gi/service?jarName=' + row.name).then(resp => {
       // 开发模式下代理API
       // this.$axios.put('http://' + this.gwip + ':8090/api/instance/service?jarName=' + row.name).then(resp => {
-      this.$axios.put('/instances/service?jarName=' + row.name).then(resp => {
+      // this.$axios.put('/instances/service?jarName=' + row.name).then(resp => {
         if (resp.status === 200) {
           this.$message.success('服务已成功启动')
           this.loadService()

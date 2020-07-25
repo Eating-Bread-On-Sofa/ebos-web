@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <el-header style="width: 100%;height: 50px;padding: 0px;background-color: #333">
-      <a href="/index">
+      <a href="/home">
         <img :src="info.logoUrl" alt="" style="float: left;height: 50px; width: 200px;min-width: 120px">
       </a>
       <span style="position: absolute;left: 220px;font-size: 20px;font-weight: bold;line-height:50px; color: white; font-family: 楷体">{{ info.nameAdmin }}</span>

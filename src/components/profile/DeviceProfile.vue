@@ -30,7 +30,7 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="12">
-        <el-button type="text" icon="el-icon-refresh" @click="loadLogs" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right;margin-right: 20px;margin-top:5px;font-size: 16px">刷新</el-button>
+        <el-button type="text" icon="el-icon-refresh" @click="loadProfiles" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right;margin-right: 20px;margin-top:5px;font-size: 16px">刷新</el-button>
       </el-col>
     </el-row>
     <el-row>
@@ -204,9 +204,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式代理API
-      this.$axios.get('/gateways').then(resp => {
+      // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.selectDialog = true
@@ -222,9 +222,9 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/gateway/' + this.gwip).then(resp => {
         // kong网关代理API
-        // .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
+        .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
         // 开发模式下代理API
-        .get('/profiles/gateway/' + this.gwip).then(resp => {
+        // .get('/profiles/gateway/' + this.gwip).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data
             _this.loading = false
@@ -271,7 +271,6 @@ export default {
     //   document.body.removeChild(link)
     // },
     handleDelete (index, tablerow) {
-      var _this = this
       this.$confirm('此操作将永久删除该模板，是否继续？', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -279,14 +278,14 @@ export default {
       }).then(() => {
         this.$axios
           // 实际API
-          // .delete('http://localhost:8091/api/profile/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
+          // .delete('http://localhost:8091/api/profile/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
           // kong网关代理API
-          // .delete('http://localhost:8000/p/gateway/' + this.ip + '/' + tablerow.name).then(resp => {
+          .delete('http://localhost:8000/p/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
           // 开发模式代理API
-          .delete('/profiles/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
+          // .delete('/profiles/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
-              this.$message.success(resp.data)
-              _this.loadProfiles()
+              this.$message.success('已在网关：' + this.ip + '删除设备模板：' + tablerow.name)
+              this.loadProfiles()
             }
           })
       }).catch(() => {
@@ -302,9 +301,9 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/search?keywords=' + e, {
         // kong网关代理API
-        // .get('http://localhost:8000/p/search?keywords=' + e, {
+        .get('http://localhost:8000/p/search?keywords=' + e, {
         // 开发模式下代理API
-        .get('/profiles/search?keywords=' + e, {
+        // .get('/profiles/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {
             _this.tableData = resp.data

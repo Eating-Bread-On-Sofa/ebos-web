@@ -2,7 +2,7 @@
   <div>
     <el-row style="margin: 18px 0px 0px 18px ">
       <el-breadcrumb separator-class="el-icon-arrow-right">
-        <el-breadcrumb-item :to="{ path: '/admin/dashboard' }">管理中心</el-breadcrumb-item>
+        <el-breadcrumb-item>管理中心</el-breadcrumb-item>
         <el-breadcrumb-item>内容管理</el-breadcrumb-item>
         <el-breadcrumb-item>网关服务管理</el-breadcrumb-item>
       </el-breadcrumb>
@@ -136,9 +136,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8085/api/service/list').then(resp => {
       // kong网关代理API
-      // this.$axios.get('http://localhost:8000/sev/list').then(resp => {
+      this.$axios.get('http://localhost:8000/sev/list').then(resp => {
       // 开发模式下代理API
-      this.$axios.get('/services/list').then(resp => {
+      // this.$axios.get('/services/list').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false

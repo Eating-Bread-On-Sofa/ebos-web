@@ -40,7 +40,12 @@ router.beforeEach((to, from, next) => {
   // 如果前端没有登录信息则直接拦截，如果有，则判断后端是否正常登录（防止构造参数绕过）
   if (to.meta.requireAuth) {
     if (store.state.username) {
-      axios.get('/users/authentication').then(resp => {
+      // 实际API
+      // axios.get('http://localhost:8093/api/authentication').then(resp => {
+      // kong网关代理API
+      axios.get('http://localhost:8000/u/auth').then(resp => {
+      // 开发代理api
+      // axios.get('/users/authentication').then(resp => {
         if (resp && resp.status === 200) {
           next()
         }
@@ -69,13 +74,12 @@ const initMenu = (router, store) => {
     if (resp && resp.status === 200) {
       let adminRoutes = formatRoutes(resp.data.result.admin)
       let commonRoutes = formatRoutes(resp.data.result.common)
-      console.log('1-1')
-      router.addRoutes(adminRoutes)
       store.commit('initAdminMenu', adminRoutes)
-      router.addRoutes(commonRoutes)
       store.commit('initCommonMenu', commonRoutes)
-      console.log(store.state.adminMenus)
-      console.log(store.state.commonMenus)
+      router.onReady(() => {
+        router.addRoutes(adminRoutes)
+        router.addRoutes(commonRoutes)
+      })
     }
   })
 }

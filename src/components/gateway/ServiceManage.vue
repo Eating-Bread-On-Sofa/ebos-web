@@ -167,9 +167,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8085/api/service/list').then(resp => {
       // kong网关代理API
-      // this.$axios.get('http://localhost:8000/sev/list').then(resp => {
+      this.$axios.get('http://localhost:8000/sev/list').then(resp => {
       // 开发模式下代理API
-      this.$axios.get('/services/list').then(resp => {
+      // this.$axios.get('/services/list').then(resp => {
         if (resp && resp.status === 200) {
           this.table = resp.data
           this.loading = false
@@ -185,9 +185,9 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      // this.$axios.get('http://localhost:8000/gc').then(resp => {
+      this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式下代理API
-      this.$axios.get('/gateways').then(resp => {
+      // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.serviceForm.name = row.name
@@ -205,9 +205,9 @@ export default {
         // 实际API
         // this.$axios.post('http://localhost:8085/api/service/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
         // kong网关代理API
-        // this.$axios.get('http://localhost:8000/sev/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
+        this.$axios.get('http://localhost:8000/sev/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
         // 开发模式下代理API
-        this.$axios.post('/services/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
+        // this.$axios.post('/services/ip/' + this.serviceForm.gwip[x] + '/name/' + this.serviceForm.name).then(resp => {
           if (resp && resp.status === 200) {
             this.$message({
               showClose: true,
