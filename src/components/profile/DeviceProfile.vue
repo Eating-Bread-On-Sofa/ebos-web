@@ -204,7 +204,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc').then(resp => {
+      this.$axios.get(localStorage.socket + '/gc').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式代理API
       // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
@@ -222,7 +223,8 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/gateway/' + this.gwip).then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
+        .get(localStorage.socket + '/p/gateway/' + this.gwip).then(resp => {
+        // .get('http://localhost:8000/p/gateway/' + this.gwip).then(resp => {
         // 开发模式下代理API
         // .get('/profiles/gateway/' + this.gwip).then(resp => {
           if (resp && resp.status === 200) {
@@ -280,7 +282,8 @@ export default {
           // 实际API
           // .delete('http://localhost:8091/api/profile/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
           // kong网关代理API
-          .delete('http://localhost:8000/p/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
+          .delete(localStorage.socket + '/p/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
+          // .delete('http://localhost:8000/p/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
           // 开发模式代理API
           // .delete('/profiles/gateway/' + this.gwip + '/' + tablerow.name).then(resp => {
             if (resp && resp.status === 200) {
@@ -301,7 +304,8 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/search?keywords=' + e, {
         // kong网关代理API
-        .get('http://localhost:8000/p/search?keywords=' + e, {
+        .get(localStorage.socket + '/p/search?keywords=' + e, {
+        // .get('http://localhost:8000/p/search?keywords=' + e, {
         // 开发模式下代理API
         // .get('/profiles/search?keywords=' + e, {
         }).then(resp => {

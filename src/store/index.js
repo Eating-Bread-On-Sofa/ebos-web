@@ -7,7 +7,9 @@ export default new Vuex.Store({
   state: {
     username: window.localStorage.getItem('username') == null ? '' : JSON.parse(window.localStorage.getItem('username' || '[]')),
     adminMenus: [],
-    commonMenus: []
+    commonMenus: [],
+    socket: window.localStorage.getItem('socket') == null ? '' : window.localStorage.getItem('socket' || '[]'),
+    hadSocket: false
   },
   mutations: {
     initAdminMenu (state, adminMenus) {
@@ -15,6 +17,13 @@ export default new Vuex.Store({
     },
     initCommonMenu (state, commonMenus) {
       state.commonMenus = commonMenus
+    },
+    saveSocket (state, socket) {
+      state.socket = socket
+      window.localStorage.setItem('socket', socket)
+    },
+    handleSocket (state, hadSocket) {
+      state.hadSocket = hadSocket
     },
     login (state, data) {
       state.username = data

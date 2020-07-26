@@ -23,7 +23,7 @@
           ref="upload"
           class="upload-demo"
           drag
-          action="http://localhost:8000/sev"
+          :action="uploadApi"
           multiple
           :file-list="fileList"
           :auto-upload="false">
@@ -98,6 +98,7 @@ export default {
   name: 'ServiceManage',
   data () {
     return {
+      uploadApi: localStorage.socket + '/sev',
       fileList: [],
       currentPage: 1,
       pagesize: 18,
@@ -136,7 +137,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8085/api/service/list').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/sev/list').then(resp => {
+      this.$axios.get(localStorage.socket + '/sev/list').then(resp => {
+      // this.$axios.get('http://localhost:8000/sev/list').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/services/list').then(resp => {
         if (resp && resp.status === 200) {

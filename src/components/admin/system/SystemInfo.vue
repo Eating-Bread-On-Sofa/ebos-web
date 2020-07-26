@@ -9,14 +9,14 @@
     </el-row>
     <system-info-edit @onSubmit="loadInfo()" ref="edit"></system-info-edit>
     <el-card style="margin: 18px 2%;width: 95%;">
-      <el-card v-for="item in form" :key="item.id" style="margin: 20px auto 20px auto;width: 70%;height: 500px;" bodyStyle="padding: 10px" shadow="hover">
+      <el-card style="margin: 20px auto 20px auto;width: 70%;height: 500px;" bodyStyle="padding: 10px" shadow="hover">
         <div class="cover">
-          <img :src="item.logoUrl" alt="系统LOGO" @click="editInfo">
+          <img :src="form.logoUrl" alt="系统LOGO" @click="editInfo">
         </div>
         <h3>用户系统名称:</h3>
-        <div class="info" @click="editInfo">{{ item.name }}</div>
+        <div class="info" @click="editInfo">{{ form.name }}</div>
         <h3>后台管理系统名称:</h3>
-        <div class="info" @click="editInfo">{{ item.nameAdmin }}</div>
+        <div class="info" @click="editInfo">{{ form.nameAdmin }}</div>
       </el-card>
     </el-card>
   </div>
@@ -29,9 +29,18 @@ export default {
   components: {SystemInfoEdit},
   data () {
     return {
-      form: []
+      form: {
+        logoUrl: '',
+        name: '',
+        nameAdmin: ''
+      }
     }
   },
+  // computed: {
+  //   logo () {
+  //     return localStorage.socket + '/u/file/' + this.form.logoUrl
+  //   }
+  // },
   mounted () {
     this.loadInfo()
   },
@@ -40,11 +49,14 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/system/info').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/system/info').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/system/info').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/system/info').then(resp => {
       // 开发代理API
       // this.$axios.get('/users/system/info').then(resp => {
         if (resp && resp.data.code === 200) {
-          this.form = resp.data.result
+          this.form.logoUrl = localStorage.socket + '/u/file/' + resp.data.result[0].logoUrl
+          this.form.name = resp.data.result[0].name
+          this.form.nameAdmin = resp.data.result[0].nameAdmin
         }
       }).catch(() => {
         this.$message.error('获取系统信息失败')

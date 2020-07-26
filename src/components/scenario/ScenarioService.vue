@@ -166,7 +166,8 @@ export default {
         // 实际API
         // .get('http://localhost:8092/api/scenario').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/s').then(resp => {
+        .get(localStorage.socket + '/s').then(resp => {
+        // .get('http://localhost:8000/s').then(resp => {
         // 开发模式下代理API
         // .get('/scenarios').then(resp => {
           if (resp && resp.status === 200) {
@@ -184,7 +185,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8092/api/scenario/status/' + tablerow.name).then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/s/status/' + tablerow.name).then(resp => {
+      this.$axios.get(localStorage.socket + '/s/status/' + tablerow.name).then(resp => {
+      // this.$axios.get('http://localhost:8000/s/status/' + tablerow.name).then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/scenarios/status/' + tablerow.name).then(resp => {
         if (resp && resp.status === 200) {
@@ -205,7 +207,8 @@ export default {
           // 实际API
           // .delete('http://localhost:8092/api/scenario/name/' + tablerow.name, {
           // kong网关代理API
-          .delete('http://localhost:8000/s/name/' + tablerow.name, {
+          .delete(localStorage.socket + '/s/name/' + tablerow.name, {
+          // .delete('http://localhost:8000/s/name/' + tablerow.name, {
           // 开发模式下代理API
           // .delete('/scenarios/name/' + tablerow.name, {
           }).then(resp => {
@@ -225,7 +228,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc').then(resp => {
+      this.$axios.get(localStorage.socket + '/gc').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式代理API
       // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
@@ -242,7 +246,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/c/list').then(resp => {
+      this.$axios.get(localStorage.socket + '/c/list').then(resp => {
+      // this.$axios.get('http://localhost:8000/c/list').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/commands/list').then(resp => {
         if (resp && resp.status === 200) {
@@ -256,7 +261,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+      this.$axios.get(localStorage.socket + '/rc/getRuleLists').then(resp => {
+      // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
       // 开发模式下代理API
       // this.$axios('/rules/getRuleLists').then(resp => {
         if (resp && resp.status === 200) {
@@ -294,7 +300,8 @@ export default {
         // 实际API
         // .post('http://localhost:8092/api/scenario', this.scenarioEdit).then(resp => {
         // kong网关代理API
-        .post('http://localhost:8000/s', this.scenarioEdit).then(resp => {
+        .post(localStorage.socket + '/s', this.scenarioEdit).then(resp => {
+        // .post('http://localhost:8000/s', this.scenarioEdit).then(resp => {
         // 开发模式下代理API
         // .post('/scenarios', this.scenarioEdit).then(resp => {
           if (resp && resp.status === 200) {
@@ -306,7 +313,8 @@ export default {
     searchResult (e) {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/s/search?keywords=' + e, {
+        .get(localStorage.socket + '/s/search?keywords=' + e, {
+        // .get('http://localhost:8000/s/search?keywords=' + e, {
         // .get('/s/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {

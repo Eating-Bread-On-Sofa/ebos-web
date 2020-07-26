@@ -73,7 +73,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/user/info').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/user/info').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/user/info').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/user/info').then(resp => {
       // 开发代理API
       // this.$axios.get('users/user/info').then(resp => {
         if (resp && resp.data.code === 200) {
@@ -106,7 +107,8 @@ export default {
       // 实际API
       // this.$axios.put('http://localhost:8093/api/user/info', {
       // kong网关代理API
-      this.$axios.put('http://localhost:8000/u/user/info', {
+      this.$axios.put(localStorage.socket + '/u/user/info', {
+      // this.$axios.put('http://localhost:8000/u/user/info', {
       // 开发代理API
       // this.$axios.put('/users/user/info', {
         id: _this.selectedUser.id,

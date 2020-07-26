@@ -56,7 +56,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8092/api/scenario').then(resp => {
       // kong 网关代理API
-      this.$axios.get('http://localhost:8000/s').then(resp => {
+      this.$axios.get(localStorage.socket + '/s').then(resp => {
+      // this.$axios.get('http://localhost:8000/s').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/scenarios').then(resp => {
         if (resp && resp.status === 200) {
@@ -71,7 +72,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8092/api/scenario/name/' + this.scenarioSelect).then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/s/name/' + this.scenarioSelect).then(resp => {
+      this.$axios.get(localStorage.socket + '/s/name/' + this.scenarioSelect).then(resp => {
+      // this.$axios.get('http://localhost:8000/s/name/' + this.scenarioSelect).then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/scenarios/name/' + this.scenarioSelect).then(resp => {
         if (resp && resp.status === 200) {
@@ -89,7 +91,8 @@ export default {
             // 实际API
             // this.$axios.get('http://localhost:8081/api/device/online/' + resp.data.content[x].gatewayIP).then(resp => {
             // kong网关代理API
-            this.$axios.get('http://localhost:8000/d/online/' + resp.data.content[x].gatewayIP).then(resp => {
+            this.$axios.get(localStorage.socket + '/d/online/' + resp.data.content[x].gatewayIP).then(resp => {
+            // this.$axios.get('http://localhost:8000/d/online/' + resp.data.content[x].gatewayIP).then(resp => {
             // 开发模式下代理API
             // this.$axios.get('/devices/online/' + resp.data.content[x].gatewayIP).then(resp => {
               if (resp && resp.status === 200) {

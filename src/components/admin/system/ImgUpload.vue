@@ -1,7 +1,7 @@
 <template>
     <el-upload
       ref="upload"
-      action="http://localhost:8000/u/system/logo"
+      :action="uploadApi"
       with-credentials
       :before-remove="beforeRemove"
       :on-success="handleSuccess"
@@ -16,6 +16,8 @@
 <!--  action="http://localhost:8093/api/system/logo"-->
 <!--  开发代理API-->
 <!--  action="/users/system/logo"-->
+<!--  kong网关代理-->
+<!--  action="http://localhost:8000/u/system/logo"-->
 </template>
 
 <script>
@@ -23,6 +25,7 @@ export default {
   name: 'ImgUpload',
   data () {
     return {
+      uploadApi: localStorage.socket + '/u/system/logo',
       fileList: []
     }
   },

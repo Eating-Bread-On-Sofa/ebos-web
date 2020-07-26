@@ -56,7 +56,8 @@ export default {
         // 实际API
         // .post('http://localhost:8093/api/admin/role', {
         // kong网关代理API
-        .post('http://localhost:8000/u/role', {
+        .post(localStorage.socket + '/u/role', {
+        // .post('http://localhost:8000/u/role', {
         // 开发代理API
         // .post('/admins/role', {
           name: this.roleForm.name,

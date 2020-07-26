@@ -243,7 +243,8 @@ export default {
         // 实际API
         // that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
         // kong网关代理API
-        that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
+        that.$axios.get(localStorage.socket + '/rc/ruleAlert').then(resp => {
+        // that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
         // 开发模式下代理API
         // that.$axios.get('/rules/ruleAlert').then(resp => {
           var flag = resp.data.alertFlag
@@ -293,7 +294,8 @@ export default {
         .then(_ => {
           this.table.splice(idx, 1)
           // kong网关代理API
-          this.$axios.post('http://localhost:8000/rc/ruleDelete',
+          this.$axios.post(localStorage.socket + '/rc/ruleDelete',
+          // this.$axios.post('http://localhost:8000/rc/ruleDelete',
           // 实际API
           // this.$axios.post('http://localhost:8083/api/ruleDelete',
           // 开发模式下代理API
@@ -307,7 +309,8 @@ export default {
           // 开发模式下代理API
           // this.$axios.post('/rules/rule',
           // kong网关代理API
-          this.$axios.post('http://localhost:8000/rc/rule',
+          this.$axios.post(localStorage.socket + '/rc/rule',
+          // this.$axios.post('http://localhost:8000/rc/rule',
           // 实际地址
           // this.$axios.post('http://localhost:8083/api/rule',
             {
@@ -322,7 +325,8 @@ export default {
     },
     post () {
       // kong网关代理API
-      this.$axios.post('http://localhost:8000/rc/webdata',
+      this.$axios.post(localStorage.socket + '/rc/webdata',
+      // this.$axios.post('http://localhost:8000/rc/webdata',
       // 实际API
       // this.$axios.post('http://localhost:8083/api/webdata',
       // 开发模式下代理API
@@ -344,7 +348,8 @@ export default {
     },
     ruleCreate () {
       // kong网关代理API
-      this.$axios.post('http://localhost:8000/rc/ruleCreate',
+      this.$axios.post(localStorage.socket + '/rc/ruleCreate',
+      // this.$axios.post('http://localhost:8000/rc/ruleCreate',
       // 实际API
       // this.$axios.post('http://localhost:8083/api/ruleCreate',
       // 开发模式下代理API
@@ -366,7 +371,8 @@ export default {
     get () {
       var _this = this
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+      this.$axios.get(localStorage.socket + '/rc/getRuleLists').then(resp => {
+      // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
       // 实际API
       // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
       // 开发模式下代理API
@@ -398,7 +404,8 @@ export default {
     },
     getFormDevices () {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
+      this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
+      // this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
       // 实际API
       // this.$axios.get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
       // 开发模式下代理API
@@ -415,7 +422,8 @@ export default {
     },
     getFormParas () {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/c/list').then(resp => {
+      this.$axios.get(localStorage.socket + '/c/list').then(resp => {
+      // this.$axios.get('http://localhost:8000/c/list').then(resp => {
       // 实际API
       // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
       // 开发模式下代理API
@@ -432,7 +440,8 @@ export default {
     },
     getFormScenario () {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/s').then(resp => {
+      this.$axios.get(localStorage.socket + '/s').then(resp => {
+      // this.$axios.get('http://localhost:8000/s').then(resp => {
       // 实际API
       // this.$axios.get('http://localhost:8092/api/scenario').then(resp => {
       // 开发模式下代理API
@@ -449,7 +458,8 @@ export default {
     },
     getFormService () {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/c').then(resp => {
+      this.$axios.get(localStorage.socket + '/c').then(resp => {
+      // this.$axios.get('http://localhost:8000/c').then(resp => {
       // 实际API
       // this.$axios.get('http://localhost:8082/api/command').then(resp => {
       // 开发模式下代理API

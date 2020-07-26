@@ -37,8 +37,12 @@ export default new Router({
     {
       path: '/',
       name: 'Default',
-      redirect: '/login',
-      component: Home
+      redirect: '/socketConfig'
+    },
+    {
+      path: '/socketConfig',
+      name: 'SocketConfig',
+      component: () => import('../components/SocketConfig')
     },
     {
       // home页面不需要被访问，只是作为其他组件的父组件
@@ -488,8 +492,13 @@ export const createRouter = routes => new Router({
     {
       path: '/',
       name: 'Default',
-      redirect: '/login',
+      redirect: '/socketConfig',
       component: Home
+    },
+    {
+      path: '/socketConfig',
+      name: 'SocketConfig',
+      component: () => import('../components/SocketConfig')
     },
     {
       // home页面不需要被访问，只是作为其他组件的父组件

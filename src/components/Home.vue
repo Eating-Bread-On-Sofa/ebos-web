@@ -30,6 +30,11 @@ export default {
       }
     }
   },
+  // computed: {
+  //   logo () {
+  //     return localStorage.socket + '/u/file/' + this.info.logoUrl
+  //   }
+  // },
   mounted () {
     this.loadSysInfo()
   },
@@ -38,11 +43,14 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/system/info').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/system/info').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/system/info').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/system/info').then(resp => {
       // 开发代理API
       // this.$axios.get('/users/system/info').then(resp => {
         if (resp && resp.data.code === 200) {
-          this.info = resp.data.result[0]
+          this.info.logoUrl = localStorage.socket + '/u/file/' + resp.data.result[0].logoUrl
+          this.info.name = resp.data.result[0].name
+          this.info.nameAdmin = resp.data.result[0].nameAdmin
         }
       }).catch(() => {
         this.$message.error('获取系统信息失败')
@@ -53,7 +61,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/logout').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/logout').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/logout').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/logout').then(resp => {
       // 开发代理API
       // this.$axios.get('/users/logout').then(resp => {
         if (resp.data.code === 200) {

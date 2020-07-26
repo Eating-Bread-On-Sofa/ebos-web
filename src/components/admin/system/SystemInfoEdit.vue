@@ -53,7 +53,8 @@ export default {
       // 实际API
       // this.$axios.post('http://localhost:8093/api/system/info', {
       // kong网关代理API
-      this.$axios.post('http://localhost:8000/u/system/info', {
+      this.$axios.post(localStorage.socket + '/u/system/info', {
+      // this.$axios.post('http://localhost:8000/u/system/info', {
       // 开发代理API
       // this.$axios.post('/users/system/info', {
         name: this.form.name,

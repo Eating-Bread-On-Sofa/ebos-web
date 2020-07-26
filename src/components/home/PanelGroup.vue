@@ -191,7 +191,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8081/api/device/days?days=1').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/d/days?days=1').then(resp => {
+      this.$axios.get(localStorage.socket + '/d/days?days=1').then(resp => {
+      // this.$axios.get('http://localhost:8000/d/days?days=1').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/devices/days?days=1').then(resp => {
         if (resp && resp.status === 200) {
@@ -205,7 +206,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway/days?days=1').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc/days?days=1').then(resp => {
+      this.$axios.get(localStorage.socket + '/gc/days?days=1').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc/days?days=1').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/gateways/days?days=1').then(resp => {
         if (resp && resp.status === 200) {
@@ -219,7 +221,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway/state').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc/state').then(resp => {
+      this.$axios.get(localStorage.socket + '/gc/state').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc/state').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/gateways/state').then(resp => {
         if (resp && resp.status === 200) {
@@ -243,7 +246,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8081/api/device/ip/' + ip + '/id/' + id).then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/d/ip/' + ip + '/id/' + id).then(resp => {
+      this.$axios.get(localStorage.socket + '/d/ip/' + ip + '/id/' + id).then(resp => {
+      // this.$axios.get('http://localhost:8000/d/ip/' + ip + '/id/' + id).then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/devices/ip/' + ip + '/id/' + id).then(resp => {
         if (resp && resp.status === 200) {

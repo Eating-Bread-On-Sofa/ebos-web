@@ -43,7 +43,8 @@ export default{
         // 实际API
         // .post('http://localhost:8093/api/login', {
         // kong网关代理API
-        .post('http://localhost:8000/u/login', {
+        .post(localStorage.socket + '/u/login', {
+        // .post('http://localhost:8000/u/login', {
         // 开发代理API
         // .post('/users/login', {
           username: this.loginForm.username,

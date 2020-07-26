@@ -163,7 +163,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/admin/role').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/role').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/role').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/role').then(resp => {
       // 开发代理API
       // this.$axios.get('/admins/role').then(resp => {
         if (resp && resp.status === 200) {
@@ -176,7 +177,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/admin/role/perm').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/role/perm').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/role/perm').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/role/perm').then(resp => {
       // 开发代理API
       // this.$axios.get('/admins/role/perm').then(resp => {
         if (resp && resp.data.code === 200) {
@@ -189,7 +191,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8093/api/admin/menu/tree').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/u/menu/tree').then(resp => {
+      this.$axios.get(localStorage.socket + '/u/menu/tree').then(resp => {
+      // this.$axios.get('http://localhost:8000/u/menu/tree').then(resp => {
       // 开发代理API
       // this.$axios.get('/admins/menu/tree').then(resp => {
         if (resp && resp.data.code === 200) {
@@ -214,7 +217,8 @@ export default {
           // 实际API
           // this.$axios.put('http://localhost:8093/api/admin/role/status', {
           // kong网关代理API
-          this.$axios.put('http://localhost:8000/u/role/status', {
+          this.$axios.put(localStorage.socket + '/u/role/status', {
+          // this.$axios.put('http://localhost:8000/u/role/status', {
           // 开发代理API
           // this.$axios.put('/admins/role/status', {
             enabled: value,
@@ -247,7 +251,8 @@ export default {
         // 实际API
         // this.$axios.delete('http://localhost:8093/api/admin/role/id/' + role.id).then(resp => {
         // kong网关代理API
-        this.$axios.delete('http://localhost:8000/u/role/id/' + role.id).then(resp => {
+        this.$axios.delete(localStorage.socket + '/u/role/id/' + role.id).then(resp => {
+        // this.$axios.delete('http://localhost:8000/u/role/id/' + role.id).then(resp => {
         // 开发代理API
         // this.$axios.delete('/admins/role/id/' + role.id).then(resp => {
           if (resp && resp.data.code === 200) {
@@ -323,7 +328,8 @@ export default {
       // 实际API
       // this.$axios.put('http://localhost:8093/api/admin/role', {
       // kong网关代理API
-      this.$axios.put('http://localhost:8000/u/role', {
+      this.$axios.put(localStorage.socket + '/u/role', {
+      // this.$axios.put('http://localhost:8000/u/role', {
       // 开发代理API
       // this.$axios.put('/admins/role', {
         id: role.id,

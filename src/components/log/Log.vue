@@ -168,7 +168,7 @@ export default {
         // 实际API
         // .get(`http://${this.ip}:${this.port}/api/log`).then(resp => {
         // kong网关代理API
-        .get(`http://localhost:8000/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        .get(`${this.ip}/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
         // .get(`http://localhost:8000/${this.port}/log`).then(resp => {
         // .get('http://' + this.ip + ':' + this.port + '/gi/log').then(resp => {
         // 开发模式下代理API
@@ -188,7 +188,7 @@ export default {
       // 实际API
       // this.$axios.get(`http://${this.ip}:${this.port}/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // kong网关代理API
-      this.$axios.get(`http://localhost:8000/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      this.$axios.get(`${this.ip}/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
         // this.$axios.get(`http://${this.ip}:${this.port}/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // 开发模式下代理API
       // this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {

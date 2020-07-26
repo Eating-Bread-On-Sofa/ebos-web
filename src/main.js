@@ -29,6 +29,11 @@ Vue.prototype.$axios = axios
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
+  // if (!store.state.socket && !store.state.hadSocket) {
+  //   next({
+  //     path: '/socketConfig'
+  //   })
+  // }
   if (store.state.username) {
     initMenu(router, store)
   }
@@ -43,9 +48,10 @@ router.beforeEach((to, from, next) => {
       // 实际API
       // axios.get('http://localhost:8093/api/authentication').then(resp => {
       // kong网关代理API
-      axios.get('http://localhost:8000/u/auth').then(resp => {
-      // 开发代理api
-      // axios.get('/users/authentication').then(resp => {
+      axios.get(localStorage.socket + '/u/auth').then(resp => {
+        // axios.get('http://localhost:8000/u/auth').then(resp => {
+        // 开发代理api
+        // axios.get('/users/authentication').then(resp => {
         if (resp && resp.status === 200) {
           next()
         }
@@ -68,7 +74,8 @@ const initMenu = (router, store) => {
   // 实际API
   // axios.get('http://localhost:8093/api/admin/menu').then(resp => {
   // kong网关代理API
-  axios.get('http://localhost:8000/u/menu').then(resp => {
+  axios.get(localStorage.socket + '/u/menu').then(resp => {
+  // axios.get('http://localhost:8000/u/menu').then(resp => {
     // 开发代理API
     // axios.get('/admins/menu').then(resp => {
     if (resp && resp.status === 200) {

@@ -80,7 +80,8 @@ export default {
         // 实际API
         // .get('http://localhost:8082/api/command').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/c').then(resp => {
+        .get(localStorage.socket + '/c').then(resp => {
+        // .get('http://localhost:8000/c').then(resp => {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
           if (resp && resp.status === 200) {
@@ -100,7 +101,8 @@ export default {
       }).then(() => {
         this.$axios
           // kong网关代理API
-          .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
+          .delete(localStorage.socket + '/c?name=' + row.name).then(resp => {
+          // .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
           // 实际API
           // .delete('http"//localhost:8082/api/command?name=' + row.name).then(resp => {
           // 开发模式下代理API
@@ -122,7 +124,7 @@ export default {
     searchResult (e) {
       let _this = this
       this.$axios
-        .get('http://localhost:8000/c/search?keywords=' + e, {
+        .get(localStorage.socket + '/c/search?keywords=' + e, {
         // .get('/commands/search?keywords=' + e, {
         }).then(resp => {
           if (resp && resp.status === 200) {

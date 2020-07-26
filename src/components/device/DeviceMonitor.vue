@@ -120,7 +120,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/gc').then(resp => {
+      this.$axios.get(localStorage.socket + '/gc').then(resp => {
+      // this.$axios.get('http://localhost:8000/gc').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
@@ -135,7 +136,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8081/api/device/online/' + this.gwip).then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/d/online/' + this.gwip).then(resp => {
+      this.$axios.get(localStorage.socket + '/d/online/' + this.gwip).then(resp => {
+      // this.$axios.get('http://localhost:8000/d/online/' + this.gwip).then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/devices/online/' + this.gwip).then(resp => {
         if (resp && resp.status === 200) {
@@ -147,6 +149,7 @@ export default {
     },
     handleDeviceId () {
       let id = this.deviceList[this.deviceId].id
+      this.selectDialog = false
       this.dataForm.type = []
       for (let i = 0; i < this.len; i++) {
         let item = 'data' + (i + 1)
@@ -162,7 +165,8 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
       // kong网关代理API
-      this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+      this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + id).then(resp => {
+      // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
         this.len = Object.keys(resp.data).length
@@ -206,7 +210,8 @@ export default {
         // 实际API
         // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
         // kong网关代理API
-        this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+        this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + id).then(resp => {
+        // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
         // 开发模式下代理API
         // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
           if (resp && resp.status === 200) {

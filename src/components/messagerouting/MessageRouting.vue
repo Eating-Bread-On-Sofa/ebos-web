@@ -75,7 +75,8 @@ export default {
         // 实际API
         // .get('http://localhost:8084/api/router').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/mqr').then(resp => {
+        .get(localStorage.socket + '/mqr').then(resp => {
+        // .get('http://localhost:8000/mqr').then(resp => {
         // 开发模式下代理API
         // .get('/mqr').then(resp => {
           if (resp && resp.status === 200) {
@@ -99,7 +100,8 @@ export default {
           // 实际API
           // .delete('http://localhost:8084/api/router/name/' + row.name).then(resp => {
           // kong网关代理API
-          .delete('http://localhost:8000/mqr/name/' + row.name).then(resp => {
+          .delete(localStorage.socket + '/mqr/name/' + row.name).then(resp => {
+          // .delete('http://localhost:8000/mqr/name/' + row.name).then(resp => {
           // 开发模式下代理API
           // .delete('/mqr/name/' + row.name).then(resp => {
             if (resp && resp.status === 200) {
@@ -116,7 +118,7 @@ export default {
     searchResult (e) {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/mqr/search?keywords=' + e).then(resp => {
+        .get(localStorage.socket + '/mqr/search?keywords=' + e).then(resp => {
         // .get('/mqr/search?keywords=' + e).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data

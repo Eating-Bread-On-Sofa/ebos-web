@@ -66,7 +66,7 @@ export default {
     loadState () {
       var _this = this
       this.$axios
-        .get('http://localhost:8000/gc/state/' + this.gwState.name).then(resp => {
+        .get(localStorage.socket + '/gc/state/' + this.gwState.name).then(resp => {
         // .get('/gateways/gateway/state/' + this.gwState.name).then(resp => {
           if (resp && resp.status === 200) {
             _this.FormData = resp.data

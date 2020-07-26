@@ -12,7 +12,7 @@ export default {
   data () {
     return {
       come: '运维日志',
-      ip: 'localhost',
+      ip: localStorage.socket,
       port: 'o'
     }
   }

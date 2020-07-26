@@ -134,7 +134,8 @@ export default {
         // 实际API
         // .get('http://localhost:8081/api/device/protocol').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/d/protocol').then(resp => {
+        .get(localStorage.socket + '/d/protocol').then(resp => {
+        // .get('http://localhost:8000/d/protocol').then(resp => {
         // 开发模式代理API
         // .get('/devices/protocol').then(resp => {
           if (resp && resp.status === 200) {
@@ -153,7 +154,8 @@ export default {
         // 实际API
         // .get('http://localhost:8081/api/device/protocol/' + this.deviceEditForm.protocolName).then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+        .get(localStorage.socket + '/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
+        // .get('http://localhost:8000/d/protocol/' + this.deviceEditForm.protocolName).then(resp => {
         // 开发模式下代理API
         // .get('/devices/protocol/' + this.deviceEditForm.protocolName).then(resp => {
           if (resp && resp.status === 200) {
@@ -171,7 +173,8 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/p/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
+        .get(localStorage.socket + '/p/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
+        // .get('http://localhost:8000/p/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
         // 开发模式下代理API
         // .get('/profiles/gateway/' + this.deviceEditForm.gwip + '/list').then(resp => {
           if (resp && resp.status === 200) {
@@ -186,7 +189,8 @@ export default {
         // 实际API
         // .get('http://localhost:8081/device/service/' + this.deviceEditForm.gwip).then(resp => {
         // kong网关代理API
-        .get('http://localhost:8000/d/service/' + this.deviceEditForm.gwip).then(resp => {
+        .get(localStorage.socket + '/d/service/' + this.deviceEditForm.gwip).then(resp => {
+        // .get('http://localhost:8000/d/service/' + this.deviceEditForm.gwip).then(resp => {
         // 开发模式下代理API
         // .get('/devices/service/' + this.deviceEditForm.gwip).then(resp => {
           if (resp && resp.status === 200) {
@@ -223,7 +227,8 @@ export default {
         // 实际API
         // .post('http://localhost:8081/api/device/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
         // kong网关代理API
-        .post('http://localhost:8000/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        .post(localStorage.socket + '/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
+        // .post('http://localhost:8000/d/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
         // 开发模式下代理API
         // .post('/devices/ip/' + _this.deviceEditForm.gwip, _this.deviceEditForm.deviceForm).then(resp => {
           if (resp && resp.status === 200) {
