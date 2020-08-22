@@ -1,73 +1,73 @@
 <template>
   <el-row :gutter="40" class="panel-group">
-    <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <el-tooltip effect="dark" placement="bottom-start" transition>
         <div slot="content">
-          网关详情：<br />
-          <span >网关：<span>&nbsp;&nbsp;</span>&nbsp;<span>&nbsp;&nbsp;</span>设备：<br /></span>
+          新增设备详情：<br />
+          <span v-for="(item, i) in deviceAddition.details" :key="i" @click="deviceDetail(item.gateway, item.id)">网关：{{ item.gateway }}<span>&nbsp;&nbsp;</span>新增<span>&nbsp;&nbsp;</span>设备：{{ item.name }}<br /></span>
         </div>
-      <div class="card-panel">
-        <div class="card-panel-icon-wrapper icon-device">
-          <i class="el-icon-s-platform" style="font-size: 50px"></i>
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            场景网关数量：
+        <div class="card-panel">
+          <div class="card-panel-icon-wrapper icon-device">
+            <i class="el-icon-s-platform" style="font-size: 40px"></i>
           </div>
-          <count-to :start-val="0" :end-val="gatewayNum" :duration="2600" class="card-panel-num" />
-        </div>
-      </div>
-        </el-tooltip>
-    </el-col>
-    <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
-      <el-tooltip effect="dark" placement="bottom-start" transition>
-        <div slot="content">
-          设备详情：<br />
-          <span >网关：<span>&nbsp;&nbsp;</span>&nbsp;<span>&nbsp;&nbsp;</span>设备：<br /></span>
-        </div>
-      <div class="card-panel">
-        <div class="card-panel-icon-wrapper icon-gateway">
-          <i class="el-icon-s-management" style="font-size: 50px"></i>
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            场景设备总数量：
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              今日设备数量增加：
+            </div>
+            <count-to :start-val="0" :end-val="deviceAddition.count" :duration="2600" class="card-panel-num" />
           </div>
-          <count-to :start-val="0" :end-val="deviceTotalNum" :duration="2600" class="card-panel-num" />
         </div>
-      </div>
       </el-tooltip>
     </el-col>
-    <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
-      <div class="card-panel">
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <el-tooltip effect="dark" placement="bottom-start" transition>
+        <div slot="content">
+          新增网关详情：<br />
+          <span v-for="(item, i) in gatewayAddition.gatewayList" :key="i">网关名：{{ item.name}}<span>&nbsp;&nbsp;</span>IP：{{ item.ip }}<br /></span>
+        </div>
+        <div class="card-panel" @click="handleSetLineChartData('gateways')">
+          <div class="card-panel-icon-wrapper icon-gateway">
+            <i class="el-icon-s-management" style="font-size: 40px"></i>
+          </div>
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              今日网关数量增加：
+            </div>
+            <count-to :start-val="0" :end-val="gatewayAddition.count" :duration="3000" class="card-panel-num" />
+          </div>
+        </div>
+      </el-tooltip>
+    </el-col>
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
+      <div class="card-panel" @click="handleSetLineChartData('replaces')">
         <div class="card-panel-icon-wrapper icon-replace">
-          <i class="el-icon-s-operation" style="font-size: 50px"></i>
+          <i class="el-icon-s-operation" style="font-size: 40px"></i>
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            在线设备数量：
+            需要更换的设备：
           </div>
-          <count-to :start-val="0" :end-val="deviceOnlineNum" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="0" :duration="3200" class="card-panel-num" />
         </div>
       </div>
     </el-col>
-    <el-col :xs="6" :sm="6" :lg="6" class="card-panel-col">
+    <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
       <el-tooltip effect="dark" placement="bottom-start" transition>
         <div slot="content">
-          已启动微服务详情：<br />
-          <span >网关：<span>&nbsp;&nbsp;</span>&nbsp;<span>&nbsp;&nbsp;</span>设备：<br /></span>
+          未启动微服务详情：<br />
+          <span v-for="(item, i) in microDetail" :key="i">网关：{{ item.ip}}<span>&nbsp;&nbsp;</span>未启动微服务：{{ item.microSer }}<br /></span>
         </div>
-      <div class="card-panel">
-        <div class="card-panel-icon-wrapper icon-replace">
-          <i class="el-icon-warning" style="font-size: 50px"></i>
-        </div>
-        <div class="card-panel-description">
-          <div class="card-panel-text">
-            设备服务数量：
+        <div class="card-panel" @click="handleSetLineChartData('replaces')">
+          <div class="card-panel-icon-wrapper icon-replace">
+            <i class="el-icon-warning" style="font-size: 40px"></i>
           </div>
-          <count-to :start-val="0" :end-val="commandNum" :duration="3200" class="card-panel-num" />
+          <div class="card-panel-description">
+            <div class="card-panel-text">
+              未运行微服务数：
+            </div>
+            <count-to :start-val="0" :end-val="offlineCount" :duration="3200" class="card-panel-num" />
+          </div>
         </div>
-      </div>
       </el-tooltip>
     </el-col>
   </el-row>
@@ -76,15 +76,152 @@
 <script>
 import CountTo from 'vue-count-to'
 export default {
-  name: 'ScenarioPanel',
+  name: 'PanelGroup',
   components: {CountTo},
   data () {
     return {
-      scenarioName: '',
-      gatewayNum: 0,
-      deviceTotalNum: 0,
-      deviceOnlineNum: 0,
-      commandNum: 0
+      deviceAddition: {
+        count: 0,
+        details: [
+          {
+            name: '',
+            gateway: '',
+            id: ''
+          }
+        ]
+      },
+      device: {
+        operatingState: '',
+        service: {
+          name: '',
+          operatingState: '',
+          addressable: {
+            name: '',
+            protocol: '',
+            method: '',
+            address: '',
+            port: 0,
+            path: '',
+            baseURL: '',
+            url: ''
+          }
+        },
+        profile: {
+          name: ''
+        },
+        name: '',
+        adminState: '',
+        description: '',
+        createdTime: '',
+        id: '',
+        protocols: {
+          modbus: {
+            Address: '',
+            BaudRate: '',
+            DataBits: '',
+            Parity: '',
+            StopBits: '',
+            UnitID: ''
+          }
+        },
+        gateway: '',
+        labels: []
+      },
+      deviceDialog: false,
+      direction: 'rtl',
+      gatewayAddition: {
+        count: 0,
+        gatewayList: [
+          {
+            name: '',
+            ip: ''
+          }
+        ]
+      },
+      microService: [],
+      microDetail: [],
+      offlineCount: 0
+    }
+  },
+  mounted () {
+    this.getDeviceCount()
+    this.getGatewayCount()
+    this.getGatewayState()
+  },
+  methods: {
+    getDeviceCount () {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/device/days?days=1').then(resp => {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/d/days?days=1').then(resp => {
+        // this.$axios.get('http://localhost:8000/d/days?days=1').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/devices/days?days=1').then(resp => {
+        if (resp && resp.status === 200) {
+          this.deviceAddition = resp.data[0]
+        }
+      }).catch(() => {
+        this.$message.error('获取设备新增信息失败！')
+      })
+    },
+    getGatewayCount () {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway/days?days=1').then(resp => {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/gc/days?days=1').then(resp => {
+        // this.$axios.get('http://localhost:8000/gc/days?days=1').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/gateways/days?days=1').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gatewayAddition = resp.data[0]
+        }
+      }).catch(() => {
+        this.$message.error('获取网关新增信息失败！')
+      })
+    },
+    getGatewayState () {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway/state').then(resp => {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/gc/state').then(resp => {
+        // this.$axios.get('http://localhost:8000/gc/state').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/gateways/state').then(resp => {
+        if (resp && resp.status === 200) {
+          this.microService = resp.data
+          for (let i in resp.data) {
+            let obj = {ip: resp.data[i]['ip'], microSer: []}
+            for (let key in resp.data[i]['state']) {
+              if (!resp.data[i]['state'][key]) {
+                obj.microSer.push(key)
+                this.offlineCount += 1
+              }
+            }
+            if (obj.microSer.length !== 0) {
+              this.microDetail.push(obj)
+            }
+          }
+        }
+      })
+    },
+    deviceDetail (ip, id) {
+      // 实际API
+      // this.$axios.get('http://localhost:8081/api/device/ip/' + ip + '/id/' + id).then(resp => {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/d/ip/' + ip + '/id/' + id).then(resp => {
+        // this.$axios.get('http://localhost:8000/d/ip/' + ip + '/id/' + id).then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/devices/ip/' + ip + '/id/' + id).then(resp => {
+        if (resp && resp.status === 200) {
+          this.device = resp.data
+        }
+      }).catch(() => {
+        this.$message.error('查看设备详情失败！')
+      })
+      this.deviceDialog = true
+    },
+    handleSetLineChartData (type) {
+      this.$emit('handleSetLineChartData', type)
     }
   }
 }
