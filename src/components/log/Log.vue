@@ -156,9 +156,9 @@ export default {
         {value: 'null', label: 'null'}]
     }
   },
-  mounted: function () {
-    this.loadLogs()
-  },
+  // mounted: function () {
+  //   this.loadLogs()
+  // },
   methods: {
     loadLogs () {
       const date = new Date()
@@ -225,6 +225,15 @@ export default {
     },
     filterSource (value, row) {
       return row.source === value
+    }
+  },
+  watch: {
+    come: function (newValue, oldValue) {
+      if (newValue === '运维日志') {
+        this.loadLogs()
+      } else {
+        this.loadLogs()
+      }
     }
   }
 }

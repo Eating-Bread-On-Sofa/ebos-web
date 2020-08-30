@@ -47,7 +47,7 @@
         <el-col :span="11" style="margin-left: 5%">
           <div style="float: right">
             <el-button type="success" icon="el-icon-guide">更新周期</el-button>
-            <el-select v-model="interval" placeholder="请选择更新周期" @change="handleDeviceId">
+            <el-select v-model="interval" placeholder="请选择更新周期">
               <el-option v-for="item in intervals" :key="item.value" :label="item.label" :value="item.value"></el-option>
             </el-select>
           </div>
@@ -72,6 +72,7 @@ export default {
       deviceList: [
         {name: ''}
       ],
+      time: '',
       interval: 1000,
       intervals: [
         {label: '1秒', value: 1000},
@@ -115,6 +116,11 @@ export default {
   mounted () {
     this.selectGw()
   },
+  beforeDestroy () {
+    if (this.time) {
+      clearInterval(this.time)
+    }
+  },
   methods: {
     selectGw () {
       // 实际API
@@ -155,6 +161,7 @@ export default {
         let item = 'data' + (i + 1)
         this.dataForm[item] = []
       }
+      this.deviceId = id
       this.drawCharts(id)
     },
     getDeviceName () {
@@ -204,16 +211,48 @@ export default {
         }
         this.myChart = echarts.init(document.getElementById('detailchart'))
         this.myChart.setOption(this.option)
+        this.setTime(this.interval)
       })
-      setInterval(() => {
+      // setInterval(() => {
+      //   var date = new Date()
+      //   // 实际API
+      //   // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
+      //   // kong网关代理API
+      //   this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + id).then(resp => {
+      //   // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+      //   // 开发模式下代理API
+      //   // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
+      //     if (resp && resp.status === 200) {
+      //       for (let i = 0; i < this.len; i++) {
+      //         let item = 'data' + (i + 1)
+      //         this.dataForm[item].push([date, resp.data[this.dataForm.type[i]]])
+      //       }
+      //       if (this.dataForm.data1.length > 60) {
+      //         for (let i = 0; i < this.len; i++) {
+      //           let item = 'data' + (i + 1)
+      //           this.dataForm[item].shift()
+      //         }
+      //       }
+      //       for (let i = 0; i < this.len; i++) {
+      //         let item = 'data' + (i + 1)
+      //         this.option.series[i].data = this.dataForm[item]
+      //       }
+      //       this.myChart.setOption(this.option)
+      //       console.log(this.interval)
+      //     }
+      //   })
+      // }, this.interval)
+    },
+    setTime (time) {
+      this.time = setInterval(() => {
         var date = new Date()
         // 实际API
         // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
         // kong网关代理API
-        this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + id).then(resp => {
-        // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
-        // 开发模式下代理API
-        // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
+        this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + this.deviceId).then(resp => {
+          // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+          // 开发模式下代理API
+          // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
           if (resp && resp.status === 200) {
             for (let i = 0; i < this.len; i++) {
               let item = 'data' + (i + 1)
@@ -230,12 +269,19 @@ export default {
               this.option.series[i].data = this.dataForm[item]
             }
             this.myChart.setOption(this.option)
+            console.log(this.interval)
           }
         })
-      }, this.interval)
+      }, time)
     },
     clear () {
       this.dialogFormVisible = false
+    }
+  },
+  watch: {
+    interval: function (newValue, oldValue) {
+      clearInterval(this.time)
+      this.setTime(newValue)
     }
   }
 }

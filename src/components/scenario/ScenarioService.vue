@@ -151,7 +151,7 @@ export default {
       },
       scenarioEdit: {
         name: '',
-        rules: ['rule'],
+        rules: [],
         content: []
       }
     }
@@ -290,8 +290,9 @@ export default {
     onSubmit () {
       let item = {}
       for (let x in this.command) {
-        item.commandName = this.commandList[x].commandName
-        item.deviceName = this.commandList[x].deviceName
+        let y = this.command[x]
+        item.commandName = this.commandList[y].commandName
+        item.deviceName = this.commandList[y].deviceName
         this.gwAndDevice.commands.push(item)
         item = {}
       }

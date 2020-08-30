@@ -25,7 +25,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="jsonObject" placeholder="">
-          <el-input type="textarea" v-model="commandForm.commandEdit.jsonObject" style="width: 200px" autocomplete="off" placeholder="请输入json格式命令信息"></el-input>
+          <el-input type="textarea" v-model="jsonString" style="width: 200px" autocomplete="off" placeholder="请输入json格式命令信息"></el-input>
         </el-form-item>
         <el-form-item label="指令选择" prop="list">
           <el-select v-model="commandForm.command" placeholder="" @change="handleCommand">
@@ -59,12 +59,13 @@ export default {
           level: '',
           name: '',
           description: '',
-          jsonObject: null,
+          jsonObject: {},
           deviceId: '',
           deviceName: '',
           commandId: ''
         }
-      }
+      },
+      jsonString: ''
     }
   },
   props: {
@@ -101,10 +102,10 @@ export default {
         commandEdit: {
           commandType: '',
           commandName: '',
-          level: 1,
+          level: '',
           name: '',
           description: '',
-          jsonObject: null,
+          jsonObject: {},
           deviceId: '',
           deviceName: '',
           commandId: ''
@@ -114,6 +115,7 @@ export default {
     },
     onSubmit () {
       var _this = this
+      this.commandForm.commandEdit.jsonObject = JSON.parse(this.jsonString)
       this.commandForm.commandEdit.commandId = this.commandForm.list.commandId
       this.commandForm.commandEdit.commandName = this.commandForm.list.commandName
       this.commandForm.commandEdit.deviceId = this.commandForm.list.deviceId

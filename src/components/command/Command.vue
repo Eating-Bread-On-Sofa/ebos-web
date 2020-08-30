@@ -36,6 +36,7 @@
           <el-table-column label="设备ID" prop="deviceId"></el-table-column>
           <el-table-column label="设备名称" prop="deviceName"></el-table-column>
           <el-table-column label="指令等级" prop="level"></el-table-column>
+          <el-table-column label="命令详情" prop="jsonObject"></el-table-column>
           <el-table-column label="描述" prop="description"></el-table-column>
           <el-table-column label="操作">
             <template slot-scope="scope">
@@ -85,7 +86,11 @@ export default {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
           if (resp && resp.status === 200) {
-            this.tableData = resp.data
+            let table = resp.data
+            for (let x in table) {
+              table[x].jsonObject = JSON.stringify(table[x].jsonObject)
+            }
+            this.tableData = table
             this.loading = false
           }
         }).catch(() => {

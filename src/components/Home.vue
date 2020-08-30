@@ -6,7 +6,7 @@
       <span style="position: absolute;right: 20px;"><i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: white"></i></span>
     </el-header>
     <el-container>
-      <nav-menu style="background-color: #333 !important"></nav-menu>
+      <nav-menu style="min-height: 800px;background-color: #333 !important"></nav-menu>
       <el-main style="padding: 0px;">
         <router-view />
       </el-main>
@@ -37,6 +37,7 @@ export default {
   // },
   mounted () {
     this.loadSysInfo()
+    this.ruleAlert()
   },
   methods: {
     loadSysInfo () {
@@ -55,6 +56,29 @@ export default {
       }).catch(() => {
         this.$message.error('获取系统信息失败')
       })
+    },
+    ruleAlert () {
+      var that = this
+      setInterval(function () {
+        // 实际API
+        // that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
+        // kong网关代理API
+        that.$axios.get(localStorage.socket + '/rc/ruleAlert').then(resp => {
+          // that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
+          // 开发模式下代理API
+          // that.$axios.get('/rules/ruleAlert').then(resp => {
+          var flag = resp.data.alertFlag
+          var msg = resp.data.alertMsg
+          if (flag === true) {
+            that.$notify({
+              title: '设备告警：',
+              message: msg,
+              type: 'warning',
+              duration: 0
+            })
+          }
+        })
+      }, 5000)
     },
     logout () {
       var _this = this

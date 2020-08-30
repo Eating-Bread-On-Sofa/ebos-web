@@ -227,9 +227,9 @@ export default {
       currentPage: 1
     }
   },
-  mounted () {
-    this.ruleAlert()
-  },
+  // mounted () {
+  //   this.ruleAlert()
+  // },
   created: function () {
     this.get()
     this.getFormDevices()
@@ -237,24 +237,24 @@ export default {
     this.getFormService()
   },
   methods: {
-    ruleAlert () {
-      var that = this
-      setInterval(function () {
-        // 实际API
-        // that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
-        // kong网关代理API
-        that.$axios.get(localStorage.socket + '/rc/ruleAlert').then(resp => {
-        // that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
-        // 开发模式下代理API
-        // that.$axios.get('/rules/ruleAlert').then(resp => {
-          var flag = resp.data.alertFlag
-          var msg = resp.data.alertMsg
-          if (flag === true) {
-            that.$alert('告警信息： ' + msg)
-          }
-        })
-      }, 5000)
-    },
+    // ruleAlert () {
+    //   var that = this
+    //   setInterval(function () {
+    //     // 实际API
+    //     // that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
+    //     // kong网关代理API
+    //     that.$axios.get(localStorage.socket + '/rc/ruleAlert').then(resp => {
+    //     // that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
+    //     // 开发模式下代理API
+    //     // that.$axios.get('/rules/ruleAlert').then(resp => {
+    //       var flag = resp.data.alertFlag
+    //       var msg = resp.data.alertMsg
+    //       if (flag === true) {
+    //         that.$alert('告警信息： ' + msg)
+    //       }
+    //     })
+    //   }, 5000)
+    // },
     onSubmit () {
       this.dialogCreateVisible = false
       this.post()

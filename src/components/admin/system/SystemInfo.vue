@@ -11,12 +11,12 @@
     <el-card style="margin: 18px 2%;width: 95%;">
       <el-card style="margin: 20px auto 20px auto;width: 70%;height: 500px;" bodyStyle="padding: 10px" shadow="hover">
         <div class="cover">
-          <img :src="form.logoUrl" alt="系统LOGO" @click="editInfo">
+          <img :src="form.logoUrl" alt="系统LOGO">
         </div>
         <h3>用户系统名称:</h3>
-        <div class="info" @click="editInfo">{{ form.name }}</div>
+        <div class="info">{{ form.name }}</div>
         <h3>后台管理系统名称:</h3>
-        <div class="info" @click="editInfo">{{ form.nameAdmin }}</div>
+        <div class="info">{{ form.nameAdmin }}</div>
       </el-card>
     </el-card>
   </div>
@@ -61,11 +61,11 @@ export default {
       }).catch(() => {
         this.$message.error('获取系统信息失败')
       })
-    },
-    editInfo () {
-      this.$refs.edit.form = this.form[0]
-      this.$refs.edit.dialogFormVisible = true
     }
+    // editInfo () {
+    //   this.$refs.edit.form = this.form
+    //   this.$refs.edit.dialogFormVisible = true
+    // }
   }
 }
 </script>

@@ -51,15 +51,15 @@ export default {
   },
   methods: {
     saveConfig () {
-      let url = this.formItem.address.trim()
-      var result
-      localStorage.socket = this.formItem.address.trim()
-      if (url.includes('localhost')) {
-        result = 'localhost'
-      } else {
-        result = url.match(/(\d{1,3}\.){3}\d{1,3}/g)[0]
-      }
-      localStorage.serviceIP = result
+      // let url = this.formItem.address.trim()
+      // var result
+      // localStorage.socket = this.formItem.address.trim()
+      // if (url.includes('localhost')) {
+      //   result = 'localhost'
+      // } else {
+      //   result = url.match(/(\d{1,3}\.){3}\d{1,3}/g)[0]
+      // }
+      // localStorage.serviceIP = result
       this.$store.commit('saveSocket', this.formItem.address)
       this.$store.commit('handleSocket', true)
       this.$router.push('/login')
