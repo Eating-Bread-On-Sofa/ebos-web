@@ -15,7 +15,7 @@
               </el-select>
             </el-form-item>
             <el-form-item label="选择设备">
-              <el-select v-model="deviceId" placeholder="请选择设备" @change="getDeviceName">
+              <el-select v-model="deviceIndex" placeholder="请选择设备">
                 <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
               </el-select>
             </el-form-item>
@@ -38,10 +38,11 @@
       <el-row  style="margin-top: 20px;margin-bottom: 30px;">
         <el-col :span="11" style="margin-left: 15px">
           <div style="float: left">
-            <el-button type="success" icon="el-icon-guide" @change="handleDeviceId">在线设备</el-button>
-            <el-select v-model="deviceId" placeholder="请选择设备" @change="getDeviceName">
+            <el-button type="success" icon="el-icon-guide" @click="handleDeviceId">在线设备</el-button>
+            <el-select v-model="deviceIndex" placeholder="请选择设备">
               <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
             </el-select>
+            <el-button type="success" @click="handleDeviceId">确定</el-button>
           </div>
         </el-col>
         <el-col :span="11" style="margin-left: 5%">
@@ -60,6 +61,7 @@
 </template>
 <script>
 import echarts from 'echarts'
+require('echarts/theme/macarons')
 export default {
   name: 'DeviceMonitor',
   data () {
@@ -67,6 +69,7 @@ export default {
       gwList: [],
       gwip: '',
       selectDialog: false,
+      deviceIndex: '',
       deviceId: '',
       deviceName: '',
       deviceList: [
@@ -154,21 +157,29 @@ export default {
       })
     },
     handleDeviceId () {
-      let id = this.deviceList[this.deviceId].id
-      this.selectDialog = false
-      this.dataForm.type = []
-      for (let i = 0; i < this.len; i++) {
-        let item = 'data' + (i + 1)
-        this.dataForm[item] = []
+      if (this.time) {
+        clearInterval(this.time)
       }
-      this.deviceId = id
-      this.drawCharts(id)
-    },
-    getDeviceName () {
-      this.deviceName = this.deviceList[this.deviceId].name
+      // echarts.init(document.getElementById('detailchart'), 'macarons').clear()
+      this.option.series = []
+      this.deviceName = this.deviceList[this.deviceIndex].name
+      this.deviceId = this.deviceList[this.deviceIndex].id
+      this.selectDialog = false
+      this.dataForm = {
+        type: [],
+        data1: []
+      }
+      this.len = 0
+      echarts.init(document.getElementById('detailchart'), 'macarons').clear()
+      // this.option.series = []
+      // for (let i = 0; i < this.len; i++) {
+      //   let item = 'data' + (i + 1)
+      //   this.dataForm[item] = []
+      // }
+      this.drawCharts(this.deviceId)
     },
     drawCharts (id) {
-      var date = new Date()
+      let date1 = new Date()
       // 实际API
       // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
       // kong网关代理API
@@ -184,6 +195,7 @@ export default {
             name: '',
             type: 'line',
             data: [],
+            connectNulls: true,
             symbol: 'emptyTriangle',
             symbolSize: 6,
             lineStyle: {
@@ -195,23 +207,24 @@ export default {
           this.dataForm.type = Object.keys(resp.data)
           for (let i = 0; i < this.len; i++) {
             let item = 'data' + (i + 1)
-            this.dataForm[item].push([date, resp.data[this.dataForm.type[i]]])
+            this.dataForm[item].push([date1, resp.data[this.dataForm.type[i]]])
           }
-          if (this.dataForm.data1.length > 60) {
-            for (let i = 0; i < this.len; i++) {
-              let item = 'data' + (i + 1)
-              this.dataForm[item].shift()
-            }
-          }
+          // if (this.dataForm['data1'].length > 60) {
+          //   for (let i = 0; i < this.len; i++) {
+          //     let item = 'data' + (i + 1)
+          //     this.dataForm[item].shift()
+          //   }
+          // }
           for (let i = 0; i < this.len; i++) {
             let item = 'data' + (i + 1)
             this.option.series[i].name = this.dataForm.type[i]
             this.option.series[i].data = this.dataForm[item]
           }
         }
-        this.myChart = echarts.init(document.getElementById('detailchart'))
-        this.myChart.setOption(this.option)
-        this.setTime(this.interval)
+        this.myChart = echarts.init(document.getElementById('detailchart'), 'macarons')
+        // this.myChart.clear()
+        // this.myChart.setOption(this.option)
+        this.setTime(this.interval, id)
       })
       // setInterval(() => {
       //   var date = new Date()
@@ -243,13 +256,13 @@ export default {
       //   })
       // }, this.interval)
     },
-    setTime (time) {
+    setTime (time, id) {
       this.time = setInterval(() => {
-        var date = new Date()
+        let date = new Date()
         // 实际API
         // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
         // kong网关代理API
-        this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + this.deviceId).then(resp => {
+        this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + id).then(resp => {
           // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
           // 开发模式下代理API
           // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
@@ -258,7 +271,7 @@ export default {
               let item = 'data' + (i + 1)
               this.dataForm[item].push([date, resp.data[this.dataForm.type[i]]])
             }
-            if (this.dataForm.data1.length > 60) {
+            if (this.dataForm['data1'].length > 60) {
               for (let i = 0; i < this.len; i++) {
                 let item = 'data' + (i + 1)
                 this.dataForm[item].shift()
@@ -269,7 +282,6 @@ export default {
               this.option.series[i].data = this.dataForm[item]
             }
             this.myChart.setOption(this.option)
-            console.log(this.interval)
           }
         })
       }, time)
@@ -281,7 +293,7 @@ export default {
   watch: {
     interval: function (newValue, oldValue) {
       clearInterval(this.time)
-      this.setTime(newValue)
+      this.setTime(newValue, this.deviceId)
     }
   }
 }

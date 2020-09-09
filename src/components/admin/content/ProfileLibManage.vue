@@ -246,7 +246,7 @@ export default {
         // 实际API
         // .get('http://localhost:8091/api/profile/name/' + tablerow.name).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/p/name/' + tablerow.name).then(resp => {
+        .get(localStorage.socket + '/p/name/yml/' + tablerow.name).then(resp => {
         // .get('http://localhost:8000/p/name/' + tablerow.name).then(resp => {
         // 开发模式下代理API
         // .get('/profiles/name/' + tablerow.name).then(resp => {

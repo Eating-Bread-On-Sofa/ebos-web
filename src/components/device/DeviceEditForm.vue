@@ -2,7 +2,7 @@
   <div>
     <el-dialog
       title="新增设备信息"
-      width="30%"
+      width="40%"
       :visible.sync="editDialog"
       @close="clear">
       <el-form v-model="deviceEditForm" label-width="40%" style="text-align: left">
@@ -44,8 +44,8 @@
           <el-input v-model="deviceEditForm.deviceForm.protocols[deviceEditForm.protocolName][key]"></el-input>
         </el-form-item>
         <el-form-item label="设备模板" prop="profile">
-          <el-select v-model="deviceEditForm.deviceForm.profile.name" placeholer="请选择设备模板">
-            <el-option v-for="item in profileList" :key="item.id" :label="item.name" :value="item.name"></el-option>
+          <el-select v-model="deviceEditForm.deviceForm.profile.name" placeholer="请选择设备模板" @change="handleProfile">
+            <el-option v-for="(item, index) in profileList" :key="index" :label="item.name" :value="item.name"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="设备服务名称" prop="service.name">
@@ -53,6 +53,26 @@
             <el-option v-for="(item, i) in deviceServiceList" :key="i" :label="item.name" :value="item.name"></el-option>
           </el-select>
 <!--          <el-input v-model="deviceEditForm.deviceForm.service.name" autocomplete="off" placeholder="请输入设备服务名称"></el-input>-->
+        </el-form-item>
+        <el-form-item v-for="(item, index) in deviceEditForm.deviceForm.autoEvents"
+        label="事件及频率"
+        :key="index"
+        :prop="'deviceEditForm.deviceForm.autoEvents.'+ index">
+          <el-col :span="18">
+            <el-select v-model="item.resource" placeholder="请选择事件资源">
+              <el-option v-for="(item1, j) in deviceResource" :key="j" :label="item1" :value="item1"></el-option>
+            </el-select>
+          <br />
+            <el-select v-model="item.frequency" placeholder="请选择事件频率">
+              <el-option v-for="(item2, z) in deviceFrequency" :key="z" :label="item2.label" :value="item2.value"></el-option>
+            </el-select>
+          </el-col>
+          <el-col :span="3">
+            <el-button type="primary" @click="addAuto" icon="el-icon-plus" circle size="small"></el-button>
+          </el-col>
+          <el-col :span="3">
+            <el-button type="primary" @click="deleteAuto(index)" icon="el-icon-minus" circle size="small"></el-button>
+          </el-col>
         </el-form-item>
 <!--        <el-form-item label="服务管理状态" prop="service">-->
 <!--          <el-select v-model="deviceEditForm.deviceForm.service.adminState" placeholder="请选择服务管理状态">-->
@@ -78,6 +98,13 @@ export default {
       protocolList: [],
       protocolItem: {},
       deviceServiceList: [],
+      deviceResource: [],
+      deviceFrequency: [
+        {label: '1秒', value: '1s'},
+        {label: '3秒', value: '3s'},
+        {label: '5秒', value: '5s'},
+        {label: '10秒', value: '10s'}
+      ],
       deviceEditForm: {
         gwip: '',
         labelText: '',
@@ -95,7 +122,13 @@ export default {
           },
           profile: {
             name: ''
-          }
+          },
+          autoEvents: [
+            {
+              resource: '',
+              frequency: ''
+            }
+          ]
         }
       }
     }
@@ -165,6 +198,21 @@ export default {
           this.$message('获取协议信息失败！')
         })
     },
+    handleProfile () {
+      let profileName = this.deviceEditForm.deviceForm.profile.name
+      console.log(profileName)
+      // console.log(this.profileList[index])
+      // console.log(this.profileList[index].deviceResources)
+      this.$axios.get(localStorage.socket + '/p/name/json/' + profileName).then(resp => {
+        if (resp && resp.status === 200) {
+          for (let i in resp.data.deviceResources) {
+            this.deviceResource.push(resp.data.deviceResources[i].name)
+          }
+        }
+      }).catch(() => {
+        this.$message.error('获取资源失败！')
+      })
+    },
     handleLabel () {
       this.deviceEditForm.deviceForm.labels.push(this.deviceEditForm.labelText)
     },
@@ -201,6 +249,7 @@ export default {
         })
     },
     clear () {
+      this.deviceResource = []
       this.deviceEditForm = {
         gwip: '',
         deviceForm: {
@@ -216,10 +265,29 @@ export default {
           service: {
             name: '',
             adminState: 'UNLOCKED'
-          }
+          },
+          autoEvents: [
+            {
+              resource: '',
+              frequency: ''
+            }
+          ]
         }
       }
       this.$emit('hideDialog')
+    },
+    addAuto () {
+      this.deviceEditForm.deviceForm.autoEvents.push(
+        {
+          resource: '',
+          frequency: ''
+        }
+      )
+    },
+    deleteAuto (index) {
+      if (index !== -1) {
+        this.deviceEditForm.deviceForm.autoEvents.splice(index, 1)
+      }
     },
     onSubmit () {
       var _this = this

@@ -233,7 +233,11 @@ export default {
       // 开发模式下代理API
       // this.$axios.get('/devices/details/' + this.gwip + '/' + row.id).then(resp => {
         if (resp && resp.status === 200) {
-          this.$message.success('连接成功！当前设备读数为：' + resp.data)
+          if (JSON.stringify(resp.data) === '{}') {
+            this.$message.error('当前设备读数异常，请检查设备连接!')
+          } else {
+            this.$message.success('当前设备读数为：' + JSON.stringify(resp.data))
+          }
         }
       }).catch(() => {
         this.$message.error('连接设备失败！')
