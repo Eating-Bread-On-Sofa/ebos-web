@@ -187,7 +187,7 @@
       <div >
         <span slot="footer" class="dialog-footer" style="text-align: center" >
         <el-button @click="dialogCreateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit">确 定</el-button>
+        <el-button type="primary" @click="onSubmit()">确11111定</el-button>
       </span>
       </div>
 
@@ -237,24 +237,6 @@ export default {
     this.getFormService()
   },
   methods: {
-    // ruleAlert () {
-    //   var that = this
-    //   setInterval(function () {
-    //     // 实际API
-    //     // that.$axios.get('http://localhost:8083/api/ruleAlert').then(resp => {
-    //     // kong网关代理API
-    //     that.$axios.get(localStorage.socket + '/rc/ruleAlert').then(resp => {
-    //     // that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
-    //     // 开发模式下代理API
-    //     // that.$axios.get('/rules/ruleAlert').then(resp => {
-    //       var flag = resp.data.alertFlag
-    //       var msg = resp.data.alertMsg
-    //       if (flag === true) {
-    //         that.$alert('告警信息： ' + msg)
-    //       }
-    //     })
-    //   }, 5000)
-    // },
     onSubmit () {
       this.dialogCreateVisible = false
       this.post()
@@ -388,7 +370,6 @@ export default {
           obj.ruleId = resp.data[x].ruleId
           obj.service = resp.data[x].service
           obj.device = resp.data[x].device
-          // obj.scenario = resp.data[x].scenario
           for (var i = 0; i < resp.data[x].otherRules.length; i++) {
             var rule = 'rule' + (i + 2)
             obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold

@@ -67,15 +67,26 @@ export default {
           // that.$axios.get('http://localhost:8000/rc/ruleAlert').then(resp => {
           // 开发模式下代理API
           // that.$axios.get('/rules/ruleAlert').then(resp => {
-          var flag = resp.data.alertFlag
-          var msg = resp.data.alertMsg
-          if (flag === true) {
-            that.$notify({
-              title: '设备告警：',
-              message: msg,
-              type: 'warning',
-              duration: 0
-            })
+          // var flag = resp.data.alertFlag
+          // var msg = resp.data.alertMsg
+          // if (flag === true) {
+          //   that.$notify({
+          //     title: '设备告警：',
+          //     message: msg,
+          //     type: 'warning',
+          //     duration: 0
+          //   })
+          // }
+          var list = resp.data.alertList
+          if (list.length) {
+            for (let alert of list) {
+              that.$notify({
+                title: '设备告警：',
+                message: alert,
+                type: 'warning',
+                duration: 0
+              })
+            }
           }
         })
       }, 5000)
