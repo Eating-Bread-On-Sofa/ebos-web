@@ -187,7 +187,7 @@
       <div >
         <span slot="footer" class="dialog-footer" style="text-align: center" >
         <el-button @click="dialogCreateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit()">确11111定</el-button>
+        <el-button type="primary" @click="onSubmit()">确定</el-button>
       </span>
       </div>
 
@@ -304,6 +304,7 @@ export default {
         })
         .catch(_ => {
         })
+      this.get()
     },
     post () {
       // kong网关代理API
@@ -374,7 +375,6 @@ export default {
             var rule = 'rule' + (i + 2)
             obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold
           }
-          // console.log(obj)
           data[x] = obj
         }
         if (resp && resp.status === 200) {
