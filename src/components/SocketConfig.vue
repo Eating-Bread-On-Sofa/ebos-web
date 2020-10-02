@@ -8,7 +8,7 @@
                   auto-complete="off" placeholder="例如:http://192.168.0.200:8000"></el-input>
       </el-form-item>
       <el-form-item >
-        <el-button type="primary" @click="test" style="background: #505458;border: none;margin-left: -100px">进入</el-button>
+        <el-button type="primary" @click.enter="test" style="background: #505458;border: none;margin-left: -100px">进入</el-button>
         <el-button type="success" @click="clear" style="background: #505458;border: none;margin-right: 90px">清除地址</el-button>
       </el-form-item>
     </el-form>

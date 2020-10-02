@@ -102,6 +102,9 @@
             <el-button
               size="mini"
               @click="handleStatus(scope.$index, scope.row)">查看设备状态</el-button>
+            <el-button
+              size="mini"
+              @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
 <!--            <el-button-->
 <!--              size="mini"-->
 <!--              type="success"-->
@@ -196,6 +199,9 @@ export default {
       }).catch(() => {
         this.$message.error('获取状态信息失败！')
       })
+    },
+    handleUpdate (index, row) {
+
     },
     handleDelete (index, tablerow) {
       this.$confirm('此操作将永久删除该场景，是否继续？', '提示', {

@@ -3,7 +3,6 @@
     <el-row>
       <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
         <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
-        <el-breadcrumb-item>消息路由</el-breadcrumb-item>
         <el-breadcrumb-item>发布订阅</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
@@ -191,9 +190,9 @@ export default {
         type: 'waring'
       }).then(() => {
         this.$axios
-        // 实际API
-        // .delete('http://localhost:8084/api/router/subscribe?serviceName=' + row.serviceName + '&subTopic=' + row.subTopic).then(resp => {
-        // kong网关代理API
+          // 实际API
+          // .delete('http://localhost:8084/api/router/subscribe?serviceName=指令管理&subTopic=7').then(resp => {
+          // kong网关代理API
           .delete(localStorage.socket + '/mqr/subscribe?serviceName=' + row.serviceName + '&subTopic=' + row.subTopic).then(resp => {
           // .delete('http://localhost:8000/mqr/name/' + row.name).then(resp => {
           // 开发模式下代理API
@@ -232,6 +231,7 @@ export default {
         .post(localStorage.socket + '/mqr/subscribe?serviceName=' + this.subscribeForm.serviceName + '&subTopic=' + this.subscribeForm.subTopic).then(resp => {
           if (resp && resp.status === 200) {
             this.loadMessageTopic()
+            this.subscribeDialog = false
           }
         }).catch(() => {
           this.$message.error('消息订阅失败!')
@@ -245,6 +245,7 @@ export default {
         .post(localStorage.socket + '/mqr/publish?serviceName=' + this.addsubForm.serviceName + '&message=' + this.addsubForm.message + '&topic=' + this.addsubForm.topic).then(resp => {
           if (resp && resp.status === 200) {
             this.loadMessageTopic()
+            this.addsubDialog = false
           }
         }).catch(() => {
           this.$message.error('消息发布失败!')
