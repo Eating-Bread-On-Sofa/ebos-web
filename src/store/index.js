@@ -8,6 +8,7 @@ export default new Vuex.Store({
     username: window.localStorage.getItem('username') == null ? '' : JSON.parse(window.localStorage.getItem('username' || '[]')),
     adminMenus: [],
     commonMenus: [],
+    messageCenter: [],
     socket: window.localStorage.getItem('socket') == null ? '' : window.localStorage.getItem('socket' || '[]'),
     hadSocket: false
   },
@@ -17,6 +18,16 @@ export default new Vuex.Store({
     },
     initCommonMenu (state, commonMenus) {
       state.commonMenus = commonMenus
+    },
+    addMessage (state, messages) {
+      state.messageCenter.push(messages)
+    },
+    deleteMessage (state, messageIndex, count) {
+      if (count) {
+        state.messageCenter.splice(messageIndex, count)
+      } else {
+        state.messageCenter = []
+      }
     },
     saveSocket (state, socket) {
       state.socket = socket

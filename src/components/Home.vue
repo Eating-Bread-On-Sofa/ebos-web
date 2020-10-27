@@ -3,7 +3,12 @@
     <el-header style="width: 100%;height: 50px;padding: 0px;background-color: #333">
       <img :src="info.logoUrl" alt="" style="float: left;height: 50px; width: 200px;min-width: 120px">
       <span style="position: absolute;left: 220px;font-size: 20px;font-weight: bold;line-height:50px; color: white; font-family: 楷体">{{ info.name }}</span>
-      <span style="position: absolute;right: 20px;"><i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: white"></i></span>
+        <i class="el-icon-switch-button" v-on:click="logout" style="float: right;margin-top: 10px;font-size: 20px; padding: 5px;color: white"></i>
+      <span style="float: right;margin-top: 10px;margin-right: 10px; padding: 8px;">
+        <el-badge :value="messageCount" :max="99" class="item">
+        <i class="el-icon-bell" v-on:click="message" style="padding-right: 2px;font-size: 20px;color: white"></i>
+        </el-badge>
+      </span>
     </el-header>
     <el-container>
       <nav-menu style="min-height: 800px;background-color: #333 !important"></nav-menu>
@@ -23,6 +28,7 @@ export default {
   components: {NavMenu},
   data () {
     return {
+      messageCount: '',
       info: {
         name: '',
         logoUrl: '',
@@ -38,6 +44,7 @@ export default {
   mounted () {
     this.loadSysInfo()
     this.ruleAlert()
+    this.messageCount = this.$store.state.messageCenter.length
   },
   methods: {
     loadSysInfo () {
@@ -80,6 +87,10 @@ export default {
           var list = resp.data.alertList
           if (list.length) {
             for (let alert of list) {
+              if (this.$notify) {
+                this.$store.commit('addMessage', alert)
+                this.$notify.close()
+              }
               that.$notify({
                 title: '设备告警：',
                 message: alert,
@@ -90,6 +101,9 @@ export default {
           }
         })
       }, 5000)
+    },
+    message () {
+      this.$router.replace('/messageCenter')
     },
     logout () {
       var _this = this

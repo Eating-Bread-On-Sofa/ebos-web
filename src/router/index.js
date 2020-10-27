@@ -50,6 +50,11 @@ export default new Router({
       name: 'Home',
       component: Home,
       children: [
+        {
+          path: '/messageCenter',
+          name: 'MessageCenter',
+          component: () => import('../components/common/MessageCenter')
+        }
         // {
         //   path: '/index',
         //   name: 'AppIndex',
