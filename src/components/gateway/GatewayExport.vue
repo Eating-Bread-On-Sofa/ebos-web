@@ -1,5 +1,26 @@
 <template>
   <div id="GatewayExport">
+    <div>
+      <el-dialog
+        title="请先选择网关"
+        width="30%"
+        :visible.sync="selectDialog">
+        <el-form v-model="gwip" label-width="40%" style="text-align: left">
+          <el-form-item label="选择网关">
+            <el-select style="width: 240px" v-model="gwip" placeholder="请选择网关查看设备">
+              <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+                <span style="float: left">网关名称：{{ item.name }}</span>
+                <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+              </el-option>
+            </el-select>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer" style="text-align: center;">
+          <el-button @click="selectDialog = false">取消</el-button>
+          <el-button type="primary" @click="loadService">确定</el-button>
+        </div>
+      </el-dialog>
+    </div>
     <el-row>
       <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
         <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
@@ -28,11 +49,11 @@
           <el-input type="password" v-model="regForm.password" placeholder="请输入密码"></el-input>
         </el-form-item>
         <el-form-item label="主题类型">
-          <el-input v-model="regForm.topic" placeholder="请输入主题"></el-input>
+          <el-input v-model="regForm.topic" placeholder="请输入主题" ></el-input>
         </el-form-item>
-        <el-form-item label="数据内容">
-          <el-input v-model="regForm.deviceIdentifiers" placeholder="选填"></el-input>
-        </el-form-item>
+        <!--<el-form-item label="数据内容">-->
+          <!--<el-input v-model="regForm.deviceIdentifiers" placeholder="选填"></el-input>-->
+        <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button @click="regClear">取消</el-button>
@@ -173,7 +194,7 @@ export default {
     // 实际API
     // .post('http://localhost:8090/api/instance/export?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password='+ this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers=' + this.regForm.deviceIdentifiers).then(resp => {
     // kong网关代理API
-      .post(localStorage.socket + '/instances/export?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password=' + this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers=' + this.regForm.deviceIdentifiers).then(resp => {
+      .post(localStorage.socket + '/instances/export?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password=' + this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers= " "').then(resp => {
         if (resp && resp.status === 200) {
           this.loadMessageTopic()
           this.regDialog = false

@@ -36,16 +36,24 @@
         </el-breadcrumb>
       </el-row>
       <el-row  style="margin-top: 20px;margin-bottom: 30px;">
-        <el-col :span="11" style="margin-left: 15px">
+        <el-col :span="8">
           <div style="float: left">
-            <el-button type="success" icon="el-icon-guide" @click="handleDeviceId">在线设备</el-button>
-            <el-select v-model="deviceIndex" placeholder="请选择设备">
-              <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
+            <el-button type="success" icon="el-icon-guide" >在线设备</el-button>
+            <el-select v-model="deviceIndex1" placeholder="请选择设备">
+              <el-option v-for="(item, i) in deviceList1" :key="i" :label="item.name" :value="i"></el-option>
             </el-select>
-            <el-button type="success" @click="handleDeviceId">确定</el-button>
+            <el-button type="success" @click="handleDeviceId1">确定</el-button>
           </div>
         </el-col>
-        <el-col :span="11" style="margin-left: 5%">
+        <el-col :span="8">
+          <div style="float: left">
+            <el-select v-model="deviceIndex2" placeholder="请选择设备">
+              <el-option v-for="(item, i) in deviceList2" :key="i" :label="item.name" :value="i"></el-option>
+            </el-select>
+            <el-button type="success" @click="handleDeviceId2">确定</el-button>
+          </div>
+        </el-col>
+        <el-col :span="8">
           <div style="float: right">
             <el-button type="success" icon="el-icon-guide">更新周期</el-button>
             <el-select v-model="interval" placeholder="请选择更新周期">
@@ -55,7 +63,8 @@
         </el-col>
       </el-row>
       <el-row>
-        <div id="detailchart" style="width: 1200px;height:600px;margin-top: 20px"></div>
+        <div id="detailchart1" style="width: 600px;height:600px;margin-top: 20px"></div>
+        <div id="detailchart2" style="width: 600px;height:600px;margin-top: 20px"></div>
       </el-row>
     </div>
 </template>
@@ -69,10 +78,14 @@ export default {
       gwList: [],
       gwip: '',
       selectDialog: false,
-      deviceIndex: '',
+      deviceIndex1: '',
+      deviceIndex2: '',
       deviceId: '',
       deviceName: '',
-      deviceList: [
+      deviceList1: [
+        {name: ''}
+      ],
+      deviceList2: [
         {name: ''}
       ],
       time: '',
@@ -156,21 +169,43 @@ export default {
         this.$message.error('获取在线设备列表失败！')
       })
     },
-    handleDeviceId () {
+    handleDeviceId1 () {
       if (this.time) {
         clearInterval(this.time)
       }
       // echarts.init(document.getElementById('detailchart'), 'macarons').clear()
       this.option.series = []
-      this.deviceName = this.deviceList[this.deviceIndex].name
-      this.deviceId = this.deviceList[this.deviceIndex].id
+      this.deviceName = this.deviceList1[this.deviceIndex1].name
+      this.deviceId = this.deviceList1[this.deviceIndex1].id
       this.selectDialog = false
       this.dataForm = {
         type: [],
         data1: []
       }
       this.len = 0
-      echarts.init(document.getElementById('detailchart'), 'macarons').clear()
+      echarts.init(document.getElementById('detailchart1'), 'macarons').clear()
+      // this.option.series = []
+      // for (let i = 0; i < this.len; i++) {
+      //   let item = 'data' + (i + 1)
+      //   this.dataForm[item] = []
+      // }
+      this.drawCharts(this.deviceId)
+    },
+    handleDeviceId2 () {
+      if (this.time) {
+        clearInterval(this.time)
+      }
+      // echarts.init(document.getElementById('detailchart'), 'macarons').clear()
+      this.option.series = []
+      this.deviceName = this.deviceList2[this.deviceIndex2].name
+      this.deviceId = this.deviceList2[this.deviceIndex2].id
+      this.selectDialog = false
+      this.dataForm = {
+        type: [],
+        data1: []
+      }
+      this.len = 0
+      echarts.init(document.getElementById('detailchart2'), 'macarons').clear()
       // this.option.series = []
       // for (let i = 0; i < this.len; i++) {
       //   let item = 'data' + (i + 1)
