@@ -290,7 +290,7 @@
           .then(_ => {
             this.table.splice(idx, 1)
             // kong网关代理API
-            this.$axios.post(localStorage.socket + '/rc/ruleDelete',
+            this.$axios.post(localStorage.socket + '/rR',
               // this.$axios.post('http://localhost:8000/rc/ruleDelete',
               // 实际API
               // this.$axios.post('http://localhost:8083/api/ruleDelete',
@@ -305,7 +305,7 @@
             // 开发模式下代理API
             // this.$axios.post('/rules/rule',
             // kong网关代理API
-            this.$axios.post(localStorage.socket + '/rc/rule',
+            this.$axios.post(localStorage.socket + '/rR',
               // this.$axios.post('http://localhost:8000/rc/rule',
               // 实际地址
               // this.$axios.post('http://localhost:8083/api/rule',
@@ -322,7 +322,7 @@
       },
       post () {
         // kong网关代理API
-        this.$axios.post(localStorage.socket + '/rc/webdata',
+        this.$axios.post(localStorage.socket + '/rR',
           // this.$axios.post('http://localhost:8000/rc/webdata',
           // 实际API
           // this.$axios.post('http://localhost:8083/api/webdata',
@@ -337,7 +337,7 @@
             'service': this.form.service,
             'device': this.form.device,
             // 'scenario': this.form.scenario,
-            'otherRules': this.form.dynamicItem
+            'otherRules': this.form.dynamicItem,
             'gateway': this.form.gateway
           }
         ).then(res => {
@@ -346,7 +346,7 @@
       },
       ruleCreate () {
         // kong网关代理API
-        this.$axios.post(localStorage.socket + '/rc/ruleCreate',
+        this.$axios.post(localStorage.socket + '/rR',
           // this.$axios.post('http://localhost:8000/rc/ruleCreate',
           // 实际API
           // this.$axios.post('http://localhost:8083/api/ruleCreate',
@@ -369,7 +369,7 @@
       get () {
         var _this = this
         // kong网关代理API
-        this.$axios.get(localStorage.socket + '/rc/getRuleLists').then(resp => {
+        this.$axios.get(localStorage.socket + '/rR').then(resp => {
           // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
           // 实际API
           // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
@@ -473,7 +473,7 @@
       getGateway () {
         // kong网关代理API
         this.$axios.get(localStorage.socket + '/c').then(resp => {
-          // this.$axios.get('http://localhost:8000/c').then(resp => {
+          // this.$axios.get('http://localhost:8000+/c').then(resp => {
           // 实际API
           // this.$axios.get('http://localhost:8082/api/command').then(resp => {
           // 开发模式下代理API
