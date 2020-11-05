@@ -282,6 +282,7 @@
           ruleExecute: '',
           service: '',
           // scenario: '',
+          gateway: '',
           dynamicItem: []
         }
       },
@@ -398,6 +399,8 @@
           }
         })
       },
+      // getgateway() {
+      // },
       getFormDevices () {
         // kong网关代理API
         this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
