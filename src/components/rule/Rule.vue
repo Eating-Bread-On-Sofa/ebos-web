@@ -418,7 +418,7 @@
       },
       getFormParas () {
         // kong网关代理API
-        this.$axios.get(localStorage.socket + '/c/list').then(resp => {
+        this.$axios.get(localStorage.socket + '/cc/l').then(resp => {
           // this.$axios.get('http://localhost:8000/c/list').then(resp => {
           // 实际API
           // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
@@ -454,7 +454,7 @@
       },
       getFormService () {
         // kong网关代理API
-        this.$axios.get(localStorage.socket + '/c').then(resp => {
+        this.$axios.get(localStorage.socket + '/cc').then(resp => {
           // this.$axios.get('http://localhost:8000/c').then(resp => {
           // 实际API
           // this.$axios.get('http://localhost:8082/api/command').then(resp => {
@@ -472,8 +472,8 @@
       },
       getGateway () {
         // kong网关代理API
-        this.$axios.get(localStorage.socket + '/c').then(resp => {
-          // this.$axios.get('http://localhost:8000+/c').then(resp => {
+        this.$axios.get(localStorage.socket + '/cc').then(resp => {
+          // this.$axios.get('http://localhost:8000/c').then(resp => {
           // 实际API
           // this.$axios.get('http://localhost:8082/api/command').then(resp => {
           // 开发模式下代理API
