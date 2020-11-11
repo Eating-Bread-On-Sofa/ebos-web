@@ -73,19 +73,23 @@ export default {
       type: Boolean,
       required: true,
       default: false
+    },
+    gname: {
+      type: String,
+      required: true
     }
   },
   methods: {
     getCommandList () {
       this.$axios
         // 实际API
-        // .get('http://localhost:8082/api/command/list').then(resp => {
+        // .get('http://localhost:8094/api/commandconfig/list' + this.gname).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/c/list').then(resp => {
-        // .get('http://localhost:8000/c/list').then(resp => {
+        .get(localStorage.socket + '/cc/l/' + this.gname).then(resp => {
+        // .get('http://localhost:8000/cc/l/' + this.gname).then(resp => {
         // 开发模式代理API
-        // .get('/commands/list').then(resp => {
-        // .get('/c/list').then(resp => {
+        // .get('/commandconfig/list'+this.gname).then(resp => {
+        // .get('/cc/l'+ this.gwname).then(resp => {
           if (resp && resp.status === 200) {
             this.commandList = resp.data
           }
@@ -122,9 +126,9 @@ export default {
       this.commandForm.commandEdit.deviceName = this.commandForm.list.deviceName
       this.$axios
         // 实际API
-        // .post('http://localhost:8082/api/commmand', _this.commandForm.commandEdit).then(resp => {
+        // .post('http://localhost:8094/api/commmandconfig'+this.gname, _this.commandForm.commandEdit).then(resp => {
         // kong网关道理API
-        .post(localStorage.socket + '/c', _this.commandForm.commandEdit).then(resp => {
+        .post(localStorage.socket + '/cc/' + this.gname, _this.commandForm.commandEdit).then(resp => {
         // .post('http://localhost:8000/c', _this.commandForm.commandEdit).then(resp => {
         // 开发模式下代理API
         // .post('/commands', _this.commandForm.commandEdit).then(resp => {

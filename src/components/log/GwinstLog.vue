@@ -19,7 +19,7 @@
         <el-button type="primary" @click="selectDialog = false">确定</el-button>
       </div>
     </el-dialog>
-    <log :come="come" :ip="ip" :port="port"></log>
+    <log :come="come" :gwip="gwip" :urlPath="urlPath"></log>
   </div>
 </template>
 
@@ -31,15 +31,10 @@ export default {
   data () {
     return {
       come: '网关日志',
-      port: 'gi',
+      urlPath: '/gc/l',
       gwip: '',
       gwList: [],
       selectDialog: false
-    }
-  },
-  computed: {
-    ip () {
-      return 'http://' + this.gwip + ':8000'
     }
   },
   mounted () {

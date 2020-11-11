@@ -1,5 +1,26 @@
 <template>
     <div>
+      <div>
+        <el-dialog
+          title="请先选择网关"
+          width="30%"
+          :visible.sync="selectDialog">
+          <el-form v-model="gname" label-width="40%" style="text-align: left">
+            <el-form-item label="选择网关">
+              <el-select style="width: 240px" v-model="gname" placeholder="请选择网关查看设备">
+                <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.name">
+                  <span style="float: left">网关名称：{{ item.name }}</span>
+                  <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-form>
+          <div slot="footer" class="dialog-footer" style="text-align: center;">
+            <el-button @click="selectDialog = false">取消</el-button>
+            <el-button type="primary" @click="loadCommands">确定</el-button>
+          </div>
+        </el-dialog>
+      </div>
       <el-row>
         <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
           <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
@@ -13,7 +34,7 @@
         <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-bottom: 5px;margin-right: 20px" @click="createDialog = true">新增
         </el-button>
         <br>
-        <command-edit-form ref="CommandEditForm" :createDialog="createDialog" @hideDialog="createDialog = false" @onSubmit="loadCommands()"></command-edit-form>
+        <command-edit-form ref="CommandEditForm" gname="gname" :createDialog="createDialog" @hideDialog="createDialog = false" @onSubmit="loadCommands()"></command-edit-form>
         <el-table
           ref="multipleTable"
           v-loading="loading"
@@ -68,21 +89,40 @@ export default {
       currentPage: 1,
       pagesize: 18,
       tableData: [],
+      gwList: [],
+      gname: '',
+      selectDialog: false,
       createDialog: false,
       loading: true
     }
   },
   mounted () {
-    this.loadCommands()
+    this.selectGw()
   },
   methods: {
+    selectGw () {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/gc').then(resp => {
+        // this.$axios.get('http://localhost:8000/gc').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/gateways').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gwList = resp.data
+          this.selectDialog = true
+        }
+      }).catch(() => {
+        this.$message.error('获取网关信息失败！')
+      })
+    },
     loadCommands () {
       this.$axios
         // 实际API
-        // .get('http://localhost:8082/api/command').then(resp => {
+        // .get('http://localhost:8094/api/commandconfig/' + this.cnpmcngname).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/c').then(resp => {
-        // .get('http://localhost:8000/c').then(resp => {
+        .get(localStorage.socket + '/cc/' + this.gname).then(resp => {
+        // .get('http://localhost:8000/cc/'this.gname).then(resp => {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
           if (resp && resp.status === 200) {
@@ -106,10 +146,10 @@ export default {
       }).then(() => {
         this.$axios
           // kong网关代理API
-          .delete(localStorage.socket + '/c?name=' + row.name).then(resp => {
-          // .delete('http://localhost:8000/c?name=' + row.name).then(resp => {
+          .delete(localStorage.socket + '/cc/' + this.gname + '?name=' + row.name).then(resp => {
+          // .delete('http://localhost:8000/cc/'+ this.gwname +'?name=' + row.name).then(resp => {
           // 实际API
-          // .delete('http"//localhost:8082/api/command?name=' + row.name).then(resp => {
+          // .delete('http"//localhost:8094/api/commandconfig/'+this.gwname+'?name=' + row.name).then(resp => {
           // 开发模式下代理API
           // .delete('/commands?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <log :come="come" :ip="ip" :port="port"></log>
+    <log :come="come" :urlPath="urlPath"></log>
   </div>
 </template>
 
@@ -12,8 +12,7 @@ export default {
   data () {
     return {
       come: '运维日志',
-      ip: localStorage.socket,
-      port: 'o'
+      urlPath: '/log'
     }
   }
 }

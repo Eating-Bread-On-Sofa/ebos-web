@@ -17,7 +17,7 @@
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center;">
           <el-button @click="selectDialog = false">取消</el-button>
-          <el-button type="primary" @click="loadService">确定</el-button>
+          <el-button type="primary" @click="loadTopic">确定</el-button>
         </div>
       </el-dialog>
     </div>
@@ -25,6 +25,7 @@
       <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
         <el-breadcrumb-item :to="{ path: '/index'}"><i class="el-icon-s-home" />首页</el-breadcrumb-item>
         <el-breadcrumb-item>数据导出</el-breadcrumb-item>
+        <el-breadcrumb-item>ip: {{gwip}}</el-breadcrumb-item>
       </el-breadcrumb>
     </el-row>
     <el-dialog
@@ -118,6 +119,9 @@ export default {
       createDialog: false,
       loading: true,
       regDialog: false,
+      gwList: [],
+      gwip: '',
+      selectDialog: false,
       regForm: {
         name: '',
         address: '',
@@ -130,17 +134,34 @@ export default {
     }
   },
   mounted () {
-    this.loadMessageTopic()
+    this.selectGw()
+    // this.loadDevices()
   },
   methods: {
-    loadMessageTopic () {
+    selectGw () {
+      // 实际API
+      // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/gc').then(resp => {
+        // this.$axios.get('http://localhost:8000/gc').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/gateways').then(resp => {
+        if (resp && resp.status === 200) {
+          this.gwList = resp.data
+          this.selectDialog = true
+        }
+      }).catch(() => {
+        this.$message.error('获取网关信息失败！')
+      })
+    },
+    loadTopic () {
       this.$axios
       // 实际API
-      // .get('http://localhost:8090/api/instance/export').then(resp => {
+      // .get('http://localhost:8089/api/gateway/export' + this.gwip).then(resp => {
       // kong网关代理API
-        .get(localStorage.socket + '/instances/export').then(resp => {
+        .get(localStorage.socket + '/gc/e/' + this.gwip).n(resp => {
           // 开发模式下代理API
-          // .get('/instances/export').then(resp => {
+          // .get('/instances/export'+this.gwip).then(resp => {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
@@ -160,11 +181,11 @@ export default {
       }).then(() => {
         this.$axios
         // 实际API
-        // .delete('http://localhost:8090/api/instance/export/' + row.addressable.name).then(resp => {
+        // .delete('http://localhost089/api/gateway/export/' + this.gwip + '/' + row.addressable.name).then(resp => {
         // kong网关代理API
-          .delete(localStorage.socket + '/instances/export/' + row.addressable.name).then(resp => {
+          .delete(localStorage.socket + '/gc/e/' + this.gwip + '/' + row.addressable.name).then(resp => {
             // 开发模式下代理API
-            // .delete('/instances/export/' + row.addressable.name).then(resp => {
+            // .delete('/instances/export/' + this.gwip + '/' + row.addressable.name).then(resp => {
             if (resp && resp.status === 200) {
               this.loadMessageTopic()
             }
@@ -192,9 +213,9 @@ export default {
   regSubmit () {
     this.$axios
     // 实际API
-    // .post('http://localhost:8090/api/instance/export?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password='+ this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers=' + this.regForm.deviceIdentifiers).then(resp => {
+    // .post('http://localhost:8089/api/gateway/export/' + this.gwip + '/?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password='+ this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers=' + this.regForm.deviceIdentifiers).then(resp => {
     // kong网关代理API
-      .post(localStorage.socket + '/instances/export?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password=' + this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers= " "').then(resp => {
+      .post(localStorage.socket + '/gc/e/' + this.gwip + '/?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password=' + this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers= " "').then(resp => {
         if (resp && resp.status === 200) {
           this.loadMessageTopic()
           this.regDialog = false

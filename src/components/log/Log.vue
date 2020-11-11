@@ -25,7 +25,7 @@
         <el-select v-model="operation" placeholder="请选择操作类型" style="margin-left: 10px">
           <el-option v-for="item in operationList" :key="item.value" :label="item.label" :value="item.value"></el-option>
         </el-select>
-        <el-button @click="searchPost" style="margin-left: 10px">查询</el-button>
+        <el-button @click="search" style="margin-left: 10px">查询</el-button>
       </div>
     </el-row>
     <el-row>
@@ -108,14 +108,12 @@ export default {
       default: '',
       required: true
     },
-    ip: {
+    urlPath: {
       type: String,
-      default: 'localhost',
       required: true
     },
-    port: {
+    gwip: {
       type: String,
-      default: 'o',
       required: true
     }
   },
@@ -132,13 +130,10 @@ export default {
       category: 'all',
       operation: 'all',
       sourceList: [{value: '全部', label: '全部'},
-        {value: '网关实例', label: '网关实例'},
-        {value: '规则引擎', label: '规则引擎'},
         {value: '消息路由', label: '消息路由'},
         {value: '通知管理', label: '通知管理'},
         {value: '模板管理', label: '模板管理'},
         {value: '网关管理', label: '网关管理'},
-        {value: '设备指令', label: '设备指令'},
         {value: '设备管理', label: '设备管理'},
         {value: '场景管理', label: '场景管理'},
         {value: '服务管理', label: '服务管理'}],
@@ -161,14 +156,11 @@ export default {
   // },
   methods: {
     loadLogs () {
-      const date = new Date()
-      let first = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
-      let last = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
       this.$axios
         // 实际API
         // .get(`http://${this.ip}:${this.port}/api/log`).then(resp => {
         // kong网关代理API
-        .get(`${this.ip}/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        .get(`${localStorage.socket}/${this.urlPath}/r?ip=${this.gwip}`).then(resp => {
         // .get(`http://localhost:8000/${this.port}/log`).then(resp => {
         // .get('http://' + this.ip + ':' + this.port + '/gi/log').then(resp => {
         // 开发模式下代理API
@@ -181,6 +173,50 @@ export default {
           this.$message.error('获取日志失败!')
         })
     },
+    loadOamLogs () {
+      this.$axios
+        // 实际API
+        // .get(`http://${this.ip}:${this.port}/api/log`).then(resp => {
+        // kong网关代理API
+        .get(`${localStorage.socket}/${this.urlPath}/r`).then(resp => {
+        // .get(`http://localhost:8000/${this.port}/log`).then(resp => {
+        // .get('http://' + this.ip + ':' + this.port + '/gi/log').then(resp => {
+        // 开发模式下代理API
+        // .get('/logs').then(resp => {
+          if (resp && resp.status === 200) {
+            this.table = resp.data
+            this.loading = false
+          }
+        }).catch(() => {
+          this.$message.error('获取日志失败!')
+        })
+    },
+    search () {},
+    searchOamPost () {
+      let first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth() + 1}/${this.firstDate.getDate()}`
+      let last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth() + 1}/${this.lastDate.getDate()}`
+      let tableData = []
+      // 实际API
+      // this.$axios.get(`http://${this.ip}:${this.port}/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      // kong网关代理API
+      this.$axios.get(`${localStorage.socket}/${this.urlPath}?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        // this.$axios.get(`http://${this.ip}:${this.port}/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+        let data = resp.data
+        for (let i = 0; i < data.length; i++) {
+          let obj = {}
+          obj.date = data[i].date
+          obj.category = data[i].category
+          obj.id = data[i].id
+          obj.message = data[i].message
+          obj.operation = data[i].operation
+          obj.source = data[i].source
+          tableData[i] = obj
+        }
+        this.table = tableData
+      })
+    },
     searchPost () {
       let first = `${this.firstDate.getFullYear()}/${this.firstDate.getMonth() + 1}/${this.firstDate.getDate()}`
       let last = `${this.lastDate.getFullYear()}/${this.lastDate.getMonth() + 1}/${this.lastDate.getDate()}`
@@ -188,7 +224,7 @@ export default {
       // 实际API
       // this.$axios.get(`http://${this.ip}:${this.port}/api/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // kong网关代理API
-      this.$axios.get(`${this.ip}/${this.port}/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
+      this.$axios.get(`${localStorage.socket}/${this.urlPath}?ip=${this.gwip}&firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
         // this.$axios.get(`http://${this.ip}:${this.port}/gi/log?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
       // 开发模式下代理API
       // this.$axios.get(`/logs?firstDate=${first}&lastDate=${last}&source=${this.source}&category=${this.category}&operation=${this.operation}`).then(resp => {
@@ -230,9 +266,11 @@ export default {
   watch: {
     come: function (newValue, oldValue) {
       if (newValue === '运维日志') {
-        this.loadLogs()
+        this.loadOamLogs()
+        this.search = this.searchOamPost
       } else {
         this.loadLogs()
+        this.search = this.searchPost
       }
     }
   }

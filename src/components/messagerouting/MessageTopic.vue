@@ -134,28 +134,19 @@ export default {
           label: '服务管理'
         }, {
           index: 2,
-          label: '网关实例'
-        }, {
-          index: 3,
           label: '运维监控'
         }, {
-          index: 4,
-          label: '指令管理'
-        }, {
-          index: 5,
+          index: 3,
           label: '设备管理'
         }, {
-          index: 6,
+          index: 4,
           label: '网关管理'
         }, {
-          index: 7,
+          index: 5,
           label: '场景管理'
         }, {
-          index: 8,
+          index: 6,
           label: '模板管理'
-        }, {
-          index: 9,
-          label: '规则引擎'
         }
       ]
     }
@@ -169,7 +160,7 @@ export default {
       // 实际API
       // .get('http://localhost:8084/api/router/allSubscribe').then(resp => {
       // kong网关代理API
-        .get(localStorage.socket + '/mqr/allSubscribe').then(resp => {
+        .get(localStorage.socket + '/r/aS/').then(resp => {
         // 开发模式下代理API
         // .get('/mqr/allSubscribe').then(resp => {
           if (resp && resp.status === 200) {
@@ -193,7 +184,7 @@ export default {
           // 实际API
           // .delete('http://localhost:8084/api/router/subscribe?serviceName=指令管理&subTopic=7').then(resp => {
           // kong网关代理API
-          .delete(localStorage.socket + '/mqr/subscribe?serviceName=' + row.serviceName + '&subTopic=' + row.subTopic).then(resp => {
+          .delete(localStorage.socket + '/r/sub?serviceName=' + row.serviceName + '&subTopic=' + row.subTopic).then(resp => {
           // .delete('http://localhost:8000/mqr/name/' + row.name).then(resp => {
           // 开发模式下代理API
           // .delete('/mqr/name/' + row.name).then(resp => {
@@ -228,7 +219,7 @@ export default {
         // 实际API
         // .post('http://localhost:8084/api/router/subscribe?serviceName=' + this.subscribeForm.serviceName + '&subTopic=' + this.subscribeForm.subTopic).then(resp => {
         // kong网关代理API
-        .post(localStorage.socket + '/mqr/subscribe?serviceName=' + this.subscribeForm.serviceName + '&subTopic=' + this.subscribeForm.subTopic).then(resp => {
+        .post(localStorage.socket + '/r/sub?serviceName=' + this.subscribeForm.serviceName + '&subTopic=' + this.subscribeForm.subTopic).then(resp => {
           if (resp && resp.status === 200) {
             this.loadMessageTopic()
             this.subscribeDialog = false
@@ -242,7 +233,7 @@ export default {
         // 实际API
         // .post('http://localhost:8084/api/router/publish?serviceName=' + this.addsubForm.serviceName + '&message=' + this.addsubForm.message + '&topic=' + this.addsubForm.topic).then(resp => {
         // kong网关代理API
-        .post(localStorage.socket + '/mqr/publish?serviceName=' + this.addsubForm.serviceName + '&message=' + this.addsubForm.message + '&topic=' + this.addsubForm.topic).then(resp => {
+        .post(localStorage.socket + '/r/p?serviceName=' + this.addsubForm.serviceName + '&message=' + this.addsubForm.message + '&topic=' + this.addsubForm.topic).then(resp => {
           if (resp && resp.status === 200) {
             this.loadMessageTopic()
             this.addsubDialog = false
@@ -254,7 +245,8 @@ export default {
     searchResult (e) {
       var _this = this
       this.$axios
-        .get(localStorage.socket + '/mqr/serviceName?serviceName=' + e).then(resp => {
+        // .get('http://localhost:8084/api/router/serviceName=' + e).then(resp => {
+        .get(localStorage.socket + '/r/sN?serviceName=' + e).then(resp => {
         // .get('/mqr/search?keywords=' + e).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
