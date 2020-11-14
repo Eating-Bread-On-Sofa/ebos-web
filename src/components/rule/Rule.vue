@@ -199,314 +199,314 @@
 </template>
 
 <script>
-  import SearchBar from '../common/SearchBar'
-  export default {
-    components: {SearchBar},
-    data () {
-      return {
-        paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
-        devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
-        services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
-        scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
-        gateways: [{value: '网关一', label: '场景一'}, {value: '网关二', label: '场景二'}],
-        form: {
-          device: '',
-          ruleName: '',
-          parameter: '',
-          ruleJudge: '',
-          ruleParaThreshold: '',
-          ruleExecute: '',
-          service: '',
-          // scenario: '',
-          dynamicItem: [],
-          gateway: ''
-        },
-        loading: true,
-        dialogCreateVisible: false,
-        table: [],
-        dialogVisible: false,
-        activeIndex: '1',
-        activeIndex2: '1',
-        userIndex: 0,
-        pagesize: 10,
-        currentPage: 1,
+import SearchBar from '../common/SearchBar'
+export default {
+  components: {SearchBar},
+  data () {
+    return {
+      paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
+      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
+      services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
+      scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
+      gateways: [{value: '网关一', label: '场景一'}, {value: '网关二', label: '场景二'}],
+      form: {
+        device: '',
+        ruleName: '',
+        parameter: '',
+        ruleJudge: '',
+        ruleParaThreshold: '',
+        ruleExecute: '',
+        service: '',
+        // scenario: '',
+        dynamicItem: [],
         gateway: ''
+      },
+      loading: true,
+      dialogCreateVisible: false,
+      table: [],
+      dialogVisible: false,
+      activeIndex: '1',
+      activeIndex2: '1',
+      userIndex: 0,
+      pagesize: 10,
+      currentPage: 1,
+      gateway: ''
+    }
+  },
+  created: function () {
+    this.get()
+    this.getFormDevices()
+    // this.getFormParas()
+    this.getFormService()
+    this.getGateway()
+  },
+  methods: {
+    onSubmit () {
+      this.dialogCreateVisible = false
+      this.post()
+      this.add()
+      this.postGateway()
+    },
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage
+    },
+    handleClose (done) {
+      this.$confirm('确认关闭？')
+        .then(_ => {
+          done()
+        })
+        .catch(_ => {
+        })
+    },
+    // postGateway () {
+    // kong网关代理API
+    // this.$axios.post('http://localhost:8099/rs/ruleSelect',
+    // {
+    // 'gateway': this.form.gateway
+    // }
+    // )
+    // this.gateway = this.form.gateway
+    // },
+    add () {
+      for (var i = 0; i < this.form.dynamicItem.length; i++) {
+        var rule = 'rule' + (i + 2)
+        this.form[rule] = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[i].device + ':' + this.form.dynamicItem[i].parameter + this.form.dynamicItem[i].ruleJudge + this.form.dynamicItem[i].ruleParaThreshold
+      }
+      this.table.push(this.form)
+      this.form = {
+        device: '',
+        ruleName: '',
+        parameter: '',
+        ruleJudge: '',
+        ruleParaThreshold: '',
+        ruleExecute: '',
+        service: '',
+        // scenario: '',
+        gateway: '',
+        dynamicItem: []
       }
     },
-    created: function () {
-      this.get()
-      this.getFormDevices()
-      // this.getFormParas()
-      this.getFormService()
-      this.getGateway()
-    },
-    methods: {
-      onSubmit () {
-        this.dialogCreateVisible = false
-        this.post()
-        this.add()
-        this.postGateway()
-      },
-      handleCurrentChange: function (currentPage) {
-        this.currentPage = currentPage
-      },
-      handleClose (done) {
-        this.$confirm('确认关闭？')
-          .then(_ => {
-            done()
-          })
-          .catch(_ => {
-          })
-      },
-      // postGateway () {
-      // kong网关代理API
-      // this.$axios.post('http://localhost:8099/rs/ruleSelect',
-      // {
-      // 'gateway': this.form.gateway
-      // }
-      // )
-      // this.gateway = this.form.gateway
-      // },
-      add () {
-        for (var i = 0; i < this.form.dynamicItem.length; i++) {
-          var rule = 'rule' + (i + 2)
-          this.form[rule] = this.form.dynamicItem[0].logic + ' ' + this.form.dynamicItem[i].device + ':' + this.form.dynamicItem[i].parameter + this.form.dynamicItem[i].ruleJudge + this.form.dynamicItem[i].ruleParaThreshold
-        }
-        this.table.push(this.form)
-        this.form = {
-          device: '',
-          ruleName: '',
-          parameter: '',
-          ruleJudge: '',
-          ruleParaThreshold: '',
-          ruleExecute: '',
-          service: '',
-          // scenario: '',
-          gateway: '',
-          dynamicItem: []
-        }
-      },
-      del (row, idx) {
-        this.$confirm('确认删除？')
-          .then(_ => {
-            this.table.splice(idx, 1)
-            // kong网关代理API
-            this.$axios.post(localStorage.socket + '/rR',
-              // this.$axios.post('http://localhost:8000/rc/ruleDelete',
-              // 实际API
-              // this.$axios.post('http://localhost:8083/api/ruleDelete',
-              // 开发模式下代理API
-              // this.$axios.post('/rules/ruleDelete',
-              {
-                'ruleName': row.ruleName
-              }
-            ).then(res => {
-              console.log(res)
-            })
+    del (row, idx) {
+      this.$confirm('确认删除？')
+        .then(_ => {
+          this.table.splice(idx, 1)
+          // kong网关代理API
+          this.$axios.post(localStorage.socket + '/rR',
+            // this.$axios.post('http://localhost:8000/rc/ruleDelete',
+            // 实际API
+            // this.$axios.post('http://localhost:8083/api/ruleDelete',
             // 开发模式下代理API
-            // this.$axios.post('/rules/rule',
-            // kong网关代理API
-            this.$axios.post(localStorage.socket + '/rR',
-              // this.$axios.post('http://localhost:8000/rc/rule',
-              // 实际地址
-              // this.$axios.post('http://localhost:8083/api/rule',
-              {
-                'ruleId': row.ruleId
-              }
-            ).then(res => {
-              console.log(res)
-            })
-          })
-          .catch(_ => {
-          })
-        this.get()
-      },
-      post () {
-        // kong网关代理API
-        this.$axios.post(localStorage.socket + '/rR',
-          // this.$axios.post('http://localhost:8000/rc/webdata',
-          // 实际API
-          // this.$axios.post('http://localhost:8083/api/webdata',
-          // 开发模式下代理API
-          // this.$axios.post('/rules/webdata',
-          {
-            'ruleName': this.form.ruleName,
-            'rulePara': this.form.parameter,
-            'ruleJudge': this.form.ruleJudge,
-            'ruleParaThreshold': this.form.ruleParaThreshold,
-            'ruleExecute': this.form.ruleExecute,
-            'service': this.form.service,
-            'device': this.form.device,
-            // 'scenario': this.form.scenario,
-            'otherRules': this.form.dynamicItem,
-            'gateway': this.form.gateway
-          }
-        ).then(res => {
-        })
-        this.ruleCreate()
-      },
-      ruleCreate () {
-        // kong网关代理API
-        this.$axios.post(localStorage.socket + '/rR',
-          // this.$axios.post('http://localhost:8000/rc/ruleCreate',
-          // 实际API
-          // this.$axios.post('http://localhost:8083/api/ruleCreate',
-          // 开发模式下代理API
-          // this.$axios.post('/rules/ruleCreate',
-          {
-            'ruleName': this.form.ruleName,
-            'rulePara': this.form.parameter,
-            'ruleJudge': this.form.ruleJudge,
-            'ruleParaThreshold': this.form.ruleParaThreshold,
-            'ruleExecute': this.form.ruleExecute,
-            'service': this.form.service,
-            'device': this.form.device,
-            // 'scenario': this.form.scenario,
-            'otherRules': this.form.dynamicItem
-          }
-        ).then(res => {
-        })
-      },
-      get () {
-        var _this = this
-        // kong网关代理API
-        this.$axios.get(localStorage.socket + '/rR').then(resp => {
-          // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
-          // 实际API
-          // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
-          // 开发模式下代理API
-          // this.$axios.get('/rules/getRuleLists').then(resp => {
-          var data = []
-          for (var x = 0; x < resp.data.length; x++) {
-            var obj = {}
-            obj.ruleName = resp.data[x].ruleName
-            obj.ruleParaThreshold = resp.data[x].threshold
-            obj.ruleJudge = resp.data[x].ruleJudge
-            obj.parameter = resp.data[x].parameter
-            obj.ruleExecute = resp.data[x].ruleExecute
-            obj.ruleId = resp.data[x].ruleId
-            obj.service = resp.data[x].service
-            obj.device = resp.data[x].device
-            for (var i = 0; i < resp.data[x].otherRules.length; i++) {
-              var rule = 'rule' + (i + 2)
-              obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold
+            // this.$axios.post('/rules/ruleDelete',
+            {
+              'ruleName': row.ruleName
             }
-            data[x] = obj
-          }
-          if (resp && resp.status === 200) {
-            _this.table = data
-            _this.loading = false
-          }
-        })
-      },
-      // getgateway() {
-      // },
-      getFormDevices () {
-        // kong网关代理API
-        this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
-          // this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
-          // 实际API
-          // this.$axios.get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
+          ).then(res => {
+            console.log(res)
+          })
           // 开发模式下代理API
-          // this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
-          var data = []
-          for (var x = 0; x < resp.data.length; x++) {
-            var obj = {}
-            obj.label = resp.data[x].name
-            obj.value = resp.data[x].name
-            data[x] = obj
+          // this.$axios.post('/rules/rule',
+          // kong网关代理API
+          this.$axios.post(localStorage.socket + '/rR',
+            // this.$axios.post('http://localhost:8000/rc/rule',
+            // 实际地址
+            // this.$axios.post('http://localhost:8083/api/rule',
+            {
+              'ruleId': row.ruleId
+            }
+          ).then(res => {
+            console.log(res)
+          })
+        })
+        .catch(_ => {
+        })
+      this.get()
+    },
+    post () {
+      // kong网关代理API
+      this.$axios.post(localStorage.socket + '/rR',
+        // this.$axios.post('http://localhost:8000/rc/webdata',
+        // 实际API
+        // this.$axios.post('http://localhost:8083/api/webdata',
+        // 开发模式下代理API
+        // this.$axios.post('/rules/webdata',
+        {
+          'ruleName': this.form.ruleName,
+          'rulePara': this.form.parameter,
+          'ruleJudge': this.form.ruleJudge,
+          'ruleParaThreshold': this.form.ruleParaThreshold,
+          'ruleExecute': this.form.ruleExecute,
+          'service': this.form.service,
+          'device': this.form.device,
+          // 'scenario': this.form.scenario,
+          'otherRules': this.form.dynamicItem,
+          'gateway': this.form.gateway
+        }
+      ).then(res => {
+      })
+      this.ruleCreate()
+    },
+    ruleCreate () {
+      // kong网关代理API
+      this.$axios.post(localStorage.socket + '/rR',
+        // this.$axios.post('http://localhost:8000/rc/ruleCreate',
+        // 实际API
+        // this.$axios.post('http://localhost:8083/api/ruleCreate',
+        // 开发模式下代理API
+        // this.$axios.post('/rules/ruleCreate',
+        {
+          'ruleName': this.form.ruleName,
+          'rulePara': this.form.parameter,
+          'ruleJudge': this.form.ruleJudge,
+          'ruleParaThreshold': this.form.ruleParaThreshold,
+          'ruleExecute': this.form.ruleExecute,
+          'service': this.form.service,
+          'device': this.form.device,
+          // 'scenario': this.form.scenario,
+          'otherRules': this.form.dynamicItem
+        }
+      ).then(res => {
+      })
+    },
+    get () {
+      var _this = this
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/rR').then(resp => {
+        // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/rules/getRuleLists').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.ruleName = resp.data[x].ruleName
+          obj.ruleParaThreshold = resp.data[x].threshold
+          obj.ruleJudge = resp.data[x].ruleJudge
+          obj.parameter = resp.data[x].parameter
+          obj.ruleExecute = resp.data[x].ruleExecute
+          obj.ruleId = resp.data[x].ruleId
+          obj.service = resp.data[x].service
+          obj.device = resp.data[x].device
+          for (var i = 0; i < resp.data[x].otherRules.length; i++) {
+            var rule = 'rule' + (i + 2)
+            obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold
           }
-          this.devices = data
-        })
-      },
-      getFormParas () {
-        // kong网关代理API
-        this.$axios.get(localStorage.socket + '/cc/l').then(resp => {
-          // this.$axios.get('http://localhost:8000/c/list').then(resp => {
-          // 实际API
-          // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
-          // 开发模式下代理API
-          // this.$axios.get('/commands/list').then(resp => {
-          var data = []
-          for (var x = 0; x < resp.data.length; x++) {
-            var obj = {}
-            obj.label = resp.data[x].commandName
-            obj.value = resp.data[x].commandName
-            data[x] = obj
-          }
-          this.paras = data
-        })
-      },
-      getFormScenario () {
-        // kong网关代理API
-        this.$axios.get(localStorage.socket + '/s').then(resp => {
-          // this.$axios.get('http://localhost:8000/s').then(resp => {
-          // 实际API
-          // this.$axios.get('http://localhost:8092/api/scenario').then(resp => {
-          // 开发模式下代理API
-          // this.$axios.get('/scenarios').then(resp => {
-          var data = []
-          for (var x = 0; x < resp.data.length; x++) {
-            var obj = {}
-            obj.label = resp.data[x].name
-            obj.value = resp.data[x].name
-            data[x] = obj
-          }
-          this.scenarios = data
-        })
-      },
-      getFormService () {
-        // kong网关代理API
-        this.$axios.get(localStorage.socket + '/cc').then(resp => {
-          // this.$axios.get('http://localhost:8000/c').then(resp => {
-          // 实际API
-          // this.$axios.get('http://localhost:8082/api/command').then(resp => {
-          // 开发模式下代理API
-          // this.$axios.get('/commands/').then(resp => {
-          var data = []
-          for (var x = 0; x < resp.data.length; x++) {
-            var obj = {}
-            obj.label = resp.data[x].name
-            obj.value = resp.data[x].name
-            data[x] = obj
-          }
-          this.services = data
-        })
-      },
-      getGateway () {
-        // kong网关代理API
-        this.$axios.get(localStorage.socket + '/cc').then(resp => {
-          // this.$axios.get('http://localhost:8000/c').then(resp => {
-          // 实际API
-          // this.$axios.get('http://localhost:8082/api/command').then(resp => {
-          // 开发模式下代理API
-          // this.$axios.get('/commands/').then(resp => {
-          var data = []
-          for (var x = 0; x < resp.data.length; x++) {
-            var obj = {}
-            obj.label = resp.data[x].name
-            obj.value = resp.data[x].name
-            data[x] = obj
-          }
-          this.gateways = data
-        })
-      },
-      addNewRule () {
-        this.form.dynamicItem.push({
-          logic: '',
-          device: '',
-          parameter: '',
-          ruleJudge: '',
-          ruleParaThreshold: ''
-        })
-      },
-      deleteNewRule (item, index) {
-        this.form.dynamicItem.splice(index, 1)
-      },
-      searchResult (e) {
-        var searchTable = []
-        for (var x = 0; x < this.table.length; x++) {
-          if (this.table[x].ruleName.indexOf(e) !== -1 ||
+          data[x] = obj
+        }
+        if (resp && resp.status === 200) {
+          _this.table = data
+          _this.loading = false
+        }
+      })
+    },
+    // getgateway() {
+    // },
+    getFormDevices () {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
+        // this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/devices/ip/127.0.0.1').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.devices = data
+      })
+    },
+    getFormParas () {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/cc/l').then(resp => {
+        // this.$axios.get('http://localhost:8000/c/list').then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/commands/list').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].commandName
+          obj.value = resp.data[x].commandName
+          data[x] = obj
+        }
+        this.paras = data
+      })
+    },
+    getFormScenario () {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/s').then(resp => {
+        // this.$axios.get('http://localhost:8000/s').then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8092/api/scenario').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/scenarios').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.scenarios = data
+      })
+    },
+    getFormService () {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/cc').then(resp => {
+        // this.$axios.get('http://localhost:8000/c').then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8082/api/command').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/commands/').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.services = data
+      })
+    },
+    getGateway () {
+      // kong网关代理API
+      this.$axios.get(localStorage.socket + '/cc').then(resp => {
+        // this.$axios.get('http://localhost:8000/c').then(resp => {
+        // 实际API
+        // this.$axios.get('http://localhost:8082/api/command').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/commands/').then(resp => {
+        var data = []
+        for (var x = 0; x < resp.data.length; x++) {
+          var obj = {}
+          obj.label = resp.data[x].name
+          obj.value = resp.data[x].name
+          data[x] = obj
+        }
+        this.gateways = data
+      })
+    },
+    addNewRule () {
+      this.form.dynamicItem.push({
+        logic: '',
+        device: '',
+        parameter: '',
+        ruleJudge: '',
+        ruleParaThreshold: ''
+      })
+    },
+    deleteNewRule (item, index) {
+      this.form.dynamicItem.splice(index, 1)
+    },
+    searchResult (e) {
+      var searchTable = []
+      for (var x = 0; x < this.table.length; x++) {
+        if (this.table[x].ruleName.indexOf(e) !== -1 ||
             this.table[x].ruleParaThreshold.toString().indexOf(e) !== -1 ||
             this.table[x].parameter.indexOf(e) !== -1 ||
             this.table[x].rule2.indexOf(e) !== -1 ||
@@ -516,27 +516,27 @@
             this.table[x].service.indexOf(e) !== -1 ||
             this.table[x].ruleExecute.indexOf(e) !== -1 ||
             this.table[x].device.indexOf(e) !== -1) {
-            var obj = {}
-            obj.ruleName = this.table[x].ruleName
-            obj.ruleParaThreshold = this.table[x].ruleParaThreshold
-            obj.ruleJudge = this.table[x].ruleJudge
-            obj.parameter = this.table[x].parameter
-            obj.ruleExecute = this.table[x].ruleExecute
-            obj.ruleId = this.table[x].ruleId
-            obj.service = this.table[x].service
-            obj.device = this.table[x].device
-            obj.rule2 = this.table[x].rule2
-            obj.rule3 = this.table[x].rule3
-            obj.rule4 = this.table[x].rule4
-            obj.rule5 = this.table[x].rule5
-            // obj.scenario = resp.data[x].scenario
-            searchTable[x] = obj
-          }
+          var obj = {}
+          obj.ruleName = this.table[x].ruleName
+          obj.ruleParaThreshold = this.table[x].ruleParaThreshold
+          obj.ruleJudge = this.table[x].ruleJudge
+          obj.parameter = this.table[x].parameter
+          obj.ruleExecute = this.table[x].ruleExecute
+          obj.ruleId = this.table[x].ruleId
+          obj.service = this.table[x].service
+          obj.device = this.table[x].device
+          obj.rule2 = this.table[x].rule2
+          obj.rule3 = this.table[x].rule3
+          obj.rule4 = this.table[x].rule4
+          obj.rule5 = this.table[x].rule5
+          // obj.scenario = resp.data[x].scenario
+          searchTable[x] = obj
         }
-        this.table = searchTable
       }
+      this.table = searchTable
     }
   }
+}
 </script>
 
 <style>
