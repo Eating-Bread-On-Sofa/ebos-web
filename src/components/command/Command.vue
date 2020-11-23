@@ -16,8 +16,8 @@
             </el-form-item>
           </el-form>
           <div slot="footer" class="dialog-footer" style="text-align: center;">
-            <el-button @click="selectDialog = false">取消</el-button>
             <el-button type="primary" @click="loadCommands">确定</el-button>
+            <el-button @click="selectDialog = false">取消</el-button>
           </div>
         </el-dialog>
       </div>
@@ -119,9 +119,9 @@ export default {
     loadCommands () {
       this.$axios
         // 实际API
-        // .get('http://localhost:8094/api/commandconfig/' + this.cnpmcngname).then(resp => {
+        // .get('http://localhost:8094/api/commandconfig/list/' + this.cnpmcngname).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/cc/' + this.gname).then(resp => {
+        .get(localStorage.socket + '/cc/l/' + this.gname).then(resp => {
         // .get('http://localhost:8000/cc/'this.gname).then(resp => {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
@@ -132,6 +132,7 @@ export default {
             }
             this.tableData = table
             this.loading = false
+            this.selectDialog = false
           }
         }).catch(() => {
           this.$message.error('获取指令信息失败！')

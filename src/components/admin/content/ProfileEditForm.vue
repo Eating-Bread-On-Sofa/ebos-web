@@ -27,8 +27,8 @@
         </el-form>
 <!--        <file-reader @load="profileForm.ymlStr = $event" style="width: 150px;"></file-reader>-->
         <div slot="footer" class="dialog-footer" style="text-align: center">
-          <el-button @click="hideDialog">取消</el-button>
           <el-button type="primary" @click="onSubmit">确定</el-button>
+          <el-button @click="hideDialog">取消</el-button>
         </div>
       </el-dialog>
     </div>

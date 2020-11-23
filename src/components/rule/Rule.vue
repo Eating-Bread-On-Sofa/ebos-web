@@ -77,12 +77,12 @@
         <el-form ref="form" :model="form" label-width="70px" class="ruleForm">
           <el-row>
             <el-col :span="24">
-              <el-form-item label="规则名称" >
-                <el-input v-model="form.ruleName"  placeholder="请输入内容" style="width: 100%;"></el-input>
+              <el-form-item label="规则名称">
+                <el-input v-model="form.ruleName"  placeholder="请输入内容" style="width: 100%"></el-input>
               </el-form-item>
-              <el-form-item type="success" icon="el-icon-guide" label="网关选择" >
+              <el-form-item label="网关选择">
 <!--                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>-->
-                <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
+                <el-select v-model="gw" placeholder="请选择网关" @change="loadDevices" style="width: 100%">
                   <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
                     <span style="float: left">网关名称：{{ item.name }}</span>
                     <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
@@ -212,6 +212,7 @@ export default {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
       devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
+      // devices: [{value: Number(1), label: String(this.table.name)}],
       services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
       scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
       gateways: [{value: '网关一', label: '场景一'}, {value: '网关二', label: '场景二'}],
@@ -502,7 +503,7 @@ export default {
     },
     getGateway () {
       // kong网关代理API
-      this.$axios.get(localStorage.socket + '/cc').then(resp => {
+      this.$axios.get(localStorage.socket + '/gc').then(resp => {
         // this.$axios.get('http://localhost:8000/c').then(resp => {
         // 实际API
         // this.$axios.get('http://localhost:8082/api/command').then(resp => {

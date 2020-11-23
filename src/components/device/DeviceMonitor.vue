@@ -1,72 +1,63 @@
 <template>
+  <div>
     <div>
-      <div>
-        <el-dialog
-          title="请先选择网关"
-          width="30%"
-          :visible.sync="selectDialog">
-          <el-form v-model="gwip" label-width="35%" style="text-align: left">
-            <el-form-item label="选择网关">
-              <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
-                <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.ip">
-                  <span style="float: left">网关名称：{{ item.name }}</span>
-                  <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="选择设备">
-              <el-select v-model="deviceIndex" placeholder="请选择设备">
-                <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
-              </el-select>
-            </el-form-item>
-          </el-form>
-          <div slot="footer" class="dialog-footer" style="text-align: center">
-            <el-button @click="selectDialog = false">取消</el-button>
-            <el-button type="primary" @click="handleDeviceId">确定</el-button>
-          </div>
-        </el-dialog>
-      </div>
-      <el-row>
-        <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
-          <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
-          <el-breadcrumb-item :to="{ path: '/deviceIndex' }">设备管理</el-breadcrumb-item>
-          <el-breadcrumb-item>设备监控</el-breadcrumb-item>
-          <el-breadcrumb-item>网关：{{ gwip }}</el-breadcrumb-item>
-          <el-breadcrumb-item>设备：{{ deviceName }}</el-breadcrumb-item>
-        </el-breadcrumb>
-      </el-row>
-      <el-row  style="margin-top: 20px;margin-bottom: 30px;">
-        <el-col :span="8">
-          <div style="float: left">
-            <el-button type="success" icon="el-icon-guide" >在线设备</el-button>
-            <el-select v-model="deviceIndex1" placeholder="请选择设备">
-              <el-option v-for="(item, i) in deviceList1" :key="i" :label="item.name" :value="i"></el-option>
+      <el-dialog
+        title="请先选择网关"
+        width="30%"
+        :visible.sync="selectDialog">
+        <el-form v-model="gwip" label-width="35%" style="text-align: left">
+          <el-form-item label="选择网关">
+            <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
+              <el-option v-for="(item, i) in gwList" :key="i" :label="item.name" :value="item.ip">
+                <span style="float: left">网关名称：{{ item.name }}</span>
+                <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+              </el-option>
             </el-select>
-            <el-button type="success" @click="handleDeviceId1">确定</el-button>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div style="float: left">
-            <el-select v-model="deviceIndex2" placeholder="请选择设备">
-              <el-option v-for="(item, i) in deviceList2" :key="i" :label="item.name" :value="i"></el-option>
+          </el-form-item>
+          <el-form-item label="选择设备">
+            <el-select v-model="deviceIndex" placeholder="请选择设备">
+              <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
             </el-select>
-            <el-button type="success" @click="handleDeviceId2">确定</el-button>
-          </div>
-        </el-col>
-        <el-col :span="8">
-          <div style="float: right">
-            <el-button type="success" icon="el-icon-guide">更新周期</el-button>
-            <el-select v-model="interval" placeholder="请选择更新周期">
-              <el-option v-for="item in intervals" :key="item.value" :label="item.label" :value="item.value"></el-option>
-            </el-select>
-          </div>
-        </el-col>
-      </el-row>
-      <el-row>
-        <div id="detailchart1" style="width: 600px;height:600px;margin-top: 20px"></div>
-        <div id="detailchart2" style="width: 600px;height:600px;margin-top: 20px"></div>
-      </el-row>
+          </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer" style="text-align: center">
+          <el-button type="primary" @click="handleDeviceId">确定</el-button>
+          <el-button @click="selectDialog = false">取消</el-button>
+        </div>
+      </el-dialog>
     </div>
+    <el-row>
+      <el-breadcrumb separator="/" style="margin-top: 5px;font-size: 16px;margin-left: 20px">
+        <el-breadcrumb-item :to="{ path: '/index'}">首页</el-breadcrumb-item>
+        <el-breadcrumb-item :to="{ path: '/deviceIndex' }">设备管理</el-breadcrumb-item>
+        <el-breadcrumb-item>设备监控</el-breadcrumb-item>
+        <el-breadcrumb-item>网关：{{ gwip }}</el-breadcrumb-item>
+        <el-breadcrumb-item>设备：{{ deviceName }}</el-breadcrumb-item>
+      </el-breadcrumb>
+    </el-row>
+    <el-row  style="margin-top: 20px;margin-bottom: 30px;">
+      <el-col :span="11" style="margin-left: 15px">
+        <div style="float: left">
+          <el-button type="success" icon="el-icon-guide" @click="handleDeviceId">在线设备</el-button>
+          <el-select v-model="deviceIndex" placeholder="请选择设备">
+            <el-option v-for="(item, i) in deviceList" :key="i" :label="item.name" :value="i"></el-option>
+          </el-select>
+          <el-button type="success" @click="handleDeviceId">确定</el-button>
+        </div>
+      </el-col>
+      <el-col :span="11" style="margin-left: 5%">
+        <div style="float: right">
+          <el-button type="success" icon="el-icon-guide">更新周期</el-button>
+          <el-select v-model="interval" placeholder="请选择更新周期">
+            <el-option v-for="item in intervals" :key="item.value" :label="item.label" :value="item.value"></el-option>
+          </el-select>
+        </div>
+      </el-col>
+    </el-row>
+    <el-row>
+      <div id="detailchart" style="width: 1200px;height:600px;margin-top: 20px"></div>
+    </el-row>
+  </div>
 </template>
 <script>
 import echarts from 'echarts'
@@ -78,14 +69,10 @@ export default {
       gwList: [],
       gwip: '',
       selectDialog: false,
-      deviceIndex1: '',
-      deviceIndex2: '',
+      deviceIndex: '',
       deviceId: '',
       deviceName: '',
-      deviceList1: [
-        {name: ''}
-      ],
-      deviceList2: [
+      deviceList: [
         {name: ''}
       ],
       time: '',
@@ -143,9 +130,9 @@ export default {
       // this.$axios.get('http://localhost:8089/api/gateway').then(resp => {
       // kong网关代理API
       this.$axios.get(localStorage.socket + '/gc').then(resp => {
-      // this.$axios.get('http://localhost:8000/gc').then(resp => {
-      // 开发模式下代理API
-      // this.$axios.get('/gateways').then(resp => {
+        // this.$axios.get('http://localhost:8000/gc').then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/gateways').then(resp => {
         if (resp && resp.status === 200) {
           this.gwList = resp.data
           this.selectDialog = true
@@ -159,9 +146,9 @@ export default {
       // this.$axios.get('http://localhost:8081/api/device/online/' + this.gwip).then(resp => {
       // kong网关代理API
       this.$axios.get(localStorage.socket + '/d/online/' + this.gwip).then(resp => {
-      // this.$axios.get('http://localhost:8000/d/online/' + this.gwip).then(resp => {
-      // 开发模式下代理API
-      // this.$axios.get('/devices/online/' + this.gwip).then(resp => {
+        // this.$axios.get('http://localhost:8000/d/online/' + this.gwip).then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/devices/online/' + this.gwip).then(resp => {
         if (resp && resp.status === 200) {
           this.deviceList = resp.data
         }
@@ -169,43 +156,21 @@ export default {
         this.$message.error('获取在线设备列表失败！')
       })
     },
-    handleDeviceId1 () {
+    handleDeviceId () {
       if (this.time) {
         clearInterval(this.time)
       }
       // echarts.init(document.getElementById('detailchart'), 'macarons').clear()
       this.option.series = []
-      this.deviceName = this.deviceList1[this.deviceIndex1].name
-      this.deviceId = this.deviceList1[this.deviceIndex1].id
+      this.deviceName = this.deviceList[this.deviceIndex].name
+      this.deviceId = this.deviceList[this.deviceIndex].id
       this.selectDialog = false
       this.dataForm = {
         type: [],
         data1: []
       }
       this.len = 0
-      echarts.init(document.getElementById('detailchart1'), 'macarons').clear()
-      // this.option.series = []
-      // for (let i = 0; i < this.len; i++) {
-      //   let item = 'data' + (i + 1)
-      //   this.dataForm[item] = []
-      // }
-      this.drawCharts(this.deviceId)
-    },
-    handleDeviceId2 () {
-      if (this.time) {
-        clearInterval(this.time)
-      }
-      // echarts.init(document.getElementById('detailchart'), 'macarons').clear()
-      this.option.series = []
-      this.deviceName = this.deviceList2[this.deviceIndex2].name
-      this.deviceId = this.deviceList2[this.deviceIndex2].id
-      this.selectDialog = false
-      this.dataForm = {
-        type: [],
-        data1: []
-      }
-      this.len = 0
-      echarts.init(document.getElementById('detailchart2'), 'macarons').clear()
+      echarts.init(document.getElementById('detailchart'), 'macarons').clear()
       // this.option.series = []
       // for (let i = 0; i < this.len; i++) {
       //   let item = 'data' + (i + 1)
@@ -219,9 +184,9 @@ export default {
       // this.$axios.get('http://localhost:8081/api/details/' + this.gwip + '/' + id).then(resp => {
       // kong网关代理API
       this.$axios.get(localStorage.socket + '/d/details/' + this.gwip + '/' + id).then(resp => {
-      // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
-      // 开发模式下代理API
-      // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
+        // this.$axios.get('http://localhost:8000/d/details/' + this.gwip + '/' + id).then(resp => {
+        // 开发模式下代理API
+        // this.$axios.get('/devices/details/' + this.gwip + '/' + id).then(resp => {
         this.len = Object.keys(resp.data).length
         for (let i = 0; i < this.len; i++) {
           let item = 'data' + (i + 1)
@@ -335,5 +300,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

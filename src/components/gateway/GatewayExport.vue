@@ -16,8 +16,8 @@
           </el-form-item>
         </el-form>
         <div slot="footer" class="dialog-footer" style="text-align: center;">
-          <el-button @click="selectDialog = false">取消</el-button>
           <el-button type="primary" @click="loadTopic">确定</el-button>
+          <el-button @click="selectDialog = false">取消</el-button>
         </div>
       </el-dialog>
     </div>
@@ -57,8 +57,8 @@
         <!--</el-form-item>-->
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button @click="regClear">取消</el-button>
         <el-button type="primary" @click="regSubmit">确定</el-button>
+        <el-button @click="regClear">取消</el-button>
       </div>
     </el-dialog>
     <el-row>
@@ -159,7 +159,7 @@ export default {
       // 实际API
       // .get('http://localhost:8089/api/gateway/export' + this.gwip).then(resp => {
       // kong网关代理API
-        .get(localStorage.socket + '/gc/e/' + this.gwip).n(resp => {
+        .get(localStorage.socket + '/gc/e/' + this.gwip).then(resp => {
           // 开发模式下代理API
           // .get('/instances/export'+this.gwip).then(resp => {
           if (resp && resp.status === 200) {

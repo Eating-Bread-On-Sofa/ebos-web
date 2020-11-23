@@ -27,8 +27,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button @click="subscribeClear">取消</el-button>
         <el-button type="primary" @click="subscribeSubmit">确定</el-button>
+        <el-button @click="subscribeClear">取消</el-button>
       </div>
     </el-dialog>
     <el-dialog
@@ -55,8 +55,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align: center">
-        <el-button @click="addsubClear">取消</el-button>
         <el-button type="primary" @click="addsubSubmit">确定</el-button>
+        <el-button @click="addsubClear">取消</el-button>
       </div>
     </el-dialog>
     <el-row>

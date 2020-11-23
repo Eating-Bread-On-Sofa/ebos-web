@@ -18,8 +18,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
         <el-button type="primary" @click="onSubmit">确 定</el-button>
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
       </div>
     </el-dialog>
     <el-card style="margin: 18px 2%;width: 95%">
