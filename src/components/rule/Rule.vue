@@ -80,8 +80,14 @@
               <el-form-item label="规则名称" >
                 <el-input v-model="form.ruleName"  placeholder="请输入内容" style="width: 100%;"></el-input>
               </el-form-item>
-              <el-form-item label="网关选择" >
-                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>
+              <el-form-item type="success" icon="el-icon-guide" label="网关选择" >
+<!--                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>-->
+                <el-select v-model="gwip" placeholder="请选择网关查看设备" @change="loadDevices">
+                  <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+                    <span style="float: left">网关名称：{{ item.name }}</span>
+                    <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
+                  </el-option>
+                </el-select>
               </el-form-item>
               <el-row>
                 <el-col :span="3">
@@ -230,7 +236,9 @@ export default {
       userIndex: 0,
       pagesize: 10,
       currentPage: 1,
-      gateway: ''
+      gateway: '',
+      gwList: [],
+      gwip: ''
     }
   },
   created: function () {
@@ -267,6 +275,25 @@ export default {
     // )
     // this.gateway = this.form.gateway
     // },
+    loadDevices () {
+      this.selectDialog = false
+      var _this = this
+      this.$axios
+        // 实际API
+        // .get('http://localhost:8081/api/device/ip/' + this.gwip).then(resp => {
+        // kong网关代理API
+        .get(localStorage.socket + '/d/ip/' + this.gwip).then(resp => {
+        // .get('http://localhost:8000/d/ip/' + this.gwip).then(resp => {
+        // 开发模式代理API
+        // .get('/devices/ip/' + this.gwip).then(resp => {
+          if (resp && resp.status === 200) {
+            _this.table = resp.data
+            _this.loading = false
+          }
+        }).catch(() => {
+          this.$message.error('拉取设备列表失败！')
+        })
+    },
     add () {
       for (var i = 0; i < this.form.dynamicItem.length; i++) {
         var rule = 'rule' + (i + 2)
