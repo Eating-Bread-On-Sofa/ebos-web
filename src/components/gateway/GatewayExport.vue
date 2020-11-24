@@ -165,6 +165,7 @@ export default {
           if (resp && resp.status === 200) {
             this.table = resp.data
             this.loading = false
+            this.selectDialog = false
           }
         }).catch(() => {
           this.$message.error('数据导出失败!')
