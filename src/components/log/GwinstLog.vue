@@ -16,10 +16,10 @@
       </el-form>
       <div slot="footer" class="dialog-footer" style="text-align: center">
         <el-button @click="selectDialog = false">取消</el-button>
-        <el-button type="primary" @click="selectDialog = false">确定</el-button>
+        <el-button type="primary" @click="load">确定</el-button>
       </div>
     </el-dialog>
-    <log :come="come" :gwip="gwip" :urlPath="urlPath"></log>
+    <log ref="GwLog" :come="come" :gwip="gwip" :urlPath="urlPath"></log>
   </div>
 </template>
 
@@ -31,7 +31,7 @@ export default {
   data () {
     return {
       come: '网关日志',
-      urlPath: '/gc/l',
+      urlPath: 'gc/l',
       gwip: '',
       gwList: [],
       selectDialog: false
@@ -56,6 +56,10 @@ export default {
       }).catch(() => {
         this.$message.error('获取网关信息失败！')
       })
+    },
+    load () {
+      this.selectDialog = false
+      this.$refs.GwLog.refreshLog()
     }
   }
 }

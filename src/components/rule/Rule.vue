@@ -82,8 +82,8 @@
               </el-form-item>
               <el-form-item label="网关选择">
 <!--                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>-->
-                <el-select v-model="gw" placeholder="请选择网关" @change="loadDevices" style="width: 100%">
-                  <el-option v-for="(item, i) in gwList" :key="i" :label="item.ip" :value="item.ip">
+                <el-select v-model="gwip" placeholder="请选择网关" @change="loadDevices" style="width: 100%">
+                  <el-option v-for="(item, i) in gateways" :key="i" :label="item.ip" :value="item.ip">
                     <span style="float: left">网关名称：{{ item.name }}</span>
                     <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
                   </el-option>
@@ -211,7 +211,7 @@ export default {
   data () {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
-      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
+      devices: [{value: 'emp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
       // devices: [{value: Number(1), label: String(this.table.name)}],
       services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
       scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
@@ -277,6 +277,8 @@ export default {
     // this.gateway = this.form.gateway
     // },
     loadDevices () {
+      this.devices = []
+      this.getFormDevices()
       this.selectDialog = false
       var _this = this
       this.$axios
@@ -287,6 +289,7 @@ export default {
         // .get('http://localhost:8000/d/ip/' + this.gwip).then(resp => {
         // 开发模式代理API
         // .get('/devices/ip/' + this.gwip).then(resp => {
+          console.log('++++++++++++++++++++++++++', resp)
           if (resp && resp.status === 200) {
             _this.table = resp.data
             _this.loading = false
@@ -431,7 +434,8 @@ export default {
     // },
     getFormDevices () {
       // kong网关代理API
-      this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
+      this.$axios.get(localStorage.socket + '/d/ip/' + this.gwip).then(resp => {
+      // this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
         // this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
         // 实际API
         // this.$axios.get('http://localhost:8081/api/device/ip/127.0.0.1').then(resp => {
@@ -514,6 +518,7 @@ export default {
           var obj = {}
           obj.label = resp.data[x].name
           obj.value = resp.data[x].name
+          obj.ip = resp.data[x].ip
           data[x] = obj
         }
         this.gateways = data

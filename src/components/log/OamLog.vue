@@ -1,6 +1,6 @@
 <template>
   <div>
-    <log :come="come" :urlPath="urlPath"></log>
+    <log ref="OamLog" :come="come" :urlPath="urlPath"></log>
   </div>
 </template>
 
@@ -12,8 +12,11 @@ export default {
   data () {
     return {
       come: '运维日志',
-      urlPath: '/log'
+      urlPath: 'log'
     }
+  },
+  mounted () {
+    this.$refs.OamLog.refreshLog()
   }
 }
 </script>

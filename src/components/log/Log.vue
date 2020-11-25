@@ -9,7 +9,7 @@
         </el-breadcrumb>
       </el-col>
       <el-col :span="12">
-        <el-button type="text" icon="el-icon-refresh" @click="loadLogs" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right;margin-right: 20px;margin-top:5px;font-size: 16px">刷新</el-button>
+        <el-button type="text" icon="el-icon-refresh" @click="refreshLog()" style="background-color: rgba(255,255,255,1.0);border-color: rgba(255,255,255,1.0);color: #000000;padding: 0px;float: right;margin-right: 20px;margin-top:5px;font-size: 16px">刷新</el-button>
       </el-col>
     </el-row>
     <el-row>
@@ -152,9 +152,16 @@ export default {
     }
   },
   // mounted: function () {
-  //   this.loadLogs()
+  //   this.refreshLog()
   // },
   methods: {
+    refreshLog () {
+      if (this.come === '运维日志') {
+        this.loadOamLogs()
+      } else {
+        this.loadLogs()
+      }
+    },
     loadLogs () {
       this.$axios
         // 实际API
