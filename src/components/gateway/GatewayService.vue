@@ -204,7 +204,7 @@ export default {
       // this.$axios.get('http://localhost:8089/api/gateway/service').then(resp => {
       // this.$axios.get('/gateway/service/'+this.gwname).then(resp => {
         if (resp && resp.status === 200) {
-          this.table = resp.data
+          this.table = resp.data.fileDescriptorLists
           this.loading = false
         }
       }).catch(() => {

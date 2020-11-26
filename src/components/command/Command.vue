@@ -34,7 +34,7 @@
         <el-button type="success" icon="el-icon-circle-plus-outline" size="mini"  style="float: right;margin-bottom: 5px;margin-right: 20px" @click="createDialog = true">新增
         </el-button>
         <br>
-        <command-edit-form ref="CommandEditForm" gname="gname" :createDialog="createDialog" @hideDialog="createDialog = false" @onSubmit="loadCommands()"></command-edit-form>
+        <command-edit-form ref="CommandEditForm" :gname="gname" :createDialog="createDialog" @hideDialog="createDialog = false" @onSubmit="loadCommands()"></command-edit-form>
         <el-table
           ref="multipleTable"
           v-loading="loading"
@@ -119,9 +119,9 @@ export default {
     loadCommands () {
       this.$axios
         // 实际API
-        // .get('http://localhost:8094/api/commandconfig/list/' + this.cnpmcngname).then(resp => {
+        // .get('http://localhost:8094/api/commandconfig/' + this.cnpmcngname).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/cc/l/' + this.gname).then(resp => {
+        .get(localStorage.socket + '/cc/' + this.gname).then(resp => {
         // .get('http://localhost:8000/cc/'this.gname).then(resp => {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
@@ -147,10 +147,10 @@ export default {
       }).then(() => {
         this.$axios
           // kong网关代理API
-          .delete(localStorage.socket + '/cc/' + this.gname + '?name=' + row.name).then(resp => {
-          // .delete('http://localhost:8000/cc/'+ this.gwname +'?name=' + row.name).then(resp => {
+          .delete(localStorage.socket + '/cc/' + this.gname + '?commandname=' + row.name).then(resp => {
+          // .delete('http://localhost:8000/cc/'+ this.gwname +'?commandname=' + row.name).then(resp => {
           // 实际API
-          // .delete('http"//localhost:8094/api/commandconfig/'+this.gwname+'?name=' + row.name).then(resp => {
+          // .delete('http"//localhost:8094/api/commandconfig/'+this.gwname+'?commandname=' + row.name).then(resp => {
           // 开发模式下代理API
           // .delete('/commands?name=' + row.name).then(resp => {
             if (resp && resp.status === 200) {

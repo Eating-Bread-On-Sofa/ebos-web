@@ -158,8 +158,10 @@ export default {
     refreshLog () {
       if (this.come === '运维日志') {
         this.loadOamLogs()
+        this.search = this.searchOamPost
       } else {
         this.loadLogs()
+        this.search = this.searchPost
       }
     },
     loadLogs () {
@@ -274,10 +276,10 @@ export default {
     come: function (newValue, oldValue) {
       if (newValue === '运维日志') {
         this.loadOamLogs()
-        this.search = this.searchOamPost
+        // this.search = this.searchOamPost
       } else {
         this.loadLogs()
-        this.search = this.searchPost
+        // this.search = this.searchPost
       }
     }
   }
