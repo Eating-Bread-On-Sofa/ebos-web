@@ -102,9 +102,9 @@
             <el-button
               size="mini"
               @click="handleStatus(scope.$index, scope.row)">查看设备状态</el-button>
-            <el-button
-              size="mini"
-              @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>
+<!--            <el-button-->
+<!--              size="mini"-->
+<!--              @click="handleUpdate(scope.$index, scope.row)">编辑</el-button>-->
 <!--            <el-button-->
 <!--              size="mini"-->
 <!--              type="success"-->
@@ -252,7 +252,7 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8082/api/command/list').then(resp => {
       // kong网关代理API
-      this.$axios.get(localStorage.socket + '/c/list').then(resp => {
+      this.$axios.get(localStorage.socket + '/cc/list/' + this.gwAndDevice.gatewayName).then(resp => {
       // this.$axios.get('http://localhost:8000/c/list').then(resp => {
       // 开发模式下代理API
       // this.$axios.get('/commands/list').then(resp => {

@@ -154,12 +154,14 @@ export default {
         {name: 'MQ Router', port: 8084},
         {name: 'Serv Mgmt', port: 8085},
         {name: 'OAM', port: 8086},
-        {name: 'Monitor', port: 8087},
-        {name: 'Notice', port: 8088},
+        // {name: 'Monitor', port: 8087},
+        // {name: 'Notice', port: 8088},
         {name: 'GW Config', port: 8089},
         {name: 'GW Inst', port: 8090},
         {name: 'Profile', port: 8091},
-        {name: 'Scenario', port: 8092}
+        {name: 'Scenario', port: 8092},
+        {name: 'CMD Config', port: 8094},
+        {name: 'Rule Config', port: 8099}
       ],
       loading: true
     }
@@ -244,7 +246,7 @@ export default {
       // this.$axios.put('http://localhost:8089/api/gateway/service/' + this.gwname + '?jarName=' + row.name).then(resp => {
       // kong网关代理API
       // this.$axios.put('http://localhost:8000/gc/s/'+ this.gwname+'?jarName=' + row.name).then(resp => {
-      this.$axios.put(localStorage.socket + '/gc/s/' + this.gwname + ' ?jarName=' + row.name).then(resp => {
+      this.$axios.put(localStorage.socket + '/gc/s/' + this.gwname + '?jarName=' + row.name).then(resp => {
       // 开发模式下代理API
       // this.$axios.put('http://localhost:8089/api/gateway/service/'+ this.gwname + '?jarName=' + row.name).then(resp => {
       // this.$axios.put('/gc/s/' + this.gwname + '?jarName=' + row.name).then(resp => {

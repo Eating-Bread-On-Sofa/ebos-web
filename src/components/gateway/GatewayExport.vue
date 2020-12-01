@@ -188,7 +188,7 @@ export default {
             // 开发模式下代理API
             // .delete('/instances/export/' + this.gwip + '/' + row.addressable.name).then(resp => {
             if (resp && resp.status === 200) {
-              this.loadMessageTopic()
+              this.loadTopic()
             }
           })
       }).catch(() => {
@@ -197,33 +197,33 @@ export default {
           message: '删除操作已取消!'
         })
       })
+    },
+    regClear () {
+      this.regForm = {
+        name: '',
+        address: '',
+        publisher: '',
+        admin: '',
+        password: '',
+        topic: ''
+        // deviceIdentifiers: []
+      }
+      this.regDialog = false
+    },
+    regSubmit () {
+      this.$axios
+        // 实际API
+        // .post('http://localhost:8089/api/gateway/export/' + this.gwip + '/?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password='+ this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers=' + this.regForm.deviceIdentifiers).then(resp => {
+        // kong网关代理API
+        .post(localStorage.socket + '/gc/e/' + this.gwip + '?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.regForm.admin + '&password=' + this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers= " "').then(resp => {
+          if (resp && resp.status === 200) {
+            this.loadTopic()
+            this.regDialog = false
+          }
+        }).catch(() => {
+          this.$message.error('消息注册失败!')
+        })
     }
-  },
-  regClear () {
-    this.regForm = {
-      name: '',
-      address: '',
-      publisher: '',
-      admin: '',
-      password: '',
-      topic: '',
-      deviceIdentifiers: []
-    }
-    this.regDialog = false
-  },
-  regSubmit () {
-    this.$axios
-    // 实际API
-    // .post('http://localhost:8089/api/gateway/export/' + this.gwip + '/?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password='+ this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers=' + this.regForm.deviceIdentifiers).then(resp => {
-    // kong网关代理API
-      .post(localStorage.socket + '/gc/e/' + this.gwip + '/?name=' + this.regForm.name + '&address=' + this.regForm.address + '&publisher=' + this.regForm.publisher + '&admin=' + this.reForm.admin + '&password=' + this.regForm.password + '&topic=' + this.regForm.topic + '&deviceIdentifiers= " "').then(resp => {
-        if (resp && resp.status === 200) {
-          this.loadMessageTopic()
-          this.regDialog = false
-        }
-      }).catch(() => {
-        this.$message.error('消息注册失败!')
-      })
   }
 }
 </script>

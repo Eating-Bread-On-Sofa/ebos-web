@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <div style="height: 796px;">
     <el-header>
-      <i class="el-icon-s-fold" style="float: left;margin-top: 10px;font-size: 20px; padding: 5px;color: white" @click="isC" ></i>
+      <i class="el-icon-s-fold" style="float: left;margin-top: 10px;font-size: 20px; padding: 5px;color: white;" @click="isC" ></i>
     </el-header>
     <el-menu
       :default-active="currentPath"
@@ -64,7 +64,7 @@ export default {
   }
   .el-menu-vertical:not(.el-menu--collapse) {
     width: 200px;
-    min-height: 1000px;
+    min-height: 736px;
   }
 
 </style>

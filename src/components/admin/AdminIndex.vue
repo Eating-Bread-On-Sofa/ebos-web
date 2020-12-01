@@ -13,6 +13,9 @@
         <router-view />
       </el-main>
     </el-container>
+    <el-footer style="background-color: #333">
+      <p style="color: white;font-size: large">北京利安通信息技术有限公司&copy;版权所有</p>
+    </el-footer>
   </el-container>
 </template>
 
