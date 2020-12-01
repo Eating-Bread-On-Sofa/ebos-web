@@ -82,7 +82,7 @@
               </el-form-item>
               <el-form-item label="网关选择">
 <!--                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>-->
-                <el-select v-model="gwip" placeholder="请选择网关" @change="loadDevices" style="width: 100%">
+                <el-select v-model="gwip" placeholder="请选择网关" @change="loadDevices, loadCommands" style="width: 100%">
                   <el-option v-for="(item, i) in gateways" :key="i" :label="item.ip" :value="item.ip">
                     <span style="float: left">网关名称：{{ item.name }}</span>
                     <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
@@ -179,8 +179,8 @@
                   <el-option label="操作设备" value="操作设备"></el-option>
                 </el-select>
               </el-form-item>
-              <el-form-item label="服务名称">
-                <el-select v-model="form.service" placeholder="请选择服务" style="width:100%" class="line">
+              <el-form-item label="指令名称">
+                <el-select v-model="form.service" placeholder="请选择指令" style="width:100%" class="line">
                   <el-option v-for="item in services" :key="item.value" :label="item.label" :value="item.value"></el-option>
                 </el-select>
               </el-form-item>
@@ -244,9 +244,9 @@ export default {
   },
   created: function () {
     this.get()
-    this.getFormDevices()
+    // this.getFormDevices()
     // this.getFormParas()
-    this.getFormService()
+    // this.getFormService()
     this.getGateway()
   },
   methods: {
@@ -254,7 +254,6 @@ export default {
       this.dialogCreateVisible = false
       this.post()
       this.add()
-      this.postGateway()
     },
     handleCurrentChange: function (currentPage) {
       this.currentPage = currentPage
@@ -291,11 +290,33 @@ export default {
         // .get('/devices/ip/' + this.gwip).then(resp => {
           console.log('++++++++++++++++++++++++++', resp)
           if (resp && resp.status === 200) {
-            _this.table = resp.data
+            // _this.table = resp.data
             _this.loading = false
           }
         }).catch(() => {
           this.$message.error('拉取设备列表失败！')
+        })
+    },
+    loadCommands () {
+      this.services = []
+      this.getFormService()
+      this.selectDialog = false
+      var _this = this
+      this.$axios
+        // 实际API
+        // .get('http://localhost:8094/api/commandconfig/' + this.cnpmcngname).then(resp => {
+        // kong网关代理API
+        .get(localStorage.socket + '/cc/' + this.gwip).then(resp => {
+        // .get('http://localhost:8000/cc/'this.gname).then(resp => {
+        // 开发模式下代理API
+        // .get('/commands').then(resp => {
+          console.log('++++++++++++++++++++++++++', resp)
+          if (resp && resp.status === 200) {
+            // _this.table = resp.data
+            _this.loading = false
+          }
+        }).catch(() => {
+          this.$message.error('拉取指令列表失败！')
         })
     },
     add () {
@@ -401,7 +422,7 @@ export default {
     get () {
       var _this = this
       // kong网关代理API
-      this.$axios.get(localStorage.socket + '/rR').then(resp => {
+      this.$axios.get(localStorage.socket + '/rL').then(resp => {
         // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
         // 实际API
         // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
