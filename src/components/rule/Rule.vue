@@ -290,7 +290,7 @@ export default {
           console.log('++++++++++++++++++++++++++', resp)
           if (resp && resp.status === 200) {
             // _this.table = resp.data
-            this.devices = resp.data
+            _this.devices = resp.data
             _this.loading = false
           }
         }).catch(() => {
@@ -313,7 +313,7 @@ export default {
           console.log('++++++++++++++++++++++++++', resp)
           if (resp && resp.status === 200) {
             // _this.table = resp.data
-            this.services = resp.data
+            _this.services = resp.data
             _this.loading = false
           }
         }).catch(() => {
@@ -396,11 +396,11 @@ export default {
         }
       ).then(res => {
       })
-      this.ruleCreate()
+      this.ruleSave()
     },
-    ruleCreate () {
+    ruleSave () {
       // kong网关代理API
-      this.$axios.post(localStorage.socket + '/rR',
+      this.$axios.post(localStorage.socket + '/rS',
         // this.$axios.post('http://localhost:8000/rc/ruleCreate',
         // 实际API
         // this.$axios.post('http://localhost:8083/api/ruleCreate',
@@ -415,7 +415,8 @@ export default {
           'service': this.form.service,
           'device': this.form.device,
           // 'scenario': this.form.scenario,
-          'otherRules': this.form.dynamicItem
+          'otherRules': this.form.dynamicItem,
+          'gateway': this.form.gateway
         }
       ).then(res => {
       })
