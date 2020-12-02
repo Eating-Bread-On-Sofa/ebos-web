@@ -211,8 +211,7 @@ export default {
   data () {
     return {
       paras: [{value: '温度', label: '温度'}, {value: '湿度', label: '湿度'}],
-      devices: [{value: 'emp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
-      // devices: [{value: Number(1), label: String(this.table.name)}],
+      devices: [{value: 'temp and humidity device', label: 'temp and humidity device'}, {value: 'temp and humidity device2', label: 'temp and humidity device2'}],
       services: [{value: '服务一', label: '服务一'}, {value: '服务二', label: '服务二'}],
       scenarios: [{value: '场景一', label: '场景一'}, {value: '场景二', label: '场景二'}],
       gateways: [{value: '网关一', label: '场景一'}, {value: '网关二', label: '场景二'}],
@@ -291,6 +290,7 @@ export default {
           console.log('++++++++++++++++++++++++++', resp)
           if (resp && resp.status === 200) {
             // _this.table = resp.data
+            this.devices = resp.data
             _this.loading = false
           }
         }).catch(() => {
@@ -313,6 +313,7 @@ export default {
           console.log('++++++++++++++++++++++++++', resp)
           if (resp && resp.status === 200) {
             // _this.table = resp.data
+            this.services = resp.data
             _this.loading = false
           }
         }).catch(() => {
