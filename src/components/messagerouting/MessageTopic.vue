@@ -168,7 +168,7 @@ export default {
             this.loading = false
           }
         }).catch(() => {
-          this.$message.error('加载消息路由失败!')
+          this.$message.error('加载失败!')
         })
     },
     handleCurrentChange: function (currentPage) {
