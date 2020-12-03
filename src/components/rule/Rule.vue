@@ -82,7 +82,7 @@
               </el-form-item>
               <el-form-item label="网关选择">
 <!--                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>-->
-                <el-select v-model="gwip" placeholder="请选择网关" @change="loadDevices, loadCommands" style="width: 100%">
+                <el-select v-model="gateway" placeholder="请选择网关" @change="loaddeviceandcommand" style="width: 100%">
                   <el-option v-for="(item, i) in gateways" :key="i" :label="item.ip" :value="item.ip">
                     <span style="float: left">网关名称：{{ item.name }}</span>
                     <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
@@ -195,8 +195,8 @@
       </div>
       <div >
         <span slot="footer" class="dialog-footer" style="text-align: center" >
-        <el-button @click="dialogCreateVisible = false">取 消</el-button>
-        <el-button type="primary" @click="onSubmit()">确定</el-button>
+          <el-button type="primary" @click="onSubmit()">确定</el-button>
+          <el-button @click="dialogCreateVisible = false">取 消</el-button>
       </span>
       </div>
 
@@ -237,8 +237,7 @@ export default {
       pagesize: 10,
       currentPage: 1,
       gateway: '',
-      gwList: [],
-      gwip: ''
+      gwList: []
     }
   },
   created: function () {
@@ -246,7 +245,7 @@ export default {
     // this.getFormDevices()
     // this.getFormParas()
     // this.getFormService()
-    this.getGateway()
+    // this.getGateway()
   },
   methods: {
     onSubmit () {
@@ -274,16 +273,20 @@ export default {
     // )
     // this.gateway = this.form.gateway
     // },
+    loaddeviceandcommand () {
+      this.loadDevices()
+      this.loadCommands()
+    },
     loadDevices () {
       this.devices = []
-      this.getFormDevices()
+      // this.getFormDevices()
       this.selectDialog = false
       var _this = this
       this.$axios
         // 实际API
         // .get('http://localhost:8081/api/device/ip/' + this.gwip).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/d/ip/' + this.gwip).then(resp => {
+        .get(localStorage.socket + '/d/ip/' + this.gateway).then(resp => {
         // .get('http://localhost:8000/d/ip/' + this.gwip).then(resp => {
         // 开发模式代理API
         // .get('/devices/ip/' + this.gwip).then(resp => {
@@ -299,14 +302,14 @@ export default {
     },
     loadCommands () {
       this.services = []
-      this.getFormService()
+      // this.getFormService()
       this.selectDialog = false
       var _this = this
       this.$axios
         // 实际API
         // .get('http://localhost:8094/api/commandconfig/' + this.cnpmcngname).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/cc/' + this.gwip).then(resp => {
+        .get(localStorage.socket + '/cc/' + this.gateway).then(resp => {
         // .get('http://localhost:8000/cc/'this.gname).then(resp => {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
@@ -457,7 +460,7 @@ export default {
     // },
     getFormDevices () {
       // kong网关代理API
-      this.$axios.get(localStorage.socket + '/d/ip/' + this.gwip).then(resp => {
+      this.$axios.get(localStorage.socket + '/d/ip/' + this.gateway).then(resp => {
       // this.$axios.get(localStorage.socket + '/d/ip/127.0.0.1').then(resp => {
         // this.$axios.get('http://localhost:8000/d/ip/127.0.0.1').then(resp => {
         // 实际API
