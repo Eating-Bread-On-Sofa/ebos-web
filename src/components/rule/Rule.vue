@@ -84,7 +84,7 @@
 <!--                <el-input v-model="form.gateway"  placeholder="请输入内容" style="width: 100%;"></el-input>-->
                 <el-select v-model="gateway" placeholder="请选择网关" @change="loaddeviceandcommand" style="width: 100%">
                   <el-option v-for="(item, i) in gateways" :key="i" :label="item.ip" :value="item.ip">
-                    <span style="float: left">网关名称：{{ item.name }}</span>
+                    <span style="float: left">网关名称：{{ item.value }}</span>
                     <span style="float: right;color: #551513;font-size: 13px">IP：{{ item.ip }}</span>
                   </el-option>
                 </el-select>
@@ -97,7 +97,7 @@
                 <el-col :span="4" style="margin-left: 5%">
                   <el-form-item label="设备选择" >
                     <el-select v-model="form.device" placeholder="请选择设备" style="width:100%">
-                      <el-option v-for="item in devices" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                      <el-option v-for="item in devices" :key="item.id" :label="item.name" :value="item.name"></el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
@@ -139,7 +139,7 @@
                   <el-col :span="4" style="margin-left: 5%">
                     <el-form-item label="设备选择" :prop="'dynamicItem.' + index" >
                       <el-select v-model="item.device" placeholder="请选择设备" style="width:100%">
-                        <el-option v-for="item1 in devices" :key="item1.value" :label="item1.label" :value="item1.value"></el-option>
+                        <el-option v-for="item1 in devices" :key="item1.id" :label="item1.name" :value="item1.name"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
@@ -181,14 +181,9 @@
               </el-form-item>
               <el-form-item label="指令名称">
                 <el-select v-model="form.service" placeholder="请选择指令" style="width:100%" class="line">
-                  <el-option v-for="item in services" :key="item.value" :label="item.label" :value="item.value"></el-option>
+                  <el-option v-for="item in services" :key="item.id" :label="item.name" :value="item.name"></el-option>
                 </el-select>
               </el-form-item>
-              <!--              <el-form-item label="场景选择">-->
-              <!--                <el-select v-model="form.scenario" placeholder="请选择场景" style="width:100%">-->
-              <!--                  <el-option v-for="item in scenarios" :key="item.value" :label="item.label" :value="item.value"></el-option>-->
-              <!--                </el-select>-->
-              <!--              </el-form-item>-->
             </el-col>
           </el-row>
         </el-form>
@@ -223,7 +218,6 @@ export default {
         ruleParaThreshold: '',
         ruleExecute: '',
         service: '',
-        // scenario: '',
         dynamicItem: [],
         gateway: ''
       },
@@ -237,6 +231,7 @@ export default {
       pagesize: 10,
       currentPage: 1,
       gateway: '',
+      gatewayname: '',
       gwList: []
     }
   },
@@ -245,7 +240,7 @@ export default {
     // this.getFormDevices()
     // this.getFormParas()
     // this.getFormService()
-    // this.getGateway()
+    this.getGateway()
   },
   methods: {
     onSubmit () {
@@ -264,16 +259,12 @@ export default {
         .catch(_ => {
         })
     },
-    // postGateway () {
-    // kong网关代理API
-    // this.$axios.post('http://localhost:8099/rs/ruleSelect',
-    // {
-    // 'gateway': this.form.gateway
-    // }
-    // )
-    // this.gateway = this.form.gateway
-    // },
     loaddeviceandcommand () {
+      for(let obj of this.gateways) {
+        if(obj['ip']== this.gateway) {
+          this.gatewayname= obj['value']
+        }
+      }
       this.loadDevices()
       this.loadCommands()
     },
@@ -290,7 +281,7 @@ export default {
         // .get('http://localhost:8000/d/ip/' + this.gwip).then(resp => {
         // 开发模式代理API
         // .get('/devices/ip/' + this.gwip).then(resp => {
-          console.log('++++++++++++++++++++++++++', resp)
+          console.log('+++++++++++++设备++++++++++++++++', resp.data)
           if (resp && resp.status === 200) {
             // _this.table = resp.data
             _this.devices = resp.data
@@ -307,9 +298,10 @@ export default {
       var _this = this
       this.$axios
         // 实际API
-        // .get('http://localhost:8094/api/commandconfig/' + this.cnpmcngname).then(resp => {
+        // .get('http://localhost:8094/api/commandconfig/' + this.gname).then(resp => {
         // kong网关代理API
-        .get(localStorage.socket + '/cc/' + this.gateway).then(resp => {
+        .get(localStorage.socket + '/cc/' + this.gatewayname).then(resp => {
+        // .get(localStorage.socket + '/cc/' + this.gateway).then(resp => {
         // .get('http://localhost:8000/cc/'this.gname).then(resp => {
         // 开发模式下代理API
         // .get('/commands').then(resp => {
@@ -395,7 +387,7 @@ export default {
           'device': this.form.device,
           // 'scenario': this.form.scenario,
           'otherRules': this.form.dynamicItem,
-          'gateway': this.form.gateway
+          'gateway': this.gateway
         }
       ).then(res => {
       })
@@ -419,7 +411,7 @@ export default {
           'device': this.form.device,
           // 'scenario': this.form.scenario,
           'otherRules': this.form.dynamicItem,
-          'gateway': this.form.gateway
+          'gateway': this.gateway
         }
       ).then(res => {
       })
@@ -428,6 +420,7 @@ export default {
       var _this = this
       // kong网关代理API
       this.$axios.get(localStorage.socket + '/rL').then(resp => {
+        console.log(resp.data)
         // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
         // 实际API
         // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
@@ -534,6 +527,7 @@ export default {
     getGateway () {
       // kong网关代理API
       this.$axios.get(localStorage.socket + '/gc').then(resp => {
+        console.log('++++++++++++++++网关++++++++++++++++++', resp.data)
         // this.$axios.get('http://localhost:8000/c').then(resp => {
         // 实际API
         // this.$axios.get('http://localhost:8082/api/command').then(resp => {
