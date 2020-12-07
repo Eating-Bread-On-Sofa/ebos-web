@@ -47,7 +47,7 @@ export default {
   data () {
     return {
       table: [],
-      pagesize: 18,
+      pagesize: 15,
       currentPage: 1,
       createDialog: false,
       loading: true

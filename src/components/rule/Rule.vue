@@ -260,9 +260,9 @@ export default {
         })
     },
     loaddeviceandcommand () {
-      for(let obj of this.gateways) {
-        if(obj['ip']== this.gateway) {
-          this.gatewayname= obj['value']
+      for (let obj of this.gateways) {
+        if (obj['ip'] === this.gateway) {
+          this.gatewayname = obj['value']
         }
       }
       this.loadDevices()
