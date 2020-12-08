@@ -267,7 +267,7 @@ export default {
       // 实际API
       // this.$axios.get('http://localhost:8083/api/getRuleLists').then(resp => {
       // kong网关代理API
-      this.$axios.get(localStorage.socket + '/rc/getRuleLists').then(resp => {
+      this.$axios.get(localStorage.socket + '/rL').then(resp => {
       // this.$axios.get('http://localhost:8000/rc/getRuleLists').then(resp => {
       // 开发模式下代理API
       // this.$axios('/rules/getRuleLists').then(resp => {
