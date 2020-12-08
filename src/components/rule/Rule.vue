@@ -48,8 +48,8 @@
         </el-table-column>
         <el-table-column prop="service" label="服务" width="80px">
         </el-table-column>
-        <!--      <el-table-column prop="scenario" label="场景" width="80px">-->
-        <!--      </el-table-column>-->
+        <el-table-column prop="gateway" label="网关" width="80px">
+        </el-table-column>
         <el-table-column label="操作" width="200px">
           <template slot-scope="scope">
             <el-button type="danger" icon="el-icon-delete" size="mini" @click="del(scope.row,scope.$index)">删除</el-button>
@@ -246,6 +246,7 @@ export default {
     onSubmit () {
       this.dialogCreateVisible = false
       this.post()
+      this.get()
       this.add()
     },
     handleCurrentChange: function (currentPage) {
@@ -260,9 +261,9 @@ export default {
         })
     },
     loaddeviceandcommand () {
-      for(let obj of this.gateways) {
-        if(obj['ip']== this.gateway) {
-          this.gatewayname= obj['value']
+      for (let obj of this.gateways) {
+        if (obj['ip'] === this.gateway) {
+          this.gatewayname = obj['value']
         }
       }
       this.loadDevices()
@@ -339,30 +340,19 @@ export default {
         .then(_ => {
           this.table.splice(idx, 1)
           // kong网关代理API
-          this.$axios.post(localStorage.socket + '/rR',
+          this.$axios.post(localStorage.socket + '/rD',
             // this.$axios.post('http://localhost:8000/rc/ruleDelete',
             // 实际API
             // this.$axios.post('http://localhost:8083/api/ruleDelete',
             // 开发模式下代理API
             // this.$axios.post('/rules/ruleDelete',
             {
-              'ruleName': row.ruleName
+              'ruleName': row.ruleName,
+              'ruleId': row.ruleId,
+              'gateway': row.gateway
             }
           ).then(res => {
-            console.log(res)
-          })
-          // 开发模式下代理API
-          // this.$axios.post('/rules/rule',
-          // kong网关代理API
-          this.$axios.post(localStorage.socket + '/rR',
-            // this.$axios.post('http://localhost:8000/rc/rule',
-            // 实际地址
-            // this.$axios.post('http://localhost:8083/api/rule',
-            {
-              'ruleId': row.ruleId
-            }
-          ).then(res => {
-            console.log(res)
+            console.log('------------------------------------', res)
           })
         })
         .catch(_ => {
@@ -437,6 +427,7 @@ export default {
           obj.ruleId = resp.data[x].ruleId
           obj.service = resp.data[x].service
           obj.device = resp.data[x].device
+          obj.gateway = resp.data[x].gateway
           for (var i = 0; i < resp.data[x].otherRules.length; i++) {
             var rule = 'rule' + (i + 2)
             obj[rule] = resp.data[x].otherRules[i].logic + ' ' + resp.data[x].otherRules[i].device + ':' + resp.data[x].otherRules[i].parameter + resp.data[x].otherRules[i].ruleJudge + resp.data[x].otherRules[i].ruleParaThreshold
@@ -527,7 +518,6 @@ export default {
     getGateway () {
       // kong网关代理API
       this.$axios.get(localStorage.socket + '/gc').then(resp => {
-        console.log('++++++++++++++++网关++++++++++++++++++', resp.data)
         // this.$axios.get('http://localhost:8000/c').then(resp => {
         // 实际API
         // this.$axios.get('http://localhost:8082/api/command').then(resp => {
