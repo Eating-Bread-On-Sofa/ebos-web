@@ -24,7 +24,7 @@ export default new Vuex.Store({
     },
     deleteMessage (state, messageIndex, count) {
       if (count) {
-        state.messageCenter.splice(messageIndex, count)
+        state.messageCenter.splice(messageIndex, 1)
       } else {
         state.messageCenter = []
       }

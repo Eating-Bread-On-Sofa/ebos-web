@@ -115,6 +115,10 @@ export default {
     gwip: {
       type: String,
       required: true
+    },
+    sourceList: {
+      type: Array,
+      required: true
     }
   },
   data () {
@@ -129,19 +133,6 @@ export default {
       source: '全部',
       category: 'all',
       operation: 'all',
-      sourceList: [{value: '全部', label: '全部'},
-        {value: '消息路由', label: '消息路由'},
-        {value: '模板管理', label: '模板管理'},
-        {value: '网关管理', label: '网关管理'},
-        {value: '设备管理', label: '设备管理'},
-        {value: '场景管理', label: '场景管理'},
-        {value: '指令管理', label: '指令管理'},
-        {value: '运维监控', label: '运维监控'},
-        {value: '规则管理', label: '规则管理'},
-        {value: '规则引擎', label: '规则引擎'},
-        {value: '网关实例', label: '网关实例'},
-        {value: '网关指令', label: '网关指令'},
-        {value: '服务管理', label: '服务管理'}],
       categoryList: [{value: 'all', label: 'all'},
         {value: 'debug', label: 'debug'},
         {value: 'info', label: 'info'},

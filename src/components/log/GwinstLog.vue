@@ -19,7 +19,7 @@
         <el-button type="primary" @click="load">确定</el-button>
       </div>
     </el-dialog>
-    <log ref="GwLog" :come="come" :gwip="gwip" :urlPath="urlPath"></log>
+    <log ref="GwLog" :come="come" :gwip="gwip" :urlPath="urlPath" :sourceList="sourceList"></log>
   </div>
 </template>
 
@@ -34,7 +34,11 @@ export default {
       urlPath: 'gc/l',
       gwip: '',
       gwList: [],
-      selectDialog: false
+      selectDialog: false,
+      sourceList: [{value: '全部', label: '全部'},
+        {value: '规则引擎', label: '规则引擎'},
+        {value: '网关实例', label: '网关实例'},
+        {value: '网关指令', label: '网关指令'}]
     }
   },
   mounted () {

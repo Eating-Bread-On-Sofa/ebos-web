@@ -6,7 +6,7 @@
       <el-breadcrumb-item>信息中心</el-breadcrumb-item>
     </el-breadcrumb>
     </el-row>
-    <el-card>
+    <el-card style="margin-top: 20px">
       <el-row>
         <el-table
           ref="multipleTable"
@@ -30,7 +30,15 @@
             algin="center"
             label="消息内容">
             <template slot-scope="scope">
-              {{ scope.row }}
+              {{ scope.row.message }}
+            </template>
+          </el-table-column>
+          <el-table-column
+            header-algin="center"
+            algin="center"
+            label="图像信息">
+            <template slot-scope="scope">
+              <img :src="bashurl+scope.row.url" style="width: 200px;height: 100px"/>
             </template>
           </el-table-column>
           <el-table-column
@@ -64,15 +72,19 @@ export default {
   data () {
     return {
       currentPage: 1,
-      pagesize: 18,
+      pagesize: 5,
       tableData: [],
+      bashurl: 'http://192.168.1.106:8086',
       multipleSelection: []
     }
   },
   created () {
-    this.tableData = this.$store.state.messageCenter
+    this.loadMessage()
   },
   methods: {
+    loadMessage () {
+      this.tableData = this.$store.state.messageCenter
+    },
     handleSelectionChange (val) {
       this.multipleSelection = val
     },
@@ -84,9 +96,11 @@ export default {
     },
     deleteMessage (index) {
       this.$store.commit('deleteMessage', index, 1)
+      this.loadMessage()
     },
     multipleDelete () {
       this.$store.commit('deleteMessage', 0, false)
+      this.loadMessage()
     }
   }
 }

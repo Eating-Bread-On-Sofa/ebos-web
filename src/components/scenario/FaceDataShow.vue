@@ -23,7 +23,7 @@
         </el-table-column>
         <!--表头-->
         <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="date" label="识别时间"></el-table-column>
+        <el-table-column prop="time" label="识别时间"></el-table-column>
       </el-table>
     </el-row>
     <!--分页条-->
@@ -60,7 +60,7 @@ export default {
     loadFace () {
       this.$axios
         // 实际API
-        // .get('http://localhost:8086/api/recent').then(resp => {
+        // .get('http://192.168.1.106:8086/api/recent').then(resp => {
         // kong网关代理API
         .get(localStorage.socket + '/o/recent').then(resp => {
         // 开发模式下代理API
@@ -79,7 +79,7 @@ export default {
     searchResult (e) {
       var _this = this
       this.$axios
-        // .get('http://localhost:8086/api/log?name=' + e).then(resp => {
+        // .get('http://192.168.1.106:8086/api/log?name=' + e).then(resp => {
         .get(localStorage.socket + '/o/log?name=' + e).then(resp => {
           if (resp && resp.status === 200) {
             _this.table = resp.data
