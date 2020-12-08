@@ -72,7 +72,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      pagesize: 5,
+      pagesize: 4,
       tableData: [],
       bashurl: 'http://192.168.1.106:8086',
       multipleSelection: []
