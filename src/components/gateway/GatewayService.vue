@@ -139,7 +139,7 @@ export default {
       uploadApi: localStorage.socket + '/gc/s',
       fileList: [],
       currentPage: 1,
-      pagesize: 18,
+      pagesize: 12,
       table: [],
       gwList: [],
       gwname: '',

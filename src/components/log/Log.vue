@@ -125,7 +125,7 @@ export default {
     return {
       table: [],
       chartDialog: false,
-      pagesize: 10,
+      pagesize: 4,
       currentPage: 1,
       loading: false,
       firstDate: '',

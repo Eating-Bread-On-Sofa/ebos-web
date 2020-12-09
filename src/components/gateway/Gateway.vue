@@ -183,7 +183,7 @@ export default {
   data () {
     return {
       currentPage: 1,
-      pagesize: 18,
+      pagesize: 8,
       tableData: [],
       gwForm: {
         name: '',

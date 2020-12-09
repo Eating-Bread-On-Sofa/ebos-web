@@ -131,7 +131,7 @@ export default {
     return {
       fileList: [],
       currentPage: 1,
-      pagesize: 18,
+      pagesize: 12,
       table: [],
       uploadDialog: false,
       dialogVisible: false,

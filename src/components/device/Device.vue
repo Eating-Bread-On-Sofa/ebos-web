@@ -125,7 +125,7 @@ export default {
   data () {
     return {
       table: [],
-      pagesize: 18,
+      pagesize: 8,
       currentPage: 1,
       loading: true,
       gwList: [],
